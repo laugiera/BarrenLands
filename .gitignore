@@ -1,0 +1,6 @@
+cmake-build-debug/*
+CMake/*
+dependencies/*
+glimac/*
+third-party/*
+.idea/*
