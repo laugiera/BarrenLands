@@ -1,0 +1,9 @@
+/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/BarrenLandsMaster/glimac/CMakeFiles/rebuild_cache.dir
+/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/BarrenLandsMaster/glimac/CMakeFiles/edit_cache.dir
+/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/BarrenLandsMaster/glimac/CMakeFiles/glimac.dir
+/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/BarrenLandsMaster/TP1/CMakeFiles/TP1_exo6_quads.dir
+/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/BarrenLandsMaster/TP1/CMakeFiles/rebuild_cache.dir
+/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/BarrenLandsMaster/TP1/CMakeFiles/edit_cache.dir
+/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/BarrenLandsMaster/TP1/CMakeFiles/TP1_SDLtemplate.dir

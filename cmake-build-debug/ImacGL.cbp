@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="ImacGL"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;CMake Files\BarrenLands-master\;CMake Files\BarrenLands-master\glimac\;CMake Files\BarrenLands-master\TP1\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="glimac">
+				<Option output="D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/cmake-build-debug/BarrenLands-master/glimac/libglimac.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/cmake-build-debug/BarrenLands-master/glimac"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="C:/MinGW/include/SDL"/>
+					<Add directory="C:/MinGW/include"/>
+					<Add directory="D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/BarrenLands-master/glimac/include"/>
+					<Add directory="D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/BarrenLands-master/third-party/include"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/include/c++"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/include/c++/mingw32"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/include/c++/backward"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/include"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/../../../../include"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/include-fixed"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/../../../../mingw32/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/cmake-build-debug/BarrenLands-master/glimac/Makefile&quot;  VERBOSE=1 glimac"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/cmake-build-debug/BarrenLands-master/glimac/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/cmake-build-debug/BarrenLands-master/glimac/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/cmake-build-debug/BarrenLands-master/glimac/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="glimac/fast">
+				<Option output="D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/cmake-build-debug/BarrenLands-master/glimac/libglimac.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/cmake-build-debug/BarrenLands-master/glimac"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="C:/MinGW/include/SDL"/>
+					<Add directory="C:/MinGW/include"/>
+					<Add directory="D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/BarrenLands-master/glimac/include"/>
+					<Add directory="D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/BarrenLands-master/third-party/include"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/include/c++"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/include/c++/mingw32"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/include/c++/backward"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/include"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/../../../../include"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/include-fixed"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/../../../../mingw32/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/cmake-build-debug/BarrenLands-master/glimac/Makefile&quot;  VERBOSE=1 glimac/fast"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/cmake-build-debug/BarrenLands-master/glimac/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/cmake-build-debug/BarrenLands-master/glimac/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/cmake-build-debug/BarrenLands-master/glimac/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="TP1_SDLtemplate">
+				<Option output="D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/cmake-build-debug/BarrenLands-master/TP1/TP1_SDLtemplate.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/cmake-build-debug/BarrenLands-master/TP1"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="C:/MinGW/include/SDL"/>
+					<Add directory="C:/MinGW/include"/>
+					<Add directory="D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/BarrenLands-master/glimac/include"/>
+					<Add directory="D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/BarrenLands-master/third-party/include"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/include/c++"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/include/c++/mingw32"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/include/c++/backward"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/include"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/../../../../include"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/include-fixed"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/../../../../mingw32/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/cmake-build-debug/BarrenLands-master/TP1/Makefile&quot;  VERBOSE=1 TP1_SDLtemplate"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/cmake-build-debug/BarrenLands-master/TP1/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/cmake-build-debug/BarrenLands-master/TP1/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/cmake-build-debug/BarrenLands-master/TP1/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="TP1_SDLtemplate/fast">
+				<Option output="D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/cmake-build-debug/BarrenLands-master/TP1/TP1_SDLtemplate.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/cmake-build-debug/BarrenLands-master/TP1"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="C:/MinGW/include/SDL"/>
+					<Add directory="C:/MinGW/include"/>
+					<Add directory="D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/BarrenLands-master/glimac/include"/>
+					<Add directory="D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/BarrenLands-master/third-party/include"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/include/c++"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/include/c++/mingw32"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/include/c++/backward"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/include"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/../../../../include"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/include-fixed"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/../../../../mingw32/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/cmake-build-debug/BarrenLands-master/TP1/Makefile&quot;  VERBOSE=1 TP1_SDLtemplate/fast"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/cmake-build-debug/BarrenLands-master/TP1/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/cmake-build-debug/BarrenLands-master/TP1/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/cmake-build-debug/BarrenLands-master/TP1/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="TP1_exo6_quads">
+				<Option output="D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/cmake-build-debug/BarrenLands-master/TP1/TP1_exo6_quads.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/cmake-build-debug/BarrenLands-master/TP1"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="C:/MinGW/include/SDL"/>
+					<Add directory="C:/MinGW/include"/>
+					<Add directory="D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/BarrenLands-master/glimac/include"/>
+					<Add directory="D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/BarrenLands-master/third-party/include"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/include/c++"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/include/c++/mingw32"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/include/c++/backward"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/include"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/../../../../include"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/include-fixed"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/../../../../mingw32/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/cmake-build-debug/BarrenLands-master/TP1/Makefile&quot;  VERBOSE=1 TP1_exo6_quads"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/cmake-build-debug/BarrenLands-master/TP1/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/cmake-build-debug/BarrenLands-master/TP1/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/cmake-build-debug/BarrenLands-master/TP1/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="TP1_exo6_quads/fast">
+				<Option output="D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/cmake-build-debug/BarrenLands-master/TP1/TP1_exo6_quads.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/cmake-build-debug/BarrenLands-master/TP1"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="C:/MinGW/include/SDL"/>
+					<Add directory="C:/MinGW/include"/>
+					<Add directory="D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/BarrenLands-master/glimac/include"/>
+					<Add directory="D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/BarrenLands-master/third-party/include"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/include/c++"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/include/c++/mingw32"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/include/c++/backward"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/include"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/../../../../include"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/include-fixed"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/../../../../mingw32/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/cmake-build-debug/BarrenLands-master/TP1/Makefile&quot;  VERBOSE=1 TP1_exo6_quads/fast"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/cmake-build-debug/BarrenLands-master/TP1/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/cmake-build-debug/BarrenLands-master/TP1/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/cmake-build-debug/BarrenLands-master/TP1/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/BarrenLands-master/TP1/SDLtemplate.cpp">
+			<Option target="TP1_SDLtemplate"/>
+		</Unit>
+		<Unit filename="D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/BarrenLands-master/TP1/Shaders/triangle.fs.glsl">
+			<Option target="TP1_SDLtemplate"/>
+			<Option target="TP1_exo6_quads"/>
+		</Unit>
+		<Unit filename="D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/BarrenLands-master/TP1/Shaders/triangle.vs.glsl">
+			<Option target="TP1_SDLtemplate"/>
+			<Option target="TP1_exo6_quads"/>
+		</Unit>
+		<Unit filename="D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/BarrenLands-master/TP1/exo6_quads.cpp">
+			<Option target="TP1_exo6_quads"/>
+		</Unit>
+		<Unit filename="D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/BarrenLands-master/glimac/include/glimac/BBox.hpp">
+			<Option target="glimac"/>
+		</Unit>
+		<Unit filename="D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/BarrenLands-master/glimac/include/glimac/Cone.hpp">
+			<Option target="glimac"/>
+		</Unit>
+		<Unit filename="D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/BarrenLands-master/glimac/include/glimac/FilePath.hpp">
+			<Option target="glimac"/>
+		</Unit>
+		<Unit filename="D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/BarrenLands-master/glimac/include/glimac/FreeflyCamera.hpp">
+			<Option target="glimac"/>
+		</Unit>
+		<Unit filename="D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/BarrenLands-master/glimac/include/glimac/Geometry.hpp">
+			<Option target="glimac"/>
+		</Unit>
+		<Unit filename="D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/BarrenLands-master/glimac/include/glimac/Image.hpp">
+			<Option target="glimac"/>
+		</Unit>
+		<Unit filename="D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/BarrenLands-master/glimac/include/glimac/Program.hpp">
+			<Option target="glimac"/>
+		</Unit>
+		<Unit filename="D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/BarrenLands-master/glimac/include/glimac/SDLWindowManager.hpp">
+			<Option target="glimac"/>
+		</Unit>
+		<Unit filename="D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/BarrenLands-master/glimac/include/glimac/Shader.hpp">
+			<Option target="glimac"/>
+		</Unit>
+		<Unit filename="D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/BarrenLands-master/glimac/include/glimac/Sphere.hpp">
+			<Option target="glimac"/>
+		</Unit>
+		<Unit filename="D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/BarrenLands-master/glimac/include/glimac/TrackballCamera.hpp">
+			<Option target="glimac"/>
+		</Unit>
+		<Unit filename="D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/BarrenLands-master/glimac/include/glimac/common.hpp">
+			<Option target="glimac"/>
+		</Unit>
+		<Unit filename="D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/BarrenLands-master/glimac/include/glimac/glm.hpp">
+			<Option target="glimac"/>
+		</Unit>
+		<Unit filename="D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/BarrenLands-master/glimac/src/Cone.cpp">
+			<Option target="glimac"/>
+		</Unit>
+		<Unit filename="D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/BarrenLands-master/glimac/src/FreeflyCamera.cpp">
+			<Option target="glimac"/>
+		</Unit>
+		<Unit filename="D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/BarrenLands-master/glimac/src/Geometry.cpp">
+			<Option target="glimac"/>
+		</Unit>
+		<Unit filename="D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/BarrenLands-master/glimac/src/Image.cpp">
+			<Option target="glimac"/>
+		</Unit>
+		<Unit filename="D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/BarrenLands-master/glimac/src/Program.cpp">
+			<Option target="glimac"/>
+		</Unit>
+		<Unit filename="D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/BarrenLands-master/glimac/src/SDLWindowManager.cpp">
+			<Option target="glimac"/>
+		</Unit>
+		<Unit filename="D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/BarrenLands-master/glimac/src/SDLWindowManager.hpp">
+			<Option target="glimac"/>
+		</Unit>
+		<Unit filename="D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/BarrenLands-master/glimac/src/Shader.cpp">
+			<Option target="glimac"/>
+		</Unit>
+		<Unit filename="D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/BarrenLands-master/glimac/src/Sphere.cpp">
+			<Option target="glimac"/>
+		</Unit>
+		<Unit filename="D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/BarrenLands-master/glimac/src/TrackballCamera.cpp">
+			<Option target="glimac"/>
+		</Unit>
+		<Unit filename="D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/BarrenLands-master/glimac/src/tiny_obj_loader.cpp">
+			<Option target="glimac"/>
+		</Unit>
+		<Unit filename="D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/BarrenLands-master/glimac/src/tiny_obj_loader.h">
+			<Option target="glimac"/>
+		</Unit>
+		<Unit filename="D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/BarrenLands-master/glimac/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\BarrenLands-master\glimac\"/>
+		</Unit>
+		<Unit filename="D:/Lou/Documents/ECOLE/IMAC2/BarrenLands-master/BarrenLands-master/TP1/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\BarrenLands-master\TP1\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
