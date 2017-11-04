@@ -120,34 +120,73 @@ glimac: cmake_check_build_system
 
 # fast build rule for target.
 glimac/fast:
-	$(MAKE) -f BarrenLandsMaster/glimac/CMakeFiles/glimac.dir/build.make BarrenLandsMaster/glimac/CMakeFiles/glimac.dir/build
+	$(MAKE) -f glimac/CMakeFiles/glimac.dir/build.make glimac/CMakeFiles/glimac.dir/build
 .PHONY : glimac/fast
 
 #=============================================================================
-# Target rules for targets named TP1_exo6_quads
+# Target rules for targets named barrenLands
 
 # Build rule for target.
-TP1_exo6_quads: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 TP1_exo6_quads
-.PHONY : TP1_exo6_quads
+barrenLands: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 barrenLands
+.PHONY : barrenLands
 
 # fast build rule for target.
-TP1_exo6_quads/fast:
-	$(MAKE) -f BarrenLandsMaster/TP1/CMakeFiles/TP1_exo6_quads.dir/build.make BarrenLandsMaster/TP1/CMakeFiles/TP1_exo6_quads.dir/build
-.PHONY : TP1_exo6_quads/fast
+barrenLands/fast:
+	$(MAKE) -f barrenLands/CMakeFiles/barrenLands.dir/build.make barrenLands/CMakeFiles/barrenLands.dir/build
+.PHONY : barrenLands/fast
 
 #=============================================================================
-# Target rules for targets named TP1_SDLtemplate
+# Target rules for targets named TEST_shaders_quads
 
 # Build rule for target.
-TP1_SDLtemplate: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 TP1_SDLtemplate
-.PHONY : TP1_SDLtemplate
+TEST_shaders_quads: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 TEST_shaders_quads
+.PHONY : TEST_shaders_quads
 
 # fast build rule for target.
-TP1_SDLtemplate/fast:
-	$(MAKE) -f BarrenLandsMaster/TP1/CMakeFiles/TP1_SDLtemplate.dir/build.make BarrenLandsMaster/TP1/CMakeFiles/TP1_SDLtemplate.dir/build
-.PHONY : TP1_SDLtemplate/fast
+TEST_shaders_quads/fast:
+	$(MAKE) -f tests/CMakeFiles/TEST_shaders_quads.dir/build.make tests/CMakeFiles/TEST_shaders_quads.dir/build
+.PHONY : TEST_shaders_quads/fast
+
+#=============================================================================
+# Target rules for targets named TEST_SDLtemplate
+
+# Build rule for target.
+TEST_SDLtemplate: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 TEST_SDLtemplate
+.PHONY : TEST_SDLtemplate
+
+# fast build rule for target.
+TEST_SDLtemplate/fast:
+	$(MAKE) -f tests/CMakeFiles/TEST_SDLtemplate.dir/build.make tests/CMakeFiles/TEST_SDLtemplate.dir/build
+.PHONY : TEST_SDLtemplate/fast
+
+#=============================================================================
+# Target rules for targets named TEST_uniform_matrix
+
+# Build rule for target.
+TEST_uniform_matrix: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 TEST_uniform_matrix
+.PHONY : TEST_uniform_matrix
+
+# fast build rule for target.
+TEST_uniform_matrix/fast:
+	$(MAKE) -f tests/CMakeFiles/TEST_uniform_matrix.dir/build.make tests/CMakeFiles/TEST_uniform_matrix.dir/build
+.PHONY : TEST_uniform_matrix/fast
+
+#=============================================================================
+# Target rules for targets named TEST_mandelbrot
+
+# Build rule for target.
+TEST_mandelbrot: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 TEST_mandelbrot
+.PHONY : TEST_mandelbrot
+
+# fast build rule for target.
+TEST_mandelbrot/fast:
+	$(MAKE) -f tests/CMakeFiles/TEST_mandelbrot.dir/build.make tests/CMakeFiles/TEST_mandelbrot.dir/build
+.PHONY : TEST_mandelbrot/fast
 
 # Help Target
 help:
@@ -158,8 +197,11 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... glimac"
-	@echo "... TP1_exo6_quads"
-	@echo "... TP1_SDLtemplate"
+	@echo "... barrenLands"
+	@echo "... TEST_shaders_quads"
+	@echo "... TEST_SDLtemplate"
+	@echo "... TEST_uniform_matrix"
+	@echo "... TEST_mandelbrot"
 .PHONY : help
 
 

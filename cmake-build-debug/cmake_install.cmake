@@ -29,8 +29,9 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/BarrenLandsMaster/glimac/cmake_install.cmake")
-  include("/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/BarrenLandsMaster/TP1/cmake_install.cmake")
+  include("/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/glimac/cmake_install.cmake")
+  include("/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/barrenLands/cmake_install.cmake")
+  include("/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/tests/cmake_install.cmake")
 
 endif()
 

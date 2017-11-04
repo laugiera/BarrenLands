@@ -5,7 +5,7 @@
 		<Option title="BarrenLandsMaster"/>
 		<Option makefile_is_custom="1"/>
 		<Option compiler="clang"/>
-		<Option virtualFolders="CMake Files\;CMake Files\BarrenLandsMaster\;CMake Files\BarrenLandsMaster\CMake\;CMake Files\BarrenLandsMaster\glimac\;CMake Files\BarrenLandsMaster\TP1\;"/>
+		<Option virtualFolders="CMake Files\;CMake Files\CMake\;CMake Files\glimac\;CMake Files\barrenLands\;CMake Files\tests\;"/>
 		<Build>
 			<Target title="all">
 				<Option working_dir="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug"/>
@@ -38,8 +38,8 @@
 				</MakeCommands>
 			</Target>
 			<Target title="glimac">
-				<Option output="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/BarrenLandsMaster/glimac/libglimac.a" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/BarrenLandsMaster/glimac"/>
+				<Option output="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/glimac/libglimac.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/glimac"/>
 				<Option object_output="./"/>
 				<Option type="2"/>
 				<Option compiler="clang"/>
@@ -47,8 +47,8 @@
 					<Add directory="/Users/Lou/Library/Frameworks/SDL.framework/Headers"/>
 					<Add directory="/System/Library/Frameworks/OpenGL.framework"/>
 					<Add directory="/System/Library/Frameworks/GLUT.framework"/>
-					<Add directory="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/BarrenLandsMaster/glimac/include"/>
-					<Add directory="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/BarrenLandsMaster/third-party/include"/>
+					<Add directory="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/glimac/include"/>
+					<Add directory="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/third-party/include"/>
 					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1"/>
 					<Add directory="/usr/local/include"/>
 					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/clang/8.1.0/include"/>
@@ -58,15 +58,15 @@
 					<Add directory="/Library/Frameworks"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/BarrenLandsMaster/glimac/Makefile&quot;  VERBOSE=1 glimac"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/BarrenLandsMaster/glimac/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/BarrenLandsMaster/glimac/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/BarrenLandsMaster/glimac/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/glimac/Makefile&quot;  VERBOSE=1 glimac"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/glimac/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/glimac/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/glimac/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="glimac/fast">
-				<Option output="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/BarrenLandsMaster/glimac/libglimac.a" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/BarrenLandsMaster/glimac"/>
+				<Option output="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/glimac/libglimac.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/glimac"/>
 				<Option object_output="./"/>
 				<Option type="2"/>
 				<Option compiler="clang"/>
@@ -74,8 +74,8 @@
 					<Add directory="/Users/Lou/Library/Frameworks/SDL.framework/Headers"/>
 					<Add directory="/System/Library/Frameworks/OpenGL.framework"/>
 					<Add directory="/System/Library/Frameworks/GLUT.framework"/>
-					<Add directory="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/BarrenLandsMaster/glimac/include"/>
-					<Add directory="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/BarrenLandsMaster/third-party/include"/>
+					<Add directory="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/glimac/include"/>
+					<Add directory="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/third-party/include"/>
 					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1"/>
 					<Add directory="/usr/local/include"/>
 					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/clang/8.1.0/include"/>
@@ -85,15 +85,15 @@
 					<Add directory="/Library/Frameworks"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/BarrenLandsMaster/glimac/Makefile&quot;  VERBOSE=1 glimac/fast"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/BarrenLandsMaster/glimac/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/BarrenLandsMaster/glimac/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/BarrenLandsMaster/glimac/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/glimac/Makefile&quot;  VERBOSE=1 glimac/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/glimac/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/glimac/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/glimac/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
-			<Target title="TP1_exo6_quads">
-				<Option output="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/BarrenLandsMaster/TP1/TP1_exo6_quads" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/BarrenLandsMaster/TP1"/>
+			<Target title="barrenLands">
+				<Option output="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/barrenLands/barrenLands" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/barrenLands"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="clang"/>
@@ -101,8 +101,9 @@
 					<Add directory="/Users/Lou/Library/Frameworks/SDL.framework/Headers"/>
 					<Add directory="/System/Library/Frameworks/OpenGL.framework"/>
 					<Add directory="/System/Library/Frameworks/GLUT.framework"/>
-					<Add directory="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/BarrenLandsMaster/glimac/include"/>
-					<Add directory="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/BarrenLandsMaster/third-party/include"/>
+					<Add directory="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/glimac/include"/>
+					<Add directory="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/third-party/include"/>
+					<Add directory="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/barrenLands/include"/>
 					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1"/>
 					<Add directory="/usr/local/include"/>
 					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/clang/8.1.0/include"/>
@@ -112,15 +113,15 @@
 					<Add directory="/Library/Frameworks"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/BarrenLandsMaster/TP1/Makefile&quot;  VERBOSE=1 TP1_exo6_quads"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/BarrenLandsMaster/TP1/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/BarrenLandsMaster/TP1/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/BarrenLandsMaster/TP1/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/barrenLands/Makefile&quot;  VERBOSE=1 barrenLands"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/barrenLands/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/barrenLands/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/barrenLands/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
-			<Target title="TP1_exo6_quads/fast">
-				<Option output="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/BarrenLandsMaster/TP1/TP1_exo6_quads" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/BarrenLandsMaster/TP1"/>
+			<Target title="barrenLands/fast">
+				<Option output="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/barrenLands/barrenLands" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/barrenLands"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="clang"/>
@@ -128,8 +129,9 @@
 					<Add directory="/Users/Lou/Library/Frameworks/SDL.framework/Headers"/>
 					<Add directory="/System/Library/Frameworks/OpenGL.framework"/>
 					<Add directory="/System/Library/Frameworks/GLUT.framework"/>
-					<Add directory="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/BarrenLandsMaster/glimac/include"/>
-					<Add directory="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/BarrenLandsMaster/third-party/include"/>
+					<Add directory="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/glimac/include"/>
+					<Add directory="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/third-party/include"/>
+					<Add directory="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/barrenLands/include"/>
 					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1"/>
 					<Add directory="/usr/local/include"/>
 					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/clang/8.1.0/include"/>
@@ -139,15 +141,15 @@
 					<Add directory="/Library/Frameworks"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/BarrenLandsMaster/TP1/Makefile&quot;  VERBOSE=1 TP1_exo6_quads/fast"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/BarrenLandsMaster/TP1/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/BarrenLandsMaster/TP1/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/BarrenLandsMaster/TP1/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/barrenLands/Makefile&quot;  VERBOSE=1 barrenLands/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/barrenLands/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/barrenLands/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/barrenLands/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
-			<Target title="TP1_SDLtemplate">
-				<Option output="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/BarrenLandsMaster/TP1/TP1_SDLtemplate" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/BarrenLandsMaster/TP1"/>
+			<Target title="TEST_shaders_quads">
+				<Option output="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/tests/TEST_shaders_quads" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/tests"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="clang"/>
@@ -155,8 +157,8 @@
 					<Add directory="/Users/Lou/Library/Frameworks/SDL.framework/Headers"/>
 					<Add directory="/System/Library/Frameworks/OpenGL.framework"/>
 					<Add directory="/System/Library/Frameworks/GLUT.framework"/>
-					<Add directory="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/BarrenLandsMaster/glimac/include"/>
-					<Add directory="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/BarrenLandsMaster/third-party/include"/>
+					<Add directory="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/glimac/include"/>
+					<Add directory="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/third-party/include"/>
 					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1"/>
 					<Add directory="/usr/local/include"/>
 					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/clang/8.1.0/include"/>
@@ -166,15 +168,15 @@
 					<Add directory="/Library/Frameworks"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/BarrenLandsMaster/TP1/Makefile&quot;  VERBOSE=1 TP1_SDLtemplate"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/BarrenLandsMaster/TP1/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/BarrenLandsMaster/TP1/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/BarrenLandsMaster/TP1/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 TEST_shaders_quads"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
-			<Target title="TP1_SDLtemplate/fast">
-				<Option output="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/BarrenLandsMaster/TP1/TP1_SDLtemplate" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/BarrenLandsMaster/TP1"/>
+			<Target title="TEST_shaders_quads/fast">
+				<Option output="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/tests/TEST_shaders_quads" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/tests"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="clang"/>
@@ -182,8 +184,8 @@
 					<Add directory="/Users/Lou/Library/Frameworks/SDL.framework/Headers"/>
 					<Add directory="/System/Library/Frameworks/OpenGL.framework"/>
 					<Add directory="/System/Library/Frameworks/GLUT.framework"/>
-					<Add directory="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/BarrenLandsMaster/glimac/include"/>
-					<Add directory="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/BarrenLandsMaster/third-party/include"/>
+					<Add directory="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/glimac/include"/>
+					<Add directory="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/third-party/include"/>
 					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1"/>
 					<Add directory="/usr/local/include"/>
 					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/clang/8.1.0/include"/>
@@ -193,122 +195,348 @@
 					<Add directory="/Library/Frameworks"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/BarrenLandsMaster/TP1/Makefile&quot;  VERBOSE=1 TP1_SDLtemplate/fast"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/BarrenLandsMaster/TP1/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/BarrenLandsMaster/TP1/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/BarrenLandsMaster/TP1/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 TEST_shaders_quads/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="TEST_SDLtemplate">
+				<Option output="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/tests/TEST_SDLtemplate" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/tests"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add directory="/Users/Lou/Library/Frameworks/SDL.framework/Headers"/>
+					<Add directory="/System/Library/Frameworks/OpenGL.framework"/>
+					<Add directory="/System/Library/Frameworks/GLUT.framework"/>
+					<Add directory="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/glimac/include"/>
+					<Add directory="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/third-party/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/clang/8.1.0/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 TEST_SDLtemplate"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="TEST_SDLtemplate/fast">
+				<Option output="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/tests/TEST_SDLtemplate" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/tests"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add directory="/Users/Lou/Library/Frameworks/SDL.framework/Headers"/>
+					<Add directory="/System/Library/Frameworks/OpenGL.framework"/>
+					<Add directory="/System/Library/Frameworks/GLUT.framework"/>
+					<Add directory="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/glimac/include"/>
+					<Add directory="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/third-party/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/clang/8.1.0/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 TEST_SDLtemplate/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="TEST_uniform_matrix">
+				<Option output="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/tests/TEST_uniform_matrix" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/tests"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add directory="/Users/Lou/Library/Frameworks/SDL.framework/Headers"/>
+					<Add directory="/System/Library/Frameworks/OpenGL.framework"/>
+					<Add directory="/System/Library/Frameworks/GLUT.framework"/>
+					<Add directory="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/glimac/include"/>
+					<Add directory="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/third-party/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/clang/8.1.0/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 TEST_uniform_matrix"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="TEST_uniform_matrix/fast">
+				<Option output="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/tests/TEST_uniform_matrix" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/tests"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add directory="/Users/Lou/Library/Frameworks/SDL.framework/Headers"/>
+					<Add directory="/System/Library/Frameworks/OpenGL.framework"/>
+					<Add directory="/System/Library/Frameworks/GLUT.framework"/>
+					<Add directory="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/glimac/include"/>
+					<Add directory="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/third-party/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/clang/8.1.0/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 TEST_uniform_matrix/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="TEST_mandelbrot">
+				<Option output="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/tests/TEST_mandelbrot" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/tests"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add directory="/Users/Lou/Library/Frameworks/SDL.framework/Headers"/>
+					<Add directory="/System/Library/Frameworks/OpenGL.framework"/>
+					<Add directory="/System/Library/Frameworks/GLUT.framework"/>
+					<Add directory="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/glimac/include"/>
+					<Add directory="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/third-party/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/clang/8.1.0/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 TEST_mandelbrot"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="TEST_mandelbrot/fast">
+				<Option output="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/tests/TEST_mandelbrot" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/tests"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add directory="/Users/Lou/Library/Frameworks/SDL.framework/Headers"/>
+					<Add directory="/System/Library/Frameworks/OpenGL.framework"/>
+					<Add directory="/System/Library/Frameworks/GLUT.framework"/>
+					<Add directory="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/glimac/include"/>
+					<Add directory="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/third-party/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/clang/8.1.0/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 TEST_mandelbrot/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/BarrenLandsMaster/TP1/SDLtemplate.cpp">
-			<Option target="TP1_SDLtemplate"/>
+		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/barrenLands/include/BL_transform.hpp">
+			<Option target="barrenLands"/>
 		</Unit>
-		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/BarrenLandsMaster/TP1/Shaders/triangle.fs.glsl">
-			<Option target="TP1_exo6_quads"/>
-			<Option target="TP1_SDLtemplate"/>
+		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/barrenLands/main.cpp">
+			<Option target="barrenLands"/>
 		</Unit>
-		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/BarrenLandsMaster/TP1/Shaders/triangle.vs.glsl">
-			<Option target="TP1_exo6_quads"/>
-			<Option target="TP1_SDLtemplate"/>
+		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/barrenLands/shaders/mandelbrot.fs.glsl">
+			<Option target="barrenLands"/>
 		</Unit>
-		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/BarrenLandsMaster/TP1/exo6_quads.cpp">
-			<Option target="TP1_exo6_quads"/>
+		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/barrenLands/shaders/mandelbrot.vs.glsl">
+			<Option target="barrenLands"/>
 		</Unit>
-		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/BarrenLandsMaster/glimac/include/glimac/BBox.hpp">
+		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/barrenLands/shaders/triangle.fs.glsl">
+			<Option target="barrenLands"/>
+		</Unit>
+		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/barrenLands/shaders/triangle.vs.glsl">
+			<Option target="barrenLands"/>
+		</Unit>
+		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/barrenLands/shaders/uniMatrix.fs.glsl">
+			<Option target="barrenLands"/>
+		</Unit>
+		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/barrenLands/shaders/uniMatrix.vs.glsl">
+			<Option target="barrenLands"/>
+		</Unit>
+		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/barrenLands/src/BL_transform.cpp">
+			<Option target="barrenLands"/>
+		</Unit>
+		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/glimac/include/glimac/BBox.hpp">
 			<Option target="glimac"/>
 		</Unit>
-		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/BarrenLandsMaster/glimac/include/glimac/Cone.hpp">
+		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/glimac/include/glimac/Cone.hpp">
 			<Option target="glimac"/>
 		</Unit>
-		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/BarrenLandsMaster/glimac/include/glimac/FilePath.hpp">
+		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/glimac/include/glimac/FilePath.hpp">
 			<Option target="glimac"/>
 		</Unit>
-		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/BarrenLandsMaster/glimac/include/glimac/FreeflyCamera.hpp">
+		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/glimac/include/glimac/FreeflyCamera.hpp">
 			<Option target="glimac"/>
 		</Unit>
-		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/BarrenLandsMaster/glimac/include/glimac/Geometry.hpp">
+		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/glimac/include/glimac/Geometry.hpp">
 			<Option target="glimac"/>
 		</Unit>
-		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/BarrenLandsMaster/glimac/include/glimac/Image.hpp">
+		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/glimac/include/glimac/Image.hpp">
 			<Option target="glimac"/>
 		</Unit>
-		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/BarrenLandsMaster/glimac/include/glimac/Program.hpp">
+		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/glimac/include/glimac/Program.hpp">
 			<Option target="glimac"/>
 		</Unit>
-		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/BarrenLandsMaster/glimac/include/glimac/SDL2WindowManager.hpp">
+		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/glimac/include/glimac/SDL2WindowManager.hpp">
 			<Option target="glimac"/>
 		</Unit>
-		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/BarrenLandsMaster/glimac/include/glimac/SDLWindowManager.hpp">
+		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/glimac/include/glimac/SDLWindowManager.hpp">
 			<Option target="glimac"/>
 		</Unit>
-		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/BarrenLandsMaster/glimac/include/glimac/Shader.hpp">
+		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/glimac/include/glimac/Shader.hpp">
 			<Option target="glimac"/>
 		</Unit>
-		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/BarrenLandsMaster/glimac/include/glimac/Sphere.hpp">
+		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/glimac/include/glimac/Sphere.hpp">
 			<Option target="glimac"/>
 		</Unit>
-		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/BarrenLandsMaster/glimac/include/glimac/TrackballCamera.hpp">
+		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/glimac/include/glimac/TrackballCamera.hpp">
 			<Option target="glimac"/>
 		</Unit>
-		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/BarrenLandsMaster/glimac/include/glimac/common.hpp">
+		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/glimac/include/glimac/common.hpp">
 			<Option target="glimac"/>
 		</Unit>
-		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/BarrenLandsMaster/glimac/include/glimac/glm.hpp">
+		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/glimac/include/glimac/glm.hpp">
 			<Option target="glimac"/>
 		</Unit>
-		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/BarrenLandsMaster/glimac/src/Cone.cpp">
+		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/glimac/src/Cone.cpp">
 			<Option target="glimac"/>
 		</Unit>
-		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/BarrenLandsMaster/glimac/src/FreeflyCamera.cpp">
+		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/glimac/src/FreeflyCamera.cpp">
 			<Option target="glimac"/>
 		</Unit>
-		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/BarrenLandsMaster/glimac/src/Geometry.cpp">
+		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/glimac/src/Geometry.cpp">
 			<Option target="glimac"/>
 		</Unit>
-		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/BarrenLandsMaster/glimac/src/Image.cpp">
+		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/glimac/src/Image.cpp">
 			<Option target="glimac"/>
 		</Unit>
-		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/BarrenLandsMaster/glimac/src/Program.cpp">
+		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/glimac/src/Program.cpp">
 			<Option target="glimac"/>
 		</Unit>
-		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/BarrenLandsMaster/glimac/src/SDL2WindowManager.cpp">
+		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/glimac/src/SDL2WindowManager.cpp">
 			<Option target="glimac"/>
 		</Unit>
-		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/BarrenLandsMaster/glimac/src/SDLWindowManager.cpp">
+		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/glimac/src/SDLWindowManager.cpp">
 			<Option target="glimac"/>
 		</Unit>
-		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/BarrenLandsMaster/glimac/src/Shader.cpp">
+		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/glimac/src/Shader.cpp">
 			<Option target="glimac"/>
 		</Unit>
-		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/BarrenLandsMaster/glimac/src/Sphere.cpp">
+		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/glimac/src/Sphere.cpp">
 			<Option target="glimac"/>
 		</Unit>
-		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/BarrenLandsMaster/glimac/src/TrackballCamera.cpp">
+		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/glimac/src/TrackballCamera.cpp">
 			<Option target="glimac"/>
 		</Unit>
-		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/BarrenLandsMaster/glimac/src/tiny_obj_loader.cpp">
+		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/glimac/src/tiny_obj_loader.cpp">
 			<Option target="glimac"/>
 		</Unit>
-		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/BarrenLandsMaster/glimac/src/tiny_obj_loader.h">
+		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/glimac/src/tiny_obj_loader.h">
 			<Option target="glimac"/>
+		</Unit>
+		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/tests/SDLtemplate.cpp">
+			<Option target="TEST_SDLtemplate"/>
+		</Unit>
+		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/tests/mandelbrot.cpp">
+			<Option target="TEST_mandelbrot"/>
+		</Unit>
+		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/tests/shaders/mandelbrot.fs.glsl">
+			<Option target="TEST_shaders_quads"/>
+			<Option target="TEST_SDLtemplate"/>
+			<Option target="TEST_uniform_matrix"/>
+			<Option target="TEST_mandelbrot"/>
+		</Unit>
+		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/tests/shaders/mandelbrot.vs.glsl">
+			<Option target="TEST_shaders_quads"/>
+			<Option target="TEST_SDLtemplate"/>
+			<Option target="TEST_uniform_matrix"/>
+			<Option target="TEST_mandelbrot"/>
+		</Unit>
+		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/tests/shaders/triangle.fs.glsl">
+			<Option target="TEST_shaders_quads"/>
+			<Option target="TEST_SDLtemplate"/>
+			<Option target="TEST_uniform_matrix"/>
+			<Option target="TEST_mandelbrot"/>
+		</Unit>
+		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/tests/shaders/triangle.vs.glsl">
+			<Option target="TEST_shaders_quads"/>
+			<Option target="TEST_SDLtemplate"/>
+			<Option target="TEST_uniform_matrix"/>
+			<Option target="TEST_mandelbrot"/>
+		</Unit>
+		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/tests/shaders/uniMatrix.fs.glsl">
+			<Option target="TEST_shaders_quads"/>
+			<Option target="TEST_SDLtemplate"/>
+			<Option target="TEST_uniform_matrix"/>
+			<Option target="TEST_mandelbrot"/>
+		</Unit>
+		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/tests/shaders/uniMatrix.vs.glsl">
+			<Option target="TEST_shaders_quads"/>
+			<Option target="TEST_SDLtemplate"/>
+			<Option target="TEST_uniform_matrix"/>
+			<Option target="TEST_mandelbrot"/>
+		</Unit>
+		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/tests/shaders_quads.cpp">
+			<Option target="TEST_shaders_quads"/>
+		</Unit>
+		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/tests/uniform_matrix.cpp">
+			<Option target="TEST_uniform_matrix"/>
 		</Unit>
 		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
-		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/BarrenLandsMaster/CMake/FindSDL2.cmake">
-			<Option virtualFolder="CMake Files\BarrenLandsMaster\CMake\"/>
+		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/CMake/FindSDL2.cmake">
+			<Option virtualFolder="CMake Files\CMake\"/>
 		</Unit>
-		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/BarrenLandsMaster/CMake/FindGLEW.cmake">
-			<Option virtualFolder="CMake Files\BarrenLandsMaster\CMake\"/>
+		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/CMake/FindGLEW.cmake">
+			<Option virtualFolder="CMake Files\CMake\"/>
 		</Unit>
-		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/BarrenLandsMaster/CMake/FindGLUT.cmake">
-			<Option virtualFolder="CMake Files\BarrenLandsMaster\CMake\"/>
+		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/CMake/FindGLUT.cmake">
+			<Option virtualFolder="CMake Files\CMake\"/>
 		</Unit>
-		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/BarrenLandsMaster/glimac/CMakeLists.txt">
-			<Option virtualFolder="CMake Files\BarrenLandsMaster\glimac\"/>
+		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/glimac/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\glimac\"/>
 		</Unit>
-		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/BarrenLandsMaster/TP1/CMakeLists.txt">
-			<Option virtualFolder="CMake Files\BarrenLandsMaster\TP1\"/>
+		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/barrenLands/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\barrenLands\"/>
+		</Unit>
+		<Unit filename="/Users/Lou/Documents/ÉCOLE/IMAC2/barrenLands/code/BarrenLands/tests/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\tests\"/>
 		</Unit>
 	</Project>
 </CodeBlocks_project_file>
