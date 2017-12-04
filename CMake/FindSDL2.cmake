@@ -1,6 +1,6 @@
 
 # This module defines
-# SDL2_LIBRARY, the name of the library to link against
+# SDL2_LIBRARY, the m_name of the library to link against
 # SDL2_FOUND, if false, do not try to link to SDL2
 # SDL2_INCLUDE_DIR, where to find SDL.h
 #
@@ -22,7 +22,7 @@
 # and no SDL2_LIBRARY, it means CMake did not find your SDL2 library
 # (SDL2.dll, libsdl2.so, SDL2.framework, etc).
 # Set SDL2_LIBRARY_TEMP to point to your SDL2 library, and configure again.
-# Similarly, if you see an empty SDL2MAIN_LIBRARY, you should set this value
+# Similarly, if you see an empty SDL2MAIN_LIBRARY, you should set this m_value
 # as appropriate. These values are used to generate the final SDL2_LIBRARY
 # variable, but when these values are unset, SDL2_LIBRARY does not get created.
 #

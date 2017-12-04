@@ -1,7 +1,7 @@
 #ifndef TRACKBALL_CAMERA_H
 #define TRACKBALL_CAMERA_H
 
-#include <glimac/glm.hpp>
+#include <glm.hpp>
 
 class TrackballCamera {
 private:

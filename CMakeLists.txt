@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8)
 
-project(BarrenLandsMaster)
+project(BarrenLands)
 
 add_definitions(-std=c++11)
 
@@ -12,17 +12,18 @@ find_package(GLEW REQUIRED)
 find_package(GLUT REQUIRED)
 find_package(GLU REQUIRED)
 
-include_directories(${SDL2_INCLUDE_DIR} ${OPENGL_INCLUDE_DIR} ${GLEW_INCLUDE_DIR} ${GLUT_INCLUDE_DIR} ${GLU_INCLUDE_DIR} glimac/include third-party/include)
+include_directories(${SDL2_INCLUDE_DIR} ${OPENGL_INCLUDE_DIR} ${GLEW_INCLUDE_DIR} ${GLUT_INCLUDE_DIR} ${GLU_INCLUDE_DIR} glimac/include third-party/include glcustom/include)
 
 if(UNIX)
-    set(ALL_LIBRARIES glimac ${SDL2_LIBRARY} ${OPENGL_LIBRARIES} ${GLEW_LIBRARY} ${GLUT_LIBRARY} ${GLU_LIBRARY})
+    set(ALL_LIBRARIES glimac glcustom ${SDL2_LIBRARY} ${OPENGL_LIBRARIES} ${GLEW_LIBRARY} ${GLUT_LIBRARY} ${GLU_LIBRARY})
 endif(UNIX)
 
 if(WIN32)
-    set(ALL_LIBRARIES mingw32 glimac SDL2main SDL2 glew32s opengl32 glu32 freeglut)
+    set(ALL_LIBRARIES mingw32 glimac glcustom SDL2main SDL2 glew32s opengl32 glu32 freeglut)
 endif(WIN32)
 
 add_subdirectory(glimac)
+add_subdirectory(glcustom)
 add_subdirectory(barrenLands)
 add_subdirectory(tests)
 

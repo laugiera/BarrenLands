@@ -1,7 +1,7 @@
 #ifndef FREEFLY_CAMERA_H
 #define FREEFLY_CAMERA_H
 
-#include <glimac/glm.hpp>
+#include <glm.hpp>
 
 class FreeflyCamera {
 private:

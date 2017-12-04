@@ -8,6 +8,7 @@
 #include <glimac/Program.hpp>
 #include <glimac/Image.hpp>
 #include <glimac/SDL2WindowManager.hpp>
+#include <GPUProgram.hpp>
 
 using namespace glimac;
 
@@ -28,6 +29,8 @@ int main(int argc, char** argv) {
     /*********************************
      * HERE SHOULD COME THE INITIALIZATION CODE
      *********************************/
+    glcustom::GPUProgram(argv[0], "triangle", "triangle" );
+
 
     // Application loop:
     bool done = false;
