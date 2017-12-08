@@ -1,5 +1,5 @@
 
-
+#define GLEW_STATIC
 #include <glimac/SDL2WindowManager.hpp>
 #include <GL/glew.h>
 #include <iostream>
@@ -8,6 +8,7 @@
 #include <glimac/glm.hpp>
 #include <cstddef>
 #include <vector>
+#include <GPUProgram.hpp>
 
 using namespace glimac;
 
@@ -65,13 +66,11 @@ int main(int argc, char** argv) {
     }
 
     FilePath applicationPath(argv[0]);
-    /*
-    Program program = loadProgram(applicationPath.dirPath() + "shaders/"+ argv[1],
-                                  applicationPath.dirPath() + "shaders/"+ argv[2]);
-    */
-    Program program = loadProgram(applicationPath.dirPath() + "shaders/uniMatrix.vs.glsl",
-                                  applicationPath.dirPath() + "shaders/uniMatrix.fs.glsl");
-    program.use();
+
+    glcustom::GPUProgram test_prog(applicationPath, "uniMatrix", "uniMatrix");
+    test_prog.addUniform("uColor");
+    test_prog.addUniform("uModelMatrice");
+    test_prog.use();
 
 
 
@@ -84,6 +83,7 @@ int main(int argc, char** argv) {
 
     //uniform variables and global variables
     //matrice (uniform)
+    /*
     GLint uModelMatriceLocation = glGetUniformLocation(program.getGLId(), "uModelMatrice");
     glm::mat3 uModelMatriceValue;
     glUniformMatrix3fv(uModelMatriceLocation, 1, GL_FALSE, glm::value_ptr(uModelMatriceValue) );
@@ -91,6 +91,7 @@ int main(int argc, char** argv) {
     GLint uColorLocation = glGetUniformLocation(program.getGLId(), "uColor");
     glm::vec3 uColorValue = glm::vec3(0,0,0);
     glUniform3fv(uColorLocation, 1, glm::value_ptr(uColorValue));
+     */
     //time counter
     float time = 0;
 
@@ -153,31 +154,24 @@ int main(int argc, char** argv) {
         glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
         glBindVertexArray(vao); //bind vao
         //triangle1
-        uModelMatriceValue = rotate(time)* translate(-0.5+right/10.0-left/10.0, 0.5) * scale(0.75, 0.75)*rotate(time);
-        glUniformMatrix3fv(uModelMatriceLocation, 1, GL_FALSE, glm::value_ptr(uModelMatriceValue) );
-        uColorValue = glm::vec3(1,0.5,0.4);
-        glUniform3fv(uColorLocation, 1, glm::value_ptr(uColorValue));
+        glm::mat3 modelMatrix = rotate(time)* translate(-0.5+right/10.0-left/10.0, 0.5) * scale(0.75, 0.75)*rotate(time);
+        test_prog.sendUniformMat3("uModelMatrice", modelMatrix);
+        test_prog.sendUniformVec3("uColor", glm::vec3(1,1,1));
         glDrawArrays(GL_TRIANGLES, 0, 3);
 
         //triangle2
-        uModelMatriceValue = rotate(time)* translate(-0.5, -0.5) * scale(0.25, 0.25)*rotate(-time);
-        glUniformMatrix3fv(uModelMatriceLocation, 1, GL_FALSE, glm::value_ptr(uModelMatriceValue) );
-        uColorValue = glm::vec3(0.7,0.7,0.2);
-        glUniform3fv(uColorLocation, 1, glm::value_ptr(uColorValue));
+        test_prog.sendUniformMat3("uModelMatrice", rotate(time)* translate(-0.5, -0.5) * scale(0.25, 0.25)*rotate(-time));
+        test_prog.sendUniformVec3("uColor", glm::vec3(0.7,0.7,0.2));
         glDrawArrays(GL_TRIANGLES, 0, 3);
 
         //triangle3
-        uModelMatriceValue = rotate(time)* translate(0.5, -0.5) * scale(0.75, 0.75)*rotate(time);
-        glUniformMatrix3fv(uModelMatriceLocation, 1, GL_FALSE, glm::value_ptr(uModelMatriceValue) );
-        uColorValue = glm::vec3(1,0.2,0);
-        glUniform3fv(uColorLocation, 1, glm::value_ptr(uColorValue));
+        test_prog.sendUniformMat3("uModelMatrice", rotate(time)* translate(0.5, -0.5) * scale(0.75, 0.75)*rotate(time));
+        test_prog.sendUniformVec3("uColor", glm::vec3(01,0.2,0));
         glDrawArrays(GL_TRIANGLES, 0, 3);
 
         //triangle4
-        uModelMatriceValue = rotate(time)* translate(0.5, 0.5) * scale(0.25, 0.25)*rotate(-time);
-        glUniformMatrix3fv(uModelMatriceLocation, 1, GL_FALSE, glm::value_ptr(uModelMatriceValue) );
-        uColorValue = glm::vec3(0.5,0.2,0.6);
-        glUniform3fv(uColorLocation, 1, glm::value_ptr(uColorValue));
+        test_prog.sendUniformMat3("uModelMatrice", rotate(time)* translate(0.5, 0.5) * scale(0.25, 0.25)*rotate(-time));
+        test_prog.sendUniformVec3("uColor", glm::vec3(0.5,0.2,0.6));
         glDrawArrays(GL_TRIANGLES, 0, 3);
 
         glBindVertexArray(0); //debind vao

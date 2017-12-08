@@ -1,3 +1,4 @@
+#define GLEW_STATIC
 #include <glimac/SDL2WindowManager.hpp>
 #include <GL/glew.h>
 #include <iostream>
