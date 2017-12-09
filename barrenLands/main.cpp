@@ -13,6 +13,7 @@
 #include <glimac/Image.hpp>
 #include <glimac/SDL2WindowManager.hpp>
 #include "include/BL_transform.hpp"
+#include "NoiseManager.h"
 
 using namespace glimac;
 
@@ -35,6 +36,16 @@ int main(int argc, char** argv) {
      *********************************/
 
     glm::mat3 test = BarrenLands::rotate(45);
+
+    //test génération bruit
+    int width = 20, height = 30;
+    float** terrain = NoiseManager::getElevationMap(width,height,100,1.10);
+
+    for (int i = 0; i < width; ++i) {
+        for (int j = 0; j < height; ++j) {
+            std::cout <<"["<<i<<"]"<<"["<<j<<"]"<<"="<<terrain[i][j]<<std::endl;
+        }
+    }
 
     // Application loop:
     bool done = false;
