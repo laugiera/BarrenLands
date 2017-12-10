@@ -6,7 +6,7 @@ foreach(SRC_FILE ${SRC_FILES})
     get_filename_component(FILE ${SRC_FILE} NAME_WE)
     get_filename_component(DIR TEST NAME)
     set(OUTPUT ${DIR}_${FILE})
-    add_executable(${OUTPUT} ${SRC_FILE} ${HEADER_FILES} ${SHADER_FILES})
+    add_executable(${OUTPUT} ${SRC_FILE} ${HEADER_FILES} ${SHADER_FILES} createMap.cpp)
     target_link_libraries(${OUTPUT} ${ALL_LIBRARIES})
 endforeach()
 
