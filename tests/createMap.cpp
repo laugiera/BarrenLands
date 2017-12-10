@@ -3,16 +3,15 @@
 //
 
 #define GLEW_STATIC
+#include <glimac/SDL2WindowManager.hpp>
 #include <iostream>
 #include <fstream>
 #include <GL/glew.h>
 #include <GL/glut.h>
 #include <memory>
-#include <SDL/SDL.h>
 #include <glimac/Sphere.hpp>
 #include <glimac/Program.hpp>
 #include <glimac/Image.hpp>
-#include <glimac/SDLWindowManager.hpp>
 #include <glimac/TrackballCamera.hpp>
 #include <glimac/FreeflyCamera.hpp>
 #include "../barrenLands/include/NoiseManager.h"
@@ -207,13 +206,11 @@ int main(int argc, char** argv) {
                 if(e.button.button == SDL_BUTTON_RIGHT){
                     rightPressed = 1;
                 }
-                else if(e.button.button == SDL_BUTTON_WHEELUP) {
-                    Camera.moveFront(-1);
-                }
-                else if(e.button.button == SDL_BUTTON_WHEELDOWN) {
-                    Camera.moveFront(1);
-                }
             }
+            else if(e.wheel.y == 1 )
+                Camera.moveFront(-1);
+            else if(e.wheel.y == -1)
+                Camera.moveFront(1);
             else if(e.type == SDL_MOUSEBUTTONUP) {
                 if(e.button.button == SDL_BUTTON_RIGHT){
                     rightPressed = 0;
