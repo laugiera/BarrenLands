@@ -9,6 +9,7 @@
 #include <cstddef>
 #include <vector>
 #include <GPUProgram.hpp>
+#include <VBO.hpp>
 
 using namespace glimac;
 
@@ -81,19 +82,9 @@ int main(int argc, char** argv) {
      * HERE SHOULD COME THE INITIALIZATION CODE
      *********************************/
 
-    //uniform variables and global variables
-    //matrice (uniform)
-    /*
-    GLint uModelMatriceLocation = glGetUniformLocation(program.getGLId(), "uModelMatrice");
-    glm::mat3 uModelMatriceValue;
-    glUniformMatrix3fv(uModelMatriceLocation, 1, GL_FALSE, glm::value_ptr(uModelMatriceValue) );
-    //color (uniform)
-    GLint uColorLocation = glGetUniformLocation(program.getGLId(), "uColor");
-    glm::vec3 uColorValue = glm::vec3(0,0,0);
-    glUniform3fv(uColorLocation, 1, glm::value_ptr(uColorValue));
-     */
-    //time counter
     float time = 0;
+
+    glcustom::VBO v = glcustom::VBO();
 
     //buffers
     GLuint vbo, vao;
@@ -105,6 +96,8 @@ int main(int argc, char** argv) {
             Vertex2DUV(glm::vec2(1.f, -1.f), glm::vec2(0.f,0.f)),
             Vertex2DUV(glm::vec2(0.f, 1.f), glm::vec2(0.f,0.f))
     };
+
+    v.fillBuffer(vertices);
 
     //bind vbo
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
