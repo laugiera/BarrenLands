@@ -3,16 +3,15 @@
 //
 
 #define GLEW_STATIC
+#include <glimac/SDL2WindowManager.hpp>
 #include <iostream>
 #include <fstream>
 #include <GL/glew.h>
 #include <GL/glut.h>
 #include <memory>
-#include <SDL/SDL.h>
 #include <glimac/Sphere.hpp>
 #include <glimac/Program.hpp>
 #include <glimac/Image.hpp>
-#include <glimac/SDLWindowManager.hpp>
 #include <glimac/TrackballCamera.hpp>
 #include <glimac/FreeflyCamera.hpp>
 #include "../barrenLands/include/NoiseManager.h"
@@ -47,6 +46,11 @@ int main(int argc, char** argv) {
     std::cout << "Indiquez le nombre de carre par cote : " << std::endl;
     std::cin >> nbrSub;
     std::cout << "Nombre de subdivisions = " << nbrSub << std::endl;
+
+    int width;
+    std::cout << "Indiquez la largeur des carres : " << std::endl;
+    std::cin >> width;
+    std::cout << "Largeur = " << width << std::endl;
 
     /******/
 
@@ -87,7 +91,7 @@ int main(int argc, char** argv) {
     /***On fait le tableau***/
     int i, j;
     //test génération bruit
-    float** terrain = NoiseManager::getElevationMap(nbrSub+1,nbrSub+1,4);
+    float** terrain = NoiseManager::getElevationMap(nbrSub+1,nbrSub+1,150);
 
     // => Tableau de sommets : un seul exemplaire de chaque sommet
     Vertex3DColor vertices[(nbrSub+1)*(nbrSub+1)];
@@ -101,7 +105,7 @@ int main(int argc, char** argv) {
 
     for(i=0; i<nbrSub+1; ++i){
         for(j=0; j<nbrSub+1; j++){
-            vertices[i*(nbrSub+1)+j] = Vertex3DColor(glm::vec3(-10.0+j*20/nbrSub, terrain[i][j], -10.0+i*20/nbrSub), glm::vec3(0, 0, 1), glm::vec2(i,j));
+            vertices[i*(nbrSub+1)+j] = Vertex3DColor(glm::vec3(-width*nbrSub/2.0+j*width, terrain[i][j], -width*nbrSub/2.0+i*width), glm::vec3(0, 0, 1), glm::vec2(i,j));
 
         }
     }
@@ -207,13 +211,11 @@ int main(int argc, char** argv) {
                 if(e.button.button == SDL_BUTTON_RIGHT){
                     rightPressed = 1;
                 }
-                else if(e.button.button == SDL_BUTTON_WHEELUP) {
-                    Camera.moveFront(-1);
-                }
-                else if(e.button.button == SDL_BUTTON_WHEELDOWN) {
-                    Camera.moveFront(1);
-                }
             }
+            else if(e.wheel.y == 1 )
+                Camera.moveFront(-1);
+            else if(e.wheel.y == -1)
+                Camera.moveFront(1);
             else if(e.type == SDL_MOUSEBUTTONUP) {
                 if(e.button.button == SDL_BUTTON_RIGHT){
                     rightPressed = 0;
