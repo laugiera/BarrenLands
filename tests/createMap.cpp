@@ -47,10 +47,20 @@ int main(int argc, char** argv) {
     std::cin >> nbrSub;
     std::cout << "Nombre de subdivisions = " << nbrSub << std::endl;
 
-    int width;
+    float width;
     std::cout << "Indiquez la largeur des carres : " << std::endl;
     std::cin >> width;
     std::cout << "Largeur = " << width << std::endl;
+
+    float elevationMax;
+    std::cout << "Indiquez l'elevation maximale de la map : " << std::endl;
+    std::cin >> elevationMax;
+    std::cout << "Hauteur max = " << elevationMax << std::endl;
+
+    float freq;
+    std::cout << "Indiquez la freq de la map : " << std::endl;
+    std::cin >> freq;
+    std::cout << "Freq = " << freq << std::endl;
 
     /******/
 
@@ -91,7 +101,7 @@ int main(int argc, char** argv) {
     /***On fait le tableau***/
     int i, j;
     //test génération bruit
-    float** terrain = NoiseManager::getElevationMap(nbrSub+1,nbrSub+1,150);
+    float** terrain = NoiseManager::getElevationMap(nbrSub+1, nbrSub+1, elevationMax, freq);
 
     // => Tableau de sommets : un seul exemplaire de chaque sommet
     Vertex3DColor vertices[(nbrSub+1)*(nbrSub+1)];
