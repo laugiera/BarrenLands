@@ -3,9 +3,6 @@
 #include <GL/glew.h>
 #include <iostream>
 #include <glimac/Program.hpp>
-#include <glimac/FilePath.hpp>
-#include <glimac/glm.hpp>
-#include <cstddef>
 #include <vector>
 
 using namespace glimac;
