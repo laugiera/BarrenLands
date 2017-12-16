@@ -19,9 +19,9 @@ namespace glcustom{
 
         template <typename type>
         void fillBuffer(const std::vector<type> &vertices) {
-            glBindBuffer(GL_ARRAY_BUFFER, m_id);
+            bind();
             glBufferData(GL_ARRAY_BUFFER, vertices.size()*sizeof(type), vertices.data(), GL_STATIC_DRAW);
-            glBindBuffer(GL_ARRAY_BUFFER, 0);
+            debind();
         }
 
         void bind();

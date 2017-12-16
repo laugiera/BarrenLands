@@ -1,4 +1,10 @@
 
+/*
+ *
+ * !!!!!!!!!!!!! OUTDATED TEST VAO CLASS NO LONGER SUPPORTED
+ *
+ *
+ */
 #define GLEW_STATIC
 #include <glimac/SDL2WindowManager.hpp>
 #include <GL/glew.h>
@@ -94,10 +100,14 @@ int main(int argc, char** argv) {
             Vertex2DUV(glm::vec2(0.f, 1.f), glm::vec2(0.f,0.f))
     };
 
+    std::vector<int> indices = {1,2,0,2,3,1};
+
     glcustom::VBO test_vbo = glcustom::VBO();
     glcustom::VAO test_vao = glcustom::VAO();
+    glcustom::IBO test_ibo = glcustom::IBO();
     test_vbo.fillBuffer(vertices);
-    test_vao.fillBuffer(vertices, test_vbo);
+    test_ibo.fillBuffer(indices);
+    test_vao.fillBuffer(vertices, &test_vbo, &test_ibo);
 
 
 

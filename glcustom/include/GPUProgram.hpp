@@ -20,6 +20,7 @@ namespace glcustom {
         std::string m_vertex_shader; //just the name
         std::string m_fragment_shader; //just the name
         std::map<std::string, GLint> m_u_variables;
+        //std::map<std::string, const GLuint> m_activated_attributes;
     public:
         GPUProgram(glimac::FilePath app_path, std::string m_vertex_shader, std::string m_fragment_shader);
         void addUniform(std::string name);
