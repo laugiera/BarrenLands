@@ -62,7 +62,7 @@ int main(int argc, char** argv) {
     std::cin >> freq;
     std::cout << "Freq = " << freq << std::endl;
 */
-    int nbrSub = 100;
+    int nbrSub = 350;
     float width = 1;
     float elevationMax = 7;
     float freq = 0.08;
