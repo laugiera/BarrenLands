@@ -14,7 +14,10 @@ class Buffer {
 protected:
     GLuint m_id;
 public:
-    virtual void fillBuffer(const std::vector<glimac::ShapeVertex> &elements) =  0;
+    template <typename type>
+    void fillBuffer(const std::vector<type> &elements){
+        std::cerr << "Buffer::fillBuffer method has not been implemented in child class" ;
+    }
     virtual void bind() = 0;
     virtual void debind() = 0;
 
