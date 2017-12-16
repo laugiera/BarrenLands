@@ -6,7 +6,7 @@
 #include <vector>
 
 
-glcustom::VBO::VBO() : m_id(){
+glcustom::VBO::VBO(){
     glGenBuffers(1, &m_id);
 }
 
@@ -25,10 +25,3 @@ void glcustom::VBO::debind() {
 GLuint glcustom::VBO::getM_id() const {
     return m_id;
 }
-/*
-void glcustom::VBO::fillBuffer(const std::vector<glimac::ShapeVertex> &vertices) {
-    glBindBuffer(GL_ARRAY_BUFFER, m_id);
-    glBufferData(GL_ARRAY_BUFFER, vertices.size()*sizeof(glimac::ShapeVertex), vertices.data(), GL_STATIC_DRAW);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-}
-*/

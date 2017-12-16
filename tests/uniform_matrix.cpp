@@ -10,6 +10,7 @@
 #include <vector>
 #include <GPUProgram.hpp>
 #include <VBO.hpp>
+#include <VAO.hpp>
 
 using namespace glimac;
 
@@ -84,11 +85,8 @@ int main(int argc, char** argv) {
 
     float time = 0;
 
-    glcustom::VBO test_vbo = glcustom::VBO();
 
-    //buffers
-    GLuint vao;
-    glGenVertexArrays(1,&vao);
+
 
     std::vector<Vertex2DUV> vertices = {
             Vertex2DUV(glm::vec2(-1.f, -1.f), glm::vec2(0.f,0.f)),
@@ -96,21 +94,11 @@ int main(int argc, char** argv) {
             Vertex2DUV(glm::vec2(0.f, 1.f), glm::vec2(0.f,0.f))
     };
 
+    glcustom::VBO test_vbo = glcustom::VBO();
+    glcustom::VAO test_vao = glcustom::VAO();
     test_vbo.fillBuffer(vertices);
+    test_vao.fillBuffer(vertices, test_vbo);
 
-    //bind vao
-    glBindVertexArray(vao);
-    const GLuint VERTEX_ATTR_POSITION = 0;
-    glEnableVertexAttribArray(VERTEX_ATTR_POSITION);
-    const GLuint VERTEX_ATTR_TEXTURE = 1;
-    glEnableVertexAttribArray(VERTEX_ATTR_TEXTURE);
-    test_vbo.bind();
-    glVertexAttribPointer(VERTEX_ATTR_POSITION, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex2DUV), (const GLvoid*)offsetof(Vertex2DUV, position));
-    glVertexAttribPointer(VERTEX_ATTR_TEXTURE, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex2DUV), (const GLvoid*)offsetof(Vertex2DUV, texture));
-    //debind vbo then va
-    test_vbo.debind();
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindVertexArray(0);
 
 
     float left = 0;
@@ -138,7 +126,7 @@ int main(int argc, char** argv) {
 
         glClear(GL_COLOR_BUFFER_BIT);
         glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
-        glBindVertexArray(vao); //bind vao
+        test_vao.bind();
         //triangle1
         glm::mat3 modelMatrix = rotate(time)* translate(-0.5+right/10.0-left/10.0, 0.5) * scale(0.75, 0.75)*rotate(time);
         test_prog.sendUniformMat3("uModelMatrice", modelMatrix);
@@ -159,12 +147,10 @@ int main(int argc, char** argv) {
         test_prog.sendUniformMat3("uModelMatrice", rotate(time)* translate(0.5, 0.5) * scale(0.25, 0.25)*rotate(-time));
         test_prog.sendUniformVec3("uColor", glm::vec3(0.5,0.2,0.6));
         glDrawArrays(GL_TRIANGLES, 0, 3);
-
-        glBindVertexArray(0); //debind vao
+        test_vao.debind();
         windowManager.swapBuffers();
         time++;
     }
-    glDeleteVertexArrays(1, &vao);
 
     return EXIT_SUCCESS;
 }

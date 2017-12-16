@@ -9,10 +9,8 @@
 
 namespace glcustom{
 
-    //template <typename type>
     class VBO : public Buffer {
     protected:
-        GLuint m_id;
         //std::vector<type> m_content;
     public:
         VBO();
