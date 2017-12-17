@@ -1,7 +1,7 @@
 //
 // Created by Lou Landry on 02/12/2017.
 //
-
+#define GLEW_STATIC
 #ifndef BARRENLANDSMASTER_PROGRAM_HPP
 #define BARRENLANDSMASTER_PROGRAM_HPP
 
