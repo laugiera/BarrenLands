@@ -1,7 +1,7 @@
 //
 // Created by Lou Landry on 16/12/2017.
 //
-
+#define GLEW_STATIC
 #ifndef BARRENLANDS_IBO_HPP
 #define BARRENLANDS_IBO_HPP
 

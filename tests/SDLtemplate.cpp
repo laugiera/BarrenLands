@@ -8,7 +8,7 @@
 #include <glimac/Program.hpp>
 #include <glimac/Image.hpp>
 #include <glimac/SDL2WindowManager.hpp>
-#include <glcustom/GPUProgram.hpp>
+#include <GPUProgram.hpp>
 
 using namespace glimac;
 

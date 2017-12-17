@@ -1,7 +1,7 @@
 //
 // Created by Lou Landry on 22/11/2017.
 //
-#include <glimac/common.hpp>
+#define GLEW_STATIC
 #include "VBO.hpp"
 #include <vector>
 
@@ -11,7 +11,7 @@ glcustom::VBO::VBO(){
 }
 
 glcustom::VBO::~VBO() {
- glDeleteBuffers(1,&m_id);
+    glDeleteBuffers(1,&m_id);
 }
 
 void glcustom::VBO::bind() {

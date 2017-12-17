@@ -1,11 +1,14 @@
 //
 // Created by Lou Landry on 22/11/2017.
 //
-
+#define GLEW_STATIC
 #ifndef IMACGL_VBOBUFFER_HPP
 #define IMACGL_VBOBUFFER_HPP
-
+#include <fstream>
+#include <memory>
+#include <glimac/common.hpp>
 #include "Buffer.hpp"
+
 
 namespace glcustom{
 

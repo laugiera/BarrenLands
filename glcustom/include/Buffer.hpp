@@ -1,13 +1,14 @@
 //
 // Created by Lou Landry on 22/11/2017.
 //
-
+#define GLEW_STATIC
 #ifndef IMACGL_BUFFER_HPP
 #define IMACGL_BUFFER_HPP
 
+#include <GL/glew.h>
 #include <glimac/common.hpp>
-#include <OpenGL/OpenGL.h>
 #include <iostream>
+#include <vector>
 
 
 class Buffer {

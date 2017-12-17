@@ -19,7 +19,7 @@ if(UNIX)
 endif(UNIX)
 
 if(WIN32)
-    set(ALL_LIBRARIES mingw32 glimac glcustom fastnoise SDL2main SDL2 glew32s opengl32 glu32 freeglut )
+    set(ALL_LIBRARIES mingw32 glcustom glimac fastnoise SDL2main SDL2 glew32s opengl32 freeglut glu32)
 endif(WIN32)
 
 add_subdirectory(glimac)
