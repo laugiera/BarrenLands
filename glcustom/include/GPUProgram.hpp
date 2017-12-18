@@ -29,6 +29,7 @@ namespace glcustom {
         void sendUniformMat3(std::string name, glm::mat3 value);
         void sendUniformVec3(std::string name, glm::vec3 value);
         void use();
+        GLint getUniformId(std::string name);
     };
 
 }

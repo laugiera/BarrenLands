@@ -16,6 +16,7 @@
 #include "../barrenLands/include/NoiseManager.h"
 #include <VAO.hpp>
 #include <GPUProgram.hpp>
+#include <Texture.hpp>
 #include <vector>
 
 /***
@@ -41,13 +42,20 @@ int main(int argc, char** argv) {
     std::cout << "OpenGL Version : " << glGetString(GL_VERSION) << std::endl;
     std::cout << "GLEW Version : " << glewGetString(GLEW_VERSION) << std::endl;
 
+    FilePath applicationPath(argv[0]);
+
+    //textures
+    glcustom::Texture test_texture1 = glcustom::Texture(applicationPath.dirPath() + "textures/" + "HatchPattern-final.png", GL_TEXTURE0);
+    glcustom::Texture test_texture2 = glcustom::Texture(applicationPath.dirPath() + "textures/" + "653306852.jpg", GL_TEXTURE1);
 
     /***** GPU PROGRAM *****/
-    FilePath applicationPath(argv[0]);
+
     glcustom::GPUProgram program(applicationPath, "3D2",  "testBiomeColor");
     program.addUniform("uMVMatrix");
     program.addUniform("uMVPMatrix");
     program.addUniform("uNormalMatrix");
+    program.addUniform("uTexture");
+    program.addUniform("uTexture2");
     program.use();
 
     //variables globales
@@ -158,7 +166,10 @@ int main(int argc, char** argv) {
 
 
         glClear(GL_COLOR_BUFFER_BIT);
-
+        glUniform1i(program.getUniformId("uTexture"), 0);
+        glUniform1i(program.getUniformId("uTexture2"), 1);
+        test_texture1.bind();
+        test_texture2.bind();
         ProjMat = glm::perspective(glm::radians(70.f), 800.f/600.f, 0.1f, 100.f);
         glm::mat4 MVMatrix = glm::translate(glm::mat4(1.0f) , glm::vec3(0.f,-5.f,-10.f));
         glm::mat4 globalMVMatrix = Camera.getViewMatrix()*MVMatrix;
@@ -171,6 +182,8 @@ int main(int argc, char** argv) {
         vao.bind();
         glDrawElements(GL_TRIANGLES, indices_vector.size(), GL_UNSIGNED_INT, 0);
         vao.debind();
+        test_texture1.debind();
+        test_texture2.debind();
 
         // Update the display
         windowManager.swapBuffers();
