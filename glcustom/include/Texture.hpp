@@ -17,13 +17,13 @@ namespace glcustom {
         GLenum m_texture_unit;
         GLuint m_id;
     public:
-        Texture(const std::string filePath, GLenum m_texture_unit);
+        Texture(const std::string filePath);
 
         virtual ~Texture();
 
         void load(const std::string filePath);
 
-        void bind();
+        void bind(GLenum textureUnit = GL_TEXTURE0);
 
         void debind();
         /*

@@ -45,23 +45,19 @@ int main(int argc, char** argv) {
     FilePath applicationPath(argv[0]);
 
     //textures
-    glcustom::Texture test_texture1 = glcustom::Texture(applicationPath.dirPath() + "textures/" + "HatchPattern-final.png", GL_TEXTURE0);
-    glcustom::Texture test_texture2 = glcustom::Texture(applicationPath.dirPath() + "textures/" + "653306852.jpg", GL_TEXTURE1);
+    glcustom::Texture test_texture1 = glcustom::Texture(
+            applicationPath.dirPath() + "textures/" + "HatchPattern-final.png");
+    glcustom::Texture test_texture2 = glcustom::Texture(applicationPath.dirPath() + "textures/" + "653306852.jpg");
 
     /***** GPU PROGRAM *****/
 
     glcustom::GPUProgram program(applicationPath, "3D2",  "testBiomeColor");
-    program.addUniform("uMVMatrix");
-    program.addUniform("uMVPMatrix");
-    program.addUniform("uNormalMatrix");
-    program.addUniform("uTexture");
-    program.addUniform("uTexture2");
+    std::vector<std::string> uniform_variables = {"uMVMatrix", "uMVPMatrix", "uNormalMatrix", "uTexture", "uTexture2"};
+    program.addUniforms(uniform_variables);
     program.use();
 
     //variables globales
-    glm::mat4 ProjMat;
-    glm::mat4 MVMatrix;
-    glm::mat4 NormalMatrix;
+    glm::mat4 ProjMat, MVMatrix, NormalMatrix;
 
     /***BARREN LAND ON GERE LE Nombre de Sub***/
     int nbrSub = 100;
@@ -166,10 +162,10 @@ int main(int argc, char** argv) {
 
 
         glClear(GL_COLOR_BUFFER_BIT);
-        glUniform1i(program.getUniformId("uTexture"), 0);
-        glUniform1i(program.getUniformId("uTexture2"), 1);
+        program.sendUniformTextureUnit("uTexture", 0);
+        program.sendUniformTextureUnit("uTexture2", 1);
         test_texture1.bind();
-        test_texture2.bind();
+        test_texture2.bind(GL_TEXTURE1);
         ProjMat = glm::perspective(glm::radians(70.f), 800.f/600.f, 0.1f, 100.f);
         glm::mat4 MVMatrix = glm::translate(glm::mat4(1.0f) , glm::vec3(0.f,-5.f,-10.f));
         glm::mat4 globalMVMatrix = Camera.getViewMatrix()*MVMatrix;

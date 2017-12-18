@@ -45,3 +45,39 @@ GLint glcustom::GPUProgram::getUniformId(std::string name) {
     return m_u_variables[name];
 }
 
+void glcustom::GPUProgram::addUniforms(std::vector<std::string> names) {
+    for(int i = 0; i<names.size(); i++){
+        addUniform(names[i]);
+    }
+}
+
+void glcustom::GPUProgram::sendUniform1i(std::string name, int value) {
+    GLint id = m_u_variables[name];
+    glUniform1i(id, value);
+}
+
+void glcustom::GPUProgram::sendUniformTextureUnit(std::string name, int value) {
+    GLint id = m_u_variables[name];
+    glUniform1i(id, value);
+}
+/*
+void glcustom::GPUProgram::addTexture(std::string name, const glcustom::Texture texture) {
+    m_textures.insert(std::pair<std::string, Texture>(name, texture));
+}
+
+void glcustom::GPUProgram::addTextures(std::vector<std::string> names, std::vector<glcustom::Texture> textures) {
+    for(int i = 0; i<names.size(); i++){
+        addTexture(names[i], textures[i]);
+    }
+}
+
+
+void glcustom::GPUProgram::sendTextures() {
+    std::map<std::string, Texture>::iterator it = m_textures.begin();
+
+    while(it != m_textures.end()){
+        sendUniform1i(getUniformId(it->first), ) -> arg comment itérer sur GL_TEXTUREXXX ?????
+    }
+}
+*/
+

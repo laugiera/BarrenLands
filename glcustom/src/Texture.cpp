@@ -4,7 +4,7 @@
 
 #include "Texture.hpp"
 
-glcustom::Texture::Texture(const std::string filePath, GLenum m_texture_unit = GL_TEXTURE0) : m_texture_unit(m_texture_unit), m_id() {
+glcustom::Texture::Texture(const std::string filePath) : m_texture_unit(GL_TEXTURE0), m_id() {
     try{
         load(filePath);
     } catch (std::runtime_error &e){
@@ -30,7 +30,8 @@ void glcustom::Texture::load(const std::string filePath) {
 
 }
 
-void glcustom::Texture::bind() {
+void glcustom::Texture::bind(GLenum textureUnit) {
+    m_texture_unit = textureUnit;
     glActiveTexture(m_texture_unit);
     glBindTexture(GL_TEXTURE_2D, m_id);
 }
