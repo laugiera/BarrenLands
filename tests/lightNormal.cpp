@@ -119,11 +119,6 @@ int main(int argc, char** argv) {
 
     for(i=0; i < vertices.size(); ++i){
         vertices[indices[i]].normal = glm::normalize(vertices[indices[i]].normal);
-        if(vertices[indices[i]].normal.x < 0){
-            vertices[indices[i]].normal.x = -1*vertices[indices[i]].normal.x;
-            vertices[indices[i]].normal.y = -1*vertices[indices[i]].normal.y;
-            vertices[indices[i]].normal.z = -1*vertices[indices[i]].normal.z;
-        }
     }
 
     /******/
