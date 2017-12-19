@@ -3,6 +3,7 @@
 //
 
 #include "GPUProgram.hpp"
+#include <vector>
 
 glcustom::GPUProgram::GPUProgram(glimac::FilePath app_path, std::string m_vertex_shader, std::string m_fragment_shader)
         : m_app_path(app_path), m_vertex_shader(m_vertex_shader), m_fragment_shader(m_fragment_shader), m_u_variables() {
@@ -37,6 +38,11 @@ void glcustom::GPUProgram::use() {
 }
 
 void glcustom::GPUProgram::sendUniformVec3(std::string name, glm::vec3 value) {
+    GLint id = m_u_variables[name];
+    glUniform3fv(id, 1, glm::value_ptr(value));
+}
+
+void glcustom::GPUProgram::sendUniformVec4(std::string name, glm::vec4 value) {
     GLint id = m_u_variables[name];
     glUniform3fv(id, 1, glm::value_ptr(value));
 }
