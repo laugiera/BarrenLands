@@ -3,6 +3,7 @@
 //
 
 #include "GPUProgram.hpp"
+#include <vector>
 
 glcustom::GPUProgram::GPUProgram(glimac::FilePath app_path, std::string m_vertex_shader, std::string m_fragment_shader)
         : m_app_path(app_path), m_vertex_shader(m_vertex_shader), m_fragment_shader(m_fragment_shader), m_u_variables() {
