@@ -12,6 +12,7 @@
 #include <glm/detail/type_mat.hpp>
 #include <vector>
 //#include <Texture.hpp>
+#include <vector>
 
 namespace glcustom {
 
@@ -34,6 +35,7 @@ namespace glcustom {
         void sendUniformMat4(std::string name, glm::mat4 value);
         void sendUniformMat3(std::string name, glm::mat3 value);
         void sendUniformVec3(std::string name, glm::vec3 value);
+        void sendUniformVec4(std::string name, glm::vec4 value);
         void sendUniformTextureUnit(std::string name, int value);
         void use();
         GLint getUniformId(std::string name);
