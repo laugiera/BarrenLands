@@ -102,28 +102,9 @@ int main(int argc, char** argv) {
 
     for(i=0; i<nbrSub+1; ++i){
         for(j=0; j<nbrSub+1; j++){
-            vertices.push_back(ShapeVertex(glm::vec3(-width*nbrSub/2.0+j*width, terrain[i][j], -width*nbrSub/2.0+i*width), glm::vec3(0, 0, 1), glm::vec2(i,j)));
+            vertices.push_back(ShapeVertex(glm::vec3(-width*nbrSub/2.0+j*width, terrain[i][j], -width*nbrSub/2.0+i*width), glm::vec3(0, 0, 0), glm::vec2(i,j)));
         }
     }
-
-
-    /******/
-
-    // => Penser à bien changer le nombre de sommet ((nbrSub+1)*(nbrSub+1) au lieu de 6):
-    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(ShapeVertex), &vertices[0], GL_STATIC_DRAW);
-
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-    // => Creation du IBO
-    GLuint ibo;
-    glGenBuffers(1, &ibo);
-
-    // => On bind sur GL_ELEMENT_ARRAY_BUFFER, cible reservée pour les IBOs
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-
-    // => Tableau d'indices: ce sont les indices des sommets à dessiner
-    // On en a 6 afin de former deux triangles
-    // Chaque indice correspond au sommet correspondant dans le VBO
 
     /***BARREN LAND : INDICES DES TRIANGLES***/
 
@@ -153,6 +134,46 @@ int main(int argc, char** argv) {
     }
 
     /******/
+
+
+    /*** BARREN LAND : CALCUL DES NORMALES */
+    glm::vec3 dir1;
+    glm::vec3 dir2;
+    glm::vec3 norm;
+
+    for(i=0; i < nbrSub*nbrSub*2; ++i){
+        dir1 = vertices[indices[3*i]].position - vertices[indices[3*i+1]].position;
+        dir2 = vertices[indices[3*i]].position - vertices[indices[3*i+2]].position;
+        norm = glm::cross(dir1, dir2);
+        vertices[indices[3*i]].normal += norm;
+        vertices[indices[3*i+1]].normal += norm;
+        vertices[indices[3*i+2]].normal += norm;
+    }
+
+    for(i=0; i < vertices.size(); ++i){
+        vertices[indices[i]].normal = glm::normalize(vertices[indices[i]].normal);
+    }
+
+
+
+    /******/
+
+    // => Penser à bien changer le nombre de sommet ((nbrSub+1)*(nbrSub+1) au lieu de 6):
+    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(ShapeVertex), &vertices[0], GL_STATIC_DRAW);
+
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+    // => Creation du IBO
+    GLuint ibo;
+    glGenBuffers(1, &ibo);
+
+    // => On bind sur GL_ELEMENT_ARRAY_BUFFER, cible reservée pour les IBOs
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+
+    // => Tableau d'indices: ce sont les indices des sommets à dessiner
+    // On en a 6 afin de former deux triangles
+    // Chaque indice correspond au sommet correspondant dans le VBO
+
 
 
     // => On remplit l'IBO avec les indices:
