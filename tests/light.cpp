@@ -63,8 +63,8 @@ int main(int argc, char** argv) {
     /***BARREN LAND ON GERE LE Nombre de Sub***/
     int nbrSub = 100;
     float width = 1;
-    float elevationMax = 7;
-    float freq = 0.08;
+    float elevationMax = 5;
+    float freq = 0.05;
 
     /***On fait le tableau***/
     int i, j;
