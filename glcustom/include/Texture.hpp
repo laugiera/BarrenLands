@@ -19,9 +19,13 @@ namespace glcustom {
     public:
         Texture(const std::string filePath);
 
+        Texture(GLsizei width, GLsizei height, const GLvoid * data, GLenum format);
+
         virtual ~Texture();
 
         void load(const std::string filePath);
+
+        void create2D(GLsizei width, GLsizei height, const GLvoid * data, GLenum format);
 
         void bind(GLenum textureUnit = GL_TEXTURE0);
 

@@ -3,9 +3,12 @@
 in vec3 vPosition_vs;
 in vec3 vNormal_vs;
 in vec2 vTexCoords_vs;
+in vec3 vPosition_o;
 
 uniform sampler2D uTexture;
 uniform sampler2D uTexture2;
+uniform sampler2D uMoistureTexture;
+uniform int uSubDiv;
 
 out vec3 fFragColor;
 
@@ -27,36 +30,39 @@ vec3 sable = vec3(255.f/255.f, 255.f/255.f, 153.f/255.f);
 vec3 sableTexture = multiplyTexture(sable, texture(uTexture2, vTexCoords_vs));
 vec3 toundraNeigeTexture = multiplyTexture(toundra_neige, texture(uTexture, vTexCoords_vs));
 
+float height = vPosition_o.y;
+float moisture = (texture(uMoistureTexture, vTexCoords_vs/uSubDiv)).x;
+//float moisture = 0.5;
 
 vec3 assignColor() {
-if (vTexCoords_vs.y < 0.25){
-    if (vTexCoords_vs.x < 2.f/6.f){
+if (height < 0.25){
+    if (moisture < 2.f/6.f){
     return sableTexture;
     } else {
     return herbe;
     }
 
-} else if (vTexCoords_vs.y < 0.5){
-    if (vTexCoords_vs.x < 2.f/6.f){
+} else if (height < 0.5){
+    if (moisture < 2.f/6.f){
         return craquele;
-    } else if (vTexCoords_vs.x < 5.f/6.f){
+    } else if (moisture < 5.f/6.f){
         return savane;
     } else {
         return herbe;
     }
 
-} else if (vTexCoords_vs.y < 0.75){
-    if (vTexCoords_vs.x < 2.f/6.f){
+} else if (height < 0.75){
+    if (moisture < 2.f/6.f){
         return roche;
-    } else if (vTexCoords_vs.x < 4.f/6.f){
+    } else if (moisture < 4.f/6.f){
         return toundra;
     } else {
         return toundra_herbe;
     }
 } else {
-    if (vTexCoords_vs.x < 2.f/6.f){
+    if (moisture < 2.f/6.f){
         return roche;
-    } else if (vTexCoords_vs.x < 3.f/6.f){
+    } else if (moisture < 3.f/6.f){
         return toundra;
     } else {
         return toundraNeigeTexture;
@@ -65,9 +71,17 @@ if (vTexCoords_vs.y < 0.25){
 }
 }
 
-
-
-
 void main() {
     fFragColor = assignColor();
+    //fFragColor = vec3(moisture, moisture, moisture);
+    /*
+    if(length(vTexCoords_vs) < 0.1){
+        fFragColor = vec3(1,1,1);
+    } else if (length(vTexCoords_vs) > 0.9 && length(vTexCoords_vs) < 1.1 ){
+       fFragColor = vec3(1,0,0);
+   }
+    else {
+    fFragColor = vec3(0,0,0);
+    }
+    */
 }
