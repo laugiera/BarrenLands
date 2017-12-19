@@ -10,6 +10,7 @@
 #include <glimac/FilePath.hpp>
 #include <map>
 #include <glm/detail/type_mat.hpp>
+#include <vector>
 //#include <Texture.hpp>
 
 namespace glcustom {
