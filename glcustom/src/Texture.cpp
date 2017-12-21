@@ -12,6 +12,10 @@ glcustom::Texture::Texture(const std::string filePath) : m_texture_unit(GL_TEXTU
     }
 }
 
+glcustom::Texture::Texture(GLsizei width, GLsizei height, const GLvoid *data, GLenum format) : m_texture_unit(GL_TEXTURE0), m_id() {
+    create2D(width, height, data, format);
+}
+
 glcustom::Texture::~Texture() {
 
 }
@@ -26,6 +30,17 @@ void glcustom::Texture::load(const std::string filePath) {
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, img->getWidth(), img->getHeight(), 0, GL_RGBA, GL_FLOAT, img->getPixels());
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    debind();
+
+}
+
+void glcustom::Texture::create2D(GLsizei width, GLsizei height, const GLvoid * data, GLenum format) {
+    glGenTextures(1, &m_id);
+    bind();
+    glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_FLOAT, data);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
     debind();
 
 }
