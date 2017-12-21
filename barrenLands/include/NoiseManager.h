@@ -12,14 +12,11 @@ class NoiseManager {
 public:
     NoiseManager();
 
-    static float** getElevationMap(const int width, const int height, const float elevationMax, const float frequency = 0.01 ){
+    static float** getElevationMap(const int width, const int height,  const float seed ,const float elevationMax = 5, const float frequency = 0.05){
         FastNoise noise;
         noise.SetFrequency(frequency);
         noise.SetNoiseType(FastNoise::PerlinFractal);
-        //noise.SetNoiseType(FastNoise::Cellular);
-       // noise.SetInterp(FastNoise::Hermite);
-        //noise.SetFractalType(FastNoise::RigidMulti);
-        //noise.SetCellularDistanceFunction(FastNoise::Natural);
+        noise.SetSeed(seed);
 
         float** elevationMap = 0;
         float e = 0;
@@ -32,7 +29,7 @@ public:
                 e = (noise.GetNoise(x,y)
                         + 0.5 * noise.GetNoise(2*x,2*y)
                         + 0.25 * noise.GetNoise(4*x,4*y))*elevationMax;
-                elevationMap[x][y] = pow(e,3);
+                elevationMap[x][y] = pow(e,2);
             }
         }
         return elevationMap;

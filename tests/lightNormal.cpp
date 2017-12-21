@@ -67,14 +67,15 @@ int main(int argc, char** argv) {
     /***BARREN LAND ON GERE LE Nombre de Sub***/
     int nbrSub = 100;
     float width = 1;
-    float elevationMax = 7;
-    float freq = 0.08;
+    float elevationMax = 5;
+    float freq = 0.05;
+    float seed = 1200;
 
     /***On fait le tableau***/
     int i, j;
     //test génération bruit
-    float** terrain = NoiseManager::getElevationMap(nbrSub+1, nbrSub+1, elevationMax, freq);
-    float** humidite = NoiseManager::getElevationMap(nbrSub+1, nbrSub+1, elevationMax, freq+0.02);
+    float** terrain = NoiseManager::getElevationMap(nbrSub+1, nbrSub+1,seed);
+    float** humidite = NoiseManager::getElevationMap(nbrSub+1, nbrSub+1,seed, elevationMax, freq+0.02);
 
     std::vector<ShapeVertex> vertices;
 
