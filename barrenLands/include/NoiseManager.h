@@ -9,36 +9,14 @@
 #include <Math.h>
 
 class NoiseManager {
+private:
+    FastNoise noise;
+    float seed;
+
 public:
-    NoiseManager();
+    NoiseManager(float _seed);
+    float** getElevationMap(const int width, const int height,const float frequency = 0.05,const float elevationMax = 5);
 
-    static float** getElevationMap(const int width, const int height,  const float seed ,const float elevationMax = 5, const float frequency = 0.05){
-        FastNoise noise;
-        noise.SetFrequency(frequency);
-        noise.SetNoiseType(FastNoise::PerlinFractal);
-        noise.SetSeed(seed);
-
-        float** elevationMap = 0;
-        float e = 0;
-        elevationMap = new float*[width];
-
-        for (int x = 0; x < width; x++)
-        {
-            elevationMap[x] = new float[height];
-            for (int y = 0; y < height; y++){
-                e = (noise.GetNoise(x,y)
-                        + 0.5 * noise.GetNoise(2*x,2*y)
-                        + 0.25 * noise.GetNoise(4*x,4*y))*elevationMax;
-                elevationMap[x][y] = pow(e,2);
-            }
-        }
-        return elevationMap;
-/*
-        e =    1 * noise(1 * nx, 1 * ny);
-        +  0.5 * noise(2 * nx, 2 * ny);
-        + 0.25 * noise(4 * nx, 4 * ny);
-        elevation[y][x] = Math.pow(e, 10.00);*/
-    };
 };
 
 
