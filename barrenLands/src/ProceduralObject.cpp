@@ -4,10 +4,13 @@
 
 #include "../include/ProceduralObject.hpp"
 
-ProceduralObject::ProceduralObject() {}
+ProceduralObject::ProceduralObject() : renderObject(nullptr) {
+    generateVertices();
+    generateIndices();
+}
 
 ProceduralObject::~ProceduralObject() {
-
+ delete renderObject;
 }
 
 void ProceduralObject::generateVertices() {
@@ -47,12 +50,14 @@ void ProceduralObject::generateNormals() {
 
 }
 
-void ProceduralObject::createRenderObject() {
-    renderObject = new RenderObject();
+void ProceduralObject::createRenderObject(glcustom::GPUProgram *program) {
+    renderObject = new RenderObject(program);
     renderObject->fillData(vertices, indices);
 }
 
-void ProceduralObject::draw() {
-
+void ProceduralObject::draw(const glm::mat4 &viewMatrix) {
+    //transformer selon la position, rotation, scale de l'objet
+    renderObject->transform(glm::vec3(0), 0, glm::vec3(0,1,0), glm::vec3(1));
+    renderObject->render(viewMatrix);
 }
 

@@ -64,8 +64,8 @@ int main(int argc, char** argv) {
     std::cout << "GLEW Version : " << glewGetString(GLEW_VERSION) << std::endl;
 
     FilePath applicationPath(argv[0]);
-    Program program = loadProgram(applicationPath.dirPath() + "shaders/3D2.vs.glsl",
-                                  applicationPath.dirPath() + "shaders/tex3D2.fs.glsl");
+    Program program = loadProgram(applicationPath.dirPath() + "shaders/testShader.vs.glsl",
+                                  applicationPath.dirPath() + "shaders/testShader.fs.glsl");
     program.use();
 
     GLint uMVPMatrix;

@@ -25,10 +25,15 @@ void Application::clearGl() {
     glClearColor(0.7, 0.3, 0.2, 1);
 }
 
-Application::Application() : windowManager(Tools::windowWidth, Tools::windowHeight, "BarrenLight"){}
+Application::Application(const std::string &appPath) : windowManager(Tools::windowWidth, Tools::windowHeight, "BarrenLight"), programManager(nullptr){
+    initOpenGl();
+    programManager = new ProgramManager(appPath);
+}
 
 void Application::appLoop() {
-    initOpenGl();
+    programManager->createPrograms();
+    ProceduralObject testCube;
+    testCube.createRenderObject(programManager->getTestProgram());
     bool done = false;
     while(!done) {
         // Event loop:
@@ -38,13 +43,22 @@ void Application::appLoop() {
                 done = true; // Leave the loop after this iteration
             }
         }
-
-        /*********************************
-         * HERE SHOULD COME THE RENDERING CODE
-         *********************************/
+        glm::mat4 viewMatrixTest = glm::translate(glm::mat4(1.0), glm::vec3(0,0,-5));
+        testCube.draw(viewMatrixTest);
         clearGl();
         windowManager.swapBuffers();
 
     }
 
+}
+
+void Application::printErrors() {
+    GLuint error = glGetError();
+    if(error != GL_NO_ERROR){
+        std::cerr << glewGetErrorString(error) << std::endl;
+    }
+}
+
+Application::~Application() {
+ delete programManager;
 }

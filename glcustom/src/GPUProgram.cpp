@@ -48,7 +48,10 @@ void glcustom::GPUProgram::sendUniformVec4(std::string name, glm::vec4 value) {
 }
 
 GLint glcustom::GPUProgram::getUniformId(std::string name) {
-    return m_u_variables[name];
+    if(m_u_variables.find(name) != m_u_variables.end()){
+        return m_u_variables[name];
+    }
+    return -1; //handle exception
 }
 
 void glcustom::GPUProgram::addUniforms(std::vector<std::string> names) {
@@ -65,6 +68,15 @@ void glcustom::GPUProgram::sendUniform1i(std::string name, int value) {
 void glcustom::GPUProgram::sendUniformTextureUnit(std::string name, int value) {
     GLint id = m_u_variables[name];
     glUniform1i(id, value);
+}
+
+std::vector<std::string> glcustom::GPUProgram::getUniformList() {
+    std::vector<std::string> uniformList;
+    std::map<std::string, GLint>::iterator it;
+    for(it = m_u_variables.begin(); it!=m_u_variables.end(); it++){
+       uniformList.push_back(it->first);
+    }
+    return uniformList;
 }
 /*
 void glcustom::GPUProgram::addTexture(std::string name, const glcustom::Texture texture) {
