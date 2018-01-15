@@ -18,7 +18,6 @@
 #include <glimac/Image.hpp>
 #include <glimac/TrackballCamera.hpp>
 #include "../barrenLands/include/NoiseManager.hpp"
-#include "../barrenLands/src/NoiseManager.cpp"
 #include <VAO.hpp>
 #include <GPUProgram.hpp>
 #include <Texture.hpp>
