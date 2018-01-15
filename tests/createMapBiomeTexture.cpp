@@ -44,7 +44,7 @@ int main(int argc, char** argv) {
     int nbrSub = 100;
     float width = 1;
     float elevationMax = 7;
-    float freq = 0.08;
+    float freq = 0.05;
     NoiseManager noiseManager(1200);
 
     /*****TEXTURES*****/

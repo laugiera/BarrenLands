@@ -19,6 +19,8 @@
 #include <glimac/FreeflyCamera.hpp>
 #include <glimac/TrackballCamera.hpp>
 #include "../barrenLands/include/NoiseManager.hpp"
+#include "../barrenLands/include/CameraManager.hpp"
+#include "../barrenLands/src/CameraManager.cpp"
 #include "../barrenLands/src/NoiseManager.cpp"
 #include <VAO.hpp>
 #include <GPUProgram.hpp>
@@ -53,42 +55,58 @@ int main(int argc, char** argv) {
 
     FilePath applicationPath(argv[0]);
 
-    //textures
+    /***BARREN LAND ON GERE LE Nombre de Sub***/
+    int nbrSub = 100;
+    float width = 1;
+    float elevationMax = 7;
+    float freq = 0.08;
+    float seed = 1200;
+    NoiseManager noise(seed);
+
+    /*****TEXTURES*****/
     glcustom::Texture test_texture1 = glcustom::Texture(
             applicationPath.dirPath() + "textures/" + "HatchPattern-final.png");
     glcustom::Texture test_texture2 = glcustom::Texture(applicationPath.dirPath() + "textures/" + "653306852.jpg");
 
+
+    /***TEXTURE MOISTURE***/
+    float** humidite = noise.getElevationMap(nbrSub+1, nbrSub+1, freq-0.03, elevationMax);
+    std::vector<float> moistureVector;
+    for(int i = 0; i < nbrSub+1; i++){
+        for(int j = 0 ; j < nbrSub+1; j++){
+            moistureVector.push_back(humidite[i][j]);
+            //std::cout << humidite[i][j] << std::endl;
+        }
+    }
+    glcustom::Texture moisture = glcustom::Texture(nbrSub+1, nbrSub+1, moistureVector.data(), GL_RED);
+
     /***** GPU PROGRAM *****/
 
-    glcustom::GPUProgram program(applicationPath, "light",  "directLight2");
+    glcustom::GPUProgram program(applicationPath, "light",  "directLight");
     std::vector<std::string> uniform_variables = {"MV", "MVP","V","M","LightPosition_worldspace",
-                                                  "uTexture", "uTexture2","rotation"};
+                                                  "uTexture", "uTexture2","rotation",
+                                                  "uMoistureTexture", "uSubDiv"};
     program.addUniforms(uniform_variables);
     program.use();
 
     //variables globales
     glm::mat4 ProjMat, MVMatrix, NormalMatrix;
 
-    /***BARREN LAND ON GERE LE Nombre de Sub***/
-    int nbrSub = 1000;
-    float width = 1;
-    float elevationMax = 5;
-    float freq = 0.05;
-    float seed = 1200;
-    NoiseManager noise(seed);
-
     /***On fait le tableau***/
 
     int i, j;
     //test génération bruit
     float** terrain = noise.getElevationMap(nbrSub+1, nbrSub+1);
-    float** humidite = noise.getElevationMap(nbrSub+1, nbrSub+1, freq+0.02);
 
     std::vector<ShapeVertex> vertices;
 
     for(i=0; i<nbrSub+1; ++i){
         for(j=0; j<nbrSub+1; j++){
-            vertices.push_back(ShapeVertex(glm::vec3(-width*nbrSub/2.0+j*width, terrain[i][j], -width*nbrSub/2.0+i*width), glm::vec3(0, 0, 0),glm::vec2(humidite[i][j], terrain[i][j])));
+            vertices.push_back(ShapeVertex(
+                    glm::vec3(-width*nbrSub/2.0+j*width, terrain[i][j], -width*nbrSub/2.0+i*width),
+                    glm::vec3(0, 0, 0),
+                    glm::vec2(i, j)
+            ));
         }
     }
 
@@ -149,9 +167,11 @@ int main(int argc, char** argv) {
     vao.fillBuffer(vertices, &vbo, &ibo);
 
     /***CAMERA***/
-    int camera = 0;
+    CameraManager camera;
+
+    /*int camera = 0;
     TrackballCamera Camera1;
-    FreeflyCamera Camera2;
+    FreeflyCamera Camera2;*/
 
     // Application loop:
     int rightPressed = 0;
@@ -160,75 +180,42 @@ int main(int argc, char** argv) {
         // Event loop:
         SDL_Event e;
         while(windowManager.pollEvent(e)) {
-            if(camera==0) {
                 if (e.type == SDL_KEYDOWN) {
                     if (e.key.keysym.sym == SDLK_LEFT) {
-                        Camera1.rotateLeft(5.0);
+                        camera.moveLeft(1.0);
                     } else if (e.key.keysym.sym == SDLK_RIGHT) {
-                        Camera1.rotateLeft(-5.0);
+                        camera.moveLeft(-1.0);
                     } else if (e.key.keysym.sym == SDLK_UP) {
-                        Camera1.rotateUp(5.0);
+                        camera.moveFront(1.0);
                     } else if (e.key.keysym.sym == SDLK_DOWN) {
-                        Camera1.rotateUp(-5.0);
+                        camera.moveFront(-1.0);
                     }
                     if (e.key.keysym.sym == SDLK_v) {
-                        camera = 1;
+                        if(camera.getChoice() == 0){
+                            camera.setChoice(1);
+                        }
+                        else{
+                            camera.setChoice(0);
+                        }
                     }
                 } else if (e.type == SDL_MOUSEBUTTONDOWN) {
                     if (e.button.button == SDL_BUTTON_RIGHT) {
                         rightPressed = 1;
                     }
                 } else if (e.wheel.y == 1)
-                    Camera1.moveFront(-1);
+                    camera.zoom(-1);
                 else if (e.wheel.y == -1)
-                    Camera1.moveFront(1);
+                    camera.zoom(1);
                 else if (e.type == SDL_MOUSEBUTTONUP) {
                     if (e.button.button == SDL_BUTTON_RIGHT) {
                         rightPressed = 0;
                     }
                 } else if (e.type == SDL_MOUSEMOTION && rightPressed == 1) {
-                    Camera1.rotateLeft(e.motion.xrel);
-                    Camera1.rotateUp(e.motion.yrel);
+                    camera.rotateLeft(e.motion.xrel);
+                    camera.rotateUp(e.motion.yrel);
                 } else if (e.type == SDL_QUIT) {
                     done = true; // Leave the loop after this iteration
                 }
-            }
-            else if(camera==1) {
-                if(e.type == SDL_KEYDOWN){
-                    if(e.key.keysym.sym == SDLK_LEFT){
-                        Camera2.moveLeft(0.5);
-                    }
-                    else if(e.key.keysym.sym == SDLK_RIGHT){
-                        Camera2.moveLeft(-0.5);
-                    }
-                    else if(e.key.keysym.sym == SDLK_UP){
-                        Camera2.moveFront(0.5);
-                    }
-                    else if(e.key.keysym.sym == SDLK_DOWN){
-                        Camera2.moveFront(-0.5);
-                    }
-                    if (e.key.keysym.sym == SDLK_v) {
-                        camera = 0;
-                    }
-                }
-                else if(e.type == SDL_MOUSEBUTTONDOWN) {
-                    if(e.button.button == SDL_BUTTON_RIGHT){
-                        rightPressed = 1;
-                    }
-                }
-                else if(e.type == SDL_MOUSEBUTTONUP) {
-                    if(e.button.button == SDL_BUTTON_RIGHT){
-                        rightPressed = 0;
-                    }
-                }
-                else if (e.type == SDL_MOUSEMOTION && rightPressed == 1){
-                    Camera2.rotateLeft(-1*e.motion.xrel);
-                    Camera2.rotateUp(-1*e.motion.yrel);
-                }
-                else if(e.type == SDL_QUIT) {
-                    done = true; // Leave the loop after this iteration
-                }
-            }
         }
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -236,16 +223,11 @@ int main(int argc, char** argv) {
         program.sendUniformTextureUnit("uTexture2", 1);
         test_texture1.bind();
         test_texture2.bind(GL_TEXTURE1);
+        moisture.bind(GL_TEXTURE2);
 
         ProjMat = glm::perspective(glm::radians(70.f), 800.f/600.f, 0.1f, 100.f);
         glm::mat4 MobelMatrix = glm::translate(glm::mat4(1.0f) , glm::vec3(0.f,-5.f,-10.f));
-        glm::mat4 ViewMatrix;
-        if(camera==0) {
-            ViewMatrix = Camera1.getViewMatrix();
-        }
-        else {
-            ViewMatrix = Camera2.getViewMatrix();
-        }
+        glm::mat4 ViewMatrix = camera.getViewMatrix();;
         glm::mat4 MV = ViewMatrix * MobelMatrix;
         glm::mat4 MVP = ProjMat * MV;
 
@@ -260,6 +242,8 @@ int main(int argc, char** argv) {
         program.sendUniformMat4("MVP", MVP);
         program.sendUniformVec4("LightPosition_worldspace", lightPos);
         program.sendUniformMat4("rotation",rotation);
+        program.sendUniformTextureUnit("uMoistureTexture", 2);
+        program.sendUniform1i("uSubDiv", nbrSub);
 
         //draw
         vao.bind();
@@ -267,6 +251,7 @@ int main(int argc, char** argv) {
         vao.debind();
         test_texture1.debind();
         test_texture2.debind();
+        moisture.debind();
 
         // Update the display
         windowManager.swapBuffers();
