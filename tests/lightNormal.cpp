@@ -72,7 +72,6 @@ int main(int argc, char** argv) {
     for(int i = 0; i < nbrSub+1; i++){
         for(int j = 0 ; j < nbrSub+1; j++){
             moistureVector.push_back(humidite[i][j]);
-            std::cout << humidite[i][j] << std::endl;
         }
     }
     glcustom::Texture moisture = glcustom::Texture(nbrSub+1, nbrSub+1, moistureVector.data(), GL_RED);

@@ -73,17 +73,17 @@ int main(int argc, char** argv) {
     for(int i = 0; i < nbrSub+1; i++){
         for(int j = 0 ; j < nbrSub+1; j++){
             moistureVector.push_back(humidite[i][j]);
-            std::cout << humidite[i][j] << std::endl;
         }
     }
     glcustom::Texture moisture = glcustom::Texture(nbrSub+1, nbrSub+1, moistureVector.data(), GL_RED);
 
     /***** GPU PROGRAM *****/
 
-    glcustom::GPUProgram program(applicationPath, "light",  "directLight");
-    std::vector<std::string> uniform_variables = {"MV", "MVP","V","M","LightPosition_worldspace",
-                                                  "uTexture", "uTexture2","rotation",
+    glcustom::GPUProgram program(applicationPath, "light",  "light");
+    std::vector<std::string> uniform_variables = {"MV", "MVP","Light_cameraspace",
+                                                  "uTexture", "uTexture2",
                                                   "uMoistureTexture", "uSubDiv"};
+
     program.addUniforms(uniform_variables);
     program.use();
 
@@ -251,6 +251,8 @@ int main(int argc, char** argv) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         program.sendUniformTextureUnit("uTexture", 0);
         program.sendUniformTextureUnit("uTexture2", 1);
+        program.sendUniformTextureUnit("uMoistureTexture", 2);
+        program.sendUniform1i("uSubDiv", nbrSub);
         test_texture1.bind();
         test_texture2.bind(GL_TEXTURE1);
         moisture.bind(GL_TEXTURE2);
@@ -267,20 +269,14 @@ int main(int argc, char** argv) {
         glm::mat4 MV = ViewMatrix * MobelMatrix;
         glm::mat4 MVP = ProjMat * MV;
 
-        glm::vec4 lightPos = glm::vec4(20,200,50,1);
-        glm::mat4 rotation = glm::rotate(glm::mat4(1),windowManager.getTime(),glm::vec3(0,1,0));
-        //lightPos = lightPos * rotation;
+        glm::vec4 lightPos = glm::vec4(-0.5,-0.5,-0.5,1);
+        glm::mat4 rotation = glm::rotate(glm::mat4(1),windowManager.getTime(),glm::vec3(1,0,0));
+        lightPos = rotation * ViewMatrix * lightPos;
 
         //send uniform variables
-        program.sendUniformMat4("V", ViewMatrix);
-        program.sendUniformMat4("M", MobelMatrix);
         program.sendUniformMat4("MV", MV);
         program.sendUniformMat4("MVP", MVP);
-        program.sendUniformVec4("LightPosition_worldspace", lightPos);
-        program.sendUniformMat4("rotation",rotation);
-        program.sendUniformTextureUnit("uMoistureTexture", 2);
-        program.sendUniform1i("uSubDiv", nbrSub);
-
+        program.sendUniformVec4("Light_cameraspace", lightPos);
         //draw
         vao.bind();
         glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);

@@ -3,22 +3,20 @@
 // Entrées du shader
 // Interpolated values from the vertex shaders
 in vec2 UV;
-in vec3 Position_worldspace;
+in vec3 VPosition;
 in vec3 Normal_cameraspace;
-in vec3 Normal_worldspace;
 in vec3 EyeDirection_cameraspace;
-in vec3 LightDirection_cameraspace;
 
 // Ouput data
 out vec3 color;
 
 // Values that stay constant for the whole mesh.
 uniform mat4 MV;
-uniform vec4 LightPosition_worldspace;
 uniform sampler2D uTexture;
 uniform sampler2D uTexture2;
 uniform sampler2D uMoistureTexture;
 uniform int uSubDiv;
+uniform vec4 Light_cameraspace;
 
 vec3 multiplyTexture(vec3 color, vec4 textureAlpha) {
     textureAlpha = textureAlpha * 0.3;
@@ -38,7 +36,7 @@ vec3 sable = vec3(255.f/255.f, 255.f/255.f, 153.f/255.f);
 vec3 sableTexture = multiplyTexture(sable, texture(uTexture2, UV));
 vec3 toundraNeigeTexture = multiplyTexture(toundra_neige, texture(uTexture, UV));
 
-float height = Position_worldspace.y;
+float height = VPosition.y;
 float moisture = (texture(uMoistureTexture, UV/uSubDiv)).x;
 
 vec3 assignColor() {
@@ -78,11 +76,10 @@ if (height < 0.25){
 }
 }
 
-
 void main() {
    // Light emission properties
    	// You probably want to put them as uniforms
-   	vec3 LightColor = vec3(1,1,1);
+   	vec3 LightColor = vec3(0,0.2,1);
    	float LightPower = 1.0f;
 
    	// Material properties
@@ -94,7 +91,7 @@ void main() {
    	// Normal of the computed fragment, in camera space
    	vec3 n = normalize( Normal_cameraspace );
    	// Direction of the light (from the fragment to the light)
-   	vec3 l = normalize( LightDirection_cameraspace );
+   	vec3 l = normalize( Light_cameraspace.xyz );
    	// Cosine of the angle between the normal and the light direction,
    	// clamped above 0
    	//  - light is at the vertical of the triangle -> 1
@@ -112,8 +109,6 @@ void main() {
    	//  - Looking elsewhere -> < 1
    	float cosAlpha = clamp( dot( E,R ), 0,1 );
 
-   	vec3 dot_worldspace = vec3(dot(-Normal_worldspace,vec3(LightPosition_worldspace)));
-
   	color =
    		// Ambient : simulates indirect lighting
    		MaterialAmbientColor +
@@ -121,11 +116,6 @@ void main() {
    		MaterialDiffuseColor * LightColor * LightPower * cosTheta +
    		// Specular : reflective highlight, like a mirror
    		MaterialSpecularColor * LightColor * LightPower * pow(cosAlpha,5);
-
-   	//color = vec3(UV/uSubDiv.x,UV/uSubDiv.y,1);
-
-
-
 
 }
 
