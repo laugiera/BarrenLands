@@ -15,7 +15,7 @@ find_package(GLU REQUIRED)
 include_directories(${SDL2_INCLUDE_DIR} ${OPENGL_INCLUDE_DIR} ${GLEW_INCLUDE_DIR} ${GLUT_INCLUDE_DIR} ${GLU_INCLUDE_DIR} glimac/include third-party/include glcustom/include)
 
 if(UNIX)
-    set(ALL_LIBRARIES glimac glcustom ${SDL2_LIBRARY} ${OPENGL_LIBRARIES} ${GLEW_LIBRARY} ${GLUT_LIBRARY} ${GLU_LIBRARY} fastnoise)
+    set(ALL_LIBRARIES glcustom glimac ${SDL2_LIBRARY} ${OPENGL_LIBRARIES} ${GLEW_LIBRARY} ${GLUT_LIBRARY} ${GLU_LIBRARY} fastnoise)
 endif(UNIX)
 
 if(WIN32)

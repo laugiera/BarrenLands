@@ -2,7 +2,7 @@
 // Created by natshez on 09/12/2017.
 //
 
-#include "../include/NoiseManager.h"
+#include "NoiseManager.hpp"
 
 NoiseManager::NoiseManager(float _seed): seed(_seed) {
     noise.SetNoiseType(FastNoise::PerlinFractal);
