@@ -13,7 +13,7 @@ void FreeflyCamera::computeDirectionVectors()
 
 FreeflyCamera::FreeflyCamera()
 {
-	m_Position = glm::vec3(0,0,-5);
+	m_Position = glm::vec3(0,0,0);
 	m_fPhi = 0;
     m_fTheta = 0;
     computeDirectionVectors();
@@ -39,6 +39,10 @@ void FreeflyCamera::rotateUp(float degrees)
 {
     m_fTheta += glm::radians(degrees);
     computeDirectionVectors();
+}
+
+glm::vec3 FreeflyCamera::getPosition() const{
+    return m_Position;
 }
 
 glm::mat4 FreeflyCamera::getViewMatrix() const
