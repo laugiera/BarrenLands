@@ -18,7 +18,7 @@
 #include <glimac/Image.hpp>
 #include <glimac/FreeflyCamera.hpp>
 #include <glimac/TrackballCamera.hpp>
-#include "../barrenLands/include/NoiseManager.h"
+#include "../barrenLands/include/NoiseManager.hpp"
 #include "../barrenLands/src/NoiseManager.cpp"
 #include <VAO.hpp>
 #include <GPUProgram.hpp>
@@ -70,7 +70,7 @@ int main(int argc, char** argv) {
     glm::mat4 ProjMat, MVMatrix, NormalMatrix;
 
     /***BARREN LAND ON GERE LE Nombre de Sub***/
-    int nbrSub = 1000;
+    int nbrSub = 100;
     float width = 1;
     float elevationMax = 5;
     float freq = 0.05;
