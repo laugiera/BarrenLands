@@ -109,9 +109,9 @@ int main(int argc, char** argv) {
     glm::vec3 norm;
 
     for(i=0; i < nbrSub*nbrSub*2; ++i){
-        dir1 = vertices[indices[3*i]].position - vertices[indices[3*i+1]].position;
-        dir2 = vertices[indices[3*i]].position - vertices[indices[3*i+2]].position;
-        norm = glm::cross(dir1, dir2);
+        dir1 = vertices[indices[3*i+1]].position - vertices[indices[3*i]].position;
+        dir2 = vertices[indices[3*i+2]].position - vertices[indices[3*i]].position;
+        norm = glm::normalize(glm::cross(dir1, dir2));
         vertices[indices[3*i]].normal += norm;
         vertices[indices[3*i+1]].normal += norm;
         vertices[indices[3*i+2]].normal += norm;
