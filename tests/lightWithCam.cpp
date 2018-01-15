@@ -70,7 +70,7 @@ int main(int argc, char** argv) {
     glm::mat4 ProjMat, MVMatrix, NormalMatrix;
 
     /***BARREN LAND ON GERE LE Nombre de Sub***/
-    int nbrSub = 100;
+    int nbrSub = 1000;
     float width = 1;
     float elevationMax = 5;
     float freq = 0.05;
