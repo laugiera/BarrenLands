@@ -13,7 +13,7 @@
 #include <glimac/Image.hpp>
 #include <glimac/SDL2WindowManager.hpp>
 #include "include/BL_transform.hpp"
-#include "NoiseManager.h"
+#include "NoiseManager.hpp"
 
 using namespace glimac;
 
