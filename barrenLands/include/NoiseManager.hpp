@@ -6,7 +6,7 @@
 #define BARRENLANDSMASTER_NOISEMANAGER_H
 
 #include "../../fastnoise/FastNoise.h"
-#include <Math.h>
+#include <math.h>
 
 class NoiseManager {
 private:

@@ -39,7 +39,8 @@ int main(int argc, char** argv) {
 
     //test génération bruit
     int width = 20, height = 30;
-    float** terrain = NoiseManager::getElevationMap(width,height,100,1.10);
+    NoiseManager noiseManager(1200);
+    float** terrain = noiseManager.getElevationMap(width,height,100,1.10);
 
     for (int i = 0; i < width; ++i) {
         for (int j = 0; j < height; ++j) {
