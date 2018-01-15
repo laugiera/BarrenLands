@@ -14,7 +14,7 @@
 #include <glimac/Image.hpp>
 #include <glimac/TrackballCamera.hpp>
 #include <glimac/FreeflyCamera.hpp>
-#include "../barrenLands/include/NoiseManager.hpp"
+#include "../barrenLands/include/NoiseManager.h"
 
 /***
  * La map fait un carré de 100 par 100
