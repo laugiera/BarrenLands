@@ -1,4 +1,8 @@
 //
+// Created by Etienne on 19/12/2017.
+//
+
+//
 // Created by Lou on 16/12/2017.
 //
 
@@ -14,11 +18,11 @@
 #include <glimac/Image.hpp>
 #include <glimac/TrackballCamera.hpp>
 #include "../barrenLands/include/NoiseManager.hpp"
+#include "../barrenLands/src/NoiseManager.cpp"
 #include <VAO.hpp>
 #include <GPUProgram.hpp>
 #include <Texture.hpp>
 #include <vector>
-
 
 /***
  * La map fait un carré de 100 par 100
@@ -31,9 +35,7 @@ using namespace glimac;
 
 
 int main(int argc, char** argv) {
-
     /***** SDL THINGY *****/
-
     // Initialize SDL and open a window
     SDLWindowManager windowManager(800, 600, "GLImac");
     // Initialize glew for OpenGL3+ support
@@ -45,7 +47,6 @@ int main(int argc, char** argv) {
     std::cout << "OpenGL Version : " << glGetString(GL_VERSION) << std::endl;
     std::cout << "GLEW Version : " << glewGetString(GLEW_VERSION) << std::endl;
 
-
     FilePath applicationPath(argv[0]);
 
     //textures
@@ -55,8 +56,9 @@ int main(int argc, char** argv) {
 
     /***** GPU PROGRAM *****/
 
-    glcustom::GPUProgram program(applicationPath, "3D2",  "testBiomeColor");
-    std::vector<std::string> uniform_variables = {"uMVMatrix", "uMVPMatrix", "uNormalMatrix", "uTexture", "uTexture2"};
+    glcustom::GPUProgram program(applicationPath, "light",  "directLight");
+    std::vector<std::string> uniform_variables = {"MV", "MVP","V","M","LightPosition_worldspace",
+                                                  "uTexture", "uTexture2","rotation"};
     program.addUniforms(uniform_variables);
     program.use();
 
@@ -66,61 +68,76 @@ int main(int argc, char** argv) {
     /***BARREN LAND ON GERE LE Nombre de Sub***/
     int nbrSub = 100;
     float width = 1;
-    float elevationMax = 7;
-    float freq = 0.08;
+    float elevationMax = 5;
+    float freq = 0.05;
     float seed = 1200;
+    NoiseManager noise(seed);
 
     /***On fait le tableau***/
+
     int i, j;
     //test génération bruit
-    NoiseManager noiseManager = NoiseManager::NoiseManager(seed);
-    float** terrain = noiseManager.getElevationMap(nbrSub+1, nbrSub+1, elevationMax, freq);
-    //génération bruit humidité
-    float** humidite = noiseManager.getElevationMap(nbrSub+1, nbrSub+1, elevationMax, freq+0.02);
-    // => Tableau de sommets : un seul exemplaire de chaque sommet
-    glimac::ShapeVertex vertices[(nbrSub+1)*(nbrSub+1)];
-    /*Dans la boucle qu'il suit :
-     * les -10 correspondent au premier point, il sera en (-10,-10)
-     * les 20 correspondent à l'indice max qui sera : (-10+20,-10+20) = (10,10)
-     * Les deux peuvent être modifiés pour avoir des résultats différents !
-     */
+    float** terrain = noise.getElevationMap(nbrSub+1, nbrSub+1);
+    float** humidite = noise.getElevationMap(nbrSub+1, nbrSub+1, freq+0.02);
+
+    std::vector<ShapeVertex> vertices;
+
     for(i=0; i<nbrSub+1; ++i){
         for(j=0; j<nbrSub+1; j++){
-
-            vertices[i*(nbrSub+1)+j] = glimac::ShapeVertex(glm::vec3(-width*nbrSub/2.0+j*width, terrain[i][j], -width*nbrSub/2.0+i*width), glm::vec3(0, 0, 1), glm::vec2(humidite[i][j], terrain[i][j]));
-
+            vertices.push_back(ShapeVertex(glm::vec3(-width*nbrSub/2.0+j*width, terrain[i][j], -width*nbrSub/2.0+i*width), glm::vec3(0, 0, 0),glm::vec2(humidite[i][j], terrain[i][j])));
         }
     }
-    std::vector<glimac::ShapeVertex> vertices_vector(vertices, vertices + (nbrSub+1)*(nbrSub+1));
-    // => Tableau d'indices: ce sont les indices des sommets à dessiner
-    // On en a 6 afin de former deux triangles
-    // Chaque indice correspond au sommet correspondant dans le VBO
-    uint32_t indices[nbrSub*nbrSub*6]; //C'est mon nombre de points
+
+    /***BARREN LAND : INDICES DES TRIANGLES***/
+
+
+    std::vector<uint32_t> indices; //C'est mon nombre de points
+
     for(i=0; i<nbrSub; ++i){
         for(j=0; j<nbrSub; ++j){
-            indices[6*i*nbrSub + j*6 ] = i*nbrSub + j + i;
-            indices[6*i*nbrSub + j*6 + 1] = i*nbrSub + j + 1 + i;
-            indices[6*i*nbrSub + j*6 + 2] = (i+1)*nbrSub + j + 1 + i;
-            indices[6*i*nbrSub + j*6 + 3] = i*nbrSub + j + 1 + i;
-            indices[6*i*nbrSub + j*6 + 4] = (i+1)*nbrSub + j + 1 + i;
-            indices[6*i*nbrSub + j*6 + 5] = (i+1)*nbrSub + j + 2 + i;
+            indices.push_back(i*nbrSub + j + i);
+            indices.push_back(i*nbrSub + j + 1 + i);
+            indices.push_back((i+1)*nbrSub + j + 1 + i);
+            indices.push_back(i*nbrSub + j + 1 + i);
+            indices.push_back((i+1)*nbrSub + j + 1 + i);
+            indices.push_back((i+1)*nbrSub + j + 2 + i);
         }
     }
-    std::vector<uint32_t> indices_vector(indices, indices + nbrSub*nbrSub*6);
+
+    /******/
+
+
+    /*** BARREN LAND : CALCUL DES NORMALES */
+    glm::vec3 dir1;
+    glm::vec3 dir2;
+    glm::vec3 norm;
+
+    for(i=0; i < nbrSub*nbrSub*2; ++i){
+        dir1 = vertices[indices[3*i+1]].position - vertices[indices[3*i]].position;
+        dir2 = vertices[indices[3*i+2]].position - vertices[indices[3*i]].position;
+        norm = glm::normalize(glm::cross(dir1, dir2));
+        vertices[indices[3*i]].normal += norm;
+        vertices[indices[3*i+1]].normal += norm;
+        vertices[indices[3*i+2]].normal += norm;
+    }
+
+    for(i=0; i < vertices.size(); ++i){
+        vertices[indices[i]].normal = glm::normalize(vertices[indices[i]].normal);
+    }
+
+    /******/
 
     /***** BUFFERS *****/
     glcustom::VBO vbo = glcustom::VBO();
     glcustom::IBO ibo = glcustom::IBO();
     glcustom::VAO vao = glcustom::VAO();
 
-    vbo.fillBuffer(vertices_vector);
-    ibo.fillBuffer(indices_vector);
-    vao.fillBuffer(vertices_vector, &vbo, &ibo);
+    vbo.fillBuffer(vertices);
+    ibo.fillBuffer(indices);
+    vao.fillBuffer(vertices, &vbo, &ibo);
 
     /***CAMERA***/
     TrackballCamera Camera;
-
-    glEnable(GL_DEPTH_TEST);
 
     // Application loop:
     int rightPressed = 0;
@@ -168,22 +185,33 @@ int main(int argc, char** argv) {
         }
 
 
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT);
         program.sendUniformTextureUnit("uTexture", 0);
         program.sendUniformTextureUnit("uTexture2", 1);
         test_texture1.bind();
         test_texture2.bind(GL_TEXTURE1);
+
         ProjMat = glm::perspective(glm::radians(70.f), 800.f/600.f, 0.1f, 100.f);
-        glm::mat4 MVMatrix = glm::translate(glm::mat4(1.0f) , glm::vec3(0.f,-5.f,-10.f));
-        glm::mat4 globalMVMatrix = Camera.getViewMatrix()*MVMatrix;
+        glm::mat4 MobelMatrix = glm::translate(glm::mat4(1.0f) , glm::vec3(0.f,-5.f,-10.f));
+        glm::mat4 ViewMatrix = Camera.getViewMatrix();
+        glm::mat4 MV = ViewMatrix * MobelMatrix;
+        glm::mat4 MVP = ProjMat * MV;
+
+        glm::vec4 lightPos = glm::vec4(20,200,50,1);
+        glm::mat4 rotation = glm::rotate(glm::mat4(1),windowManager.getTime(),glm::vec3(0,1,0));
+        //lightPos = lightPos * rotation;
+
         //send uniform variables
-        program.sendUniformMat4("uMVMatrix", globalMVMatrix);
-        program.sendUniformMat4("uMVPMatrix", ProjMat * globalMVMatrix);
-        program.sendUniformMat4("uNormalMatrix", glm::transpose(glm::inverse(globalMVMatrix)));
+        program.sendUniformMat4("V", ViewMatrix);
+        program.sendUniformMat4("M", MobelMatrix);
+        program.sendUniformMat4("MV", MV);
+        program.sendUniformMat4("MVP", MVP);
+        program.sendUniformVec4("LightPosition_worldspace", lightPos);
+        program.sendUniformMat4("rotation",rotation);
 
         //draw
         vao.bind();
-        glDrawElements(GL_TRIANGLES, indices_vector.size(), GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
         vao.debind();
         test_texture1.debind();
         test_texture2.debind();

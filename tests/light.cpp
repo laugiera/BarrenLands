@@ -19,7 +19,6 @@
 #include <Texture.hpp>
 #include <vector>
 
-
 /***
  * La map fait un carré de 100 par 100
  *
@@ -31,9 +30,7 @@ using namespace glimac;
 
 
 int main(int argc, char** argv) {
-
     /***** SDL THINGY *****/
-
     // Initialize SDL and open a window
     SDLWindowManager windowManager(800, 600, "GLImac");
     // Initialize glew for OpenGL3+ support
@@ -45,7 +42,6 @@ int main(int argc, char** argv) {
     std::cout << "OpenGL Version : " << glGetString(GL_VERSION) << std::endl;
     std::cout << "GLEW Version : " << glewGetString(GLEW_VERSION) << std::endl;
 
-
     FilePath applicationPath(argv[0]);
 
     //textures
@@ -55,8 +51,9 @@ int main(int argc, char** argv) {
 
     /***** GPU PROGRAM *****/
 
-    glcustom::GPUProgram program(applicationPath, "3D2",  "testBiomeColor");
-    std::vector<std::string> uniform_variables = {"uMVMatrix", "uMVPMatrix", "uNormalMatrix", "uTexture", "uTexture2"};
+    glcustom::GPUProgram program(applicationPath, "light",  "directLight");
+    std::vector<std::string> uniform_variables = {"MV", "MVP","V","M","LightPosition_worldspace",
+                                                  "uTexture", "uTexture2","rotation"};
     program.addUniforms(uniform_variables);
     program.use();
 
@@ -66,17 +63,16 @@ int main(int argc, char** argv) {
     /***BARREN LAND ON GERE LE Nombre de Sub***/
     int nbrSub = 100;
     float width = 1;
-    float elevationMax = 7;
-    float freq = 0.08;
+    float elevationMax = 5;
+    float freq = 0.05;
     float seed = 1200;
 
     /***On fait le tableau***/
     int i, j;
     //test génération bruit
-    NoiseManager noiseManager = NoiseManager::NoiseManager(seed);
-    float** terrain = noiseManager.getElevationMap(nbrSub+1, nbrSub+1, elevationMax, freq);
+    float** terrain = NoiseManager::getElevationMap(nbrSub+1, nbrSub+1, seed, elevationMax, freq);
     //génération bruit humidité
-    float** humidite = noiseManager.getElevationMap(nbrSub+1, nbrSub+1, elevationMax, freq+0.02);
+    float** humidite = NoiseManager::getElevationMap(nbrSub+1, nbrSub+1, seed, elevationMax, freq+0.02);
     // => Tableau de sommets : un seul exemplaire de chaque sommet
     glimac::ShapeVertex vertices[(nbrSub+1)*(nbrSub+1)];
     /*Dans la boucle qu'il suit :
@@ -119,8 +115,6 @@ int main(int argc, char** argv) {
 
     /***CAMERA***/
     TrackballCamera Camera;
-
-    glEnable(GL_DEPTH_TEST);
 
     // Application loop:
     int rightPressed = 0;
@@ -168,18 +162,29 @@ int main(int argc, char** argv) {
         }
 
 
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT);
         program.sendUniformTextureUnit("uTexture", 0);
         program.sendUniformTextureUnit("uTexture2", 1);
         test_texture1.bind();
         test_texture2.bind(GL_TEXTURE1);
+
         ProjMat = glm::perspective(glm::radians(70.f), 800.f/600.f, 0.1f, 100.f);
-        glm::mat4 MVMatrix = glm::translate(glm::mat4(1.0f) , glm::vec3(0.f,-5.f,-10.f));
-        glm::mat4 globalMVMatrix = Camera.getViewMatrix()*MVMatrix;
+        glm::mat4 MobelMatrix = glm::translate(glm::mat4(1.0f) , glm::vec3(0.f,-5.f,-10.f));
+        glm::mat4 ViewMatrix = Camera.getViewMatrix();
+        glm::mat4 MV = ViewMatrix * MobelMatrix;
+        glm::mat4 MVP = ProjMat * MV;
+
+        glm::vec4 lightPos = glm::vec4(20,200,50,1);
+        glm::mat4 rotation = glm::rotate(glm::mat4(1),windowManager.getTime(),glm::vec3(0,1,0));
+        //lightPos = lightPos * rotation;
+
         //send uniform variables
-        program.sendUniformMat4("uMVMatrix", globalMVMatrix);
-        program.sendUniformMat4("uMVPMatrix", ProjMat * globalMVMatrix);
-        program.sendUniformMat4("uNormalMatrix", glm::transpose(glm::inverse(globalMVMatrix)));
+        program.sendUniformMat4("V", ViewMatrix);
+        program.sendUniformMat4("M", MobelMatrix);
+        program.sendUniformMat4("MV", MV);
+        program.sendUniformMat4("MVP", MVP);
+        program.sendUniformVec4("LightPosition_worldspace", lightPos);
+        program.sendUniformMat4("rotation",rotation);
 
         //draw
         vao.bind();

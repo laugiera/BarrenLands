@@ -19,7 +19,6 @@
 #include <Texture.hpp>
 #include <vector>
 
-
 /***
  * La map fait un carré de 100 par 100
  *
@@ -31,71 +30,59 @@ using namespace glimac;
 
 
 int main(int argc, char** argv) {
-
     /***** SDL THINGY *****/
-
-    // Initialize SDL and open a window
     SDLWindowManager windowManager(800, 600, "GLImac");
-    // Initialize glew for OpenGL3+ support
     GLenum glewInitError = glewInit();
     if(GLEW_OK != glewInitError) {
         std::cerr << glewGetErrorString(glewInitError) << std::endl;
         return EXIT_FAILURE;
     }
-    std::cout << "OpenGL Version : " << glGetString(GL_VERSION) << std::endl;
-    std::cout << "GLEW Version : " << glewGetString(GLEW_VERSION) << std::endl;
-
-
     FilePath applicationPath(argv[0]);
 
-    //textures
+    /*****BARREN LAND ON GERE LE Nombre de Sub*****/
+    int nbrSub = 100;
+    float width = 1;
+    float elevationMax = 7;
+    float freq = 0.08;
+
+    /*****TEXTURES*****/
     glcustom::Texture test_texture1 = glcustom::Texture(
             applicationPath.dirPath() + "textures/" + "HatchPattern-final.png");
     glcustom::Texture test_texture2 = glcustom::Texture(applicationPath.dirPath() + "textures/" + "653306852.jpg");
 
-    /***** GPU PROGRAM *****/
+    /***TEXTURE MOISTURE***/
+    float** humidite = NoiseManager::getElevationMap(nbrSub+1, nbrSub+1, elevationMax, freq-0.03);
+    std::vector<float> moistureVector;
+    for(int i = 0; i < nbrSub+1; i++){
+        for(int j = 0 ; j < nbrSub+1; j++){
+            moistureVector.push_back(humidite[i][j]);
+            std::cout << humidite[i][j] << std::endl;
+        }
+    }
+    glcustom::Texture moisture = glcustom::Texture(nbrSub+1, nbrSub+1, moistureVector.data(), GL_RED);
 
-    glcustom::GPUProgram program(applicationPath, "3D2",  "testBiomeColor");
-    std::vector<std::string> uniform_variables = {"uMVMatrix", "uMVPMatrix", "uNormalMatrix", "uTexture", "uTexture2"};
+    /***** GPU PROGRAM *****/
+    glcustom::GPUProgram program(applicationPath, "testBiomeTexture",  "testBiomeTexture");
+    std::vector<std::string> uniform_variables = {"uMVMatrix", "uMVPMatrix", "uNormalMatrix", "uTexture", "uTexture2", "uMoistureTexture", "uSubDiv"};
     program.addUniforms(uniform_variables);
     program.use();
 
     //variables globales
     glm::mat4 ProjMat, MVMatrix, NormalMatrix;
 
-    /***BARREN LAND ON GERE LE Nombre de Sub***/
-    int nbrSub = 100;
-    float width = 1;
-    float elevationMax = 7;
-    float freq = 0.08;
-    float seed = 1200;
+
 
     /***On fait le tableau***/
     int i, j;
-    //test génération bruit
-    NoiseManager noiseManager = NoiseManager::NoiseManager(seed);
-    float** terrain = noiseManager.getElevationMap(nbrSub+1, nbrSub+1, elevationMax, freq);
-    //génération bruit humidité
-    float** humidite = noiseManager.getElevationMap(nbrSub+1, nbrSub+1, elevationMax, freq+0.02);
-    // => Tableau de sommets : un seul exemplaire de chaque sommet
+    float** terrain = NoiseManager::getElevationMap(nbrSub+1, nbrSub+1, elevationMax, freq);
     glimac::ShapeVertex vertices[(nbrSub+1)*(nbrSub+1)];
-    /*Dans la boucle qu'il suit :
-     * les -10 correspondent au premier point, il sera en (-10,-10)
-     * les 20 correspondent à l'indice max qui sera : (-10+20,-10+20) = (10,10)
-     * Les deux peuvent être modifiés pour avoir des résultats différents !
-     */
     for(i=0; i<nbrSub+1; ++i){
         for(j=0; j<nbrSub+1; j++){
-
-            vertices[i*(nbrSub+1)+j] = glimac::ShapeVertex(glm::vec3(-width*nbrSub/2.0+j*width, terrain[i][j], -width*nbrSub/2.0+i*width), glm::vec3(0, 0, 1), glm::vec2(humidite[i][j], terrain[i][j]));
-
+            vertices[i*(nbrSub+1)+j] = glimac::ShapeVertex(glm::vec3(-width*nbrSub/2.0+j*width, terrain[i][j], -width*nbrSub/2.0+i*width), glm::vec3(0, 0, 1), glm::vec2(i, j));
         }
     }
     std::vector<glimac::ShapeVertex> vertices_vector(vertices, vertices + (nbrSub+1)*(nbrSub+1));
-    // => Tableau d'indices: ce sont les indices des sommets à dessiner
-    // On en a 6 afin de former deux triangles
-    // Chaque indice correspond au sommet correspondant dans le VBO
-    uint32_t indices[nbrSub*nbrSub*6]; //C'est mon nombre de points
+    uint32_t indices[nbrSub*nbrSub*6];
     for(i=0; i<nbrSub; ++i){
         for(j=0; j<nbrSub; ++j){
             indices[6*i*nbrSub + j*6 ] = i*nbrSub + j + i;
@@ -108,11 +95,11 @@ int main(int argc, char** argv) {
     }
     std::vector<uint32_t> indices_vector(indices, indices + nbrSub*nbrSub*6);
 
+
     /***** BUFFERS *****/
     glcustom::VBO vbo = glcustom::VBO();
     glcustom::IBO ibo = glcustom::IBO();
     glcustom::VAO vao = glcustom::VAO();
-
     vbo.fillBuffer(vertices_vector);
     ibo.fillBuffer(indices_vector);
     vao.fillBuffer(vertices_vector, &vbo, &ibo);
@@ -120,9 +107,9 @@ int main(int argc, char** argv) {
     /***CAMERA***/
     TrackballCamera Camera;
 
-    glEnable(GL_DEPTH_TEST);
 
-    // Application loop:
+
+    /*****INPUT*****/
     int rightPressed = 0;
     bool done = false;
     while(!done) {
@@ -168,15 +155,19 @@ int main(int argc, char** argv) {
         }
 
 
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT);
+        glClearColor(99.f/255.f,25.f/255.f,9.f/255.f,1);
         program.sendUniformTextureUnit("uTexture", 0);
         program.sendUniformTextureUnit("uTexture2", 1);
+        program.sendUniformTextureUnit("uMoistureTexture", 2);
         test_texture1.bind();
         test_texture2.bind(GL_TEXTURE1);
+        moisture.bind(GL_TEXTURE2);
         ProjMat = glm::perspective(glm::radians(70.f), 800.f/600.f, 0.1f, 100.f);
         glm::mat4 MVMatrix = glm::translate(glm::mat4(1.0f) , glm::vec3(0.f,-5.f,-10.f));
         glm::mat4 globalMVMatrix = Camera.getViewMatrix()*MVMatrix;
         //send uniform variables
+        program.sendUniform1i("uSubDiv", nbrSub);
         program.sendUniformMat4("uMVMatrix", globalMVMatrix);
         program.sendUniformMat4("uMVPMatrix", ProjMat * globalMVMatrix);
         program.sendUniformMat4("uNormalMatrix", glm::transpose(glm::inverse(globalMVMatrix)));
@@ -187,6 +178,7 @@ int main(int argc, char** argv) {
         vao.debind();
         test_texture1.debind();
         test_texture2.debind();
+        moisture.debind();
 
         // Update the display
         windowManager.swapBuffers();

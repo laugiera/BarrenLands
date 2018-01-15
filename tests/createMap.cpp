@@ -14,7 +14,7 @@
 #include <glimac/Image.hpp>
 #include <glimac/TrackballCamera.hpp>
 #include <glimac/FreeflyCamera.hpp>
-#include "../barrenLands/include/NoiseManager.h"
+#include "../barrenLands/include/NoiseManager.hpp"
 
 /***
  * La map fait un carré de 100 par 100
@@ -24,20 +24,6 @@
 
 
 using namespace glimac;
-
-struct Vertex3DColor{
-    glm::vec3 position;
-    glm::vec3 normal;
-    glm::vec2 texture;
-
-    Vertex3DColor(){}
-    Vertex3DColor(glm::vec3 p,glm::vec3 n,glm::vec2 t)
-    {
-        position = p;
-        normal = n;
-        texture = t;
-    }
-};
 
 int main(int argc, char** argv) {
     /***BARREN LAND ON GERE LE Nombre de Sub***/
@@ -104,7 +90,8 @@ int main(int argc, char** argv) {
     float** terrain = NoiseManager::getElevationMap(nbrSub+1, nbrSub+1, elevationMax, freq);
 
     // => Tableau de sommets : un seul exemplaire de chaque sommet
-    Vertex3DColor vertices[(nbrSub+1)*(nbrSub+1)];
+    //ShapeVertex vertices[(nbrSub+1)*(nbrSub+1)];
+    std::vector<ShapeVertex> vertices;
 
     /*Dans la boucle qu'il suit :
      * les -10 correspondent au premier point, il sera en (-10,-10)
@@ -115,16 +102,64 @@ int main(int argc, char** argv) {
 
     for(i=0; i<nbrSub+1; ++i){
         for(j=0; j<nbrSub+1; j++){
-            vertices[i*(nbrSub+1)+j] = Vertex3DColor(glm::vec3(-width*nbrSub/2.0+j*width, terrain[i][j], -width*nbrSub/2.0+i*width), glm::vec3(0, 0, 1), glm::vec2(i,j));
-
+            vertices.push_back(ShapeVertex(glm::vec3(-width*nbrSub/2.0+j*width, terrain[i][j], -width*nbrSub/2.0+i*width), glm::vec3(0, 0, 0), glm::vec2(i,j)));
         }
     }
+
+    /***BARREN LAND : INDICES DES TRIANGLES***/
+
+    //uint32_t indices[nbrSub*nbrSub*6]
+
+    std::vector<uint32_t> indices; //C'est mon nombre de points
+    /*for(i=0; i<nbrSub; ++i){
+        for(j=0; j<nbrSub; ++j){
+            indices[6*i*nbrSub + j*6 ] = i*nbrSub + j + i;
+            indices[6*i*nbrSub + j*6 + 1] = i*nbrSub + j + 1 + i;
+            indices[6*i*nbrSub + j*6 + 2] = (i+1)*nbrSub + j + 1 + i;
+            indices[6*i*nbrSub + j*6 + 3] = i*nbrSub + j + 1 + i;
+            indices[6*i*nbrSub + j*6 + 4] = (i+1)*nbrSub + j + 1 + i;
+            indices[6*i*nbrSub + j*6 + 5] = (i+1)*nbrSub + j + 2 + i;
+        }
+    }*/
+
+    for(i=0; i<nbrSub; ++i){
+        for(j=0; j<nbrSub; ++j){
+            indices.push_back(i*nbrSub + j + i);
+            indices.push_back(i*nbrSub + j + 1 + i);
+            indices.push_back((i+1)*nbrSub + j + 1 + i);
+            indices.push_back(i*nbrSub + j + 1 + i);
+            indices.push_back((i+1)*nbrSub + j + 1 + i);
+            indices.push_back((i+1)*nbrSub + j + 2 + i);
+        }
+    }
+
+    /******/
+
+
+    /*** BARREN LAND : CALCUL DES NORMALES */
+    glm::vec3 dir1;
+    glm::vec3 dir2;
+    glm::vec3 norm;
+
+    for(i=0; i < nbrSub*nbrSub*2; ++i){
+        dir1 = vertices[indices[3*i]].position - vertices[indices[3*i+1]].position;
+        dir2 = vertices[indices[3*i]].position - vertices[indices[3*i+2]].position;
+        norm = glm::cross(dir1, dir2);
+        vertices[indices[3*i]].normal += norm;
+        vertices[indices[3*i+1]].normal += norm;
+        vertices[indices[3*i+2]].normal += norm;
+    }
+
+    for(i=0; i < vertices.size(); ++i){
+        vertices[indices[i]].normal = glm::normalize(vertices[indices[i]].normal);
+    }
+
 
 
     /******/
 
     // => Penser à bien changer le nombre de sommet ((nbrSub+1)*(nbrSub+1) au lieu de 6):
-    glBufferData(GL_ARRAY_BUFFER, (nbrSub+1)*(nbrSub+1) * sizeof(Vertex3DColor), vertices, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(ShapeVertex), &vertices[0], GL_STATIC_DRAW);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
@@ -139,27 +174,10 @@ int main(int argc, char** argv) {
     // On en a 6 afin de former deux triangles
     // Chaque indice correspond au sommet correspondant dans le VBO
 
-    /***BARREN LAND : INDICES DES TRIANGLES***/
-
-
-    uint32_t indices[nbrSub*nbrSub*6]; //C'est mon nombre de points
-    for(i=0; i<nbrSub; ++i){
-        for(j=0; j<nbrSub; ++j){
-            indices[6*i*nbrSub + j*6 ] = i*nbrSub + j + i;
-            indices[6*i*nbrSub + j*6 + 1] = i*nbrSub + j + 1 + i;
-            indices[6*i*nbrSub + j*6 + 2] = (i+1)*nbrSub + j + 1 + i;
-            indices[6*i*nbrSub + j*6 + 3] = i*nbrSub + j + 1 + i;
-            indices[6*i*nbrSub + j*6 + 4] = (i+1)*nbrSub + j + 1 + i;
-            indices[6*i*nbrSub + j*6 + 5] = (i+1)*nbrSub + j + 2 + i;
-        }
-    }
-
-
-    /******/
 
 
     // => On remplit l'IBO avec les indices:
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, nbrSub * nbrSub * 6 * sizeof(uint32_t), indices, GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(uint32_t), &indices[0], GL_STATIC_DRAW);
 
     // => Comme d'habitude on debind avant de passer à autre chose
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
@@ -181,11 +199,11 @@ int main(int argc, char** argv) {
     glEnableVertexAttribArray(VERTEX_ATTR_TEXTURE);
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glVertexAttribPointer(VERTEX_ATTR_POSITION, 3, GL_FLOAT, GL_FALSE,
-                          sizeof(Vertex3DColor), (const GLvoid*) offsetof(Vertex3DColor, position));
+                          sizeof(ShapeVertex), (const GLvoid*) offsetof(ShapeVertex, position));
     glVertexAttribPointer(VERTEX_ATTR_NORMAL, 3, GL_FLOAT, GL_FALSE,
-                          sizeof(Vertex3DColor), (const GLvoid*) offsetof(Vertex3DColor, normal));
+                          sizeof(ShapeVertex), (const GLvoid*) offsetof(ShapeVertex, normal));
     glVertexAttribPointer(VERTEX_ATTR_TEXTURE, 2, GL_FLOAT, GL_FALSE,
-                          sizeof(Vertex3DColor), (const GLvoid*) offsetof(Vertex3DColor, texture));
+                          sizeof(ShapeVertex), (const GLvoid*) offsetof(ShapeVertex, texCoords));
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
     glBindVertexArray(0);
