@@ -16,6 +16,7 @@
 #include <glimac/Sphere.hpp>
 #include <glimac/Program.hpp>
 #include <glimac/Image.hpp>
+#include <glimac/FreeflyCamera.hpp>
 #include <glimac/TrackballCamera.hpp>
 #include "../barrenLands/include/NoiseManager.hpp"
 #include "../barrenLands/src/NoiseManager.cpp"
@@ -44,7 +45,7 @@ int main(int argc, char** argv) {
         std::cerr << glewGetErrorString(glewInitError) << std::endl;
         return EXIT_FAILURE;
     }
-    
+
     glEnable(GL_DEPTH_TEST);
 
     std::cout << "OpenGL Version : " << glGetString(GL_VERSION) << std::endl;
@@ -59,7 +60,7 @@ int main(int argc, char** argv) {
 
     /***** GPU PROGRAM *****/
 
-    glcustom::GPUProgram program(applicationPath, "light",  "directLight");
+    glcustom::GPUProgram program(applicationPath, "light",  "directLight2");
     std::vector<std::string> uniform_variables = {"MV", "MVP","V","M","LightPosition_worldspace",
                                                   "uTexture", "uTexture2","rotation"};
     program.addUniforms(uniform_variables);
@@ -98,12 +99,12 @@ int main(int argc, char** argv) {
 
     for(i=0; i<nbrSub; ++i){
         for(j=0; j<nbrSub; ++j){
-            indices.push_back(i*nbrSub + j + i);
-            indices.push_back(i*nbrSub + j + 1 + i);
-            indices.push_back((i+1)*nbrSub + j + 1 + i);
-            indices.push_back(i*nbrSub + j + 1 + i);
-            indices.push_back((i+1)*nbrSub + j + 1 + i);
-            indices.push_back((i+1)*nbrSub + j + 2 + i);
+            indices.push_back(i*nbrSub + j + i); //0
+            indices.push_back(i*nbrSub + j + 1 + i); //1
+            indices.push_back((i+1)*nbrSub + j + 1 + i);  //2
+            indices.push_back(i*nbrSub + j + 1 + i); //1
+            indices.push_back((i+1)*nbrSub + j + 1 + i); //2
+            indices.push_back((i+1)*nbrSub + j + 2 + i); //3
         }
     }
 
@@ -116,11 +117,11 @@ int main(int argc, char** argv) {
     glm::vec3 norm;
 
     for(i=0; i < nbrSub*nbrSub*2; ++i){
-        if (i % 2 == 0) {
+        if(i%2 == 0){
             dir1 = vertices[indices[3*i+1]].position - vertices[indices[3*i]].position;
             dir2 = vertices[indices[3*i+2]].position - vertices[indices[3*i]].position;
         }
-        else {
+        else{
             dir1 = vertices[indices[3*i]].position - vertices[indices[3*i+1]].position;
             dir2 = vertices[indices[3*i+2]].position - vertices[indices[3*i+1]].position;
         }
@@ -128,6 +129,8 @@ int main(int argc, char** argv) {
         vertices[indices[3*i]].normal += norm;
         vertices[indices[3*i+1]].normal += norm;
         vertices[indices[3*i+2]].normal += norm;
+
+
     }
 
     for(i=0; i < vertices.size(); ++i){
@@ -146,7 +149,9 @@ int main(int argc, char** argv) {
     vao.fillBuffer(vertices, &vbo, &ibo);
 
     /***CAMERA***/
-    TrackballCamera Camera;
+    int camera = 0;
+    TrackballCamera Camera1;
+    FreeflyCamera Camera2;
 
     // Application loop:
     int rightPressed = 0;
@@ -155,44 +160,76 @@ int main(int argc, char** argv) {
         // Event loop:
         SDL_Event e;
         while(windowManager.pollEvent(e)) {
-            if(e.type == SDL_KEYDOWN){
-                if(e.key.keysym.sym == SDLK_LEFT){
-                    Camera.rotateLeft(5.0);
-                }
-                else if(e.key.keysym.sym == SDLK_RIGHT){
-                    Camera.rotateLeft(-5.0);
-                }
-                else if(e.key.keysym.sym == SDLK_UP){
-                    Camera.rotateUp(5.0);
-                }
-                else if(e.key.keysym.sym == SDLK_DOWN){
-                    Camera.rotateUp(-5.0);
+            if(camera==0) {
+                if (e.type == SDL_KEYDOWN) {
+                    if (e.key.keysym.sym == SDLK_LEFT) {
+                        Camera1.rotateLeft(5.0);
+                    } else if (e.key.keysym.sym == SDLK_RIGHT) {
+                        Camera1.rotateLeft(-5.0);
+                    } else if (e.key.keysym.sym == SDLK_UP) {
+                        Camera1.rotateUp(5.0);
+                    } else if (e.key.keysym.sym == SDLK_DOWN) {
+                        Camera1.rotateUp(-5.0);
+                    }
+                    if (e.key.keysym.sym == SDLK_v) {
+                        camera = 1;
+                    }
+                } else if (e.type == SDL_MOUSEBUTTONDOWN) {
+                    if (e.button.button == SDL_BUTTON_RIGHT) {
+                        rightPressed = 1;
+                    }
+                } else if (e.wheel.y == 1)
+                    Camera1.moveFront(-1);
+                else if (e.wheel.y == -1)
+                    Camera1.moveFront(1);
+                else if (e.type == SDL_MOUSEBUTTONUP) {
+                    if (e.button.button == SDL_BUTTON_RIGHT) {
+                        rightPressed = 0;
+                    }
+                } else if (e.type == SDL_MOUSEMOTION && rightPressed == 1) {
+                    Camera1.rotateLeft(e.motion.xrel);
+                    Camera1.rotateUp(e.motion.yrel);
+                } else if (e.type == SDL_QUIT) {
+                    done = true; // Leave the loop after this iteration
                 }
             }
-            else if(e.type == SDL_MOUSEBUTTONDOWN) {
-                if(e.button.button == SDL_BUTTON_RIGHT){
-                    rightPressed = 1;
+            else if(camera==1) {
+                if(e.type == SDL_KEYDOWN){
+                    if(e.key.keysym.sym == SDLK_LEFT){
+                        Camera2.moveLeft(0.5);
+                    }
+                    else if(e.key.keysym.sym == SDLK_RIGHT){
+                        Camera2.moveLeft(-0.5);
+                    }
+                    else if(e.key.keysym.sym == SDLK_UP){
+                        Camera2.moveFront(0.5);
+                    }
+                    else if(e.key.keysym.sym == SDLK_DOWN){
+                        Camera2.moveFront(-0.5);
+                    }
+                    if (e.key.keysym.sym == SDLK_v) {
+                        camera = 0;
+                    }
                 }
-            }
-            else if(e.wheel.y == 1 )
-                Camera.moveFront(-1);
-            else if(e.wheel.y == -1)
-                Camera.moveFront(1);
-            else if(e.type == SDL_MOUSEBUTTONUP) {
-                if(e.button.button == SDL_BUTTON_RIGHT){
-                    rightPressed = 0;
+                else if(e.type == SDL_MOUSEBUTTONDOWN) {
+                    if(e.button.button == SDL_BUTTON_RIGHT){
+                        rightPressed = 1;
+                    }
                 }
-            }
-            else if (e.type == SDL_MOUSEMOTION && rightPressed == 1){
-                Camera.rotateLeft(e.motion.xrel);
-                Camera.rotateUp(e.motion.yrel);
-            }
-
-            else if(e.type == SDL_QUIT) {
-                done = true; // Leave the loop after this iteration
+                else if(e.type == SDL_MOUSEBUTTONUP) {
+                    if(e.button.button == SDL_BUTTON_RIGHT){
+                        rightPressed = 0;
+                    }
+                }
+                else if (e.type == SDL_MOUSEMOTION && rightPressed == 1){
+                    Camera2.rotateLeft(-1*e.motion.xrel);
+                    Camera2.rotateUp(-1*e.motion.yrel);
+                }
+                else if(e.type == SDL_QUIT) {
+                    done = true; // Leave the loop after this iteration
+                }
             }
         }
-
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         program.sendUniformTextureUnit("uTexture", 0);
@@ -202,13 +239,19 @@ int main(int argc, char** argv) {
 
         ProjMat = glm::perspective(glm::radians(70.f), 800.f/600.f, 0.1f, 100.f);
         glm::mat4 MobelMatrix = glm::translate(glm::mat4(1.0f) , glm::vec3(0.f,-5.f,-10.f));
-        glm::mat4 ViewMatrix = Camera.getViewMatrix();
+        glm::mat4 ViewMatrix;
+        if(camera==0) {
+            ViewMatrix = Camera1.getViewMatrix();
+        }
+        else {
+            ViewMatrix = Camera2.getViewMatrix();
+        }
         glm::mat4 MV = ViewMatrix * MobelMatrix;
         glm::mat4 MVP = ProjMat * MV;
 
-        glm::vec4 lightPos = glm::vec4(-0.5,-0.5,-0.5,1);
+        glm::vec4 lightPos = glm::vec4(20,200,50,1);
         glm::mat4 rotation = glm::rotate(glm::mat4(1),windowManager.getTime(),glm::vec3(0,1,0));
-        lightPos = lightPos * rotation;
+        //lightPos = lightPos * rotation;
 
         //send uniform variables
         program.sendUniformMat4("V", ViewMatrix);
@@ -227,13 +270,10 @@ int main(int argc, char** argv) {
 
         // Update the display
         windowManager.swapBuffers();
-
-        GLenum error = glGetError();
-        if (GL_NO_ERROR != error)
-            std::cout << glewGetErrorString(error) << std::endl;
     }
 
     //everything is deleted automatically
 
     return EXIT_SUCCESS;
 }
+
