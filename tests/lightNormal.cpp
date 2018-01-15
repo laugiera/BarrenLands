@@ -18,6 +18,7 @@
 #include <glimac/Image.hpp>
 #include <glimac/TrackballCamera.hpp>
 #include "../barrenLands/include/NoiseManager.h"
+#include "../barrenLands/src/NoiseManager.cpp"
 #include <VAO.hpp>
 #include <GPUProgram.hpp>
 #include <Texture.hpp>
@@ -67,14 +68,17 @@ int main(int argc, char** argv) {
     /***BARREN LAND ON GERE LE Nombre de Sub***/
     int nbrSub = 100;
     float width = 1;
-    float elevationMax = 7;
-    float freq = 0.08;
+    float elevationMax = 5;
+    float freq = 0.05;
+    float seed = 1200;
+    NoiseManager noise(seed);
 
     /***On fait le tableau***/
+
     int i, j;
     //test génération bruit
-    float** terrain = NoiseManager::getElevationMap(nbrSub+1, nbrSub+1, elevationMax, freq);
-    float** humidite = NoiseManager::getElevationMap(nbrSub+1, nbrSub+1, elevationMax, freq+0.02);
+    float** terrain = noise.getElevationMap(nbrSub+1, nbrSub+1);
+    float** humidite = noise.getElevationMap(nbrSub+1, nbrSub+1, freq+0.02);
 
     std::vector<ShapeVertex> vertices;
 

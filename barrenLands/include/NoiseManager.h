@@ -6,26 +6,17 @@
 #define BARRENLANDSMASTER_NOISEMANAGER_H
 
 #include "../../fastnoise/FastNoise.h"
+#include <Math.h>
 
 class NoiseManager {
+private:
+    FastNoise noise;
+    float seed;
+
 public:
-    NoiseManager();
+    NoiseManager(float _seed);
+    float** getElevationMap(const int width, const int height,const float frequency = 0.05,const float elevationMax = 5);
 
-    static float** getElevationMap(const int width, const int height, const float elevationMax, const float frequency = 0.01 ){
-        FastNoise noise;
-        noise.SetFrequency(frequency);
-
-        float** elevationMap = 0;
-        elevationMap = new float*[width];
-
-        for (int x = 0; x < width; x++)
-        {
-            elevationMap[x] = new float[height];
-            for (int y = 0; y < height; y++)
-                elevationMap[x][y] = noise.GetPerlinFractal(x,y)*elevationMax;
-        }
-        return elevationMap;
-    };
 };
 
 
