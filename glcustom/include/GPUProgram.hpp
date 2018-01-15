@@ -13,6 +13,7 @@
 #include <vector>
 //#include <Texture.hpp>
 #include <vector>
+#include <iostream>
 
 namespace glcustom {
 

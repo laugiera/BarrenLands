@@ -69,7 +69,7 @@ int main(int argc, char** argv) {
     glm::mat4 ProjMat, MVMatrix, NormalMatrix;
 
     /***BARREN LAND ON GERE LE Nombre de Sub***/
-    int nbrSub = 100;
+    int nbrSub = 10;
     float width = 1;
     float elevationMax = 5;
     float freq = 0.05;
@@ -116,9 +116,15 @@ int main(int argc, char** argv) {
     glm::vec3 norm;
 
     for(i=0; i < nbrSub*nbrSub*2; ++i){
-        dir1 = vertices[indices[3*i+1]].position - vertices[indices[3*i]].position;
-        dir2 = vertices[indices[3*i+2]].position - vertices[indices[3*i]].position;
-        norm = glm::normalize(glm::cross(dir1, dir2));
+        if (i % 2 == 0) {
+            dir1 = vertices[indices[3*i+1]].position - vertices[indices[3*i]].position;
+            dir2 = vertices[indices[3*i+2]].position - vertices[indices[3*i]].position;
+        }
+        else {
+            dir1 = vertices[indices[3*i]].position - vertices[indices[3*i+1]].position;
+            dir2 = vertices[indices[3*i+2]].position - vertices[indices[3*i+1]].position;
+        }
+        norm = glm::normalize(glm::cross(dir2, dir1));
         vertices[indices[3*i]].normal += norm;
         vertices[indices[3*i+1]].normal += norm;
         vertices[indices[3*i+2]].normal += norm;
@@ -200,9 +206,9 @@ int main(int argc, char** argv) {
         glm::mat4 MV = ViewMatrix * MobelMatrix;
         glm::mat4 MVP = ProjMat * MV;
 
-        glm::vec4 lightPos = glm::vec4(20,200,50,1);
+        glm::vec4 lightPos = glm::vec4(-0.5,-0.5,-0.5,1);
         glm::mat4 rotation = glm::rotate(glm::mat4(1),windowManager.getTime(),glm::vec3(0,1,0));
-        //lightPos = lightPos * rotation;
+        lightPos = lightPos * rotation;
 
         //send uniform variables
         program.sendUniformMat4("V", ViewMatrix);
@@ -221,6 +227,10 @@ int main(int argc, char** argv) {
 
         // Update the display
         windowManager.swapBuffers();
+
+        GLenum error = glGetError();
+        if (GL_NO_ERROR != error)
+            std::cout << glewGetErrorString(error) << std::endl;
     }
 
     //everything is deleted automatically

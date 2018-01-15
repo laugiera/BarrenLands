@@ -5,6 +5,7 @@
 in vec2 UV;
 in vec3 Position_worldspace;
 in vec3 Normal_cameraspace;
+in vec3 Normal_worldspace;
 in vec3 EyeDirection_cameraspace;
 in vec3 LightDirection_cameraspace;
 
@@ -18,7 +19,7 @@ uniform sampler2D uTexture;
 uniform sampler2D uTexture2;
 
 
-vec3 toundra_neige = vec3(200.f/255.f, 250.f/255.f, 245.f/255.f) + + (texture(uTexture, UV)).xyz;
+vec3 toundra_neige = vec3(200.f/255.f, 250.f/255.f, 245.f/255.f) + (texture(uTexture, UV)).xyz;
 vec3 toundra = vec3(168.f/255.f, 212.f/255.f, 206.f/255.f);
 vec3 roche = vec3(150.f/255.f, 150.f/255.f, 150.f/255.f) + (texture(uTexture, UV)).xyz;
 vec3 toundra_herbe = vec3(153.f/255.f, 153.f/255.f, 51.f/255.f);
@@ -76,8 +77,6 @@ void main() {
    	vec3 MaterialAmbientColor = vec3(0.1,0.1,0.1) * MaterialDiffuseColor;
    	vec3 MaterialSpecularColor = vec3(0.3,0.3,0.3);
 
-   	// Distance to the light
-   	float distance = length( LightPosition_worldspace.xyz - Position_worldspace );
 
    	// Normal of the computed fragment, in camera space
    	vec3 n = normalize( Normal_cameraspace );
@@ -100,12 +99,18 @@ void main() {
    	//  - Looking elsewhere -> < 1
    	float cosAlpha = clamp( dot( E,R ), 0,1 );
 
-   	color =
+   	vec3 dot_worldspace = vec3(dot(-Normal_worldspace,vec3(LightPosition_worldspace)));
+
+  	color =
    		// Ambient : simulates indirect lighting
    		MaterialAmbientColor +
    		// Diffuse : "color" of the object
-   		MaterialDiffuseColor * LightColor * LightPower * cosTheta / (distance*distance) +
+   		MaterialDiffuseColor * LightColor * LightPower * cosTheta +
    		// Specular : reflective highlight, like a mirror
-   		MaterialSpecularColor * LightColor * LightPower * pow(cosAlpha,5) / (distance*distance);
+   		MaterialSpecularColor * LightColor * LightPower * pow(cosAlpha,5);
+
+
+
+
 }
 

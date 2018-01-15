@@ -44,7 +44,8 @@ void glcustom::GPUProgram::sendUniformVec3(std::string name, glm::vec3 value) {
 
 void glcustom::GPUProgram::sendUniformVec4(std::string name, glm::vec4 value) {
     GLint id = m_u_variables[name];
-    glUniform3fv(id, 1, glm::value_ptr(value));
+    //std::cout << glIsProgram(id) << std::endl;
+    glUniform4fv(id, 1, glm::value_ptr(value));
 }
 
 GLint glcustom::GPUProgram::getUniformId(std::string name) {
