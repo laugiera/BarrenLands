@@ -13,7 +13,8 @@
 #include <glimac/Program.hpp>
 #include <glimac/Image.hpp>
 #include <glimac/TrackballCamera.hpp>
-#include "../barrenLands/include/NoiseManager.h"
+#include "../barrenLands/include/NoiseManager.hpp"
+#include "../barrenLands/src/NoiseManager.cpp"
 #include <VAO.hpp>
 #include <GPUProgram.hpp>
 #include <Texture.hpp>
@@ -44,6 +45,7 @@ int main(int argc, char** argv) {
     float width = 1;
     float elevationMax = 7;
     float freq = 0.08;
+    NoiseManager noiseManager(1200);
 
     /*****TEXTURES*****/
     glcustom::Texture test_texture1 = glcustom::Texture(
@@ -51,7 +53,7 @@ int main(int argc, char** argv) {
     glcustom::Texture test_texture2 = glcustom::Texture(applicationPath.dirPath() + "textures/" + "653306852.jpg");
 
     /***TEXTURE MOISTURE***/
-    float** humidite = NoiseManager::getElevationMap(nbrSub+1, nbrSub+1, elevationMax, freq-0.03);
+    float** humidite = noiseManager.getElevationMap(nbrSub+1, nbrSub+1, freq-0.03, elevationMax);
     std::vector<float> moistureVector;
     for(int i = 0; i < nbrSub+1; i++){
         for(int j = 0 ; j < nbrSub+1; j++){
@@ -74,7 +76,7 @@ int main(int argc, char** argv) {
 
     /***On fait le tableau***/
     int i, j;
-    float** terrain = NoiseManager::getElevationMap(nbrSub+1, nbrSub+1, elevationMax, freq);
+    float** terrain = noiseManager.getElevationMap(nbrSub+1, nbrSub+1, freq, elevationMax);
     glimac::ShapeVertex vertices[(nbrSub+1)*(nbrSub+1)];
     for(i=0; i<nbrSub+1; ++i){
         for(j=0; j<nbrSub+1; j++){
