@@ -52,42 +52,60 @@ int main(int argc, char** argv) {
 
     FilePath applicationPath(argv[0]);
 
-    //textures
+    /***BARREN LAND ON GERE LE Nombre de Sub***/
+    int nbrSub = 100;
+    float width = 1;
+    float elevationMax = 7;
+    float freq = 0.08;
+    float seed = 1200;
+    NoiseManager noise(seed);
+
+    /*****TEXTURES*****/
     glcustom::Texture test_texture1 = glcustom::Texture(
             applicationPath.dirPath() + "textures/" + "HatchPattern-final.png");
     glcustom::Texture test_texture2 = glcustom::Texture(applicationPath.dirPath() + "textures/" + "653306852.jpg");
+
+
+    /***TEXTURE MOISTURE***/
+    float** humidite = noise.getElevationMap(nbrSub+1, nbrSub+1, freq-0.03, elevationMax);
+    std::vector<float> moistureVector;
+    for(int i = 0; i < nbrSub+1; i++){
+        for(int j = 0 ; j < nbrSub+1; j++){
+            moistureVector.push_back(humidite[i][j]);
+            std::cout << humidite[i][j] << std::endl;
+        }
+    }
+    glcustom::Texture moisture = glcustom::Texture(nbrSub+1, nbrSub+1, moistureVector.data(), GL_RED);
+
 
     /***** GPU PROGRAM *****/
 
     glcustom::GPUProgram program(applicationPath, "light",  "directLight");
     std::vector<std::string> uniform_variables = {"MV", "MVP","V","M","LightPosition_worldspace",
-                                                  "uTexture", "uTexture2","rotation"};
+                                                  "uTexture", "uTexture2","rotation",
+                                                  "uMoistureTexture", "uSubDiv"};
     program.addUniforms(uniform_variables);
     program.use();
 
     //variables globales
     glm::mat4 ProjMat, MVMatrix, NormalMatrix;
 
-    /***BARREN LAND ON GERE LE Nombre de Sub***/
-    int nbrSub = 100;
-    float width = 1;
-    float elevationMax = 5;
-    float freq = 0.05;
-    float seed = 1200;
-    NoiseManager noise(seed);
 
     /***On fait le tableau***/
 
     int i, j;
     //test génération bruit
     float** terrain = noise.getElevationMap(nbrSub+1, nbrSub+1);
-    float** humidite = noise.getElevationMap(nbrSub+1, nbrSub+1, freq+0.02);
 
     std::vector<ShapeVertex> vertices;
 
     for(i=0; i<nbrSub+1; ++i){
         for(j=0; j<nbrSub+1; j++){
-            vertices.push_back(ShapeVertex(glm::vec3(-width*nbrSub/2.0+j*width, terrain[i][j], -width*nbrSub/2.0+i*width), glm::vec3(0, 0, 0),glm::vec2(humidite[i][j], terrain[i][j])));
+            vertices.push_back(ShapeVertex(
+                    glm::vec3(-width*nbrSub/2.0+j*width, terrain[i][j], -width*nbrSub/2.0+i*width),
+                    glm::vec3(0, 0, 0),
+                    glm::vec2(i, j)
+            ));
         }
     }
 
@@ -197,8 +215,10 @@ int main(int argc, char** argv) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         program.sendUniformTextureUnit("uTexture", 0);
         program.sendUniformTextureUnit("uTexture2", 1);
+        program.sendUniformTextureUnit("uMoistureTexture", 2);
         test_texture1.bind();
         test_texture2.bind(GL_TEXTURE1);
+        moisture.bind(GL_TEXTURE2);
 
         ProjMat = glm::perspective(glm::radians(70.f), 800.f/600.f, 0.1f, 100.f);
         glm::mat4 MobelMatrix = glm::translate(glm::mat4(1.0f) , glm::vec3(0.f,-5.f,-10.f));
@@ -217,6 +237,8 @@ int main(int argc, char** argv) {
         program.sendUniformMat4("MVP", MVP);
         program.sendUniformVec4("LightPosition_worldspace", lightPos);
         program.sendUniformMat4("rotation",rotation);
+        program.sendUniformTextureUnit("uMoistureTexture", 2);
+        program.sendUniform1i("uSubDiv", nbrSub);
 
         //draw
         vao.bind();
@@ -224,6 +246,7 @@ int main(int argc, char** argv) {
         vao.debind();
         test_texture1.debind();
         test_texture2.debind();
+        moisture.debind();
 
         // Update the display
         windowManager.swapBuffers();
