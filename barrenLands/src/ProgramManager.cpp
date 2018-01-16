@@ -27,7 +27,7 @@ void ProgramManager::createPrograms() {
     //test Program
     glimac::FilePath fp(appPath);
     testProgram = new glcustom::GPUProgram(fp, "testShader",  "testShader");
-    std::vector<std::string> uniform_variables = {"uMV", "uMVP","uNormal","uColor"};
+    std::vector<std::string> uniform_variables = {"uMV", "uMVP","uNormal","uColor", "uTexture"};
     testProgram->addUniforms(uniform_variables);
     //configureLight(testProgram, "basicLight");
 
