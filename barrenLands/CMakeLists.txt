@@ -10,3 +10,5 @@ add_executable(${OUTPUT} ${MAIN} ${SRC_FILES} ${HEADER_FILES} ${SHADER_FILES})
 target_link_libraries(${OUTPUT} ${ALL_LIBRARIES})
 
 file(COPY shaders DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+file(COPY textures DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+

@@ -22,7 +22,7 @@ public:
     void generateNormals();
     void createRenderObject(glcustom::GPUProgram *program);
     void draw(const glm::mat4 &viewMatrix);
-private:
+//private:
     std::vector<glimac::ShapeVertex> vertices;
     std::vector<uint32_t> indices;
     RenderObject * renderObject;

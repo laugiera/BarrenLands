@@ -23,7 +23,7 @@ public:
                    const glm::vec3 &scale);
     void render(const glm::mat4 &viewMatrix);
 
-private:
+//private:
     glcustom::VAO vao;
     glcustom::VBO vbo;
     glcustom::IBO ibo;

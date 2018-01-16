@@ -22,10 +22,12 @@ public:
 
     virtual ~Application();
 
-    void initOpenGl();
+    int initOpenGl();
     void clearGl();
     void appLoop();
     void printErrors();
+
+    const glimac::SDLWindowManager &getWindowManager() const;
 
 private:
     glimac::SDLWindowManager windowManager;
