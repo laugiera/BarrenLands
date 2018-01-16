@@ -26,6 +26,7 @@ public:
     int initOpenGl();
     void clearGl();
     void appLoop();
+    void testInterface();
     void printErrors();
 
     const glimac::SDLWindowManager &getWindowManager() const;
