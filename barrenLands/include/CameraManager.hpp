@@ -10,6 +10,7 @@ public :
     //METHODS
 
     CameraManager();
+    CameraManager(glm::vec3 position);
     glm::mat4 getViewMatrix();
     void moveLeft(float t);
     void moveFront(float t);
@@ -19,12 +20,12 @@ public :
 
 
     //GETTER AND SETTER
-    /*glm::vec3 getPosition(){
+    glm::vec3 getPosition(){
         return _position;
     }
     void setPosition(glm::vec3 position){
         _position = position;
-    }*/
+    }
 
     int getChoice(){
         return _choice;
@@ -34,7 +35,7 @@ public :
     }
 
 private:
-    //glm::vec3 _position;
+    glm::vec3 _position;
     TrackballCamera _camera1;
     FreeflyCamera _camera2;
     int _choice;

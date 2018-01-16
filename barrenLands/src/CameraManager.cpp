@@ -5,7 +5,16 @@ CameraManager::CameraManager(){
     _camera1 = TrackballCamera();
     _camera2 = FreeflyCamera();
     _camera2.rotateLeft(180.0);
-    _choice = 0;
+    _choice = 1;
+}
+
+CameraManager::CameraManager(glm::vec3 position)
+        : _position(position)
+{
+    _camera1 = TrackballCamera(position);
+    _camera2 = FreeflyCamera(position);
+    _camera2.rotateLeft(180.0);
+    _choice = 1;
 }
 
 glm::mat4 CameraManager::getViewMatrix(){
@@ -22,12 +31,14 @@ glm::mat4 CameraManager::getViewMatrix(){
 void CameraManager::moveLeft(float t){
     if(_choice == 1){
         _camera2.moveLeft(t);
+        _position = _camera2.getPosition();
     }
 }
 
 void CameraManager::moveFront(float t){
     if(_choice == 1){
         _camera2.moveFront(t);
+        _position = _camera2.getPosition();
     }
 }
 

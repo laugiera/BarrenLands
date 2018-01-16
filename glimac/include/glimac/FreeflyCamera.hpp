@@ -16,6 +16,7 @@ private:
 
 public:
     FreeflyCamera();
+    FreeflyCamera(glm::vec3 position);
     void moveLeft(float t);
     void moveFront(float t);
 

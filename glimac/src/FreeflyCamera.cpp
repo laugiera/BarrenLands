@@ -19,6 +19,14 @@ FreeflyCamera::FreeflyCamera()
     computeDirectionVectors();
 }
 
+FreeflyCamera::FreeflyCamera(glm::vec3 position)
+        : m_Position(position)
+{
+    m_fPhi = 0;
+    m_fTheta = 0;
+    computeDirectionVectors();
+}
+
 void FreeflyCamera::moveLeft(float t)
 {
     m_Position += m_LeftVector*t;

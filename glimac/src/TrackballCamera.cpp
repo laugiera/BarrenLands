@@ -5,6 +5,13 @@ TrackballCamera::TrackballCamera() {
     m_fAngleX = m_fAngleY = 0;
 }
 
+TrackballCamera::TrackballCamera(glm::vec3 position)
+        : m_position(position)
+{
+    m_fDistance = 5;
+    m_fAngleX = m_fAngleY = 0;
+}
+
 void TrackballCamera::moveFront(float delta)
 {
     m_fDistance += delta;
