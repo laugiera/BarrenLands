@@ -1,7 +1,7 @@
 //
 // Created by Lou Landry on 15/01/2018.
 //
-
+#define GLEW_STATIC
 #ifndef BARRENLANDS_RENDEROBJECT_HPP
 #define BARRENLANDS_RENDEROBJECT_HPP
 
