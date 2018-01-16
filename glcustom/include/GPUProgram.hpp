@@ -32,6 +32,8 @@ namespace glcustom {
         void addUniforms(std::vector<std::string> names);
         std::vector<std::string> getUniformList();
 
+        void setProgram(glimac::FilePath app_path, std::string m_vertex_shader, std::string m_fragment_shader);
+
         void sendUniform1i(std::string name, int value);
         void sendUniform1f(std::string name, float value);
         void sendUniformMat4(std::string name, glm::mat4 value);
