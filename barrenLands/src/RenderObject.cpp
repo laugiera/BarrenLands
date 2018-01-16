@@ -54,6 +54,7 @@ void RenderObject::render(const glm::mat4 &viewMatrix) {
     globalRight.sendLightUniforms(program);
     playerLight.sendLightUniforms(program);
     */
+    
     vao.bind();
     glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
     vao.debind();
