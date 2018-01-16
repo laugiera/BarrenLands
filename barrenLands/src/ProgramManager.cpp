@@ -25,8 +25,7 @@ void ProgramManager::configureLight(glcustom::GPUProgram * program, std::string 
 
 void ProgramManager::createPrograms() {
     //test Program
-    glimac::FilePath fp(appPath);
-    testProgram = new glcustom::GPUProgram(fp, "testShader",  "testShader");
+    testProgram = new glcustom::GPUProgram(appPath, "testShader",  "testShader");
     std::vector<std::string> uniform_variables = {"uMV", "uMVP","uNormal","uColor", "uTexture"};
     testProgram->addUniforms(uniform_variables);
     //configureLight(testProgram, "basicLight");
@@ -35,6 +34,14 @@ void ProgramManager::createPrograms() {
 
 glcustom::GPUProgram *ProgramManager::getTestProgram() const {
     return testProgram;
+}
+
+void ProgramManager::reloadPrograms() {
+    testProgram->setProgram(appPath, "testShader",  "testShader");
+    //testProgram->clearUniforms();
+    std::vector<std::string> uniform_variables = {"uMV", "uMVP","uNormal","uColor", "uTexture"};
+    testProgram->addUniforms(uniform_variables);
+    //testProgram->use();
 }
 
 
