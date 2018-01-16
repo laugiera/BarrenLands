@@ -22,7 +22,7 @@ void main() {
     vTexCoords_vs = aVertexTexCoords;
 
     gl_Position = uMVP * vertexPosition;
-    gl_Position =  vertexPosition;
+    //gl_Position =  vertexPosition;
 
     /*
     vPosition_vs = vec3(mat4(1) * mat4(0) * vertexPosition);
