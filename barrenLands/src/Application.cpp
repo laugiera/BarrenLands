@@ -7,12 +7,12 @@
 
 
 
-void Application::initOpenGl() {
+int Application::initOpenGl() {
     // Initialize glew for OpenGL3+ support
     GLenum glewInitError = glewInit();
     if(GLEW_OK != glewInitError) {
         std::cerr << glewGetErrorString(glewInitError) << std::endl;
-        //return EXIT_FAILURE; //handle exception
+        return EXIT_FAILURE; //handle exception
     }
     std::cout << "OpenGL Version : " << glGetString(GL_VERSION) << std::endl;
     std::cout << "GLEW Version : " << glewGetString(GLEW_VERSION) << std::endl;
@@ -21,6 +21,7 @@ void Application::initOpenGl() {
 }
 
 void Application::clearGl() {
+    //glClear(GL_COLOR_BUFFER_BIT);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glClearColor(0.7, 0.3, 0.2, 1);
 }
@@ -101,4 +102,8 @@ void Application::printErrors() {
 
 Application::~Application() {
  delete programManager;
+}
+
+const glimac::SDLWindowManager &Application::getWindowManager() const {
+    return windowManager;
 }
