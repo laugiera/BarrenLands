@@ -6,6 +6,11 @@ in vec2 vTexCoords_vs;
 
 out vec3 fFragColor;
 
+uniform vec3 uColor;
+
 void main() {
-    fFragColor = normalize(vec3(1.0,vTexCoords_vs.x,vTexCoords_vs.y));
+    if(vPosition_vs.x < 0.5 && vPosition_vs.y <0.5){
+        fFragColor = vec3(0,1,0);
+    }
+
 }

@@ -12,16 +12,26 @@
 #include <GL/glut.h>
 #include "glimac/SDL2WindowManager.hpp"
 #include "Tools.hpp"
+#include "ProceduralObject.hpp"
+#include "ProgramManager.hpp"
+#include "CameraManager.hpp"
 
 class Application {
 public:
-    Application();
+    Application(const std::string &appPath);
+
+    virtual ~Application();
+
     void initOpenGl();
     void clearGl();
     void appLoop();
+    void printErrors();
 
 private:
     glimac::SDLWindowManager windowManager;
+    std::vector<ProceduralObject*> objects;
+    ProgramManager * programManager;
+    CameraManager * camera;
 };
 
 
