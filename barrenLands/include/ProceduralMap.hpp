@@ -15,7 +15,7 @@ public:
     void generateIndices();
 private:
     std::vector<glcustom::Texture*> textures;
-    
+
 };
 
 
