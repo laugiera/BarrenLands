@@ -18,7 +18,7 @@ void ProgramManager::configureLight(glcustom::GPUProgram * program, std::string 
     uniformVariables.push_back("uLightDir_vs_"+name);
     uniformVariables.push_back("uLightIntensity_"+name);
     program->addUniforms(uniformVariables);
-    //send light data to program
+    //send fixed light data to program
     program->sendUniformVec4("uLightDir_vs_"+name,glm::vec4(0,-1,0,0));
     program->sendUniformVec3("uLightIntensity_"+name,glm::vec3(1));
 }

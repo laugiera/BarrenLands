@@ -14,6 +14,7 @@
 #include "Tools.hpp"
 #include "ProceduralObject.hpp"
 #include "ProgramManager.hpp"
+#include "CameraManager.hpp"
 
 class Application {
 public:
@@ -30,6 +31,7 @@ private:
     glimac::SDLWindowManager windowManager;
     std::vector<ProceduralObject*> objects;
     ProgramManager * programManager;
+    CameraManager * camera;
 };
 
 

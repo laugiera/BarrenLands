@@ -1,4 +1,4 @@
-#version 330 core
+#version 330
 
 layout(location = 0) in vec3 aVertexPosition;
 layout(location = 1) in vec3 aVertexNormal;
@@ -22,4 +22,12 @@ void main() {
     vTexCoords_vs = aVertexTexCoords;
 
     gl_Position = uMVP * vertexPosition;
+    gl_Position =  vertexPosition;
+
+    /*
+    vPosition_vs = vec3(mat4(1) * mat4(0) * vertexPosition);
+    vNormal_vs = vec3(uNormal * vertexNormal);
+    gl_Position = uMVP * vertexPosition;
+    */
+
 }

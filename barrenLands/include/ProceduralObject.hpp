@@ -8,6 +8,7 @@
 #include "glimac/common.hpp"
 #include <vector>
 #include "RenderObject.hpp"
+#include "glimac/Sphere.hpp"
 
 
 class ProceduralObject {
@@ -23,7 +24,7 @@ public:
     void draw(const glm::mat4 &viewMatrix);
 private:
     std::vector<glimac::ShapeVertex> vertices;
-    std::vector<int> indices;
+    std::vector<uint32_t> indices;
     RenderObject * renderObject;
 };
 

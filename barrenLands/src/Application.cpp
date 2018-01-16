@@ -25,9 +25,13 @@ void Application::clearGl() {
     glClearColor(0.7, 0.3, 0.2, 1);
 }
 
-Application::Application(const std::string &appPath) : windowManager(Tools::windowWidth, Tools::windowHeight, "BarrenLight"), programManager(nullptr){
+Application::Application(const std::string &appPath) : windowManager(Tools::windowWidth, Tools::windowHeight, "BarrenLands"),
+                                                       programManager(nullptr),
+                                                       camera(nullptr)
+{
     initOpenGl();
     programManager = new ProgramManager(appPath);
+    camera = new CameraManager();
 }
 
 void Application::appLoop() {
@@ -35,18 +39,54 @@ void Application::appLoop() {
     ProceduralObject testCube;
     testCube.createRenderObject(programManager->getTestProgram());
     bool done = false;
+    int rightPressed = 0;
     while(!done) {
         // Event loop:
         SDL_Event e{};
         while(windowManager.pollEvent(e)) {
+            if (e.type == SDL_KEYDOWN) {
+                if (e.key.keysym.sym == SDLK_LEFT) {
+                    camera->moveLeft(1.0);
+                } else if (e.key.keysym.sym == SDLK_RIGHT) {
+                    camera->moveLeft(-1.0);
+                } else if (e.key.keysym.sym == SDLK_UP) {
+                    camera->moveFront(1.0);
+                } else if (e.key.keysym.sym == SDLK_DOWN) {
+                    camera->moveFront(-1.0);
+                }
+                if (e.key.keysym.sym == SDLK_v) {
+                    if(camera->getChoice() == 0){
+                        camera->setChoice(1);
+                    }
+                    else{
+                        camera->setChoice(0);
+                    }
+                }
+            } else if (e.type == SDL_MOUSEBUTTONDOWN) {
+                if (e.button.button == SDL_BUTTON_RIGHT) {
+                    rightPressed = 1;
+                }
+            } else if (e.wheel.y == 1)
+                camera->zoom(-1);
+            else if (e.wheel.y == -1)
+                camera->zoom(1);
+            else if (e.type == SDL_MOUSEBUTTONUP) {
+                if (e.button.button == SDL_BUTTON_RIGHT) {
+                    rightPressed = 0;
+                }
+            } else if (e.type == SDL_MOUSEMOTION && rightPressed == 1) {
+                camera->rotateLeft(e.motion.xrel);
+                camera->rotateUp(e.motion.yrel);
+            }
             if(e.type == SDL_QUIT) {
                 done = true; // Leave the loop after this iteration
             }
         }
-        glm::mat4 viewMatrixTest = glm::translate(glm::mat4(1.0), glm::vec3(0,0,-5));
-        testCube.draw(viewMatrixTest);
         clearGl();
+        testCube.draw(camera->getViewMatrix());
+        //testCube.draw(glm::translate(glm::mat4(1), glm::vec3(0,0,-50)));
         windowManager.swapBuffers();
+        printErrors();
 
     }
 
@@ -54,7 +94,7 @@ void Application::appLoop() {
 
 void Application::printErrors() {
     GLuint error = glGetError();
-    if(error != GL_NO_ERROR){
+    if (error != GL_NO_ERROR) {
         std::cerr << glewGetErrorString(error) << std::endl;
     }
 }

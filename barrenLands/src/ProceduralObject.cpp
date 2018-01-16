@@ -14,6 +14,7 @@ ProceduralObject::~ProceduralObject() {
 }
 
 void ProceduralObject::generateVertices() {
+
     //FACE AVANT
     vertices.push_back(glimac::ShapeVertex(glm::vec3(1,1,1), glm::vec3(0,0,1), glm::vec2(0,0)));
     vertices.push_back(glimac::ShapeVertex(glm::vec3(-1,1,1), glm::vec3(0,0,1), glm::vec2(0,1)));
@@ -44,10 +45,16 @@ void ProceduralObject::generateVertices() {
     vertices.push_back(glimac::ShapeVertex(glm::vec3(1,-1,-1), glm::vec3(0,-1,0), glm::vec2(0,0)));
     vertices.push_back(glimac::ShapeVertex(glm::vec3(1,-1,1), glm::vec3(0,-1,0), glm::vec2(0,1)));
     vertices.push_back(glimac::ShapeVertex(glm::vec3(-1,-1,1), glm::vec3(0,-1,0), glm::vec2(1,0)));
+
+    /*
+    glimac::Sphere sphereTest(1,32,16);
+    vertices = std::vector<glimac::ShapeVertex>(sphereTest.getDataPointer(),
+                                                sphereTest.getDataPointer() + sphereTest.getVertexCount());
+                                                */
 }
 
 void ProceduralObject::generateIndices() {
-    int _indices[] =
+    uint32_t _indices[] =
             {
                     0,1,2,
                     0,2,3,
@@ -63,7 +70,8 @@ void ProceduralObject::generateIndices() {
                     20,22,23
             };
 
-    indices = std::vector<int>(_indices, _indices + sizeof(_indices) / sizeof(int));
+    indices = std::vector<uint32_t>(_indices, _indices + sizeof(_indices) / sizeof(u_int32_t));
+    //indices = std::vector<uint32_t>();
 
 }
 
@@ -78,7 +86,7 @@ void ProceduralObject::createRenderObject(glcustom::GPUProgram *program) {
 
 void ProceduralObject::draw(const glm::mat4 &viewMatrix) {
     //transformer selon la position, rotation, scale de l'objet
-    renderObject->transform(glm::vec3(0), 0, glm::vec3(0,1,0), glm::vec3(1));
+    renderObject->transform(glm::vec3(0), 0, glm::vec3(0,1,0), glm::vec3(50,50,50));
     renderObject->render(viewMatrix);
 }
 
