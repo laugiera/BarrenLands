@@ -18,6 +18,9 @@ public :
     void rotateUp(float degrees);
     void zoom(float t);
 
+    //Pour le déplacement
+    void moveLeft(float t, int nbrSub, float width, float scale, float posy);
+    void moveFront(float t, int nbrSub, float width, float scale, float posy);
 
     //GETTER AND SETTER
     glm::vec3 getPosition(){

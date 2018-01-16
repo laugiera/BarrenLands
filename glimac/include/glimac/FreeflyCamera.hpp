@@ -23,6 +23,7 @@ public:
     void rotateLeft(float degrees);
     void rotateUp(float degrees);
     glm::vec3 getPosition() const;
+    void setPositionY(float y);
 
     glm::mat4 getViewMatrix() const;
 };

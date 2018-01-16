@@ -53,6 +53,10 @@ glm::vec3 FreeflyCamera::getPosition() const{
     return m_Position;
 }
 
+void FreeflyCamera::setPositionY(float y){
+    m_Position.y = y;
+}
+
 glm::mat4 FreeflyCamera::getViewMatrix() const
 {
     return glm::lookAt(m_Position, m_Position + m_FrontVector, m_UpVector);
