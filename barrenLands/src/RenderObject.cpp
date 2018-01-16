@@ -37,11 +37,8 @@ void RenderObject::render(const glm::mat4 &viewMatrix) {
     program->sendUniformMat4("uMV", modelViewMatrix);
     program->sendUniformMat4("uNormal", normals);
 
+    bindTextures();
 
-    if(texture){
-        texture->bind();
-        program->sendUniformTextureUnit("uTexture", 0);
-    }
     /*
     program->sendUniformVec3("uKd",glm::vec3(1.0));
     program->sendUniformVec3("uKs",glm::vec3(1.0));
@@ -58,8 +55,7 @@ void RenderObject::render(const glm::mat4 &viewMatrix) {
     glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
     vao.debind();
 
-    if(texture)
-        texture->debind();
+    debindTextures();
 
 }
 
@@ -73,4 +69,16 @@ void RenderObject::transform(const glm::vec3 &translate, const float angle, cons
     transformation = glm::rotate(transformation,glm::radians(angle),axesRotation);
     transformation = glm::scale(transformation,scale);
     modelMatrix = transformation;
+}
+
+void RenderObject::bindTextures() {
+    if(texture){
+        texture->bind();
+        program->sendUniformTextureUnit("uTexture", 0);
+    }
+}
+
+void RenderObject::debindTextures() {
+    if(texture)
+        texture->debind();
 }

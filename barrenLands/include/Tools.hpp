@@ -18,6 +18,7 @@ public:
 
     static float windowWidth;
     static float windowHeight;
+    static int nbSub;
 
 //transforms a string bool (ex "true") into a bool, throws std::invalid_argument
 static bool boolFromString(std::string s);

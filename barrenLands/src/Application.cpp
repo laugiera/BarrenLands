@@ -29,12 +29,14 @@ void Application::clearGl() {
 Application::Application(const glimac::FilePath &appPath) : windowManager(Tools::windowWidth, Tools::windowHeight, "BarrenLands"),
                                                             programManager(nullptr),
                                                             camera(nullptr),
-                                                            textureManager(nullptr)
+                                                            textureManager(nullptr),
+                                                            noiseManager(nullptr)
 {
     initOpenGl();
     textureManager = new TextureManager(appPath);
     programManager = new ProgramManager(appPath);
     camera = new CameraManager();
+    noiseManager = new NoiseManager(1200);
 }
 
 void Application::appLoop() {
@@ -116,7 +118,7 @@ void Application::testInterface() {
     programManager->createPrograms();
 
     //----> Edit with the class you want to test :
-    ProceduralObject * testObject = new ProceduralObject();
+    ProceduralObject * testObject = new ProceduralMap(noiseManager);
     //---->TestProgram uses TestShader with texture support
     testObject->createRenderObject(programManager->getTestProgram(), textureManager->getTextures()[0]);
 
