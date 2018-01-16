@@ -26,19 +26,22 @@ void Application::clearGl() {
     glClearColor(0.7, 0.3, 0.2, 1);
 }
 
-Application::Application(const std::string &appPath) : windowManager(Tools::windowWidth, Tools::windowHeight, "BarrenLands"),
-                                                       programManager(nullptr),
-                                                       camera(nullptr)
+Application::Application(const glimac::FilePath &appPath) : windowManager(Tools::windowWidth, Tools::windowHeight, "BarrenLands"),
+                                                            programManager(nullptr),
+                                                            camera(nullptr),
+                                                            textureManager(nullptr)
 {
     initOpenGl();
+    textureManager = new TextureManager(appPath);
     programManager = new ProgramManager(appPath);
     camera = new CameraManager();
 }
 
 void Application::appLoop() {
+    textureManager->createTextures();
     programManager->createPrograms();
     ProceduralObject testCube;
-    testCube.createRenderObject(programManager->getTestProgram());
+    testCube.createRenderObject(programManager->getTestProgram(), textureManager->getTextures()[0]);
     bool done = false;
     int rightPressed = 0;
     while(!done) {
@@ -85,7 +88,6 @@ void Application::appLoop() {
         }
         clearGl();
         testCube.draw(camera->getViewMatrix());
-        //testCube.draw(glm::translate(glm::mat4(1), glm::vec3(0,0,-50)));
         windowManager.swapBuffers();
         printErrors();
 
@@ -96,7 +98,7 @@ void Application::appLoop() {
 void Application::printErrors() {
     GLuint error = glGetError();
     if (error != GL_NO_ERROR) {
-        std::cerr << glewGetErrorString(error) << std::endl;
+        std::cerr << "code " << error << ":" << glewGetErrorString(error)  << std::endl;
     }
 }
 

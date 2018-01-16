@@ -15,10 +15,11 @@
 #include "ProceduralObject.hpp"
 #include "ProgramManager.hpp"
 #include "CameraManager.hpp"
+#include "TextureManager.hpp"
 
 class Application {
 public:
-    Application(const std::string &appPath);
+    Application(const glimac::FilePath &appPath);
 
     virtual ~Application();
 
@@ -34,6 +35,7 @@ private:
     std::vector<ProceduralObject*> objects;
     ProgramManager * programManager;
     CameraManager * camera;
+    TextureManager * textureManager;
 };
 
 

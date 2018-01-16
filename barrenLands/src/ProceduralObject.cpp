@@ -79,14 +79,14 @@ void ProceduralObject::generateNormals() {
 
 }
 
-void ProceduralObject::createRenderObject(glcustom::GPUProgram *program) {
-    renderObject = new RenderObject(program);
+void ProceduralObject::createRenderObject(glcustom::GPUProgram *program, glcustom::Texture *texture) {
+    renderObject = new RenderObject(program, texture);
     renderObject->fillData(vertices, indices);
 }
 
 void ProceduralObject::draw(const glm::mat4 &viewMatrix) {
     //transformer selon la position, rotation, scale de l'objet
-    renderObject->transform(glm::vec3(0), 0, glm::vec3(0,1,0), glm::vec3(50,50,50));
+    renderObject->transform(glm::vec3(0), 0, glm::vec3(0,1,0), glm::vec3(10,10,10));
     renderObject->render(viewMatrix);
 }
 
