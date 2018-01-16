@@ -11,7 +11,7 @@ glcustom::VBO::VBO(){
 }
 
 glcustom::VBO::~VBO() {
-    //glDeleteBuffers(1,&m_id);
+    glDeleteBuffers(1,&m_id);
 }
 
 void glcustom::VBO::bind() {

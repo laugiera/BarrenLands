@@ -56,4 +56,8 @@ void glcustom::Texture::debind() {
     glBindTexture(GL_TEXTURE_2D, 0);
 }
 
+GLuint glcustom::Texture::getM_id() const {
+    return m_id;
+}
+
 

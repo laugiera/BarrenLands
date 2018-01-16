@@ -21,11 +21,13 @@
 #include <Texture.hpp>
 #include <vector>
 #include "Application.hpp"
+#include "TextureManager.hpp"
 
 int main(int argc, char** argv) {
 
     Application app(argv[0]);
-    app.appLoop();
+    //app.appLoop();
+    app.testInterface();
 
     return EXIT_SUCCESS;
 }
@@ -83,10 +85,15 @@ int dismain(int argc, char** argv) {
     NoiseManager noise(seed);
 
     /*****TEXTURES*****/
+    TextureManager textures(applicationPath);
+    textures.createTextures();
+    glcustom::Texture * test_texture1 = textures.getTextures()[0];
+    glcustom::Texture * test_texture2 = textures.getTextures()[1];
+    /*
     glcustom::Texture test_texture1 = glcustom::Texture(
             applicationPath.dirPath() + "textures/" + "HatchPattern-final.png");
     glcustom::Texture test_texture2 = glcustom::Texture(applicationPath.dirPath() + "textures/" + "653306852.jpg");
-
+    */
 
     /***TEXTURE MOISTURE***/
     float** humidite = noise.getElevationMap(nbrSub+1, nbrSub+1, freq-0.03, elevationMax);
@@ -102,7 +109,7 @@ int dismain(int argc, char** argv) {
 
     //glcustom::GPUProgram program(applicationPath, "light",  "light");
     glcustom::GPUProgram program(applicationPath, "testShader",  "testShader");
-    std::vector<std::string> uniform_variables = {"uMV", "uMVP", "uNormal"
+    std::vector<std::string> uniform_variables = {"uMV", "uMVP", "uNormal", "uTexture"
                                                   /*"Light_cameraspace",
                                                   "uTexture", "uTexture2",
                                                   "uMoistureTexture", "uSubDiv"*/};
@@ -184,7 +191,7 @@ int dismain(int argc, char** argv) {
     //testObject.indices = indices;
     testObject.generateVertices();
     testObject.generateIndices();
-    testObject.createRenderObject(&program);
+    testObject.createRenderObject(&program, nullptr);
     testObject.renderObject->fillData(testObject.vertices, testObject.indices);
 
     /***** BUFFERS *****/
@@ -255,18 +262,17 @@ int dismain(int argc, char** argv) {
                 done = true; // Leave the loop after this iteration
             }
         }
-        /*
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        glClearColor(0.5, 0.5, 0.5, 1);
-         */
+
         app.clearGl();
-        /*
+
         program.sendUniformTextureUnit("uTexture", 0);
+        /*
         program.sendUniformTextureUnit("uTexture2", 1);
         program.sendUniformTextureUnit("uMoistureTexture", 2);
         program.sendUniform1i("uSubDiv", nbrSub);
-
-        test_texture1.bind();
+        */
+        test_texture1->bind();
+         /*
         test_texture2.bind(GL_TEXTURE1);
         moisture.bind(GL_TEXTURE2);
          */
@@ -293,8 +299,9 @@ int dismain(int argc, char** argv) {
         //glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
         glDrawElements(GL_TRIANGLES, testObject.indices.size(), GL_UNSIGNED_INT, 0);
         vao.debind();
+        */
+        test_texture1->debind();
         /*
-        test_texture1.debind();
         test_texture2.debind();
         moisture.debind();
          */

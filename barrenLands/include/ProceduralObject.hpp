@@ -20,7 +20,7 @@ public:
     virtual void generateVertices();
     virtual void generateIndices();
     void generateNormals();
-    void createRenderObject(glcustom::GPUProgram *program);
+    void createRenderObject(glcustom::GPUProgram *program, glcustom::Texture *texture);
     void draw(const glm::mat4 &viewMatrix);
 //private:
     std::vector<glimac::ShapeVertex> vertices;

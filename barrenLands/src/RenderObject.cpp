@@ -14,12 +14,12 @@ void RenderObject::fillData(std::vector<glimac::ShapeVertex> vertices, std::vect
     //si les indices n'ont pas étés renseignés, remplir le tableau d'indices avec les indices des vertices (de 0 à nbVertices-1)
     if(indices.empty()){
         for(int i = 0; i < vertices.size(); i++){
-            //indices.push_back(i);
+            indices.push_back(i);
         }
     }
-    //glcustom::VBO vbo;
+    glcustom::VBO vbo;
     vbo.fillBuffer(vertices);
-    //glcustom::IBO ibo;
+    glcustom::IBO ibo;
     ibo.fillBuffer(indices);
     vao.fillBuffer(vertices, &vbo, &ibo);
 }
@@ -37,12 +37,11 @@ void RenderObject::render(const glm::mat4 &viewMatrix) {
     program->sendUniformMat4("uMV", modelViewMatrix);
     program->sendUniformMat4("uNormal", normals);
 
-    /*
+
     if(texture){
-        texture->bind(texture->getM_id());
+        texture->bind();
         program->sendUniformTextureUnit("uTexture", 0);
     }
-    */
     /*
     program->sendUniformVec3("uKd",glm::vec3(1.0));
     program->sendUniformVec3("uKs",glm::vec3(1.0));
@@ -58,14 +57,14 @@ void RenderObject::render(const glm::mat4 &viewMatrix) {
     vao.bind();
     glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
     vao.debind();
-    /*
+
     if(texture)
         texture->debind();
-    */
 
 }
 
-RenderObject::RenderObject(glcustom::GPUProgram * program) : program(program), vao(), vbo(), ibo() {}
+RenderObject::RenderObject(glcustom::GPUProgram *program, glcustom::Texture *texture)
+        : program(program), texture(texture), vao()/*, vbo(), ibo() */{}
 
 void RenderObject::transform(const glm::vec3 &translate, const float angle, const glm::vec3 &axesRotation,
                              const glm::vec3 &scale) {

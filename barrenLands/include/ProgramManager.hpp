@@ -18,8 +18,9 @@ public:
 
     void createPrograms();
     void configureLight(glcustom::GPUProgram *program, std::string name);
+    void reloadPrograms();
 private:
-    std::string appPath;
+    glimac::FilePath appPath;
     glcustom::GPUProgram * testProgram;
 
 };

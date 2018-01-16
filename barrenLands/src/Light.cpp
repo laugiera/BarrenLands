@@ -2,11 +2,11 @@
 // Created by natshez on 29/12/2017.
 //
 
-#include "Light.hpp"
+#include "../include/Light.hpp"
 
-Light::Light(const glm::vec3 &_intensity, const std::string & _name) : intensity(_intensity), name(_name)
+Light::Light(const float &_intensity, const std::string & _name,  const glm::vec3 &_color) : intensity(_intensity), name(_name), color(_color)
 {
-    setDirection();
+    resetDirection();
 }
 
 void Light::setDirection(glm::vec4 dir) {
@@ -23,19 +23,32 @@ void Light::transform(const glm::vec3 &translation, const float angle, const glm
 
 void Light::addLightUniforms(glcustom::GPUProgram &program){
     std::vector<std::string> uniformVariables;
-    uniformVariables.push_back("uLightDir_vs_"+name);
-    uniformVariables.push_back("uLightIntensity_"+name);
+    uniformVariables.push_back("uLightDir"+name);
+    uniformVariables.push_back("uLightIntensity"+name);
+    uniformVariables.push_back("uLightColor"+name);
 
     program.addUniforms(uniformVariables);
 }
 
 void Light::sendLightUniforms(glcustom::GPUProgram &program){
 
-    program.sendUniformVec4("uLightDir_vs_"+name,direction);
-    program.sendUniformVec3("uLightIntensity_"+name,intensity);
+    program.sendUniformVec4("uLightDir"+name,direction);
+    program.sendUniform1f("uLightIntensity"+name,intensity);
+    program.sendUniformVec3("uLightColor"+name,color);
 
+}
+
+void Light::rotate(float angle, glm::mat4 &viewMatrix){
+    glm::mat4 rotation = glm::rotate(glm::mat4(1),angle,glm::vec3(1,0,0));
+    direction = rotation * viewMatrix * direction;
+}
+
+void Light::resetDirection(){
+    direction = glm::vec4(-0.5,-0.5,-0.5,0);
 }
 
 const glm::vec4 &Light::getDirection() const {
     return direction;
 }
+
+
