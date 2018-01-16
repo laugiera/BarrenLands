@@ -57,14 +57,15 @@ void Application::appLoop() {
                     camera->moveFront(1.0);
                 } else if (e.key.keysym.sym == SDLK_DOWN) {
                     camera->moveFront(-1.0);
-                }
-                if (e.key.keysym.sym == SDLK_v) {
+                } else if (e.key.keysym.sym == SDLK_v) {
                     if(camera->getChoice() == 0){
                         camera->setChoice(1);
                     }
                     else{
                         camera->setChoice(0);
                     }
+                } else if(e.key.keysym.sym == SDLK_b){
+                    programManager->reloadPrograms();
                 }
             } else if (e.type == SDL_MOUSEBUTTONDOWN) {
                 if (e.button.button == SDL_BUTTON_RIGHT) {

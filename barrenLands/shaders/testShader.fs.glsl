@@ -11,5 +11,5 @@ uniform vec3 uColor;
 
 void main() {
         fFragColor = (texture(uTexture, vTexCoords_vs)).xyz;
-        fFragColor = uColor;
+        //fFragColor = uColor;
 }
