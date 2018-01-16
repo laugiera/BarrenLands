@@ -56,7 +56,7 @@ void RenderObject::render(const glm::mat4 &viewMatrix) {
     */
     
     vao.bind();
-    glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, indices.data());
+    glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
     vao.debind();
     /*
     if(texture)
