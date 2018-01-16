@@ -40,8 +40,13 @@ Application::Application(const glimac::FilePath &appPath) : windowManager(Tools:
 void Application::appLoop() {
     textureManager->createTextures();
     programManager->createPrograms();
+
+    Light light = Light(1,"Test",glm::vec3(0.5,0.1,0));
+    light.addLightUniforms(programManager->getLightProgram());
+    //autres lights ajoutées aux bons programs
+
     ProceduralObject testCube;
-    testCube.createRenderObject(programManager->getTestProgram(), textureManager->getTextures()[0]);
+    testCube.createRenderObject(programManager->getLightProgram(), textureManager->getTextures()[0]);
     bool done = false;
     int rightPressed = 0;
     while(!done) {
@@ -87,6 +92,11 @@ void Application::appLoop() {
             }
         }
         clearGl();
+
+        light.resetDirection();
+        light.rotate(windowManager.getTime(),camera->getViewMatrix());
+        light.sendLightUniforms(programManager->getLightProgram());
+
         testCube.draw(camera->getViewMatrix());
         windowManager.swapBuffers();
         printErrors();
@@ -114,10 +124,13 @@ void Application::testInterface() {
     textureManager->createTextures();
     programManager->createPrograms();
 
+    Light light = Light(1,"Test",glm::vec3(0.5,0.1,0));
+    light.addLightUniforms(programManager->getLightProgram());
+
     //----> Edit with the class you want to test :
     ProceduralObject * testObject = new ProceduralObject();
     //---->TestProgram uses TestShader with texture support
-    testObject->createRenderObject(programManager->getTestProgram(), textureManager->getTextures()[0]);
+    testObject->createRenderObject(programManager->getLightProgram(), textureManager->getTextures()[0]);
 
 
     bool done = false;
@@ -166,6 +179,12 @@ void Application::testInterface() {
             }
         }
         clearGl();
+
+        programManager->getLightProgram()->use();
+        light.resetDirection();
+        light.rotate(windowManager.getTime(),camera->getViewMatrix());
+        light.sendLightUniforms(programManager->getLightProgram());
+
         testObject->draw(camera->getViewMatrix());
         windowManager.swapBuffers();
         printErrors();

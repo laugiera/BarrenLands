@@ -93,8 +93,8 @@ int main(int argc, char** argv) {
                                                   "uMoistureTexture", "uSubDiv"};
 
     program.addUniforms(uniform_variables);
-    sun.addLightUniforms(program);
-    moon.addLightUniforms(program);
+    sun.addLightUniforms(&program);
+    moon.addLightUniforms(&program);
     program.use();
 
     //variables globales
@@ -243,11 +243,11 @@ int main(int argc, char** argv) {
 
         sun.resetDirection();
         sun.rotate(windowManager.getTime(),ViewMatrix);
-        sun.sendLightUniforms(program);
+        sun.sendLightUniforms(&program);
 
         moon.resetDirection();
         moon.rotate(-windowManager.getTime(),ViewMatrix);
-        moon.sendLightUniforms(program);
+        moon.sendLightUniforms(&program);
 
 
         //send uniform variables

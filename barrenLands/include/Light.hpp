@@ -15,9 +15,9 @@ class Light {
 public:
     Light(const float &_intensity, const std::string &_name, const glm::vec3 &_color);
     void transform(const glm::vec3 &translation, const float angle, const glm::vec3 &axesRotation, const glm::vec3 &scale);
-    void addLightUniforms(glcustom::GPUProgram &program);
-    void sendLightUniforms(glcustom::GPUProgram &program);
-    void rotate(float angle, glm::mat4 &viewMatrix);
+    void addLightUniforms(glcustom::GPUProgram *program);
+    void sendLightUniforms(glcustom::GPUProgram *program);
+    void rotate(float angle, const glm::mat4 &viewMatrix);
 
     void setDirection(glm::vec4 dir);
     void resetDirection();

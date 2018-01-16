@@ -7,6 +7,7 @@
 
 
 #include <GPUProgram.hpp>
+#include <Light.hpp>
 
 class ProgramManager {
 public:
@@ -17,10 +18,13 @@ public:
     glcustom::GPUProgram *getTestProgram() const;
 
     void createPrograms();
-    void configureLight(glcustom::GPUProgram *program, std::string name);
+
+    glcustom::GPUProgram * getLightProgram() const;
+
 private:
     std::string appPath;
     glcustom::GPUProgram * testProgram;
+    glcustom::GPUProgram * lightProgram;
 
 };
 

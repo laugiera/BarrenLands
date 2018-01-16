@@ -37,22 +37,12 @@ void RenderObject::render(const glm::mat4 &viewMatrix) {
     program->sendUniformMat4("uMV", modelViewMatrix);
     program->sendUniformMat4("uNormal", normals);
 
-
     if(texture){
         texture->bind();
         program->sendUniformTextureUnit("uTexture", 0);
     }
-    /*
-    program->sendUniformVec3("uKd",glm::vec3(1.0));
-    program->sendUniformVec3("uKs",glm::vec3(1.0));
-    program->sendUniform1f("uShininess", 64);
-     */
+
     program->sendUniformVec3("uColor", glm::vec3(0.5, 0.5, 0.5));
-    /*
-    globalLeft.sendLightUniforms(program);
-    globalRight.sendLightUniforms(program);
-    playerLight.sendLightUniforms(program);
-    */
     
     vao.bind();
     glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
