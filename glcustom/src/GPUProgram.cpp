@@ -15,11 +15,15 @@ glcustom::GPUProgram::GPUProgram(glimac::FilePath app_path, std::string m_vertex
 
 void glcustom::GPUProgram::addUniform(std::string name) {
     GLint id = glGetUniformLocation(m_program.getGLId(), name.c_str());
-    m_u_variables.insert(std::pair<std::string, GLint>(name, id));
+    //m_u_variables.insert(std::pair<std::string, GLint>(name, id));
+    m_u_variables[name] = id;
 }
 
 
 void glcustom::GPUProgram::setProgram(glimac::FilePath app_path, std::string m_vertex_shader, std::string m_fragment_shader){
+    //keep uVariable list
+    //std::vector<std::string> uVars = getUniformList();
+
     m_vertex_shader = m_vertex_shader + ".vs.glsl";
     m_fragment_shader = m_fragment_shader + ".fs.glsl";
     m_program = glimac::loadProgram(m_app_path.dirPath() + "shaders/" + m_vertex_shader,

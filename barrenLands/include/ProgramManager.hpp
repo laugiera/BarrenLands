@@ -21,8 +21,9 @@ public:
 
     glcustom::GPUProgram * getLightProgram() const;
 
+    void reloadPrograms();
 private:
-    std::string appPath;
+    glimac::FilePath appPath;
     glcustom::GPUProgram * testProgram;
     glcustom::GPUProgram * lightProgram;
 

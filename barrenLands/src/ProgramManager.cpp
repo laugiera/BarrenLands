@@ -15,14 +15,13 @@ ProgramManager::~ProgramManager() {
 
 void ProgramManager::createPrograms() {
     //test Program
-    glimac::FilePath fp(appPath);
-    testProgram = new glcustom::GPUProgram(fp, "testShader",  "testShader");
+    testProgram = new glcustom::GPUProgram(appPath, "testShader",  "testShader");
     std::vector<std::string> uniform_variables = {"uMV", "uMVP","uNormal","uColor", "uTexture"};
     testProgram->addUniforms(uniform_variables);
 
     uniform_variables.clear();
     uniform_variables = {"uMV", "uMVP","uTexture","uNormal", "uColor"};
-    lightProgram = new glcustom::GPUProgram(fp,"lightTest","lightTest");
+    lightProgram = new glcustom::GPUProgram(appPath,"lightTest","lightTest");
     lightProgram->addUniforms(uniform_variables);
 }
 
@@ -30,8 +29,14 @@ glcustom::GPUProgram *ProgramManager::getTestProgram() const {
     return testProgram;
 }
 
+
 glcustom::GPUProgram *ProgramManager::getLightProgram() const {
     return lightProgram;
+}
+void ProgramManager::reloadPrograms() {
+    std::vector<std::string> uniform_variables = testProgram->getUniformList();//{"uMV", "uMVP","uNormal","uColor", "uTexture"};
+    testProgram->setProgram(appPath, "testShader",  "testShader");
+    testProgram->addUniforms(uniform_variables);
 }
 
 
