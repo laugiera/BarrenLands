@@ -9,7 +9,7 @@ glcustom::IBO::IBO() {
 }
 
 glcustom::IBO::~IBO() {
-   // glDeleteBuffers(1, &m_id);
+    glDeleteBuffers(1, &m_id);
 }
 
 void glcustom::IBO::bind() {

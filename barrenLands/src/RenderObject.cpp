@@ -14,12 +14,12 @@ void RenderObject::fillData(std::vector<glimac::ShapeVertex> vertices, std::vect
     //si les indices n'ont pas étés renseignés, remplir le tableau d'indices avec les indices des vertices (de 0 à nbVertices-1)
     if(indices.empty()){
         for(int i = 0; i < vertices.size(); i++){
-            //indices.push_back(i);
+            indices.push_back(i);
         }
     }
-    //glcustom::VBO vbo;
+    glcustom::VBO vbo;
     vbo.fillBuffer(vertices);
-    //glcustom::IBO ibo;
+    glcustom::IBO ibo;
     ibo.fillBuffer(indices);
     vao.fillBuffer(vertices, &vbo, &ibo);
 }
@@ -64,7 +64,7 @@ void RenderObject::render(const glm::mat4 &viewMatrix) {
 }
 
 RenderObject::RenderObject(glcustom::GPUProgram *program, glcustom::Texture *texture)
-        : program(program), texture(texture), vao(), vbo(), ibo() {}
+        : program(program), texture(texture), vao()/*, vbo(), ibo() */{}
 
 void RenderObject::transform(const glm::vec3 &translate, const float angle, const glm::vec3 &axesRotation,
                              const glm::vec3 &scale) {

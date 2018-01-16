@@ -26,8 +26,6 @@ public:
 
 //private:
     glcustom::VAO vao;
-    glcustom::VBO vbo;
-    glcustom::IBO ibo;
     glcustom::GPUProgram * program;
     glm::mat4 modelMatrix;
     std::vector<uint32_t> indices;
