@@ -17,8 +17,10 @@ public:
     void transform(const glm::vec3 &translation, const float angle, const glm::vec3 &axesRotation, const glm::vec3 &scale);
     void addLightUniforms(glcustom::GPUProgram &program);
     void sendLightUniforms(glcustom::GPUProgram &program);
+    void rotate(float angle, glm::mat4 &viewMatrix);
 
-    void setDirection(glm::vec4 dir = glm::vec4(-0.5,-0.5,-0.5,0));
+    void setDirection(glm::vec4 dir);
+    void resetDirection();
     const glm::vec4 &getDirection() const;
 
 private:

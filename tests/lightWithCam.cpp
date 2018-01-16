@@ -22,6 +22,8 @@
 #include "../barrenLands/include/CameraManager.hpp"
 #include "../barrenLands/src/CameraManager.cpp"
 #include "../barrenLands/src/NoiseManager.cpp"
+#include "../barrenLands/include/Light.hpp"
+#include "../barrenLands/src/Light.cpp"
 #include <VAO.hpp>
 #include <GPUProgram.hpp>
 #include <Texture.hpp>
@@ -79,14 +81,20 @@ int main(int argc, char** argv) {
     }
     glcustom::Texture moisture = glcustom::Texture(nbrSub+1, nbrSub+1, moistureVector.data(), GL_RED);
 
+    /***LIGHTS***/
+    Light sun = Light(1.f,"Sun",glm::vec3(0.8,0.2,0));
+    Light moon = Light(1.f,"Moon",glm::vec3(0,0.2,0.8));
+
     /***** GPU PROGRAM *****/
 
     glcustom::GPUProgram program(applicationPath, "light",  "light");
-    std::vector<std::string> uniform_variables = {"MV", "MVP","Light_cameraspace",
+    std::vector<std::string> uniform_variables = {"uMV", "uMVP",
                                                   "uTexture", "uTexture2",
                                                   "uMoistureTexture", "uSubDiv"};
 
     program.addUniforms(uniform_variables);
+    sun.addLightUniforms(program);
+    moon.addLightUniforms(program);
     program.use();
 
     //variables globales
@@ -233,14 +241,19 @@ int main(int argc, char** argv) {
         glm::mat4 MV = ViewMatrix * MobelMatrix;
         glm::mat4 MVP = ProjMat * MV;
 
-        glm::vec4 lightPos = glm::vec4(-0.5,-0.5,-0.5,1);
-        glm::mat4 rotation = glm::rotate(glm::mat4(1),windowManager.getTime(),glm::vec3(1,0,0));
-        lightPos = rotation * ViewMatrix * lightPos;
+        sun.resetDirection();
+        sun.rotate(windowManager.getTime(),ViewMatrix);
+        sun.sendLightUniforms(program);
+
+        moon.resetDirection();
+        moon.rotate(-windowManager.getTime(),ViewMatrix);
+        moon.sendLightUniforms(program);
+
 
         //send uniform variables
-        program.sendUniformMat4("MV", MV);
-        program.sendUniformMat4("MVP", MVP);
-        program.sendUniformVec4("Light_cameraspace", lightPos);
+        program.sendUniformMat4("uMV", MV);
+        program.sendUniformMat4("uMVP", MVP);
+
         //draw
         vao.bind();
         glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
