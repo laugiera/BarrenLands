@@ -11,8 +11,8 @@ in vec3 eyeDirection_cameraspace;
 out vec3 color;
 
 // Values that stay constant for the whole mesh.
-uniform sampler2D uTexture;
-uniform sampler2D uTexture2;
+uniform sampler2D uTexture0;
+uniform sampler2D uTexture1;
 uniform sampler2D uMoistureTexture;
 uniform int uSubDiv;
 uniform vec4 uLightDirSun;

@@ -20,12 +20,16 @@ public:
     virtual void generateVertices();
     virtual void generateIndices();
     void generateNormals();
-    void createRenderObject(glcustom::GPUProgram *program, glcustom::Texture *texture);
+    virtual void createRenderObject(glcustom::GPUProgram *program);
     void draw(const glm::mat4 &viewMatrix);
+
+    void setTextures(const std::vector<glcustom::Texture *> &textures);
+
 //private:
     std::vector<glimac::ShapeVertex> vertices;
     std::vector<uint32_t> indices;
     RenderObject * renderObject;
+    std::vector<glcustom::Texture *> textures;
 };
 
 

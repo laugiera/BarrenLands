@@ -6,7 +6,9 @@
 
 
 RenderObject::~RenderObject() {
-
+    for(glcustom::Texture * texture : textures){
+        delete texture;
+    }
 }
 
 void RenderObject::fillData(std::vector<glimac::ShapeVertex> vertices, std::vector<uint32_t> _indices) {
@@ -37,7 +39,7 @@ void RenderObject::render(const glm::mat4 &viewMatrix) {
     program->sendUniformMat4("uMV", modelViewMatrix);
     program->sendUniformMat4("uNormal", normals);
 
-
+    bindTextures();
     /*
     program->sendUniformVec3("uKd",glm::vec3(1.0));
     program->sendUniformVec3("uKs",glm::vec3(1.0));
@@ -53,8 +55,8 @@ void RenderObject::render(const glm::mat4 &viewMatrix) {
 
 }
 
-RenderObject::RenderObject(glcustom::GPUProgram *program, glcustom::Texture *texture)
-        : program(program), texture(texture), vao(){}
+RenderObject::RenderObject(glcustom::GPUProgram *program, std::vector<glcustom::Texture *> textures)
+        : program(program), textures(textures), vao(){}
 
 void RenderObject::transform(const glm::vec3 &translate, const float angle, const glm::vec3 &axesRotation,
                              const glm::vec3 &scale) {
@@ -66,13 +68,17 @@ void RenderObject::transform(const glm::vec3 &translate, const float angle, cons
 }
 
 void RenderObject::bindTextures() {
-    if(texture){
-        texture->bind();
-        program->sendUniformTextureUnit("uTexture", 0);
+    int textureUnit = GL_TEXTURE0;
+    int i = 0;
+    for(glcustom::Texture * texture : textures){
+        texture->bind(textureUnit+i);
+        program->sendUniformTextureUnit("uTexture" + std::to_string(i), i);
+        i++;
     }
 }
 
 void RenderObject::debindTextures() {
-    if(texture)
+    for(glcustom::Texture * texture : textures){
         texture->debind();
+    }
 }

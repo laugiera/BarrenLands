@@ -41,4 +41,42 @@ void ProceduralMap::generateIndices() {
 ProceduralMap::ProceduralMap(NoiseManager *noise) : ProceduralObject(){
     generateVertices(noise);
     generateIndices();
+    generateNormals();
+}
+
+void ProceduralMap::generateNormals() {
+    int i, j;
+    glm::vec3 dir1;
+    glm::vec3 dir2;
+    glm::vec3 norm;
+
+    for(i=0; i < Tools::nbSub*Tools::nbSub*2; ++i){
+        if(i%2 == 0){
+            dir1 = vertices[indices[3*i+1]].position - vertices[indices[3*i]].position;
+            dir2 = vertices[indices[3*i+2]].position - vertices[indices[3*i]].position;
+        }
+        else{
+            dir1 = vertices[indices[3*i]].position - vertices[indices[3*i+1]].position;
+            dir2 = vertices[indices[3*i+2]].position - vertices[indices[3*i+1]].position;
+        }
+        norm = glm::normalize(glm::cross(dir2, dir1));
+        vertices[indices[3*i]].normal += norm;
+        vertices[indices[3*i+1]].normal += norm;
+        vertices[indices[3*i+2]].normal += norm;
+
+
+    }
+
+    for(i=0; i < vertices.size(); ++i){
+        vertices[indices[i]].normal = glm::normalize(vertices[indices[i]].normal);
+    }
+}
+
+void ProceduralMap::createRenderObject(glcustom::GPUProgram *program) {
+    renderObject = new RenderMap(program, textures);
+    renderObject->fillData(vertices, indices);
+}
+
+void ProceduralMap::setTextures(const std::vector<glcustom::Texture *> &textures) {
+    ProceduralMap::textures = textures;
 }

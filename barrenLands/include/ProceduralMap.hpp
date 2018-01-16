@@ -7,12 +7,18 @@
 
 #include "ProceduralObject.hpp"
 #include "NoiseManager.hpp"
+#include "RenderMap.hpp"
 
 class ProceduralMap : public ProceduralObject{
 public:
     ProceduralMap(NoiseManager *noise);
     void generateVertices(NoiseManager *noise);
     void generateIndices();
+    void generateNormals();
+    void createRenderObject(glcustom::GPUProgram *program);
+
+    void setTextures(const std::vector<glcustom::Texture *> &textures);
+
 private:
     std::vector<glcustom::Texture*> textures;
 

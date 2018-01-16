@@ -48,7 +48,9 @@ void Application::appLoop() {
     //autres lights ajoutées aux bons programs
 
     ProceduralObject testCube;
-    testCube.createRenderObject(programManager->getLightProgram(), textureManager->getTextures()[0]);
+    testCube.setTextures(std::vector<glcustom::Texture*>(1,textureManager->getTextures()[0]));
+    testCube.createRenderObject(programManager->getLightProgram());
+
     bool done = false;
     int rightPressed = 0;
     while(!done) {
@@ -95,7 +97,7 @@ void Application::appLoop() {
             }
         }
         clearGl();
-
+        programManager->getLightProgram()->use();
         light.resetDirection();
         light.rotate(windowManager.getTime(),camera->getViewMatrix());
         light.sendLightUniforms(programManager->getLightProgram());
@@ -131,9 +133,10 @@ void Application::testInterface() {
     light.addLightUniforms(programManager->getLightProgram());
 
     //----> Edit with the class you want to test :
-    ProceduralObject * testObject = new ProceduralMap(noiseManager);
+    ProceduralMap * testObject = new ProceduralMap(noiseManager);
+    testObject->setTextures(textureManager->getTextures());
     //---->TestProgram uses TestShader with texture support
-    testObject->createRenderObject(programManager->getLightProgram(), textureManager->getTextures()[0]);
+    testObject->createRenderObject(programManager->getLightProgram());
 
 
     bool done = false;

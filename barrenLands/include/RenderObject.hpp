@@ -16,7 +16,7 @@ class RenderObject {
 public:
     RenderObject() = default;
 
-    RenderObject(glcustom::GPUProgram *program, glcustom::Texture *texture);
+    RenderObject(glcustom::GPUProgram *program, std::vector<glcustom::Texture *> texture);
 
     virtual ~RenderObject();
     void fillData(std::vector<glimac::ShapeVertex> vertices, std::vector<uint32_t> indices);
@@ -31,7 +31,7 @@ public:
     glcustom::GPUProgram * program;
     glm::mat4 modelMatrix;
     std::vector<uint32_t> indices;
-    glcustom::Texture * texture;
+    std::vector<glcustom::Texture *> textures;
 };
 
 
