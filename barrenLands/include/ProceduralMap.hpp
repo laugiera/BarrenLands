@@ -6,8 +6,15 @@
 #define BARRENLANDS_PROCEDURALMAP_HPP
 
 #include "ProceduralObject.hpp"
+#include "NoiseManager.hpp"
 
 class ProceduralMap : public ProceduralObject{
+public:
+    ProceduralMap(NoiseManager *noise);
+    void generateVertices(NoiseManager *noise);
+    void generateIndices();
+private:
+    std::vector<glcustom::Texture*> textures;
 
 };
 

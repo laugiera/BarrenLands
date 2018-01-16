@@ -21,24 +21,24 @@ void Light::transform(const glm::vec3 &translation, const float angle, const glm
     direction = transformation * direction;
 }
 
-void Light::addLightUniforms(glcustom::GPUProgram &program){
+void Light::addLightUniforms(glcustom::GPUProgram *program){
     std::vector<std::string> uniformVariables;
     uniformVariables.push_back("uLightDir"+name);
     uniformVariables.push_back("uLightIntensity"+name);
     uniformVariables.push_back("uLightColor"+name);
 
-    program.addUniforms(uniformVariables);
+    program->addUniforms(uniformVariables);
 }
 
-void Light::sendLightUniforms(glcustom::GPUProgram &program){
+void Light::sendLightUniforms(glcustom::GPUProgram *program){
 
-    program.sendUniformVec4("uLightDir"+name,direction);
-    program.sendUniform1f("uLightIntensity"+name,intensity);
-    program.sendUniformVec3("uLightColor"+name,color);
+    program->sendUniformVec4("uLightDir"+name,direction);
+    program->sendUniform1f("uLightIntensity"+name,intensity);
+    program->sendUniformVec3("uLightColor"+name,color);
 
 }
 
-void Light::rotate(float angle, glm::mat4 &viewMatrix){
+void Light::rotate(float angle, const glm::mat4  &viewMatrix){
     glm::mat4 rotation = glm::rotate(glm::mat4(1),angle,glm::vec3(1,0,0));
     direction = rotation * viewMatrix * direction;
 }

@@ -14,7 +14,7 @@ ProceduralObject::~ProceduralObject() {
 }
 
 void ProceduralObject::generateVertices() {
-
+    vertices.clear();
     //FACE AVANT
     vertices.push_back(glimac::ShapeVertex(glm::vec3(1,1,1), glm::vec3(0,0,1), glm::vec2(0,0)));
     vertices.push_back(glimac::ShapeVertex(glm::vec3(-1,1,1), glm::vec3(0,0,1), glm::vec2(0,1)));
@@ -54,6 +54,7 @@ void ProceduralObject::generateVertices() {
 }
 
 void ProceduralObject::generateIndices() {
+    indices.clear();
     uint32_t _indices[] =
             {
                     0,1,2,

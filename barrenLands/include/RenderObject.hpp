@@ -23,6 +23,8 @@ public:
     void transform(const glm::vec3 &translate, const float angle, const glm::vec3 &axesRotation,
                    const glm::vec3 &scale);
     void render(const glm::mat4 &viewMatrix);
+    void bindTextures();
+    void debindTextures();
 
 //private:
     glcustom::VAO vao;

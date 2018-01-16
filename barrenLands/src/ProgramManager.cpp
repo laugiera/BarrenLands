@@ -4,23 +4,13 @@
 
 #include "../include/ProgramManager.hpp"
 
-ProgramManager::ProgramManager(const std::string &appPath) : testProgram(nullptr), appPath(appPath) {
+ProgramManager::ProgramManager(const std::string &appPath) : testProgram(nullptr), lightProgram(nullptr), appPath(appPath) {
     createPrograms();
 }
 
 ProgramManager::~ProgramManager() {
     delete testProgram;
-}
-
-void ProgramManager::configureLight(glcustom::GPUProgram * program, std::string name) {
-    //add light variables to program
-    std::vector<std::string> uniformVariables;
-    uniformVariables.push_back("uLightDir_vs_"+name);
-    uniformVariables.push_back("uLightIntensity_"+name);
-    program->addUniforms(uniformVariables);
-    //send fixed light data to program
-    program->sendUniformVec4("uLightDir_vs_"+name,glm::vec4(0,-1,0,0));
-    program->sendUniformVec3("uLightIntensity_"+name,glm::vec3(1));
+    delete lightProgram;
 }
 
 void ProgramManager::createPrograms() {
@@ -28,14 +18,21 @@ void ProgramManager::createPrograms() {
     testProgram = new glcustom::GPUProgram(appPath, "testShader",  "testShader");
     std::vector<std::string> uniform_variables = {"uMV", "uMVP","uNormal","uColor", "uTexture"};
     testProgram->addUniforms(uniform_variables);
-    //configureLight(testProgram, "basicLight");
 
+    uniform_variables.clear();
+    uniform_variables = {"uMV", "uMVP","uTexture","uNormal", "uColor"};
+    lightProgram = new glcustom::GPUProgram(appPath,"lightTest","lightTest");
+    lightProgram->addUniforms(uniform_variables);
 }
 
 glcustom::GPUProgram *ProgramManager::getTestProgram() const {
     return testProgram;
 }
 
+
+glcustom::GPUProgram *ProgramManager::getLightProgram() const {
+    return lightProgram;
+}
 void ProgramManager::reloadPrograms() {
     std::vector<std::string> uniform_variables = testProgram->getUniformList();//{"uMV", "uMVP","uNormal","uColor", "uTexture"};
     testProgram->setProgram(appPath, "testShader",  "testShader");
