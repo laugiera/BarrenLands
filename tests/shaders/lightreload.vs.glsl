@@ -14,6 +14,7 @@ out vec3 EyeDirection_cameraspace;
 // Values that stay constant for the whole mesh.
 uniform mat4 MVP;
 uniform mat4 MV;
+uniform vec4 Light_cameraspace;
 
 void main(){
 

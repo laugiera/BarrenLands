@@ -70,7 +70,7 @@ void ProceduralObject::generateIndices() {
                     20,22,23
             };
 
-    indices = std::vector<uint32_t>(_indices, _indices + sizeof(_indices) / sizeof(u_int32_t));
+    indices = std::vector<uint32_t>(_indices, _indices + sizeof(_indices) / sizeof(uint32_t));
     //indices = std::vector<uint32_t>();
 
 }
