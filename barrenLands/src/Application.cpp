@@ -50,12 +50,8 @@ void Application::appLoop() {
     //autres lights ajoutées aux bons programs
 
     ProceduralMap testMap(noiseManager);
-    testMap.setTextures(std::vector<glcustom::Texture*>(1,textureManager->getTextures()[0]));
-    testMap.createRenderObject(programManager->getLightProgram());
+    testMap.createRenderObject(programManager, textureManager);
 
-    ProceduralObject * Map = new ProceduralMap(noiseManager);
-    Map->setTextures(textureManager->getTextures());
-    Map->createRenderObject(programManager->getLightProgram());
 
     bool done = false;
     int rightPressed = 0;
@@ -151,9 +147,8 @@ void Application::testInterface() {
 
     //----> Edit with the class you want to test :
     ProceduralMap * testObject = new ProceduralMap(noiseManager);
-    testObject->setTextures(textureManager->getTextures());
     //---->TestProgram uses TestShader with texture support
-    testObject->createRenderObject(programManager->getLightProgram());
+    testObject->createRenderObject(programManager, textureManager);
 
 
     bool done = false;

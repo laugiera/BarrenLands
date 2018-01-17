@@ -3,6 +3,8 @@
 //
 
 #include <NoiseManager.hpp>
+#include <ProgramManager.hpp>
+#include <TextureManager.hpp>
 #include "ProceduralMap.hpp"
 
 void ProceduralMap::generateVertices(NoiseManager *noise) {
@@ -72,8 +74,8 @@ void ProceduralMap::generateNormals() {
     }
 }
 
-void ProceduralMap::createRenderObject(glcustom::GPUProgram *program) {
-    renderObject = new RenderMap(program, textures);
+void ProceduralMap::createRenderObject(ProgramManager *programManager, TextureManager *textureManager) {
+    renderObject = new RenderMap(programManager->getLightProgram(), chooseTextures(textureManager));
     renderObject->fillData(vertices, indices);
 }
 
@@ -83,4 +85,16 @@ glimac::ShapeVertex ProceduralMap::getVertices(int i, int j){
 
 void ProceduralMap::setTextures(const std::vector<glcustom::Texture *> &textures) {
     ProceduralMap::textures = textures;
+}
+
+void ProceduralMap::createBiomes() {
+    //utiliser un loader
+    for(int i = 0; i<8 ; i++){
+        biomes.push_back(new ProceduralBiome());
+    }
+
+}
+
+std::vector<glcustom::Texture *> ProceduralMap::chooseTextures(TextureManager *textureManager) {
+    return textureManager->getTextures();
 }

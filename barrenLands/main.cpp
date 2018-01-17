@@ -191,7 +191,7 @@ int dismain(int argc, char** argv) {
     //testObject.indices = indices;
     testObject.generateVertices();
     testObject.generateIndices();
-    testObject.createRenderObject(&program);
+    //testObject.createRenderObject(programManager, nullptr);
     testObject.renderObject->fillData(testObject.vertices, testObject.indices);
 
     /***** BUFFERS *****/
