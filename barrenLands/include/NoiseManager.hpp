@@ -1,12 +1,15 @@
 //
 // Created by natshez on 09/12/2017.
 //
-
+#define GLEW_STATIC
 #ifndef BARRENLANDSMASTER_NOISEMANAGER_H
 #define BARRENLANDSMASTER_NOISEMANAGER_H
 
 #include "../../fastnoise/FastNoise.h"
 #include <math.h>
+#include <GL/glew.h>
+#include <GL/glut.h>
+#include <iostream>
 
 class NoiseManager {
 private:

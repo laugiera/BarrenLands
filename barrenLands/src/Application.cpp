@@ -43,6 +43,7 @@ void Application::appLoop() {
 
     Light light = Light(1,"Test",glm::vec3(0.5,0.1,0));
     light.addLightUniforms(programManager->getLightProgram());
+
     //autres lights ajoutées aux bons programs
 
     /*ElementFactory* factory = new ElementFactory();

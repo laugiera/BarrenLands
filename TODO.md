@@ -2,13 +2,13 @@
 
 Mise en place la structure de base de l'application.
 
-- [ ] Classe principale "Application" qui contient l'initialisation de toutes les ressources OpenGL ainsi que la boucle principale de rendu.
+- [x] Classe principale "Application" qui contient l'initialisation de toutes les ressources OpenGL ainsi que la boucle principale de rendu.
 
 Mise en place de la partie rendu OpenGL :
 
 - [x] Classe "GPUProgram" permettant de loader, compiler et linker des Vertex Shader et des Fragment Shaders.
 - [x] Classe "RenderObject" avec ses fonctions "fillData" et "render"
-- [ ] Classe "Light" avec ses fonctions et deux lights pour le soleil et la lune
+- [x] Classe "Light" avec ses fonctions et deux lights pour le soleil et la lune
 - [ ] Une ou plusieurs classes dérivées de "RenderObject" (RenderMap, RenderBiome, RenderElement) qui implémentent les fonctions fillData et render.
 
 Mise en place de la partie Génération Prodécurale :
@@ -19,10 +19,10 @@ Mise en place de la partie Génération Prodécurale :
 
 Mise en place des fonctions utilitaires :
 
-- [ ] Trackball caméra
-- [ ] Freefly caméra
-- [ ] Implémenter les fonctions qui renvoient la matrice modelview de chacune des caméras
-- [ ] Créer un manager CameraManager permettant de switcher de caméras
+- [x] Trackball caméra
+- [x] Freefly caméra
+- [x] Implémenter les fonctions qui renvoient la matrice modelview de chacune des caméras
+- [x] Créer un manager CameraManager permettant de switcher de caméras
 
 Objectif à la fin du sprint 1 :
 - [ ] Pouvoir créer rapidement des ProceduralObjects et les RenderObjects correspondants via la démarche suivante :
@@ -33,4 +33,4 @@ Objectif à la fin du sprint 1 :
  
 - [x] Pouvoir visualiser directement ces nouveaux objets / nouvelles zones dans l'application.
 - [x] Pouvoir recompiler les shaders à la volée.
-- [ ] Pouvoir se déplacer facilement sur la carte.
+- [x] Pouvoir se déplacer facilement sur la carte.
