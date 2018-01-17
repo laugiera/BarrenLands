@@ -14,6 +14,18 @@ void TextureManager::createTextures() {
     glcustom::Texture * test_texture2 = new glcustom::Texture(appPath.dirPath() + "textures/" + "653306852.jpg");
     textures.push_back(test_texture1);
     textures.push_back(test_texture2);
+
+    //moisture map
+    NoiseManager noise(1200);
+    float** humidite = noise.getElevationMap(Tools::nbSub +1, Tools::nbSub +1);
+    std::vector<float> moistureVector;
+    for(int i = 0; i < Tools::nbSub +1; i++){
+        for(int j = 0 ; j < Tools::nbSub +1; j++){
+            moistureVector.push_back(humidite[i][j]);
+        }
+    }
+    glcustom::Texture * moisture = new glcustom::Texture(Tools::nbSub +1, Tools::nbSub +1, moistureVector.data(), GL_RED);
+    textures.push_back(moisture);
 }
 
 const std::vector<glcustom::Texture *> &TextureManager::getTextures() const {

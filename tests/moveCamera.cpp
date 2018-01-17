@@ -1,5 +1,9 @@
 //
-// Created by Lou Landry on 04/11/2017.
+// Created by Etienne on 19/12/2017.
+//
+
+//
+// Created by Lou on 16/12/2017.
 //
 
 #define GLEW_STATIC
@@ -16,32 +20,12 @@
 #include <glimac/TrackballCamera.hpp>
 #include "../barrenLands/include/NoiseManager.hpp"
 #include "../barrenLands/include/CameraManager.hpp"
+#include "../barrenLands/src/CameraManager.cpp"
+#include "../barrenLands/src/NoiseManager.cpp"
 #include <VAO.hpp>
 #include <GPUProgram.hpp>
 #include <Texture.hpp>
 #include <vector>
-#include "Application.hpp"
-#include "TextureManager.hpp"
-
-int main(int argc, char** argv) {
-
-    Application app(argv[0]);
-    app.appLoop();
-    //app.testInterface();
-
-    return EXIT_SUCCESS;
-}
-
-
-//
-// Created by Etienne on 19/12/2017.
-//
-
-//
-// Created by Lou on 16/12/2017.
-//
-
-
 
 /***
  * La map fait un carré de 100 par 100
@@ -52,14 +36,24 @@ int main(int argc, char** argv) {
 
 using namespace glimac;
 
+void conversionIndice(float x, float z, int &i, int &j, float width, int nbrSub){
+    i = x + width*nbrSub/2;
+    j = z + width*nbrSub/2;
+}
 
-int dismain(int argc, char** argv) {
 
+float hauteurMoyenne(std::vector<ShapeVertex> vect, int i, int j, int nbrSub){
+    float hauteur = 0;
+    hauteur += vect[i*(nbrSub+1)+j].position.y; //point du centre
+
+    return hauteur;
+}
+
+int main(int argc, char** argv) {
     /***** SDL THINGY *****/
     // Initialize SDL and open a window
-    //SDLWindowManager windowManager(800, 600, "GLImac");
+    SDLWindowManager windowManager(800, 600, "GLImac");
     // Initialize glew for OpenGL3+ support
-    /*
     GLenum glewInitError = glewInit();
     if(GLEW_OK != glewInitError) {
         std::cerr << glewGetErrorString(glewInitError) << std::endl;
@@ -70,10 +64,7 @@ int dismain(int argc, char** argv) {
 
     std::cout << "OpenGL Version : " << glGetString(GL_VERSION) << std::endl;
     std::cout << "GLEW Version : " << glewGetString(GLEW_VERSION) << std::endl;
-    */
 
-    Application app(argv[0]);
-    SDLWindowManager windowManager = app.getWindowManager();
     FilePath applicationPath(argv[0]);
 
     /***BARREN LAND ON GERE LE Nombre de Sub***/
@@ -85,15 +76,10 @@ int dismain(int argc, char** argv) {
     NoiseManager noise(seed);
 
     /*****TEXTURES*****/
-    TextureManager textures(applicationPath);
-    textures.createTextures();
-    glcustom::Texture * test_texture1 = textures.getTextures()[0];
-    glcustom::Texture * test_texture2 = textures.getTextures()[1];
-    /*
     glcustom::Texture test_texture1 = glcustom::Texture(
             applicationPath.dirPath() + "textures/" + "HatchPattern-final.png");
     glcustom::Texture test_texture2 = glcustom::Texture(applicationPath.dirPath() + "textures/" + "653306852.jpg");
-    */
+
 
     /***TEXTURE MOISTURE***/
     float** humidite = noise.getElevationMap(nbrSub+1, nbrSub+1, freq-0.03, elevationMax);
@@ -107,12 +93,10 @@ int dismain(int argc, char** argv) {
 
     /***** GPU PROGRAM *****/
 
-    //glcustom::GPUProgram program(applicationPath, "light",  "light");
-    glcustom::GPUProgram program(applicationPath, "testShader",  "testShader");
-    std::vector<std::string> uniform_variables = {"uMV", "uMVP", "uNormal", "uTexture"
-                                                  /*"Light_cameraspace",
+    glcustom::GPUProgram program(applicationPath, "light",  "light");
+    std::vector<std::string> uniform_variables = {"MV", "MVP","Light_cameraspace",
                                                   "uTexture", "uTexture2",
-                                                  "uMoistureTexture", "uSubDiv"*/};
+                                                  "uMoistureTexture", "uSubDiv"};
 
     program.addUniforms(uniform_variables);
     program.use();
@@ -185,35 +169,31 @@ int dismain(int argc, char** argv) {
 
     /******/
 
-    /***TEST PROCEDURAL OBJECT***/
-    ProceduralObject testObject;
-    //testObject.vertices = vertices;
-    //testObject.indices = indices;
-    testObject.generateVertices();
-    testObject.generateIndices();
-    testObject.createRenderObject(&program);
-    testObject.renderObject->fillData(testObject.vertices, testObject.indices);
-
     /***** BUFFERS *****/
     glcustom::VBO vbo = glcustom::VBO();
     glcustom::IBO ibo = glcustom::IBO();
     glcustom::VAO vao = glcustom::VAO();
-    /*
-    vbo.fillBuffer(testObject.vertices);
-    ibo.fillBuffer(testObject.indices);
-    vao.fillBuffer(testObject.vertices, &vbo, &ibo);
-     */
-    //vbo = testObject.renderObject->vbo;
-    //ibo = testObject.renderObject->ibo;
-    vao = testObject.renderObject->vao;
 
-
+    vbo.fillBuffer(vertices);
+    ibo.fillBuffer(indices);
+    vao.fillBuffer(vertices, &vbo, &ibo);
 
     /***CAMERA***/
-    CameraManager camera;
+    float scale = 100;
+    //std::cout << vertices[int(vertices.size()/float(2))].position << std::endl;
+    glm::vec3 pos = vertices[int(vertices.size()/float(2))].position;
+    pos.y = pos.y*scale + 4; //Pour être un peu plus haut que le sol
+    CameraManager camera(pos);
 
+    //Pour récupérer la position de la caméra sur le tableau !
 
-
+    int camx, camy;
+    int &ref = camx;
+    int &ref2 = camy;
+    conversionIndice(camera.getPosition().x, camera.getPosition().z, ref, ref2, width, nbrSub);
+    std::cout << ref*(nbrSub+1) + ref2 << std::endl;
+    std::cout << int(vertices.size()/float(2)) << std::endl;
+    //CameraManager camera;
     /*int camera = 0;
     TrackballCamera Camera1;
     FreeflyCamera Camera2;*/
@@ -227,13 +207,20 @@ int dismain(int argc, char** argv) {
         while(windowManager.pollEvent(e)) {
             if (e.type == SDL_KEYDOWN) {
                 if (e.key.keysym.sym == SDLK_LEFT) {
-                    camera.moveLeft(1.0);
+                    int x = camera.getPosition().x/scale + width*nbrSub/2;
+                    int z = camera.getPosition().z/scale + width*nbrSub/2;
+
+                    camera.moveLeft(4.0, nbrSub, width, scale, hauteurMoyenne(vertices,z, x, nbrSub)+0.4);
+
                 } else if (e.key.keysym.sym == SDLK_RIGHT) {
-                    camera.moveLeft(-1.0);
+                    camera.moveLeft(-4.0, nbrSub, width, scale, hauteurMoyenne(vertices, ref2, ref, nbrSub)+0.4);
+                    conversionIndice(camera.getPosition().x/scale, camera.getPosition().z/scale, ref, ref2, width, nbrSub);
                 } else if (e.key.keysym.sym == SDLK_UP) {
-                    camera.moveFront(1.0);
+                    camera.moveFront(4.0, nbrSub, width, scale, hauteurMoyenne(vertices, ref2, ref, nbrSub)+0.4);
+                    conversionIndice(camera.getPosition().x/scale, camera.getPosition().z/scale, ref, ref2, width, nbrSub);
                 } else if (e.key.keysym.sym == SDLK_DOWN) {
-                    camera.moveFront(-1.0);
+                    camera.moveFront(-4.0, nbrSub, width, scale, hauteurMoyenne(vertices, ref2, ref, nbrSub)+0.4);
+                    conversionIndice(camera.getPosition().x/scale, camera.getPosition().z/scale, ref, ref2, width, nbrSub);
                 }
                 if (e.key.keysym.sym == SDLK_v) {
                     if(camera.getChoice() == 0){
@@ -242,6 +229,11 @@ int dismain(int argc, char** argv) {
                     else{
                         camera.setChoice(0);
                     }
+                }
+                if (e.key.keysym.sym == SDLK_b) {
+                    program.setProgram(applicationPath, "lightreload",  "lightreload");
+                    program.addUniforms(uniform_variables);
+                    program.use();
                 }
             } else if (e.type == SDL_MOUSEBUTTONDOWN) {
                 if (e.button.button == SDL_BUTTON_RIGHT) {
@@ -263,48 +255,37 @@ int dismain(int argc, char** argv) {
             }
         }
 
-        app.clearGl();
-
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         program.sendUniformTextureUnit("uTexture", 0);
-        /*
         program.sendUniformTextureUnit("uTexture2", 1);
         program.sendUniformTextureUnit("uMoistureTexture", 2);
         program.sendUniform1i("uSubDiv", nbrSub);
-        */
-        test_texture1->bind();
-         /*
+        test_texture1.bind();
         test_texture2.bind(GL_TEXTURE1);
         moisture.bind(GL_TEXTURE2);
-         */
-/*
-        glm::vec4 lightPos = glm::vec4(-0.5,-0.5,-0.5,1);
-        glm::mat4 rotation = glm::rotate(glm::mat4(1),windowManager.getTime(),glm::vec3(1,0,0));
-        lightPos = rotation * ViewMatrix * lightPos;
-    */
-        testObject.draw(camera.getViewMatrix());
-/*
-        ProjMat = glm::perspective(glm::radians(70.f), 800.f/600.f, 0.1f, 100.f);
+
+        ProjMat = glm::perspective(glm::radians(70.f), 800.f/600.f, 0.1f, 1500.f);
         glm::mat4 MobelMatrix = glm::translate(glm::mat4(1.0f) , glm::vec3(0.f,-5.f,-10.f));
-        glm::mat4 ViewMatrix = camera.getViewMatrix();
+        MobelMatrix = glm::scale(MobelMatrix , glm::vec3(scale,scale,scale));
+        glm::mat4 ViewMatrix = camera.getViewMatrix();;
         glm::mat4 MV = ViewMatrix * MobelMatrix;
         glm::mat4 MVP = ProjMat * MV;
 
+        glm::vec4 lightPos = glm::vec4(-0.5,-0.5,-0.5,1);
+        glm::mat4 rotation = glm::rotate(glm::mat4(1),windowManager.getTime(),glm::vec3(1,0,0));
+        lightPos = rotation * ViewMatrix * lightPos;
+
         //send uniform variables
-        program.sendUniformMat4("uMV", MV);
-        program.sendUniformMat4("uMVP", MVP);
-        program.sendUniformMat4("uNormal", MVP);
-        //program.sendUniformVec4("Light_cameraspace", lightPos);
+        program.sendUniformMat4("MV", MV);
+        program.sendUniformMat4("MVP", MVP);
+        program.sendUniformVec4("Light_cameraspace", lightPos);
         //draw
         vao.bind();
-        //glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
-        glDrawElements(GL_TRIANGLES, testObject.indices.size(), GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
         vao.debind();
-        */
-        test_texture1->debind();
-        /*
+        test_texture1.debind();
         test_texture2.debind();
         moisture.debind();
-         */
 
         // Update the display
         windowManager.swapBuffers();

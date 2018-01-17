@@ -20,7 +20,7 @@ void ProgramManager::createPrograms() {
     testProgram->addUniforms(uniform_variables);
 
     uniform_variables.clear();
-    uniform_variables = {"uMV", "uMVP","uTexture","uNormal", "uColor"};
+    uniform_variables = {"uMV", "uMVP","uTexture0", "uTexture1", "uTexture2" ,"uNormal", "uColor", "uSubDiv"};
     lightProgram = new glcustom::GPUProgram(appPath,"lightTest","lightTest");
     lightProgram->addUniforms(uniform_variables);
 }
@@ -34,9 +34,13 @@ glcustom::GPUProgram *ProgramManager::getLightProgram() const {
     return lightProgram;
 }
 void ProgramManager::reloadPrograms() {
-    std::vector<std::string> uniform_variables = testProgram->getUniformList();//{"uMV", "uMVP","uNormal","uColor", "uTexture"};
+    std::vector<std::string> uniform_variables = testProgram->getUniformList();
     testProgram->setProgram(appPath, "testShader",  "testShader");
     testProgram->addUniforms(uniform_variables);
+
+    uniform_variables = lightProgram->getUniformList();
+    lightProgram->setProgram(appPath, "LightTest",  "LightTest");
+    lightProgram->addUniforms(uniform_variables);
 }
 
 

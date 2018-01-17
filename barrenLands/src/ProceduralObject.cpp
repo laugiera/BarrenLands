@@ -10,11 +10,14 @@ ProceduralObject::ProceduralObject() : renderObject(nullptr) {
 }
 
 ProceduralObject::~ProceduralObject() {
- delete renderObject;
+    delete renderObject;
+    for(glcustom::Texture* texture : textures){
+        delete texture;
+    }
 }
 
 void ProceduralObject::generateVertices() {
-
+    vertices.clear();
     //FACE AVANT
     vertices.push_back(glimac::ShapeVertex(glm::vec3(1,1,1), glm::vec3(0,0,1), glm::vec2(0,0)));
     vertices.push_back(glimac::ShapeVertex(glm::vec3(-1,1,1), glm::vec3(0,0,1), glm::vec2(0,1)));
@@ -54,6 +57,7 @@ void ProceduralObject::generateVertices() {
 }
 
 void ProceduralObject::generateIndices() {
+    indices.clear();
     uint32_t _indices[] =
             {
                     0,1,2,
@@ -79,8 +83,8 @@ void ProceduralObject::generateNormals() {
 
 }
 
-void ProceduralObject::createRenderObject(glcustom::GPUProgram *program, glcustom::Texture *texture) {
-    renderObject = new RenderObject(program, texture);
+void ProceduralObject::createRenderObject(glcustom::GPUProgram *program) {
+    renderObject = new RenderObject(program, textures);
     renderObject->fillData(vertices, indices);
 }
 
@@ -89,4 +93,9 @@ void ProceduralObject::draw(const glm::mat4 &viewMatrix) {
     renderObject->transform(glm::vec3(0), 0, glm::vec3(0,1,0), glm::vec3(10,10,10));
     renderObject->render(viewMatrix);
 }
+
+void ProceduralObject::setTextures(const std::vector<glcustom::Texture *> &textures) {
+    ProceduralObject::textures = textures;
+}
+
 

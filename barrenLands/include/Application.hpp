@@ -16,6 +16,8 @@
 #include "ProgramManager.hpp"
 #include "CameraManager.hpp"
 #include "TextureManager.hpp"
+#include "NoiseManager.hpp"
+#include "ProceduralMap.hpp"
 
 class Application {
 public:
@@ -37,6 +39,7 @@ private:
     ProgramManager * programManager;
     CameraManager * camera;
     TextureManager * textureManager;
+    NoiseManager * noiseManager;
 };
 
 

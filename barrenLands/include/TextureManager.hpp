@@ -7,6 +7,8 @@
 
 #include "glimac/FilePath.hpp"
 #include "Texture.hpp"
+#include "Tools.hpp"
+#include "NoiseManager.hpp"
 
 class TextureManager {
 public:

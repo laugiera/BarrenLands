@@ -7,6 +7,10 @@
 
 float Tools::windowWidth = 1000;
 float Tools::windowHeight = 800;
+int Tools::nbSub = 100;
+float Tools::scale = 50;
+float Tools::width = 1;
+float Tools::speed = 10;
 
 /**
  * Take a string representation of a bool and converts it to bool

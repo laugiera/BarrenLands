@@ -29,12 +29,14 @@ void Application::clearGl() {
 Application::Application(const glimac::FilePath &appPath) : windowManager(Tools::windowWidth, Tools::windowHeight, "BarrenLands"),
                                                             programManager(nullptr),
                                                             camera(nullptr),
-                                                            textureManager(nullptr)
+                                                            textureManager(nullptr),
+                                                            noiseManager(nullptr)
 {
     initOpenGl();
     textureManager = new TextureManager(appPath);
     programManager = new ProgramManager(appPath);
     camera = new CameraManager();
+    noiseManager = new NoiseManager(1200);
 }
 
 void Application::appLoop() {
@@ -46,23 +48,35 @@ void Application::appLoop() {
 
     //autres lights ajoutées aux bons programs
 
-    ProceduralObject testCube;
-    testCube.createRenderObject(programManager->getLightProgram(), textureManager->getTextures()[0]);
+    ProceduralMap testMap(noiseManager);
+    testMap.setTextures(std::vector<glcustom::Texture*>(1,textureManager->getTextures()[0]));
+    testMap.createRenderObject(programManager->getLightProgram());
+
     bool done = false;
     int rightPressed = 0;
+    int caseCamI = camera->getPosition().z/Tools::scale + Tools::width*Tools::nbSub/2;
+    int caseCamJ = camera->getPosition().x/Tools::scale + Tools::width*Tools::nbSub/2;
     while(!done) {
         // Event loop:
         SDL_Event e{};
         while(windowManager.pollEvent(e)) {
             if (e.type == SDL_KEYDOWN) {
                 if (e.key.keysym.sym == SDLK_LEFT) {
-                    camera->moveLeft(1.0);
+                    caseCamI = camera->getPosition().z/Tools::scale + Tools::width*Tools::nbSub/2;
+                    caseCamJ = camera->getPosition().x/Tools::scale + Tools::width*Tools::nbSub/2;
+                    camera->moveLeft(Tools::speed, Tools::nbSub, Tools::width, Tools::scale, testMap.getVertices(caseCamI,caseCamJ).position.y +0.3);
                 } else if (e.key.keysym.sym == SDLK_RIGHT) {
-                    camera->moveLeft(-1.0);
+                    caseCamI = camera->getPosition().z/Tools::scale + Tools::width*Tools::nbSub/2;
+                    caseCamJ = camera->getPosition().x/Tools::scale + Tools::width*Tools::nbSub/2;
+                    camera->moveLeft(-Tools::speed, Tools::nbSub, Tools::width, Tools::scale, testMap.getVertices(caseCamI,caseCamJ).position.y +0.3);
                 } else if (e.key.keysym.sym == SDLK_UP) {
-                    camera->moveFront(1.0);
+                    caseCamI = camera->getPosition().z/Tools::scale + Tools::width*Tools::nbSub/2;
+                    caseCamJ = camera->getPosition().x/Tools::scale + Tools::width*Tools::nbSub/2;
+                    camera->moveFront(Tools::speed, Tools::nbSub, Tools::width, Tools::scale, testMap.getVertices(caseCamI,caseCamJ).position.y +0.3);
                 } else if (e.key.keysym.sym == SDLK_DOWN) {
-                    camera->moveFront(-1.0);
+                    caseCamI = camera->getPosition().z/Tools::scale + Tools::width*Tools::nbSub/2;
+                    caseCamJ = camera->getPosition().x/Tools::scale + Tools::width*Tools::nbSub/2;
+                    camera->moveFront(-Tools::speed, Tools::nbSub, Tools::width, Tools::scale, testMap.getVertices(caseCamI,caseCamJ).position.y +0.3);
                 } else if (e.key.keysym.sym == SDLK_v) {
                     if(camera->getChoice() == 0){
                         camera->setChoice(1);
@@ -100,7 +114,7 @@ void Application::appLoop() {
         light.rotate(windowManager.getTime(),camera->getViewMatrix());
         light.sendLightUniforms(programManager->getLightProgram());
 
-        testCube.draw(camera->getViewMatrix());
+        testMap.draw(camera->getViewMatrix());
         windowManager.swapBuffers();
         printErrors();
 
@@ -131,9 +145,10 @@ void Application::testInterface() {
     light.addLightUniforms(programManager->getLightProgram());
 
     //----> Edit with the class you want to test :
-    ProceduralObject * testObject = new ProceduralObject();
+    ProceduralMap * testObject = new ProceduralMap(noiseManager);
+    testObject->setTextures(textureManager->getTextures());
     //---->TestProgram uses TestShader with texture support
-    testObject->createRenderObject(programManager->getLightProgram(), textureManager->getTextures()[0]);
+    testObject->createRenderObject(programManager->getLightProgram());
 
 
     bool done = false;

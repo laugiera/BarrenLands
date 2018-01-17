@@ -16,12 +16,14 @@ private:
 
 public:
     FreeflyCamera();
+    FreeflyCamera(glm::vec3 position);
     void moveLeft(float t);
     void moveFront(float t);
 
     void rotateLeft(float degrees);
     void rotateUp(float degrees);
     glm::vec3 getPosition() const;
+    void setPositionY(float y);
 
     glm::mat4 getViewMatrix() const;
 };

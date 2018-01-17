@@ -11,6 +11,7 @@ private:
     float m_fAngleY;
 public:
     TrackballCamera();
+    TrackballCamera(glm::vec3 position);
     void moveFront(float delta);
     void rotateLeft(float degrees);
     void rotateUp(float degrees);
