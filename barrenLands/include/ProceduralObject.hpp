@@ -25,7 +25,7 @@ public:
 
     void setTextures(const std::vector<glcustom::Texture *> &textures);
 
-//private:
+protected:
     std::vector<glimac::ShapeVertex> vertices;
     std::vector<uint32_t> indices;
     RenderObject * renderObject;

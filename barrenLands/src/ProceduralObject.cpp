@@ -49,11 +49,7 @@ void ProceduralObject::generateVertices() {
     vertices.push_back(glimac::ShapeVertex(glm::vec3(1,-1,1), glm::vec3(0,-1,0), glm::vec2(0,1)));
     vertices.push_back(glimac::ShapeVertex(glm::vec3(-1,-1,1), glm::vec3(0,-1,0), glm::vec2(1,0)));
 
-    /*
-    glimac::Sphere sphereTest(1,32,16);
-    vertices = std::vector<glimac::ShapeVertex>(sphereTest.getDataPointer(),
-                                                sphereTest.getDataPointer() + sphereTest.getVertexCount());
-                                                */
+
 }
 
 void ProceduralObject::generateIndices() {

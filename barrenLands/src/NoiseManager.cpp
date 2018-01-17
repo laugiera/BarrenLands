@@ -37,8 +37,6 @@ float** NoiseManager::getElevationMap(const int width, const int height,const fl
             if(distance > height -5)
                 e = e -( b*pow(distance,c+0.5));
             elevationMap[x][y] = e;
-            std::cout << distance <<std::endl;
-            std::cout << e <<std::endl;
         }
     }
     return elevationMap;

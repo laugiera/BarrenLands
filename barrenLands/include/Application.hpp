@@ -12,7 +12,7 @@
 #include <GL/glut.h>
 #include "glimac/SDL2WindowManager.hpp"
 #include "Tools.hpp"
-#include "ProceduralObject.hpp"
+#include "SkyboxObject.hpp"
 #include "ProgramManager.hpp"
 #include "CameraManager.hpp"
 #include "TextureManager.hpp"
