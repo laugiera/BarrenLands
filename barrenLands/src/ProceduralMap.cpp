@@ -7,7 +7,7 @@
 
 void ProceduralMap::generateVertices(NoiseManager *noise) {
     vertices.clear();
-    int width = 1;
+    int width = Tools::width;
     int i, j;
     //test génération bruit
     float** terrain = noise->getElevationMap(Tools::nbSub+1, Tools::nbSub+1);
@@ -75,6 +75,10 @@ void ProceduralMap::generateNormals() {
 void ProceduralMap::createRenderObject(glcustom::GPUProgram *program) {
     renderObject = new RenderMap(program, textures);
     renderObject->fillData(vertices, indices);
+}
+
+glimac::ShapeVertex ProceduralMap::getVertices(int i, int j){
+    return vertices[i*(Tools::nbSub+1)+j];
 }
 
 void ProceduralMap::setTextures(const std::vector<glcustom::Texture *> &textures) {

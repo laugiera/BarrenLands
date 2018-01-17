@@ -17,6 +17,8 @@ public:
     void generateNormals();
     void createRenderObject(glcustom::GPUProgram *program);
 
+    glimac::ShapeVertex getVertices(int i, int j);
+
     void setTextures(const std::vector<glcustom::Texture *> &textures);
 
 private:

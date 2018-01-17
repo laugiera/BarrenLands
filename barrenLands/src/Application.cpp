@@ -49,9 +49,9 @@ void Application::appLoop() {
     light.addLightUniforms(programManager->getLightProgram());
     //autres lights ajoutées aux bons programs
 
-    ProceduralObject testCube;
-    testCube.setTextures(std::vector<glcustom::Texture*>(1,textureManager->getTextures()[0]));
-    testCube.createRenderObject(programManager->getLightProgram());
+    ProceduralMap testMap(noiseManager);
+    testMap.setTextures(std::vector<glcustom::Texture*>(1,textureManager->getTextures()[0]));
+    testMap.createRenderObject(programManager->getLightProgram());
 
     ProceduralObject * Map = new ProceduralMap(noiseManager);
     Map->setTextures(textureManager->getTextures());
@@ -59,19 +59,29 @@ void Application::appLoop() {
 
     bool done = false;
     int rightPressed = 0;
+    int caseCamI = camera->getPosition().z/Tools::scale + Tools::width*Tools::nbSub/2;
+    int caseCamJ = camera->getPosition().x/Tools::scale + Tools::width*Tools::nbSub/2;
     while(!done) {
         // Event loop:
         SDL_Event e{};
         while(windowManager.pollEvent(e)) {
             if (e.type == SDL_KEYDOWN) {
                 if (e.key.keysym.sym == SDLK_LEFT) {
-                    camera->moveLeft(1.0);
+                    caseCamI = camera->getPosition().z/Tools::scale + Tools::width*Tools::nbSub/2;
+                    caseCamJ = camera->getPosition().x/Tools::scale + Tools::width*Tools::nbSub/2;
+                    camera->moveLeft(Tools::speed, Tools::nbSub, Tools::width, Tools::scale, testMap.getVertices(caseCamI,caseCamJ).position.y +0.3);
                 } else if (e.key.keysym.sym == SDLK_RIGHT) {
-                    camera->moveLeft(-1.0);
+                    caseCamI = camera->getPosition().z/Tools::scale + Tools::width*Tools::nbSub/2;
+                    caseCamJ = camera->getPosition().x/Tools::scale + Tools::width*Tools::nbSub/2;
+                    camera->moveLeft(-Tools::speed, Tools::nbSub, Tools::width, Tools::scale, testMap.getVertices(caseCamI,caseCamJ).position.y +0.3);
                 } else if (e.key.keysym.sym == SDLK_UP) {
-                    camera->moveFront(1.0);
+                    caseCamI = camera->getPosition().z/Tools::scale + Tools::width*Tools::nbSub/2;
+                    caseCamJ = camera->getPosition().x/Tools::scale + Tools::width*Tools::nbSub/2;
+                    camera->moveFront(Tools::speed, Tools::nbSub, Tools::width, Tools::scale, testMap.getVertices(caseCamI,caseCamJ).position.y +0.3);
                 } else if (e.key.keysym.sym == SDLK_DOWN) {
-                    camera->moveFront(-1.0);
+                    caseCamI = camera->getPosition().z/Tools::scale + Tools::width*Tools::nbSub/2;
+                    caseCamJ = camera->getPosition().x/Tools::scale + Tools::width*Tools::nbSub/2;
+                    camera->moveFront(-Tools::speed, Tools::nbSub, Tools::width, Tools::scale, testMap.getVertices(caseCamI,caseCamJ).position.y +0.3);
                 } else if (e.key.keysym.sym == SDLK_v) {
                     if(camera->getChoice() == 0){
                         camera->setChoice(1);
@@ -103,12 +113,13 @@ void Application::appLoop() {
             }
         }
         clearGl();
+
         programManager->getLightProgram()->use();
         light.resetDirection();
         light.rotate(windowManager.getTime(),camera->getViewMatrix());
         light.sendLightUniforms(programManager->getLightProgram());
 
-        testCube.draw(camera->getViewMatrix());
+        testMap.draw(camera->getViewMatrix());
         windowManager.swapBuffers();
         printErrors();
 
