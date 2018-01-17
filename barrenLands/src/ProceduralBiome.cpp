@@ -3,3 +3,18 @@
 //
 
 #include "ProceduralBiome.hpp"
+
+void ProceduralBiome::createRenderObject(ProgramManager *programManager, TextureManager *textureManager) {
+    for(ProceduralObject * element : elements){
+        element->createRenderObject(programManager, textureManager);
+    }
+}
+
+ProceduralBiome::ProceduralBiome() : elements(elements) {
+    indices.clear();
+    createElements();
+}
+
+void ProceduralBiome::createElements() {
+    //Use factory to fill elements attribute
+}

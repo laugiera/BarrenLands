@@ -8,6 +8,14 @@
 #include "ProceduralObject.hpp"
 
 class ProceduralBiome : public ProceduralObject{
+public:
+    ProceduralBiome();
+
+    virtual void createRenderObject(ProgramManager *programManager, TextureManager *textureManager);
+    void createElements();
+
+private:
+    std::vector<ProceduralObject *> elements;
 
 };
 

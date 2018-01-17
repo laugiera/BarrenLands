@@ -44,6 +44,7 @@ ProceduralMap::ProceduralMap(NoiseManager *noise) : ProceduralObject(){
     generateVertices(noise);
     generateIndices();
     generateNormals();
+    createBiomes();
 }
 
 void ProceduralMap::generateNormals() {
@@ -75,8 +76,12 @@ void ProceduralMap::generateNormals() {
 }
 
 void ProceduralMap::createRenderObject(ProgramManager *programManager, TextureManager *textureManager) {
+    for(ProceduralBiome * b : biomes){
+        b->createRenderObject(programManager, textureManager);
+    }
     renderObject = new RenderMap(programManager->getLightProgram(), chooseTextures(textureManager));
     renderObject->fillData(vertices, indices);
+
 }
 
 glimac::ShapeVertex ProceduralMap::getVertices(int i, int j){
@@ -96,5 +101,13 @@ void ProceduralMap::createBiomes() {
 }
 
 std::vector<glcustom::Texture *> ProceduralMap::chooseTextures(TextureManager *textureManager) {
+    /* Récupérer les textures depuis les biomes
+    std::vector<glcustom::Texture *> textures;
+    for(int i = 0; i<8 ; i++){
+        //textures.push_back(biomes[i]->getTexture());
+
+    }
+    return textures;
+     */
     return textureManager->getTextures();
 }
