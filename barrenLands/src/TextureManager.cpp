@@ -11,13 +11,8 @@ TextureManager::TextureManager(const glimac::FilePath &appPath) : appPath(appPat
 }
 
 void TextureManager::createTextures() {
-    /*
-    glcustom::Texture *  test_texture1 = new glcustom::Texture(
-            appPath.dirPath() + "textures/" + "HatchPattern-final.png");
-    glcustom::Texture * test_texture2 = new glcustom::Texture(appPath.dirPath() + "textures/" + "653306852.jpg");
-    textures[test_texture1] = "rock";
-    textures[test_texture2] = "sand";
-    */
+    //charger la skybox
+
     //moisture map
     NoiseManager noise(1200);
     float** humidite = noise.getElevationMap(Tools::nbSub +1, Tools::nbSub +1);
@@ -43,12 +38,16 @@ const std::vector<glcustom::Texture *> TextureManager::getTextures() const {
 
 void TextureManager::loadTextures(const std::string &folderPath) {
     std::string filePath = folderPath + "/textures.txt";
-    std::vector<std::string> lines = Tools::load(filePath);
-    for(std::string & line : lines ){
-        std::vector<std::string> data = Tools::stringToVector(line, ";");
-        glcustom::Texture * texture = new glcustom::Texture(folderPath+ "/" + data[0]);
-        textures[texture] = Tools::sanitizeInput(data[1]);
+    try {
+        std::vector<std::string> lines = Tools::load(filePath);
+        for (std::string &line : lines) {
+            std::vector<std::string> data = Tools::stringToVector(line, ";");
+            glcustom::Texture *texture = new glcustom::Texture(folderPath + "/" + data[0]);
+            textures[texture] = Tools::sanitizeInput(data[1]);
 
+        }
+    } catch (std::exception * e){
+        std::cerr << "loading of textures failed : " << e->what() << std::endl;
     }
 }
 

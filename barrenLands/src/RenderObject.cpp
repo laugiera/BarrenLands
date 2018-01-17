@@ -35,7 +35,7 @@ void RenderObject::render(const glm::mat4 &viewMatrix) {
     glm::mat4 modelViewProjMatrix = projMatrix * modelViewMatrix;
     glm::mat4 normals = glm::transpose(glm::inverse(modelViewMatrix));
 
-    program->sendUniform1f("uSubDiv", Tools::nbSub);
+    //program->sendUniform1f("uSubDiv", Tools::nbSub);
 
     program->sendUniformMat4("uMVP", modelViewProjMatrix);
     program->sendUniformMat4("uMV", modelViewMatrix);

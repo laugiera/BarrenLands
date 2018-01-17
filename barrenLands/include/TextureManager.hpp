@@ -14,18 +14,18 @@
 class TextureManager {
 public:
     TextureManager(const glimac::FilePath &appPath);
-    void createTextures(); //modif pour passer par la lecture d'un fichier avec infos sur textures
 
-    const std::vector<glcustom::Texture *> getTextures() const;
-
-    //à impémenter, renvoie une texture random dont un des qualificatif est la string demandée (les qualificatif seront fournis lors de l'initialisation par le fichier d'initialisation)
-    glcustom::Texture * getRandomTexture(const std::string &qualifier);
+    void createTextures();
 
     void loadTextures(const std::string &folderPath);
 
+    const std::vector<glcustom::Texture *> getTextures() const;
+
+    glcustom::Texture * getRandomTexture(const std::string &qualifier);
+
 private:
     glimac::FilePath appPath;
-    //std::vector<glcustom::Texture*> textures;
+
     std::map<glcustom::Texture *, std::string> textures;
 };
 
