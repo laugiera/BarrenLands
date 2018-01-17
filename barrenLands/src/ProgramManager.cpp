@@ -20,7 +20,7 @@ void ProgramManager::createPrograms() {
     testProgram->addUniforms(uniform_variables);
 
     uniform_variables.clear();
-    uniform_variables = {"uMV", "uMVP","uTexture0", "uTexture1","uNormal", "uColor"};
+    uniform_variables = {"uMV", "uMVP","uTexture0", "uTexture1", "uTexture2" ,"uNormal", "uColor", "uSubDiv"};
     lightProgram = new glcustom::GPUProgram(appPath,"lightTest","lightTest");
     lightProgram->addUniforms(uniform_variables);
 }

@@ -13,6 +13,8 @@ out vec3 color;
 // Values that stay constant for the whole mesh.
 uniform sampler2D uTexture0;
 uniform sampler2D uTexture1;
+uniform sampler2D uTexture2;
+uniform float uSubDiv;
 uniform vec3 uColor;
 uniform vec4 uLightDirTest;
 uniform float uLightIntensityTest;
@@ -37,8 +39,8 @@ vec3 sableTexture = multiplyTexture(sable, texture(uTexture1, uV));
 vec3 toundraNeigeTexture = multiplyTexture(toundra_neige, texture(uTexture0, uV));
 
 float height = vPosition.y;
-//float moisture = (texture(uMoistureTexture, uV/uSubDiv)).x;
-float moisture = 0.5;
+float moisture = (texture(uTexture2, uV/uSubDiv)).x;
+//float moisture = 0.5;
 
 vec3 assignColor() {
 if (height < 0.25){
@@ -117,6 +119,6 @@ vec3 getLightColor(vec3 lightColor, float lightPower, vec3 direction){
 }
 
 void main() {
-    color = getLightColor(uLightColorTest,uLightIntensityTest,uLightDirTest.xyz);
+   color = getLightColor(uLightColorTest,uLightIntensityTest,uLightDirTest.xyz);
 }
 
