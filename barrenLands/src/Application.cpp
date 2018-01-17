@@ -2,9 +2,7 @@
 // Created by Lou Landry on 15/01/2018.
 //
 
-
 #include "Application.hpp"
-
 
 
 int Application::initOpenGl() {
@@ -46,6 +44,13 @@ void Application::appLoop() {
     Light light = Light(1,"Test",glm::vec3(0.5,0.1,0));
     light.addLightUniforms(programManager->getLightProgram());
     //autres lights ajoutées aux bons programs
+
+    /*ElementFactory* factory = new ElementFactory();
+    std::vector<ProceduralObject*> elementVect;
+    elementVect.push_back(factory->createProceduralObject());
+
+    elementVect[0]->setTextures(std::vector<glcustom::Texture*>(1,textureManager->getTextures()[0]));
+    elementVect[0]->createRenderObject(programManager->getLightProgram());*/
 
     ProceduralMap testMap(noiseManager);
     testMap.setTextures(std::vector<glcustom::Texture*>(1,textureManager->getTextures()[0]));
@@ -113,11 +118,14 @@ void Application::appLoop() {
         light.rotate(windowManager.getTime(),camera->getViewMatrix());
         light.sendLightUniforms(programManager->getLightProgram());
 
+        //elementVect[0]->draw(camera->getViewMatrix());
         testMap.draw(camera->getViewMatrix());
         windowManager.swapBuffers();
         printErrors();
 
     }
+
+    //delete factory;
 
 }
 
