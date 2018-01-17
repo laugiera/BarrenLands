@@ -83,7 +83,7 @@ if (height < 0.25){
 vec3 getLightColor(vec3 lightColor, float lightPower, vec3 direction){
 
    	// Material properties
-   	vec3 materialDiffuseColor = assignColor();
+    vec3 materialDiffuseColor = assignColor();
    	vec3 materialAmbientColor = vec3(0.1,0.1,0.1) * materialDiffuseColor;
    	vec3 materialSpecularColor = vec3(0.3,0.3,0.3);
 

@@ -2,13 +2,13 @@
 
 Mise en place la structure de base de l'application.
 
-- [ ] Classe principale "Application" qui contient l'initialisation de toutes les ressources OpenGL ainsi que la boucle principale de rendu.
+- [x] Classe principale "Application" qui contient l'initialisation de toutes les ressources OpenGL ainsi que la boucle principale de rendu.
 
 Mise en place de la partie rendu OpenGL :
 
 - [x] Classe "GPUProgram" permettant de loader, compiler et linker des Vertex Shader et des Fragment Shaders.
 - [x] Classe "RenderObject" avec ses fonctions "fillData" et "render"
-- [ ] Classe "Light" avec ses fonctions et deux lights pour le soleil et la lune
+- [x] Classe "Light" avec ses fonctions et deux lights pour le soleil et la lune
 - [ ] Une ou plusieurs classes dérivées de "RenderObject" (RenderMap, RenderBiome, RenderElement) qui implémentent les fonctions fillData et render.
 
 Mise en place de la partie Génération Prodécurale :

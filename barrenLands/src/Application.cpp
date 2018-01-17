@@ -43,6 +43,7 @@ void Application::appLoop() {
 
     Light light = Light(1,"Test",glm::vec3(0.5,0.1,0));
     light.addLightUniforms(programManager->getLightProgram());
+
     //autres lights ajoutées aux bons programs
 
     ProceduralObject testCube;
@@ -94,6 +95,7 @@ void Application::appLoop() {
         }
         clearGl();
 
+        programManager->getLightProgram()->use();
         light.resetDirection();
         light.rotate(windowManager.getTime(),camera->getViewMatrix());
         light.sendLightUniforms(programManager->getLightProgram());
