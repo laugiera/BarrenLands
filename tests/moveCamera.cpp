@@ -207,16 +207,19 @@ int main(int argc, char** argv) {
         while(windowManager.pollEvent(e)) {
             if (e.type == SDL_KEYDOWN) {
                 if (e.key.keysym.sym == SDLK_LEFT) {
-                    camera.moveLeft(4.0, nbrSub, width, scale, hauteurMoyenne(vertices, ref2, ref, nbrSub)+0.2);
-                    conversionIndice(camera.getPosition().x/scale, camera.getPosition().z/scale, ref, ref2, width, nbrSub);
+                    int x = camera.getPosition().x/scale + width*nbrSub/2;
+                    int z = camera.getPosition().z/scale + width*nbrSub/2;
+
+                    camera.moveLeft(4.0, nbrSub, width, scale, hauteurMoyenne(vertices,z, x, nbrSub)+0.4);
+
                 } else if (e.key.keysym.sym == SDLK_RIGHT) {
-                    camera.moveLeft(-4.0, nbrSub, width, scale, hauteurMoyenne(vertices, ref2, ref, nbrSub)+0.2);
+                    camera.moveLeft(-4.0, nbrSub, width, scale, hauteurMoyenne(vertices, ref2, ref, nbrSub)+0.4);
                     conversionIndice(camera.getPosition().x/scale, camera.getPosition().z/scale, ref, ref2, width, nbrSub);
                 } else if (e.key.keysym.sym == SDLK_UP) {
-                    camera.moveFront(4.0, nbrSub, width, scale, hauteurMoyenne(vertices, ref2, ref, nbrSub)+0.2);
+                    camera.moveFront(4.0, nbrSub, width, scale, hauteurMoyenne(vertices, ref2, ref, nbrSub)+0.4);
                     conversionIndice(camera.getPosition().x/scale, camera.getPosition().z/scale, ref, ref2, width, nbrSub);
                 } else if (e.key.keysym.sym == SDLK_DOWN) {
-                    camera.moveFront(-4.0, nbrSub, width, scale, hauteurMoyenne(vertices, ref2, ref, nbrSub)+0.2);
+                    camera.moveFront(-4.0, nbrSub, width, scale, hauteurMoyenne(vertices, ref2, ref, nbrSub)+0.4);
                     conversionIndice(camera.getPosition().x/scale, camera.getPosition().z/scale, ref, ref2, width, nbrSub);
                 }
                 if (e.key.keysym.sym == SDLK_v) {
@@ -226,6 +229,11 @@ int main(int argc, char** argv) {
                     else{
                         camera.setChoice(0);
                     }
+                }
+                if (e.key.keysym.sym == SDLK_b) {
+                    program.setProgram(applicationPath, "lightreload",  "lightreload");
+                    program.addUniforms(uniform_variables);
+                    program.use();
                 }
             } else if (e.type == SDL_MOUSEBUTTONDOWN) {
                 if (e.button.button == SDL_BUTTON_RIGHT) {

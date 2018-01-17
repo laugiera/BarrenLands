@@ -29,7 +29,7 @@ void RenderObject::fillData(std::vector<glimac::ShapeVertex> vertices, std::vect
 void RenderObject::render(const glm::mat4 &viewMatrix) {
     program->use();
     //proj matrix à externaliser
-    glm::mat4 projMatrix = glm::perspective(glm::radians(70.f), Tools::windowWidth/Tools::windowHeight, 0.1f, 500.f);
+    glm::mat4 projMatrix = glm::perspective(glm::radians(70.f), Tools::windowWidth/Tools::windowHeight, 0.1f, 1500.f);
     modelMatrix = glm::mat4(1.0);
     glm::mat4 modelViewMatrix = viewMatrix * modelMatrix;
     glm::mat4 modelViewProjMatrix = projMatrix * modelViewMatrix;

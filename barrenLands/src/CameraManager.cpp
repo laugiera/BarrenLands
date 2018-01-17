@@ -20,13 +20,15 @@ CameraManager::CameraManager(glm::vec3 position)
 }
 
 glm::mat4 CameraManager::getViewMatrix(){
+    glm::mat4 MobelMatrix = glm::translate(glm::mat4(1.0f) , glm::vec3(0.f,-5.f,-10.f));
+    MobelMatrix = glm::scale(MobelMatrix , glm::vec3(Tools::scale,Tools::scale,Tools::scale));
     if(_choice == 0){
         //return glm::translate(_camera1.getViewMatrix(),glm::vec3(-1)*_camera2.getPosition());
         _camera1.setPosition(glm::vec3(-1)*_camera2.getPosition());
-        return _camera1.getViewMatrix();
+        return _camera1.getViewMatrix()*MobelMatrix;
     }
     else{
-        return _camera2.getViewMatrix();
+        return _camera2.getViewMatrix()*MobelMatrix;
     }
 }
 
