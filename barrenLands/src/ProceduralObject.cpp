@@ -2,6 +2,8 @@
 // Created by Lou Landry on 15/01/2018.
 //
 
+#include <ProgramManager.hpp>
+#include <TextureManager.hpp>
 #include "../include/ProceduralObject.hpp"
 
 ProceduralObject::ProceduralObject() : renderObject(nullptr) {
@@ -79,8 +81,9 @@ void ProceduralObject::generateNormals() {
 
 }
 
-void ProceduralObject::createRenderObject(glcustom::GPUProgram *program) {
-    renderObject = new RenderObject(program, textures);
+void ProceduralObject::createRenderObject(ProgramManager *programManager, TextureManager *textureManager) {
+    std::vector<glcustom::Texture *> textures = chooseTextures(textureManager);
+    renderObject = new RenderObject(programManager->getTestProgram(), textures);
     renderObject->fillData(vertices, indices);
 }
 
@@ -92,6 +95,10 @@ void ProceduralObject::draw(const glm::mat4 &viewMatrix) {
 
 void ProceduralObject::setTextures(const std::vector<glcustom::Texture *> &textures) {
     ProceduralObject::textures = textures;
+}
+
+std::vector<glcustom::Texture *> ProceduralObject::chooseTextures(TextureManager *textureManager) {
+    return std::vector<glcustom::Texture *>(1, textureManager->getTextures()[0]);
 }
 
 

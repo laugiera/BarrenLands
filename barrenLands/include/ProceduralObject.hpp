@@ -9,6 +9,8 @@
 #include <vector>
 #include "RenderObject.hpp"
 #include "glimac/Sphere.hpp"
+#include "ProgramManager.hpp"
+#include "TextureManager.hpp"
 
 
 class ProceduralObject {
@@ -19,9 +21,10 @@ public:
 
     virtual void generateVertices();
     virtual void generateIndices();
-    void generateNormals();
-    virtual void createRenderObject(glcustom::GPUProgram *program);
-    void draw(const glm::mat4 &viewMatrix);
+    virtual void generateNormals();
+    virtual void createRenderObject(ProgramManager *programManager, TextureManager *textureManager);
+    virtual void draw(const glm::mat4 &viewMatrix);
+    virtual std::vector<glcustom::Texture *> chooseTextures(TextureManager *textureManager);
 
     void setTextures(const std::vector<glcustom::Texture *> &textures);
 

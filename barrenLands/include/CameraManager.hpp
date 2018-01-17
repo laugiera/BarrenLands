@@ -4,6 +4,7 @@
 #include <glimac/TrackballCamera.hpp>
 #include <glimac/FreeflyCamera.hpp>
 #include <glimac/glm.hpp>
+#include "../include/Tools.hpp"
 
 class CameraManager{
 public :

@@ -1,5 +1,5 @@
 #include "../include/CameraManager.hpp"
-#include "../include/Tools.hpp"
+
 
 CameraManager::CameraManager(){
     //_position = glm::vec3(0,0,0);

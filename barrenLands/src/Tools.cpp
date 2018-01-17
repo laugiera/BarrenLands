@@ -3,7 +3,7 @@
 //
 
 #include "../include/Tools.hpp"
-#include <iostream>
+
 
 float Tools::windowWidth = 1000;
 float Tools::windowHeight = 800;
@@ -131,6 +131,24 @@ bool Tools::WaitForSeconds(double secondsToWait){
 
 float  Tools::SquareDistance(glm::vec2 v1, glm::vec2 v2){ //check the square to avoid using roots
     return pow((v2.x-v2.x),2) - pow((v1.y-v1.y),2);
+}
+
+std::vector<std::string> Tools::load(std::string filePath) {
+    std::ifstream file (filePath);
+    std::string line;
+    std::vector<std::string> fileContent;
+    if(file.is_open()){
+        while(std::getline(file, line) && !line.empty() && line!= " "  ){
+            fileContent.push_back(line);
+        }
+        file.close();
+    } else {
+        throw std::runtime_error(filePath + " : File doesn't exist or could not be opened");
+    }
+    if(fileContent.empty()){
+        throw std::runtime_error("File is empty");
+    }
+    return fileContent;
 }
 
 

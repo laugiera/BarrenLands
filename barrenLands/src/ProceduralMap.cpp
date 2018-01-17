@@ -3,6 +3,8 @@
 //
 
 #include <NoiseManager.hpp>
+#include <ProgramManager.hpp>
+#include <TextureManager.hpp>
 #include "ProceduralMap.hpp"
 
 void ProceduralMap::generateVertices(NoiseManager *noise) {
@@ -42,6 +44,7 @@ ProceduralMap::ProceduralMap(NoiseManager *noise) : ProceduralObject(){
     generateVertices(noise);
     generateIndices();
     generateNormals();
+    createBiomes();
 }
 
 void ProceduralMap::generateNormals() {
@@ -72,9 +75,13 @@ void ProceduralMap::generateNormals() {
     }
 }
 
-void ProceduralMap::createRenderObject(glcustom::GPUProgram *program) {
-    renderObject = new RenderMap(program, textures);
+void ProceduralMap::createRenderObject(ProgramManager *programManager, TextureManager *textureManager) {
+    for(ProceduralBiome * b : biomes){
+        b->createRenderObject(programManager, textureManager);
+    }
+    renderObject = new RenderMap(programManager->getLightProgram(), chooseTextures(textureManager));
     renderObject->fillData(vertices, indices);
+
 }
 
 glimac::ShapeVertex ProceduralMap::getVertices(int i, int j){
@@ -83,4 +90,29 @@ glimac::ShapeVertex ProceduralMap::getVertices(int i, int j){
 
 void ProceduralMap::setTextures(const std::vector<glcustom::Texture *> &textures) {
     ProceduralMap::textures = textures;
+}
+
+void ProceduralMap::createBiomes() {
+    //utiliser un loader
+    for(int i = 0; i<8 ; i++){
+        biomes.push_back(new ProceduralBiome());
+    }
+
+}
+
+std::vector<glcustom::Texture *> ProceduralMap::chooseTextures(TextureManager *textureManager) {
+    std::vector<glcustom::Texture *> textures;
+    textures.push_back(textureManager->getRandomTexture("moisture"));
+    textures.push_back(textureManager->getRandomTexture("sand"));
+    textures.push_back(textureManager->getRandomTexture("rock"));
+    /* Récupérer les textures depuis les biomes
+    std::vector<glcustom::Texture *> textures;
+    for(int i = 0; i<8 ; i++){
+        //textures.push_back(biomes[i]->getTexture());
+
+    }
+    return textures;
+     */
+    return textures;
+
 }

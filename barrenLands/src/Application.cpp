@@ -2,10 +2,24 @@
 // Created by Lou Landry on 15/01/2018.
 //
 
-
 #include "Application.hpp"
 
 
+
+
+
+Application::Application(const glimac::FilePath &appPath) : windowManager(Tools::windowWidth, Tools::windowHeight, "BarrenLands"),
+                                                            programManager(nullptr),
+                                                            camera(nullptr),
+                                                            textureManager(nullptr),
+                                                            noiseManager(nullptr)
+{
+    initOpenGl();
+    textureManager = new TextureManager(appPath);
+    programManager = new ProgramManager(appPath);
+    camera = new CameraManager();
+    noiseManager = new NoiseManager(1200);
+}
 
 int Application::initOpenGl() {
     // Initialize glew for OpenGL3+ support
@@ -26,21 +40,7 @@ void Application::clearGl() {
     glClearColor(0.7, 0.3, 0.2, 1);
 }
 
-Application::Application(const glimac::FilePath &appPath) : windowManager(Tools::windowWidth, Tools::windowHeight, "BarrenLands"),
-                                                            programManager(nullptr),
-                                                            camera(nullptr),
-                                                            textureManager(nullptr),
-                                                            noiseManager(nullptr)
-{
-    initOpenGl();
-    textureManager = new TextureManager(appPath);
-    programManager = new ProgramManager(appPath);
-    camera = new CameraManager();
-    noiseManager = new NoiseManager(1200);
-}
-
 void Application::appLoop() {
-    textureManager->createTextures();
     programManager->createPrograms();
 
     Light light = Light(1,"Test",glm::vec3(0.5,0.1,0));
@@ -48,9 +48,16 @@ void Application::appLoop() {
 
     //autres lights ajoutées aux bons programs
 
+    /*ElementFactory* factory = new ElementFactory();
+    std::vector<ProceduralObject*> elementVect;
+    elementVect.push_back(factory->createProceduralObject());
+
+    elementVect[0]->setTextures(std::vector<glcustom::Texture*>(1,textureManager->getTextures()[0]));
+    elementVect[0]->createRenderObject(programManager->getLightProgram());*/
+
     ProceduralMap testMap(noiseManager);
-    testMap.setTextures(std::vector<glcustom::Texture*>(1,textureManager->getTextures()[0]));
-    testMap.createRenderObject(programManager->getLightProgram());
+    testMap.createRenderObject(programManager, textureManager);
+
 
     bool done = false;
     int rightPressed = 0;
@@ -114,11 +121,14 @@ void Application::appLoop() {
         light.rotate(windowManager.getTime(),camera->getViewMatrix());
         light.sendLightUniforms(programManager->getLightProgram());
 
+        //elementVect[0]->draw(camera->getViewMatrix());
         testMap.draw(camera->getViewMatrix());
         windowManager.swapBuffers();
         printErrors();
 
     }
+
+    //delete factory;
 
 }
 
@@ -145,14 +155,13 @@ void Application::testInterface() {
     light.addLightUniforms(programManager->getLightProgram());
 
     //----> Edit with the class you want to test :
-    ProceduralObject * testObject = new ProceduralObject();
-    testObject->setTextures(textureManager->getTextures());
+    ProceduralMap * testObject = new ProceduralMap(noiseManager);
     //---->TestProgram uses TestShader with texture support
-    testObject->createRenderObject(programManager->getLightProgram());*/
-
+    testObject->createRenderObject(programManager, textureManager);
+*/
 
     SkyboxObject * test = new SkyboxObject();
-    test -> setTextures(textureManager->getSkyboxTexture());
+    test -> setTextures(textureManager->getRandomTexture("skybox"));
     test -> createRenderObject(programManager->getSkyboxProgram());
 
     bool done = false;

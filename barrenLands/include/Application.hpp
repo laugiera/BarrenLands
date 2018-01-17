@@ -18,6 +18,7 @@
 #include "TextureManager.hpp"
 #include "NoiseManager.hpp"
 #include "ProceduralMap.hpp"
+#include "ElementFactory.hpp"
 
 class Application {
 public:
