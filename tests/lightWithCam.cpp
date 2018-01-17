@@ -39,6 +39,8 @@
 using namespace glimac;
 
 
+
+
 int main(int argc, char** argv) {
     /***** SDL THINGY *****/
     // Initialize SDL and open a window
@@ -60,15 +62,15 @@ int main(int argc, char** argv) {
     /***BARREN LAND ON GERE LE Nombre de Sub***/
     int nbrSub = 100;
     float width = 1;
-    float elevationMax = 7;
-    float freq = 0.08;
+    float elevationMax = 5;
+    float freq = 0.05;
     float seed = 1200;
     NoiseManager noise(seed);
 
     /*****TEXTURES*****/
     glcustom::Texture test_texture1 = glcustom::Texture(
-            applicationPath.dirPath() + "textures/" + "HatchPattern-final.png");
-    glcustom::Texture test_texture2 = glcustom::Texture(applicationPath.dirPath() + "textures/" + "653306852.jpg");
+            applicationPath.dirPath() + "textures/" + "HatchPattern-final.png", GL_TEXTURE_2D);
+    glcustom::Texture test_texture2 = glcustom::Texture(applicationPath.dirPath() + "textures/" + "653306852.jpg",GL_TEXTURE_2D);
 
 
     /***TEXTURE MOISTURE***/
@@ -104,7 +106,7 @@ int main(int argc, char** argv) {
 
     int i, j;
     //test génération bruit
-    float** terrain = noise.getElevationMap(nbrSub+1, nbrSub+1);
+    float** terrain = noise.getElevationMap(nbrSub+1, nbrSub+1, freq, elevationMax);
 
     std::vector<ShapeVertex> vertices;
 
