@@ -41,7 +41,6 @@ void Application::clearGl() {
 }
 
 void Application::appLoop() {
-    textureManager->createTextures();
     programManager->createPrograms();
 
     Light light = Light(1,"Test",glm::vec3(0.5,0.1,0));

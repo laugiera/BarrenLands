@@ -101,6 +101,10 @@ void ProceduralMap::createBiomes() {
 }
 
 std::vector<glcustom::Texture *> ProceduralMap::chooseTextures(TextureManager *textureManager) {
+    std::vector<glcustom::Texture *> textures;
+    textures.push_back(textureManager->getRandomTexture("moisture"));
+    textures.push_back(textureManager->getRandomTexture("sand"));
+    textures.push_back(textureManager->getRandomTexture("rock"));
     /* Récupérer les textures depuis les biomes
     std::vector<glcustom::Texture *> textures;
     for(int i = 0; i<8 ; i++){
@@ -109,5 +113,6 @@ std::vector<glcustom::Texture *> ProceduralMap::chooseTextures(TextureManager *t
     }
     return textures;
      */
-    return textureManager->getTextures();
+    return textures;
+
 }

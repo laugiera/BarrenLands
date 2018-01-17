@@ -11,6 +11,8 @@
 #include <iostream>
 #include <cstring>
 #include <math.h>
+#include <fstream>
+#include <iostream>
 #include "glm/vec2.hpp"
 
 class Tools {
@@ -43,11 +45,11 @@ static std::vector<std::string> stringToVector(std::string data, std::string del
 
 static std::string getFolderPath(const std::string & filePath);
 
+static std::vector<std::string> load(std::string filePath);
+
 //waits for x seconds
 static bool WaitForSeconds(double secondsToWait);
-
 static float  SquareDistance(glm::vec2 v1, glm::vec2 v2);
-
 };
 
 
