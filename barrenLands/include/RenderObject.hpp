@@ -20,11 +20,12 @@ public:
 
     virtual ~RenderObject();
     void fillData(std::vector<glimac::ShapeVertex> vertices, std::vector<uint32_t> indices);
-    void transform(const glm::vec3 &translate, const float angle, const glm::vec3 &axesRotation,
+    virtual void transform(const glm::vec3 &translate, const float angle, const glm::vec3 &axesRotation,
                    const glm::vec3 &scale);
-    void render(const glm::mat4 &viewMatrix);
-    void bindTextures();
-    void debindTextures();
+    virtual void render(const glm::mat4 &viewMatrix);
+    virtual void sendUniforms(const glm::mat4 &viewMatrix);
+    virtual void bindTextures();
+    virtual void debindTextures();
 
 //private:
     glcustom::VAO vao;

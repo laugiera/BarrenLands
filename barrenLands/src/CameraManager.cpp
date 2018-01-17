@@ -2,8 +2,8 @@
 
 
 CameraManager::CameraManager(){
-    //_position = glm::vec3(0,0,0);
-    Tools::windowHeight +2 ;
+    _position = glm::vec3(0,0,0);
+    //Tools::windowHeight +2 ;
     _camera1 = TrackballCamera();
     _camera2 = FreeflyCamera();
     _camera2.rotateLeft(180.0);
