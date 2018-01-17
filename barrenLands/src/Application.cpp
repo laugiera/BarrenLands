@@ -7,6 +7,21 @@
 
 
 
+
+
+Application::Application(const glimac::FilePath &appPath) : windowManager(Tools::windowWidth, Tools::windowHeight, "BarrenLands"),
+                                                            programManager(nullptr),
+                                                            camera(nullptr),
+                                                            textureManager(nullptr),
+                                                            noiseManager(nullptr)
+{
+    initOpenGl();
+    textureManager = new TextureManager(appPath);
+    programManager = new ProgramManager(appPath);
+    camera = new CameraManager();
+    noiseManager = new NoiseManager(1200);
+}
+
 int Application::initOpenGl() {
     // Initialize glew for OpenGL3+ support
     GLenum glewInitError = glewInit();
@@ -26,19 +41,6 @@ void Application::clearGl() {
     glClearColor(0.7, 0.3, 0.2, 1);
 }
 
-Application::Application(const glimac::FilePath &appPath) : windowManager(Tools::windowWidth, Tools::windowHeight, "BarrenLands"),
-                                                            programManager(nullptr),
-                                                            camera(nullptr),
-                                                            textureManager(nullptr),
-                                                            noiseManager(nullptr)
-{
-    initOpenGl();
-    textureManager = new TextureManager(appPath);
-    programManager = new ProgramManager(appPath);
-    camera = new CameraManager();
-    noiseManager = new NoiseManager(1200);
-}
-
 void Application::appLoop() {
     textureManager->createTextures();
     programManager->createPrograms();
@@ -50,6 +52,10 @@ void Application::appLoop() {
     ProceduralObject testCube;
     testCube.setTextures(std::vector<glcustom::Texture*>(1,textureManager->getTextures()[0]));
     testCube.createRenderObject(programManager->getLightProgram());
+
+    ProceduralObject * Map = new ProceduralMap(noiseManager);
+    Map->setTextures(textureManager->getTextures());
+    Map->createRenderObject(programManager->getLightProgram());
 
     bool done = false;
     int rightPressed = 0;
