@@ -19,10 +19,10 @@ Mise en place de la partie Génération Prodécurale :
 
 Mise en place des fonctions utilitaires :
 
-- [ ] Trackball caméra
-- [ ] Freefly caméra
-- [ ] Implémenter les fonctions qui renvoient la matrice modelview de chacune des caméras
-- [ ] Créer un manager CameraManager permettant de switcher de caméras
+- [x] Trackball caméra
+- [x] Freefly caméra
+- [x] Implémenter les fonctions qui renvoient la matrice modelview de chacune des caméras
+- [x] Créer un manager CameraManager permettant de switcher de caméras
 
 Objectif à la fin du sprint 1 :
 - [ ] Pouvoir créer rapidement des ProceduralObjects et les RenderObjects correspondants via la démarche suivante :
@@ -33,4 +33,4 @@ Objectif à la fin du sprint 1 :
  
 - [x] Pouvoir visualiser directement ces nouveaux objets / nouvelles zones dans l'application.
 - [x] Pouvoir recompiler les shaders à la volée.
-- [ ] Pouvoir se déplacer facilement sur la carte.
+- [x] Pouvoir se déplacer facilement sur la carte.
