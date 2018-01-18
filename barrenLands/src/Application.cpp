@@ -18,7 +18,7 @@ Application::Application(const glimac::FilePath &appPath) : windowManager(Tools:
     textureManager = new TextureManager(appPath);
     programManager = new ProgramManager(appPath);
     camera = new CameraManager();
-    noiseManager = new NoiseManager(1200);
+    noiseManager = &NoiseManager::getInstance();
 }
 
 int Application::initOpenGl() {

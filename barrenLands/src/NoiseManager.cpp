@@ -5,12 +5,14 @@
 #include <glm/geometric.hpp>
 #include "../include/NoiseManager.hpp"
 
-NoiseManager::NoiseManager(float _seed): seed(_seed) {
+float NoiseManager::seed = 1200;
+
+NoiseManager::NoiseManager(){
     noise.SetNoiseType(FastNoise::PerlinFractal);
     noise.SetInterp(FastNoise::Quintic);
    // noise.SetFractalType(FastNoise::RigidMulti);
    // noise.SetFractalOctaves();
-    noise.SetSeed(seed);
+    noise.SetSeed(NoiseManager::getSeed());
 }
 
 float** NoiseManager::getElevationMap(const int width, const int height,const float frequency,const float elevationMax){

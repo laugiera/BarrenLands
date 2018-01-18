@@ -14,10 +14,20 @@
 class NoiseManager {
 private:
     FastNoise noise;
-    float seed;
-
+    static float seed;
+    NoiseManager();
+    ~NoiseManager(){}
 public:
-    NoiseManager(float _seed);
+    static NoiseManager & getInstance(){
+        static NoiseManager instance;
+        return instance;
+    }
+    static void setSeed(const float _seed){
+        NoiseManager::seed = _seed;
+    }
+    static float getSeed(){
+        return NoiseManager::seed;
+    }
     float** getElevationMap(const int width, const int height,const float frequency = 0.05,const float elevationMax = 5);
 
 };
