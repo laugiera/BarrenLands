@@ -26,7 +26,9 @@ public:
 
     void createRenderObject(ProgramManager *programManager, TextureManager *textureManager);
 
-    void createBiomes();
+    void createBiomes(glcustom::Texture * moisture);
+
+    void createMoistureMap();
 
     virtual std::vector<glcustom::Texture *> chooseTextures(TextureManager *textureManager);
 

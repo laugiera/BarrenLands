@@ -18,3 +18,11 @@ ProceduralBiome::ProceduralBiome() : elements() {
 void ProceduralBiome::createElements() {
     //Use factory to fill elements attribute
 }
+
+void ProceduralBiome::setVertices(const std::vector<glimac::ShapeVertex *> &vertices) {
+    ProceduralBiome::vertices = vertices;
+}
+
+void ProceduralBiome::addVertex(glimac::ShapeVertex *vertex) {
+    vertices.push_back(vertex);
+}

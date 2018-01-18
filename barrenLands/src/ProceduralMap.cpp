@@ -87,11 +87,50 @@ glimac::ShapeVertex ProceduralMap::getVertices(int i, int j){
     return vertices[i*(Tools::nbSub+1)+j];
 }
 
-void ProceduralMap::createBiomes() {
+void ProceduralMap::createBiomes(glcustom::Texture * moisture) {
     //utiliser un loader
     for(int i = 0; i<8 ; i++){
         biomes.push_back(new ProceduralBiome());
     }
+    /*
+    for( glimac::ShapeVertex & vertex : vertices ){
+        if (vertex.position.y < 0.25){
+            if (moisture < 2.f/6.f){
+                biomes[0]->addVertex(&vertex); // desert
+            } else {
+                biomes[1]->addVertex(&vertex); //herbe
+            }
+
+        } else if (vertex.position.y < 0.5){
+            if (moisture < 2.f/6.f){
+                biomes[3]->addVertex(&vertex); //craquelé
+            } else if (moisture < 5.f/6.f){
+                biomes[4]->addVertex(&vertex); //savane
+            } else {
+                biomes[1]->addVertex(&vertex); //herbe
+            }
+
+        } else if (vertex.position.y < 0.75){
+            if (moisture < 2.f/6.f){
+                biomes[5]->addVertex(&vertex); //roche
+            } else if (moisture < 4.f/6.f){
+                biomes[6]->addVertex(&vertex); //toundra
+            } else {
+                biomes[7]->addVertex(&vertex); //toundra herbe
+            }
+        } else {
+            if (moisture < 2.f/6.f){
+                biomes[5]->addVertex(&vertex); //roche
+            } else if (moisture < 3.f/6.f){
+                biomes[6]->addVertex(&vertex); //toundra
+            } else {
+                biomes[8]->addVertex(&vertex); //toundra neige
+            }
+
+        }
+
+    }
+     */
 
 }
 
