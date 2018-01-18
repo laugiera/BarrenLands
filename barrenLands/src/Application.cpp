@@ -43,10 +43,16 @@ void Application::clearGl() {
 void Application::appLoop() {
     programManager->createPrograms();
 
+/*
     Light light = Light(1,"Test",glm::vec3(0.5,0.1,0));
     light.addLightUniforms(programManager->getLightProgram());
+*/
 
-    //autres lights ajoutées aux bons programs
+    Light sun = Light(1,"Sun",glm::vec3(0.5,0.1,0));
+    sun.addLightUniforms(programManager->getMapProgram());
+    Light moon = Light(1,"Moon",glm::vec3(0,0.1,0.5));
+    moon.addLightUniforms(programManager->getMapProgram());
+
 
     ProceduralMap testMap(noiseManager);
     testMap.createRenderObject(programManager, textureManager);
@@ -115,10 +121,19 @@ void Application::appLoop() {
         clearGl();
         glDepthFunc(GL_LEQUAL);
 
-        programManager->getLightProgram()->use();
+       /* programManager->getLightProgram()->use();
         light.resetDirection();
         light.rotate(windowManager.getTime(),camera->getViewMatrix());
-        light.sendLightUniforms(programManager->getLightProgram());
+        light.sendLightUniforms(programManager->getLightProgram());*/
+
+        programManager->getMapProgram()->use();
+        sun.resetDirection();
+        sun.rotate(windowManager.getTime(), camera->getViewMatrix());
+        sun.sendLightUniforms(programManager->getMapProgram());
+
+        moon.resetDirection();
+        moon.rotate(-windowManager.getTime(), camera->getViewMatrix());
+        moon.sendLightUniforms(programManager->getMapProgram());
 
         glDepthMask(GL_FALSE);
         test->draw(camera->getViewMatrix());

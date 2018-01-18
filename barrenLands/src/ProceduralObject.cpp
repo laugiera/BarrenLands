@@ -79,7 +79,7 @@ void ProceduralObject::generateNormals() {
 
 void ProceduralObject::createRenderObject(ProgramManager *programManager, TextureManager *textureManager, Color *color) {
     std::vector<glcustom::Texture *> textures = chooseTextures(textureManager);
-    renderObject = new RenderObject(programManager->getTestProgram(), textures);
+    renderObject = new RenderObject(programManager->getLightProgram(), textures);
     renderObject->fillData(vertices, indices);
     renderObject->setColor(color);
 }
@@ -93,5 +93,6 @@ void ProceduralObject::draw(const glm::mat4 &viewMatrix) {
 std::vector<glcustom::Texture *> ProceduralObject::chooseTextures(TextureManager *textureManager) {
     return std::vector<glcustom::Texture *>(1, textureManager->getRandomTexture("sand"));
 }
+
 
 

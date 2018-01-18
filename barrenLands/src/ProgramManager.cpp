@@ -5,7 +5,7 @@
 #include "../include/ProgramManager.hpp"
 
 ProgramManager::ProgramManager(const std::string &appPath) : testProgram(nullptr), lightProgram(nullptr), skyboxProgram(
-        nullptr), appPath(appPath) {
+        nullptr), mapProgram(nullptr), appPath(appPath) {
     createPrograms();
 }
 
@@ -13,6 +13,7 @@ ProgramManager::~ProgramManager() {
     delete testProgram;
     delete lightProgram;
     delete skyboxProgram;
+    delete mapProgram;
 }
 
 void ProgramManager::createPrograms() {
@@ -30,6 +31,11 @@ void ProgramManager::createPrograms() {
     uniform_variables = {"uMV", "uMVP","uTexture0"};
     skyboxProgram = new glcustom::GPUProgram(appPath,"skybox","skybox");
     skyboxProgram->addUniforms(uniform_variables);
+
+    uniform_variables.clear();
+    uniform_variables = {"uMV", "uMVP","uTexture0", "uTexture1", "uTexture2" ,"uNormal", "uColor", "uSubDiv"};
+    mapProgram = new glcustom::GPUProgram(appPath,"light","light");
+    mapProgram->addUniforms(uniform_variables);
 
 
 }
@@ -54,6 +60,10 @@ void ProgramManager::reloadPrograms() {
 
 glcustom::GPUProgram *ProgramManager::getSkyboxProgram() const {
     return skyboxProgram;
+}
+
+glcustom::GPUProgram *ProgramManager::getMapProgram() const {
+    return mapProgram;
 }
 
 

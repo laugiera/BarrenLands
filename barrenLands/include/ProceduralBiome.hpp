@@ -7,6 +7,7 @@
 
 #include "ProceduralObject.hpp"
 #include <Color.hpp>
+#include <ElementFactory.hpp>
 
 class ProceduralBiome : public ProceduralObject{
 public:
@@ -19,6 +20,8 @@ public:
     void setVertices(const std::vector<glimac::ShapeVertex *> &vertices);
 
     void addVertex(glimac::ShapeVertex *vertex);
+    void draw(const glm::mat4 &viewMatrix);
+
 
     Color *getColor() const;
 
