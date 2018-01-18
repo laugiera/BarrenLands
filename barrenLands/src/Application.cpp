@@ -58,6 +58,8 @@ void Application::appLoop() {
     ProceduralMap testMap(noiseManager);
     testMap.createRenderObject(programManager, textureManager);
 
+    SkyboxObject * test = new SkyboxObject();
+    test -> createRenderObject(programManager, textureManager);
 
     bool done = false;
     int rightPressed = 0;
@@ -121,13 +123,17 @@ void Application::appLoop() {
         light.rotate(windowManager.getTime(),camera->getViewMatrix());
         light.sendLightUniforms(programManager->getLightProgram());
 
+        glDepthMask(GL_FALSE);
+        test->draw(camera->getViewMatrix());
+        glDepthMask(GL_TRUE);
+
         //elementVect[0]->draw(camera->getViewMatrix());
         testMap.draw(camera->getViewMatrix());
         windowManager.swapBuffers();
         printErrors();
 
     }
-
+    delete test;
     //delete factory;
 
 }
@@ -159,9 +165,8 @@ void Application::testInterface() {
     //---->TestProgram uses TestShader with texture support
     testObject->createRenderObject(programManager, textureManager);
 
-   /* SkyboxObject * test = new SkyboxObject();
-    test -> setTextures(textureManager->getRandomTexture("skybox"));
-    test -> createRenderObject(programManager->getSkyboxProgram());*/
+    SkyboxObject * test = new SkyboxObject();
+    test -> createRenderObject(programManager, textureManager);
 
     bool done = false;
     int rightPressed = 0;
@@ -217,16 +222,20 @@ void Application::testInterface() {
         light.rotate(windowManager.getTime(),camera->getViewMatrix());
         light.sendLightUniforms(programManager->getLightProgram());
 
-       /* glDepthMask(GL_FALSE);
+        testObject->draw(camera->getViewMatrix());
+
+        glDepthMask(GL_FALSE);
         test->draw(camera->getViewMatrix());
         glDepthMask(GL_TRUE);
-        windowManager.swapBuffers();*/
 
-        testObject->draw(camera->getViewMatrix());
+
+
         windowManager.swapBuffers();
+
+
         printErrors();
 
     }
   delete testObject;
-  //delete test;
+  delete test;
 }

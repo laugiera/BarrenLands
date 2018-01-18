@@ -59,22 +59,22 @@ void glcustom::Texture::loadSkybox(const std::string texturePath) {
         bind(GL_TEXTURE_CUBE_MAP);
 
         std::unique_ptr<glimac::Image> xneg,xpos,yneg,ypos,zneg,zpos;
-        xneg = glimac::loadImage(texturePath+"/xneg.png");
+        xneg = glimac::loadImage(texturePath+"/xneg.jpg");
         if(!xneg)
             throw std::runtime_error("Texture failed to load");
-        xpos = glimac::loadImage(texturePath+"/xpos.png");
+        xpos = glimac::loadImage(texturePath+"/xpos.jpg");
         if(!xpos)
             throw std::runtime_error("Texture failed to load");
-        yneg = glimac::loadImage(texturePath+"/yneg.png");
+        yneg = glimac::loadImage(texturePath+"/yneg.jpg");
         if(!yneg)
             throw std::runtime_error("Texture failed to load");
-        ypos = glimac::loadImage(texturePath+"/ypos.png");
+        ypos = glimac::loadImage(texturePath+"/ypos.jpg");
         if(!ypos)
             throw std::runtime_error("Texture failed to load");
-        zpos = glimac::loadImage(texturePath+"/zpos.png");
+        zpos = glimac::loadImage(texturePath+"/zpos.jpg");
         if(!zpos)
             throw std::runtime_error("Texture failed to load");
-        zneg = glimac::loadImage(texturePath+"/zneg.png");
+        zneg = glimac::loadImage(texturePath+"/zneg.jpg");
         if(!zneg)
             throw std::runtime_error("Texture failed to load");
 
@@ -92,12 +92,14 @@ void glcustom::Texture::loadSkybox(const std::string texturePath) {
 }
 
 void glcustom::Texture::setupCubeMap( const GLvoid *xpos, const GLvoid *xneg, const GLvoid *ypos, const GLvoid *yneg, const GLvoid *zpos, const GLvoid *zneg, GLsizei width, GLsizei height) {
-    glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X, 0, GL_RGBA, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, xpos);
-    glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_X, 0, GL_RGBA, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, xneg);
-    glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Y, 0, GL_RGBA, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, ypos);
-    glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Y, 0, GL_RGBA, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, yneg);
-    glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Z, 0, GL_RGBA, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, zpos);
-    glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, 0, GL_RGBA, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, zneg);
+
+    //glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, img->getWidth(), img->getHeight(), 0, GL_RGBA, GL_FLOAT, img->getPixels());
+    glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_FLOAT, xpos);
+    glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_X, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_FLOAT, xneg);
+    glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Y, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_FLOAT, ypos);
+    glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Y, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_FLOAT, yneg);
+    glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Z, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_FLOAT, zpos);
+    glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_FLOAT, zneg);
 }
 
 void glcustom::Texture::create2D(GLsizei width, GLsizei height, const GLvoid * data, GLenum format) {

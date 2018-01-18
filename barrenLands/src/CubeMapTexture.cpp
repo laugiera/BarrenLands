@@ -2,7 +2,7 @@
 // Created by natshez on 17/01/2018.
 //
 
-#include "CubeMapTexture.h"
+#include "CubeMapTexture.hpp"
 #define  GLEW_STATIC
 
 bool CubemapTexture::Load()

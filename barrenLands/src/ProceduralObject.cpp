@@ -70,7 +70,6 @@ void ProceduralObject::generateIndices() {
             };
 
     indices = std::vector<uint32_t>(_indices, _indices + sizeof(_indices) / sizeof(uint32_t));
-    //indices = std::vector<uint32_t>();
 
 }
 
@@ -86,7 +85,7 @@ void ProceduralObject::createRenderObject(ProgramManager *programManager, Textur
 
 void ProceduralObject::draw(const glm::mat4 &viewMatrix) {
     //transformer selon la position, rotation, scale de l'objet
-    renderObject->transform(glm::vec3(0), 0, glm::vec3(0,1,0), glm::vec3(10,10,10));
+    renderObject->transform(glm::vec3(0,0,-5), 0, glm::vec3(0,1,0), glm::vec3(0.5,0.5,0.5));
     renderObject->render(viewMatrix);
 }
 

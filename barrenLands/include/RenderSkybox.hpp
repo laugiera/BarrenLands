@@ -14,9 +14,9 @@ public :
 
     RenderSkybox(glcustom::GPUProgram *program, std::vector<glcustom::Texture *> texture);
     ~RenderSkybox();
-    void render(const glm::mat4 &viewMatrix);
     void bindTextures();
     void debindTextures();
+    virtual void sendUniforms(const glm::mat4 &viewMatrix);
 };
 
 
