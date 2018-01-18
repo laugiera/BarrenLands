@@ -33,12 +33,18 @@ public:
     virtual std::vector<glcustom::Texture *> chooseTextures(TextureManager *textureManager);
 
     glimac::ShapeVertex getVertices(int i, int j);
+
     std::vector<glimac::ShapeVertex> getVerticesTab();
+
+    void createRenderSea(ProgramManager *programManager, TextureManager *textureManager);
+
+    void draw(const glm::mat4 & viewMatrix);
 
 
 private:
     std::vector<ProceduralBiome *> biomes;
     std::vector<float> moistureMap;
+    RenderObject * sea;
 
 };
 
