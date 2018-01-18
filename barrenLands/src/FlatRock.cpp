@@ -9,3 +9,4 @@ FlatRock::~FlatRock(){}
 void FlatRock::generateVertices(){}
 void FlatRock::generateIndices(){}
 void FlatRock::generateNormals(){}
+
