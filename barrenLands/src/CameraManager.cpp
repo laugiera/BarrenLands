@@ -177,6 +177,6 @@ float CameraManager::determinerHauteur(glimac::ShapeVertex O, glimac::ShapeVerte
     float b = (B.position.x - O.position.x)*(A.position.z - O.position.z) - (A.position.x - O.position.x)*(B.position.z - O.position.z);
     float c = (A.position.x - O.position.x)*(B.position.y - O.position.y) - (B.position.x - O.position.x)*(A.position.y - O.position.y);
     float d= -O.position.x*a - O.position.y*b - O.position.z*c;
-    std::cout << "a = " << a << " b = " << b << " c = " << c << " d = " << d << " res = " << (-a*_position.x/Tools::scale - c*_position.z/Tools::scale - d)/b << std::endl;
+    //std::cout << "a = " << a << " b = " << b << " c = " << c << " d = " << d << " res = " << (-a*_position.x/Tools::scale - c*_position.z/Tools::scale - d)/b << std::endl;
     return (-a*_position.x/Tools::scale - c*_position.z/Tools::scale - d)/b;
 }

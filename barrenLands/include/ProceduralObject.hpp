@@ -31,6 +31,7 @@ public:
 
     virtual std::vector<glcustom::Texture *> chooseTextures(TextureManager *textureManager);
 
+    //glm::vec3 position; //A enlever, là pour faire des tests.
 protected:
     std::vector<glimac::ShapeVertex> vertices;
     std::vector<uint32_t> indices;
