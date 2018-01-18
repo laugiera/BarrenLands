@@ -91,11 +91,6 @@ std::vector<glimac::ShapeVertex> ProceduralMap::getVerticesTab(){
     return vertices;
 }
 
-void ProceduralMap::setTextures(const std::vector<glcustom::Texture *> &textures) {
-    ProceduralMap::textures = textures;
-}
-
-
 void ProceduralMap::createBiomes(glcustom::Texture * moisture) {
     //utiliser un loader
     for(int i = 0; i<8 ; i++){
