@@ -150,6 +150,9 @@ void Application::testInterface() {
     //---->TestProgram uses TestShader with texture support
     testObject->createRenderObject(programManager, textureManager);
 
+   /* SkyboxObject * test = new SkyboxObject();
+    test -> setTextures(textureManager->getRandomTexture("skybox"));
+    test -> createRenderObject(programManager->getSkyboxProgram());*/
 
     bool done = false;
     int rightPressed = 0;
@@ -198,18 +201,23 @@ void Application::testInterface() {
             }
         }
         clearGl();
+        glDepthFunc(GL_LEQUAL);
 
         programManager->getLightProgram()->use();
         light.resetDirection();
         light.rotate(windowManager.getTime(),camera->getViewMatrix());
         light.sendLightUniforms(programManager->getLightProgram());
 
-        testObject->draw(camera->getViewMatrix());
+       /* glDepthMask(GL_FALSE);
+        test->draw(camera->getViewMatrix());
+        glDepthMask(GL_TRUE);
+        windowManager.swapBuffers();*/
 
+        testObject->draw(camera->getViewMatrix());
         windowManager.swapBuffers();
         printErrors();
 
     }
-
-    delete testObject;
+  delete testObject;
+  //delete test;
 }

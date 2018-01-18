@@ -3,6 +3,7 @@
 //
 
 #include "Texture.hpp"
+#include <iostream>
 
 glcustom::Texture::Texture(const std::string filePath, const GLenum type) : m_texture_unit(GL_TEXTURE0), m_id() {
     try{
@@ -29,23 +30,24 @@ void glcustom::Texture::load2D(const std::string filePath) {
         throw std::runtime_error("Texture failed to load");
     }
     glGenTextures(1, &m_id);
-    bind();
+    bind(GL_TEXTURE_2D);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, img->getWidth(), img->getHeight(), 0, GL_RGBA, GL_FLOAT, img->getPixels());
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    debind();
+    debind(GL_TEXTURE_2D);
+
 
 }
 
-std::vector< std::unique_ptr<glimac::Image>*> glcustom::Texture::loadSkyboxFile(const std::vector<std::string> filePath){
-    std::vector< std::unique_ptr<glimac::Image>*> images;
+std::vector< glimac::Image*> glcustom::Texture::loadSkyboxFile(const std::vector<std::string> filePath){
+    std::vector< glimac::Image*> images;
     std::unique_ptr<glimac::Image> image;
     for (int i = 0; i < filePath.size(); ++i) {
         image = glimac::loadImage(filePath[i]);
         if(!image) {
             throw std::runtime_error("Texture failed to load");
         }
-        images.push_back(&image);
+        images.push_back(image.get());
     }
     return images;
 }
@@ -54,17 +56,38 @@ void glcustom::Texture::loadSkybox(const std::string texturePath) {
         // generate a cube-map texture to hold all the sides
         glActiveTexture(GL_TEXTURE0);
         glGenTextures(1, &m_id);
-        glBindTexture(GL_TEXTURE_CUBE_MAP, m_id);
-        // load each image and copy into a side of the cube-map texture
-        std::vector< std::unique_ptr<glimac::Image>*> images = loadSkyboxFile({texturePath+"xpos",texturePath+"xneg",texturePath+"ypos",texturePath+"yneg",texturePath+"zpos",texturePath+"zneg"});
-        setupCubeMap((*images[0])->getPixels(),(*images[0])->getPixels(),(*images[0])->getPixels(),(*images[0])->getPixels(),(*images[0])->getPixels(),(*images[0])->getPixels(), (*images[0])->getWidth(), (*images[0])->getHeight());
+        bind(GL_TEXTURE_CUBE_MAP);
+
+        std::unique_ptr<glimac::Image> xneg,xpos,yneg,ypos,zneg,zpos;
+        xneg = glimac::loadImage(texturePath+"/xneg.png");
+        if(!xneg)
+            throw std::runtime_error("Texture failed to load");
+        xpos = glimac::loadImage(texturePath+"/xpos.png");
+        if(!xpos)
+            throw std::runtime_error("Texture failed to load");
+        yneg = glimac::loadImage(texturePath+"/yneg.png");
+        if(!yneg)
+            throw std::runtime_error("Texture failed to load");
+        ypos = glimac::loadImage(texturePath+"/ypos.png");
+        if(!ypos)
+            throw std::runtime_error("Texture failed to load");
+        zpos = glimac::loadImage(texturePath+"/zpos.png");
+        if(!zpos)
+            throw std::runtime_error("Texture failed to load");
+        zneg = glimac::loadImage(texturePath+"/zneg.png");
+        if(!zneg)
+            throw std::runtime_error("Texture failed to load");
+
+
+        setupCubeMap(xpos->getPixels(),xneg->getPixels(),ypos->getPixels(),yneg->getPixels(),
+                     zpos->getPixels(),zneg->getPixels(),xpos->getWidth(),xpos->getHeight());
         // format cube map texture
         glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-        glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
+        debind(GL_TEXTURE_CUBE_MAP);
 
 }
 
@@ -79,25 +102,25 @@ void glcustom::Texture::setupCubeMap( const GLvoid *xpos, const GLvoid *xneg, co
 
 void glcustom::Texture::create2D(GLsizei width, GLsizei height, const GLvoid * data, GLenum format) {
     glGenTextures(1, &m_id);
-    bind();
+    bind(GL_TEXTURE_2D);
     glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_FLOAT, data);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
-    debind();
+    debind(GL_TEXTURE_2D);
 
 }
 
 
-void glcustom::Texture::bind(GLenum textureUnit) {
+void glcustom::Texture::bind(const GLenum type, GLenum textureUnit) {
     m_texture_unit = textureUnit;
     glActiveTexture(m_texture_unit);
-    glBindTexture(GL_TEXTURE_2D, m_id);
+    glBindTexture(type, m_id);
 }
 
-void glcustom::Texture::debind() {
+void glcustom::Texture::debind(const GLenum type) {
     glActiveTexture(m_texture_unit);
-    glBindTexture(GL_TEXTURE_2D, 0);
+    glBindTexture(type, 0);
 }
 
 GLuint glcustom::Texture::getM_id() const {

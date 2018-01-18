@@ -27,13 +27,13 @@ namespace glcustom {
 
         void create2D(GLsizei width, GLsizei height, const GLvoid * data, GLenum format);
 
-        void bind(GLenum textureUnit = GL_TEXTURE0);
+        void bind(const GLenum type,GLenum textureUnit = GL_TEXTURE0);
 
-        void debind();
+        void debind(const GLenum type);
 
         GLuint getM_id() const;
 
-        std::vector<std::unique_ptr<glimac::Image>*> loadSkyboxFile(const std::vector<std::string> filePath);
+        std::vector<glimac::Image *> loadSkyboxFile(const std::vector<std::string> filePath);
         void loadSkybox(const std::string texturePath);
         void setupCubeMap( const GLvoid *xpos, const GLvoid *xneg, const GLvoid *ypos, const GLvoid *yneg, const GLvoid *zpos, const GLvoid *zneg, GLsizei width, GLsizei height);
         /*

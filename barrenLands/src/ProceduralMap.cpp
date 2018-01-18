@@ -44,7 +44,7 @@ ProceduralMap::ProceduralMap(NoiseManager *noise) : ProceduralObject(){
     generateVertices(noise);
     generateIndices();
     generateNormals();
-    createBiomes();
+    //createBiomes();
 }
 
 void ProceduralMap::generateNormals() {
