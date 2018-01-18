@@ -2,9 +2,8 @@
 // Created by natshez on 18/01/2018.
 //
 
-#include "ProceduralRock.h"
-ProceduralRock::ProceduralRock(): ProceduralObject(), color(),position(glm::vec3(0.f)){}
-ProceduralRock::ProceduralRock(glm::vec3 &_position): color(),position(_position){}
+#include "ProceduralRock.hpp"
+ProceduralRock::ProceduralRock(): ProceduralObject(){}
 ProceduralRock::~ProceduralRock() {}
 
 void ProceduralRock::createRenderObject(ProgramManager *programManager, TextureManager *textureManager){
