@@ -8,7 +8,7 @@ ProceduralRock::~ProceduralRock() {}
 
 void ProceduralRock::createRenderObject(ProgramManager *programManager, TextureManager *textureManager,  Color * color){
     std::vector<glcustom::Texture *> textures = chooseTextures(textureManager);
-    renderObject = new RenderObject(programManager->getLightProgram(), textures); // to change if program is different
+    renderObject = new RenderObject(programManager->getElementProgram(), textures); // to change if program is different
     renderObject->fillData(vertices, indices);
     renderObject->setColor(color);
 }

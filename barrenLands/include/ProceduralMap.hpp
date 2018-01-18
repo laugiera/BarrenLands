@@ -42,9 +42,6 @@ public:
 
     void draw(const glm::mat4 & viewMatrix);
 
-    /**BIOMES COLORS**/
-    static Color *sand;
-    static Color *grass;
 
 
 private:

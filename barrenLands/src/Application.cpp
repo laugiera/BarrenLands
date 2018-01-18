@@ -43,15 +43,12 @@ void Application::clearGl() {
 void Application::appLoop() {
     programManager->createPrograms();
 
-/*
-    Light light = Light(1,"Test",glm::vec3(0.5,0.1,0));
-    light.addLightUniforms(programManager->getLightProgram());
-*/
-
     Light sun = Light(1,"Sun",glm::vec3(0.5,0.1,0));
     sun.addLightUniforms(programManager->getMapProgram());
+    sun.addLightUniforms(programManager->getElementProgram());
     Light moon = Light(1,"Moon",glm::vec3(0,0.1,0.5));
     moon.addLightUniforms(programManager->getMapProgram());
+    moon.addLightUniforms(programManager->getElementProgram());
 
 
     ProceduralMap testMap(noiseManager);
@@ -80,22 +77,33 @@ void Application::appLoop() {
         SDL_Event e{};
         while(windowManager.pollEvent(e)) {
             if (e.type == SDL_KEYDOWN) {
-                if (e.key.keysym.sym == SDLK_LEFT) {
+                if (e.key.keysym.sym == SDLK_z) { // Z
+                    camera->moveFront(Tools::speed, testMap.getVerticesTab());
+                } else if (e.key.keysym.sym == SDLK_s) { // S
+                    camera->moveFront(-Tools::speed, testMap.getVerticesTab());
+                }
+                if (e.key.keysym.sym == SDLK_q) { // Q
                     camera->moveLeft(Tools::speed, testMap.getVerticesTab());
-                } else if (e.key.keysym.sym == SDLK_RIGHT) {
+                } else if (e.key.keysym.sym == SDLK_d) { // D
                     camera->moveLeft(-Tools::speed, testMap.getVerticesTab());
-                } else if (e.key.keysym.sym == SDLK_UP) {
+                }
+                if (e.key.keysym.sym == SDLK_UP) {
                     camera->moveFront(Tools::speed, testMap.getVerticesTab());
                 } else if (e.key.keysym.sym == SDLK_DOWN) {
                     camera->moveFront(-Tools::speed, testMap.getVerticesTab());
-                } else if (e.key.keysym.sym == SDLK_v) {
-                    if(camera->getChoice() == 0){
+                }
+                if (e.key.keysym.sym == SDLK_LEFT) {
+                    camera->rotateLeft(-Tools::speed);
+                } else if (e.key.keysym.sym == SDLK_RIGHT) {
+                    camera->rotateLeft(Tools::speed);
+                }
+                if (e.key.keysym.sym == SDLK_v) {
+                    if (camera->getChoice() == 0) {
                         camera->setChoice(1);
-                    }
-                    else{
+                    } else {
                         camera->setChoice(0);
                     }
-                } else if(e.key.keysym.sym == SDLK_b){
+                } else if (e.key.keysym.sym == SDLK_b) {
                     programManager->reloadPrograms();
                 }
             } else if (e.type == SDL_MOUSEBUTTONDOWN) {
@@ -118,13 +126,9 @@ void Application::appLoop() {
                 done = true; // Leave the loop after this iteration
             }
         }
+
         clearGl();
         glDepthFunc(GL_LEQUAL);
-
-       /* programManager->getLightProgram()->use();
-        light.resetDirection();
-        light.rotate(windowManager.getTime(),camera->getViewMatrix());
-        light.sendLightUniforms(programManager->getLightProgram());*/
 
         programManager->getMapProgram()->use();
         sun.resetDirection();
@@ -135,8 +139,12 @@ void Application::appLoop() {
         moon.rotate(-windowManager.getTime(), camera->getViewMatrix());
         moon.sendLightUniforms(programManager->getMapProgram());
 
+        programManager->getElementProgram()->use();
+        sun.sendLightUniforms(programManager->getElementProgram());
+        moon.sendLightUniforms(programManager->getElementProgram());
+
         glDepthMask(GL_FALSE);
-        test->draw(camera->getViewMatrix());
+        test->draw(camera->getViewMatrix()); //skybox
         glDepthMask(GL_TRUE);
 
         //elementVect[0]->draw(camera->getViewMatrix());
@@ -177,8 +185,6 @@ void Application::testInterface() {
     textureManager->createTextures();
     programManager->createPrograms();
 
-    Light light = Light(1,"Test",glm::vec3(0.5,0.1,0));
-    light.addLightUniforms(programManager->getLightProgram());
 
     //----> Edit with the class you want to test :
     //ProceduralObject * testObject = new ProceduralObject();
@@ -239,11 +245,6 @@ void Application::testInterface() {
         }
         clearGl();
         glDepthFunc(GL_LEQUAL);
-
-        programManager->getLightProgram()->use();
-        light.resetDirection();
-        light.rotate(windowManager.getTime(),camera->getViewMatrix());
-        light.sendLightUniforms(programManager->getLightProgram());
 
         //testObject->draw(camera->getViewMatrix());
 

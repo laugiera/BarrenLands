@@ -34,3 +34,8 @@ Objectif à la fin du sprint 1 :
 - [x] Pouvoir visualiser directement ces nouveaux objets / nouvelles zones dans l'application.
 - [x] Pouvoir recompiler les shaders à la volée.
 - [x] Pouvoir se déplacer facilement sur la carte.
+
+Plus :
+- [ ] Faire la doc
+- [ ] Eliminer les fuites mémoires
+- [ ] Rendu instancié
