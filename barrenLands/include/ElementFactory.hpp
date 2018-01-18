@@ -1,7 +1,7 @@
 #ifndef BARRENLANDS_ELEMENTFACTORY_HPP
 #define BARRENLANDS_ELEMENTFACTORY_HPP
 
-#include "ProceduralObject.hpp"
+#include "FlatRock.hpp"
 
 class ElementFactory{
 public:

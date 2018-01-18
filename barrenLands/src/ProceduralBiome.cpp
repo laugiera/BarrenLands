@@ -5,6 +5,7 @@
 #include "ProceduralBiome.hpp"
 
 void ProceduralBiome::createRenderObject(ProgramManager *programManager, TextureManager *textureManager) {
+    createElements();
     for(ProceduralObject * element : elements){
         element->createRenderObject(programManager, textureManager, getColor());
     }
@@ -22,6 +23,8 @@ ProceduralBiome::~ProceduralBiome(){
 
 void ProceduralBiome::createElements() {
     //Use factory to fill elements attribute
+    ElementFactory factory = ElementFactory();
+    elements.push_back(factory.createProceduralObject());
 }
 
 void ProceduralBiome::setVertices(const std::vector<glimac::ShapeVertex *> &vertices) {
@@ -30,6 +33,13 @@ void ProceduralBiome::setVertices(const std::vector<glimac::ShapeVertex *> &vert
 
 void ProceduralBiome::addVertex(glimac::ShapeVertex *vertex) {
     vertices.push_back(vertex);
+}
+
+void ProceduralBiome::draw(const glm::mat4 &viewMatrix) {
+
+    for(ProceduralObject * element : elements){
+        element->draw(viewMatrix);
+    }
 }
 
 Color* ProceduralBiome::getColor() const {
