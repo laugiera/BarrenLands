@@ -146,7 +146,7 @@ void Application::testInterface() {
     light.addLightUniforms(programManager->getLightProgram());
 
     //----> Edit with the class you want to test :
-    ProceduralMap * testObject = new ProceduralMap(noiseManager);
+    ProceduralObject * testObject = new ProceduralObject();
     //---->TestProgram uses TestShader with texture support
     testObject->createRenderObject(programManager, textureManager);
 
@@ -205,8 +205,10 @@ void Application::testInterface() {
         light.sendLightUniforms(programManager->getLightProgram());
 
         testObject->draw(camera->getViewMatrix());
+
         windowManager.swapBuffers();
         printErrors();
+
     }
 
     delete testObject;

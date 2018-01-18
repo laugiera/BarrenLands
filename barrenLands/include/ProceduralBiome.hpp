@@ -14,8 +14,14 @@ public:
     virtual void createRenderObject(ProgramManager *programManager, TextureManager *textureManager);
     void createElements();
 
+    void setVertices(const std::vector<glimac::ShapeVertex *> &vertices);
+
+    void addVertex(glimac::ShapeVertex *vertex);
+
 private:
     std::vector<ProceduralObject *> elements;
+    std::vector<glimac::ShapeVertex *> vertices;
+    std::string name;
 
 };
 

@@ -13,9 +13,6 @@ ProceduralObject::ProceduralObject() : renderObject(nullptr) {
 
 ProceduralObject::~ProceduralObject() {
     delete renderObject;
-    for(glcustom::Texture* texture : textures){
-        delete texture;
-    }
 }
 
 void ProceduralObject::generateVertices() {
@@ -97,12 +94,8 @@ void ProceduralObject::draw(const glm::mat4 &viewMatrix) {
     renderObject->render(viewMatrix);
 }
 
-void ProceduralObject::setTextures(const std::vector<glcustom::Texture *> &textures) {
-    ProceduralObject::textures = textures;
-}
-
 std::vector<glcustom::Texture *> ProceduralObject::chooseTextures(TextureManager *textureManager) {
-    return std::vector<glcustom::Texture *>(1, textureManager->getTextures()[0]);
+    return std::vector<glcustom::Texture *>(1, textureManager->getRandomTexture("sand"));
 }
 
 

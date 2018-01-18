@@ -81,7 +81,6 @@ void ProceduralMap::createRenderObject(ProgramManager *programManager, TextureMa
     }
     renderObject = new RenderMap(programManager->getLightProgram(), chooseTextures(textureManager));
     renderObject->fillData(vertices, indices);
-
 }
 
 glimac::ShapeVertex ProceduralMap::getVertices(int i, int j){
@@ -96,11 +95,51 @@ void ProceduralMap::setTextures(const std::vector<glcustom::Texture *> &textures
     ProceduralMap::textures = textures;
 }
 
-void ProceduralMap::createBiomes() {
+
+void ProceduralMap::createBiomes(glcustom::Texture * moisture) {
     //utiliser un loader
     for(int i = 0; i<8 ; i++){
         biomes.push_back(new ProceduralBiome());
     }
+    /*
+    for( glimac::ShapeVertex & vertex : vertices ){
+        if (vertex.position.y < 0.25){
+            if (moisture < 2.f/6.f){
+                biomes[0]->addVertex(&vertex); // desert
+            } else {
+                biomes[1]->addVertex(&vertex); //herbe
+            }
+
+        } else if (vertex.position.y < 0.5){
+            if (moisture < 2.f/6.f){
+                biomes[3]->addVertex(&vertex); //craquelé
+            } else if (moisture < 5.f/6.f){
+                biomes[4]->addVertex(&vertex); //savane
+            } else {
+                biomes[1]->addVertex(&vertex); //herbe
+            }
+
+        } else if (vertex.position.y < 0.75){
+            if (moisture < 2.f/6.f){
+                biomes[5]->addVertex(&vertex); //roche
+            } else if (moisture < 4.f/6.f){
+                biomes[6]->addVertex(&vertex); //toundra
+            } else {
+                biomes[7]->addVertex(&vertex); //toundra herbe
+            }
+        } else {
+            if (moisture < 2.f/6.f){
+                biomes[5]->addVertex(&vertex); //roche
+            } else if (moisture < 3.f/6.f){
+                biomes[6]->addVertex(&vertex); //toundra
+            } else {
+                biomes[8]->addVertex(&vertex); //toundra neige
+            }
+
+        }
+
+    }
+     */
 }
 
 std::vector<glcustom::Texture *> ProceduralMap::chooseTextures(TextureManager *textureManager) {
@@ -108,14 +147,21 @@ std::vector<glcustom::Texture *> ProceduralMap::chooseTextures(TextureManager *t
     textures.push_back(textureManager->getRandomTexture("moisture"));
     textures.push_back(textureManager->getRandomTexture("sand"));
     textures.push_back(textureManager->getRandomTexture("rock"));
-    /* Récupérer les textures depuis les biomes
-    std::vector<glcustom::Texture *> textures;
+    return textures;
+
+    /* plus tard
+    Récupérer les textures depuis les biomes
     for(int i = 0; i<8 ; i++){
         //textures.push_back(biomes[i]->getTexture());
 
     }
     return textures;
      */
-    return textures;
+}
 
+ProceduralMap::~ProceduralMap() {
+    /*
+    delete proceduralObject;
+    delete bio
+     */
 }

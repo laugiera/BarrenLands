@@ -8,6 +8,8 @@ RenderMap::RenderMap(glcustom::GPUProgram *program, std::vector<glcustom::Textur
                                                                                                               _textures) {
 }
 
-void RenderMap::render(const glm::mat4 &viewMatrix) {
-    RenderObject::render(viewMatrix);
+
+void RenderMap::sendUniforms(const glm::mat4 &viewMatrix) {
+    program->sendUniform1f("uSubDiv", Tools::nbSub);
+    RenderObject::sendUniforms(viewMatrix);
 }

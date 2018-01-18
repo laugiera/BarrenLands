@@ -10,7 +10,7 @@
 class RenderMap : public RenderObject{
 public:
     RenderMap(glcustom::GPUProgram *program, std::vector<glcustom::Texture *> textures);
-    void render(const glm::mat4 & viewMatrix);
+    void sendUniforms(const glm::mat4 &viewMatrix);
 };
 
 

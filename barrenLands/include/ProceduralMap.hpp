@@ -15,21 +15,28 @@
 class ProceduralMap : public ProceduralObject{
 public:
     ProceduralMap(NoiseManager *noise);
-    void generateVertices(NoiseManager *noise);
-    void generateIndices();
-    void generateNormals();
-    void createRenderObject(ProgramManager *programManager, TextureManager *textureManager);
-    void createBiomes();
-    virtual std::vector<glcustom::Texture *> chooseTextures(TextureManager *textureManager);
 
+    virtual ~ProceduralMap();
+
+    void generateVertices(NoiseManager *noise);
+
+    void generateIndices();
+
+    void generateNormals();
+
+    void createRenderObject(ProgramManager *programManager, TextureManager *textureManager);
+
+    void createBiomes(glcustom::Texture * moisture);
+
+    void createMoistureMap();
+
+    virtual std::vector<glcustom::Texture *> chooseTextures(TextureManager *textureManager);
 
     glimac::ShapeVertex getVertices(int i, int j);
     std::vector<glimac::ShapeVertex> getVerticesTab();
 
-    void setTextures(const std::vector<glcustom::Texture *> &textures);
 
 private:
-    std::vector<glcustom::Texture*> textures;
     std::vector<ProceduralBiome *> biomes;
 
 };
