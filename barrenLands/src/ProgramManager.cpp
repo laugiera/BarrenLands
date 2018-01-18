@@ -33,7 +33,7 @@ void ProgramManager::createPrograms() {
     skyboxProgram->addUniforms(uniform_variables);
 
     uniform_variables.clear();
-    uniform_variables = {"uMV", "uMVP","uTexture0", "uTexture1", "uTexture2" ,"uNormal", "uColor", "uSubDiv"};
+    uniform_variables = {"uMV", "uMVP","uTexture0", "uTexture1", "uTexture2" ,"uNormal", "uSubDiv", "uColors"};
     mapProgram = new glcustom::GPUProgram(appPath,"light","light");
     mapProgram->addUniforms(uniform_variables);
 

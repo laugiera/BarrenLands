@@ -7,9 +7,6 @@
 #include <TextureManager.hpp>
 #include "ProceduralMap.hpp"
 
-/**BIOMES COLORS**/
-Color *ProceduralMap::sand = new Color(255.f/255.f, 255.f/255.f, 153.f/255.f);
-Color *ProceduralMap::grass = new Color(153.f/255.f, 204.f/255.f, 0.f/255.f);
 
 void ProceduralMap::generateVertices(NoiseManager *noise) {
     vertices.clear();
@@ -99,43 +96,43 @@ std::vector<glimac::ShapeVertex> ProceduralMap::getVerticesTab(){
 
 void ProceduralMap::createBiomes() {
     //utiliser un loader
-    for(int i = 0; i<8 ; i++){
+    for(int i = 0; i<6 ; i++){
         biomes.push_back(new ProceduralBiome());
     }
     for(int i = 0; i<vertices.size(); i++){
         if (vertices[i].position.y < 0.25){
             if (moistureMap[i] < 2.f/6.f){
                 biomes[0]->addVertex(&vertices[i]); // desert
-                biomes[0]->setColor(ProceduralMap::sand);
+                biomes[0]->setColor(RenderMap::sand);
             } else {
                 biomes[1]->addVertex(&vertices[i]); //herbe
-                biomes[1]->setColor(ProceduralMap::grass);
+                biomes[1]->setColor(RenderMap::grass);
             }
 
         } else if (vertices[i].position.y < 0.5){
             if (moistureMap[i] < 2.f/6.f){
-                biomes[3]->addVertex(&vertices[i]); //craquelé
-            } else if (moistureMap[i] < 5.f/6.f){
-                biomes[4]->addVertex(&vertices[i]); //savane
+                biomes[2]->addVertex(&vertices[i]); //savane
+                biomes[2]->setColor(RenderMap::savannah);
             } else {
                 biomes[1]->addVertex(&vertices[i]); //herbe
             }
 
         } else if (vertices[i].position.y < 0.75){
             if (moistureMap[i] < 2.f/6.f){
-                biomes[5]->addVertex(&vertices[i]); //roche
+                biomes[3]->addVertex(&vertices[i]); //roche
+                biomes[3]->setColor(RenderMap::rock);
             } else if (moistureMap[i] < 4.f/6.f){
-                biomes[6]->addVertex(&vertices[i]); //toundra
-            } else {
-                biomes[7]->addVertex(&vertices[i]); //toundra herbe
+                biomes[4]->addVertex(&vertices[i]); //toundra
+                biomes[4]->setColor(RenderMap::toundra);
             }
         } else {
             if (moistureMap[i] < 2.f/6.f){
-                biomes[5]->addVertex(&vertices[i]); //roche
+                biomes[3]->addVertex(&vertices[i]); //roche
             } else if (moistureMap[i] < 3.f/6.f){
-                biomes[6]->addVertex(&vertices[i]); //toundra
+                biomes[4]->addVertex(&vertices[i]); //toundra
             } else {
-                biomes[2]->addVertex(&vertices[i]); //toundra neige
+                biomes[5]->addVertex(&vertices[i]); //toundra neige
+                biomes[5]->setColor(RenderMap::snow);
             }
 
         }
