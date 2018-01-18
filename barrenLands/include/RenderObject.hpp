@@ -11,12 +11,13 @@
 #include <GPUProgram.hpp>
 #include "Tools.hpp"
 #include <Texture.hpp>
+#include <Color.hpp>
 
 class RenderObject {
 public:
     RenderObject() = default;
 
-    RenderObject(glcustom::GPUProgram *program, std::vector<glcustom::Texture *> texture);
+    RenderObject(glcustom::GPUProgram *program, std::vector<glcustom::Texture *> texture, Color *_color = nullptr);
 
     virtual ~RenderObject();
     void fillData(std::vector<glimac::ShapeVertex> vertices, std::vector<uint32_t> indices);
@@ -27,12 +28,22 @@ public:
     virtual void bindTextures();
     virtual void debindTextures();
 
+    virtual void setColor(Color *_color){
+        color = color;
+    }
+
+    Color * getColor(){
+        return color;
+    }
+
+
 protected:
     glcustom::VAO vao;
     glcustom::GPUProgram * program;
     glm::mat4 modelMatrix;
     std::vector<uint32_t> indices;
     std::vector<glcustom::Texture *> textures;
+    Color *color;
 };
 
 

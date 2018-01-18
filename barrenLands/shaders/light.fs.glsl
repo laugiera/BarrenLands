@@ -13,8 +13,10 @@ out vec3 color;
 // Values that stay constant for the whole mesh.
 uniform sampler2D uTexture0;
 uniform sampler2D uTexture1;
-uniform sampler2D uMoistureTexture;
-uniform int uSubDiv;
+uniform sampler2D uTexture2;
+uniform float uSubDiv;
+uniform vec3 uColor;
+
 uniform vec4 uLightDirSun;
 uniform float uLightIntensitySun;
 uniform vec3 uLightColorSun;
@@ -37,11 +39,12 @@ vec3 savane = vec3(255.f/255.f, 153.f/255.f, 0.f/255.f);
 vec3 craquele = vec3(255.f/255.f, 153.f/255.f, 102.f/255.f);
 vec3 sable = vec3(255.f/255.f, 255.f/255.f, 153.f/255.f);
 
-vec3 sableTexture = multiplyTexture(sable, texture(uTexture2, uV));
-vec3 toundraNeigeTexture = multiplyTexture(toundra_neige, texture(uTexture, uV));
+vec3 sableTexture = multiplyTexture(sable, texture(uTexture1, uV));
+vec3 toundraNeigeTexture = multiplyTexture(toundra_neige, texture(uTexture2, uV));
 
 float height = vPosition.y;
-float moisture = (texture(uMoistureTexture, uV/uSubDiv)).x;
+float moisture = (texture(uTexture0, uV/uSubDiv)).x;
+//float moisture = 0.5;
 
 vec3 assignColor() {
 if (height < 0.25){

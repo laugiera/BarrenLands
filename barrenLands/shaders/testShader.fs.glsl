@@ -9,7 +9,12 @@ out vec3 fFragColor;
 uniform sampler2D uTexture0;
 uniform vec3 uColor;
 
+vec3 multiplyTexture(vec3 color, vec4 textureAlpha) {
+    textureAlpha = textureAlpha * 0.3;
+    color.x = color.x + 0.2;
+    return color - textureAlpha.xyz;
+}
+
 void main() {
-        fFragColor = (texture(uTexture0, vTexCoords_vs)).xyz;
-        //fFragColor = uColor;
+        fFragColor = multiplyTexture(uColor , texture(uTexture0, vTexCoords_vs));
 }

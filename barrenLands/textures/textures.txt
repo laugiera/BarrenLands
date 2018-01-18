@@ -1,3 +1,4 @@
 comb-161383_960_720.png;default;
 653306852.jpg;sand;
 HatchPattern-final.png;rock;
+sea.jpg;sea;

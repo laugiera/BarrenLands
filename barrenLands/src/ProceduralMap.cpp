@@ -7,6 +7,10 @@
 #include <TextureManager.hpp>
 #include "ProceduralMap.hpp"
 
+/**BIOMES COLORS**/
+Color *ProceduralMap::sand = new Color(255.f/255.f, 255.f/255.f, 153.f/255.f);
+Color *ProceduralMap::grass = new Color(153.f/255.f, 204.f/255.f, 0.f/255.f);
+
 void ProceduralMap::generateVertices(NoiseManager *noise) {
     vertices.clear();
     int width = Tools::width;
@@ -40,12 +44,13 @@ void ProceduralMap::generateIndices() {
 
 }
 
-ProceduralMap::ProceduralMap(NoiseManager *noise) : ProceduralObject(){
+ProceduralMap::ProceduralMap(NoiseManager *noise) : ProceduralObject(), sea(nullptr){
     generateVertices(noise);
     generateIndices();
     generateNormals();
     createMoistureMap();
     createBiomes();
+    createSea();
 }
 
 void ProceduralMap::generateNormals() {
@@ -80,8 +85,9 @@ void ProceduralMap::createRenderObject(ProgramManager *programManager, TextureMa
     for(ProceduralBiome * b : biomes){
         b->createRenderObject(programManager, textureManager);
     }
-    renderObject = new RenderMap(programManager->getLightProgram(), chooseTextures(textureManager));
+    renderObject = new RenderMap(programManager->getMapProgram(), chooseTextures(textureManager));
     renderObject->fillData(vertices, indices);
+    sea->createRenderObject(programManager, textureManager);
 }
 
 glimac::ShapeVertex ProceduralMap::getVertices(int i, int j){
@@ -101,8 +107,10 @@ void ProceduralMap::createBiomes() {
         if (vertices[i].position.y < 0.25){
             if (moistureMap[i] < 2.f/6.f){
                 biomes[0]->addVertex(&vertices[i]); // desert
+                biomes[0]->setColor(ProceduralMap::sand);
             } else {
                 biomes[1]->addVertex(&vertices[i]); //herbe
+                biomes[1]->setColor(ProceduralMap::grass);
             }
 
         } else if (vertices[i].position.y < 0.5){
@@ -167,6 +175,31 @@ void ProceduralMap::createMoistureMap() {
         for(int j = 0 ; j < Tools::nbSub +1; j++){
             moistureMap.push_back(humidite[i][j]);
         }
+    }
+}
+
+void ProceduralMap::createSea() {
+    /*
+    std::vector<glimac::ShapeVertex> _vertices;
+    _vertices.push_back(glimac::ShapeVertex(glm::vec3(-1,0,-1), glm::vec3(0,1,0), glm::vec2(0,0)));
+    _vertices.push_back(glimac::ShapeVertex(glm::vec3(-1,0,1), glm::vec3(0,1,0), glm::vec2(1,0)));
+    _vertices.push_back(glimac::ShapeVertex(glm::vec3(1,0,1), glm::vec3(0,1,0), glm::vec2(1,1)));
+    _vertices.push_back(glimac::ShapeVertex(glm::vec3(1,0,-1), glm::vec3(0,1,0), glm::vec2(0,1)));
+
+    std::vector<uint32_t> indices = {0,1,2,2,0,3};
+
+    sea = new RenderObject(programManager->getTestProgram(), std::vector<glcustom::Texture*>(1, textureManager->getRandomTexture("sand")));
+    sea->fillData(vertices, indices);
+     */
+    sea = new ProceduralSea();
+}
+
+void ProceduralMap::draw(const glm::mat4 &viewMatrix) {
+    sea->draw(viewMatrix);
+    ProceduralObject::draw(viewMatrix); //draw the map vertex
+    //draw the elements
+    for(ProceduralObject * biome : biomes){
+        biome->draw(viewMatrix);
     }
 }
 

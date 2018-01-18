@@ -34,3 +34,7 @@ void Color::lighten(float intensity) {
     g += step*intensity;
     b += step*intensity;
 }
+
+glm::vec3 Color::getVec3() {
+    return glm::vec3(r,g,b);
+}

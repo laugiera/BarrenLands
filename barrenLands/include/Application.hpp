@@ -19,6 +19,7 @@
 #include "NoiseManager.hpp"
 #include "ProceduralMap.hpp"
 #include "ElementFactory.hpp"
+#include "ProceduralSea.hpp"
 
 class Application {
 public:

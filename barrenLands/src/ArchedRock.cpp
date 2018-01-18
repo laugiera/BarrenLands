@@ -2,7 +2,7 @@
 // Created by natshez on 18/01/2018.
 //
 
-#include "ArchedRock.h"
+#include "ArchedRock.hpp"
 
 ArchedRock::ArchedRock() : ProceduralRock(){}
 ArchedRock::~ArchedRock(){}

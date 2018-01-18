@@ -5,7 +5,7 @@
 #ifndef BARRENLANDS_SHARPROCK_H
 #define BARRENLANDS_SHARPROCK_H
 
-#include <ProceduralRock.h>
+#include <ProceduralRock.hpp>
 
 class SharpRock : public ProceduralRock {
 public:

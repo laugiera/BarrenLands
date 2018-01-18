@@ -43,16 +43,23 @@ void Application::clearGl() {
 void Application::appLoop() {
     programManager->createPrograms();
 
+/*
     Light light = Light(1,"Test",glm::vec3(0.5,0.1,0));
     light.addLightUniforms(programManager->getLightProgram());
+*/
 
-    //autres lights ajoutées aux bons programs
+    Light sun = Light(1,"Sun",glm::vec3(0.5,0.1,0));
+    sun.addLightUniforms(programManager->getMapProgram());
+    Light moon = Light(1,"Moon",glm::vec3(0,0.1,0.5));
+    moon.addLightUniforms(programManager->getMapProgram());
+
 
     ProceduralMap testMap(noiseManager);
     testMap.createRenderObject(programManager, textureManager);
 
     SkyboxObject * test = new SkyboxObject();
     test -> createRenderObject(programManager, textureManager);
+
 
     /*ElementFactory* factory = new ElementFactory(); //Décommenter "POSITION" dans PROCEDURALOBJECT
     std::vector<ProceduralObject*> elementVect;
@@ -114,10 +121,19 @@ void Application::appLoop() {
         clearGl();
         glDepthFunc(GL_LEQUAL);
 
-        programManager->getLightProgram()->use();
+       /* programManager->getLightProgram()->use();
         light.resetDirection();
         light.rotate(windowManager.getTime(),camera->getViewMatrix());
-        light.sendLightUniforms(programManager->getLightProgram());
+        light.sendLightUniforms(programManager->getLightProgram());*/
+
+        programManager->getMapProgram()->use();
+        sun.resetDirection();
+        sun.rotate(windowManager.getTime(), camera->getViewMatrix());
+        sun.sendLightUniforms(programManager->getMapProgram());
+
+        moon.resetDirection();
+        moon.rotate(-windowManager.getTime(), camera->getViewMatrix());
+        moon.sendLightUniforms(programManager->getMapProgram());
 
         glDepthMask(GL_FALSE);
         test->draw(camera->getViewMatrix());
@@ -165,12 +181,15 @@ void Application::testInterface() {
     light.addLightUniforms(programManager->getLightProgram());
 
     //----> Edit with the class you want to test :
-    ProceduralObject * testObject = new ProceduralObject();
+    //ProceduralObject * testObject = new ProceduralObject();
     //---->TestProgram uses TestShader with texture support
-    testObject->createRenderObject(programManager, textureManager);
+    //testObject->createRenderObject(programManager, textureManager);
 
     SkyboxObject * test = new SkyboxObject();
     test -> createRenderObject(programManager, textureManager);
+
+    ProceduralObject * testSea = new ProceduralSea();
+    testSea->createRenderObject(programManager, textureManager);
 
     bool done = false;
     int rightPressed = 0;
@@ -226,7 +245,9 @@ void Application::testInterface() {
         light.rotate(windowManager.getTime(),camera->getViewMatrix());
         light.sendLightUniforms(programManager->getLightProgram());
 
-        testObject->draw(camera->getViewMatrix());
+        //testObject->draw(camera->getViewMatrix());
+
+        testSea->draw(camera->getViewMatrix());
 
         glDepthMask(GL_FALSE);
         test->draw(camera->getViewMatrix());
@@ -240,6 +261,7 @@ void Application::testInterface() {
         printErrors();
 
     }
-  delete testObject;
+  //delete testObject;
+    delete testSea;
   delete test;
 }

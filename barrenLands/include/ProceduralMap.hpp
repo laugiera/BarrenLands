@@ -6,11 +6,13 @@
 #define BARRENLANDS_PROCEDURALMAP_HPP
 
 #include "ProceduralObject.hpp"
+#include "ProceduralSea.hpp"
 #include "NoiseManager.hpp"
 #include "RenderMap.hpp"
 #include "ProceduralBiome.hpp"
 #include "ProgramManager.hpp"
 #include "TextureManager.hpp"
+#include <Color.hpp>
 
 class ProceduralMap : public ProceduralObject{
 public:
@@ -33,12 +35,22 @@ public:
     virtual std::vector<glcustom::Texture *> chooseTextures(TextureManager *textureManager);
 
     glimac::ShapeVertex getVertices(int i, int j);
+
     std::vector<glimac::ShapeVertex> getVerticesTab();
+
+    void createSea();
+
+    void draw(const glm::mat4 & viewMatrix);
+
+    /**BIOMES COLORS**/
+    static Color *sand;
+    static Color *grass;
 
 
 private:
     std::vector<ProceduralBiome *> biomes;
     std::vector<float> moistureMap;
+    ProceduralObject * sea;
 
 };
 

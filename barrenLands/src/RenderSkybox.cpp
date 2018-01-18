@@ -7,7 +7,7 @@
 
 RenderSkybox::~RenderSkybox() {
     for(glcustom::Texture * texture : textures){
-        delete texture;
+        //delete texture; -> bug !!!
     }
 }
 

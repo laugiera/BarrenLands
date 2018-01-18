@@ -6,7 +6,7 @@
 #include <TextureManager.hpp>
 #include "../include/ProceduralObject.hpp"
 
-ProceduralObject::ProceduralObject() : renderObject(nullptr) {
+ProceduralObject::ProceduralObject() : renderObject(nullptr), position(glm::vec3(0.f)) {
     generateVertices();
     generateIndices();
 }
@@ -77,20 +77,22 @@ void ProceduralObject::generateNormals() {
 
 }
 
-void ProceduralObject::createRenderObject(ProgramManager *programManager, TextureManager *textureManager) {
+void ProceduralObject::createRenderObject(ProgramManager *programManager, TextureManager *textureManager, Color *color) {
     std::vector<glcustom::Texture *> textures = chooseTextures(textureManager);
-    renderObject = new RenderObject(programManager->getTestProgram(), textures);
+    renderObject = new RenderObject(programManager->getLightProgram(), textures);
     renderObject->fillData(vertices, indices);
+    renderObject->setColor(color);
 }
 
 void ProceduralObject::draw(const glm::mat4 &viewMatrix) {
     //transformer selon la position, rotation, scale de l'objet
-    //renderObject->transform(glm::vec3(0,0,-5), 0, glm::vec3(0,1,0), glm::vec3(0.5,0.5,0.5));
+    renderObject->transform(glm::vec3(0,0,0), 0, glm::vec3(0,1,0), glm::vec3(1,1,1));
     renderObject->render(viewMatrix);
 }
 
 std::vector<glcustom::Texture *> ProceduralObject::chooseTextures(TextureManager *textureManager) {
     return std::vector<glcustom::Texture *>(1, textureManager->getRandomTexture("sand"));
 }
+
 
 

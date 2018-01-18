@@ -9,13 +9,13 @@ Mise en place de la partie rendu OpenGL :
 - [x] Classe "GPUProgram" permettant de loader, compiler et linker des Vertex Shader et des Fragment Shaders.
 - [x] Classe "RenderObject" avec ses fonctions "fillData" et "render"
 - [x] Classe "Light" avec ses fonctions et deux lights pour le soleil et la lune
-- [ ] Une ou plusieurs classes dérivées de "RenderObject" (RenderMap, RenderBiome, RenderElement) qui implémentent les fonctions fillData et render.
+- [x] Une ou plusieurs classes dérivées de "RenderObject" (RenderMap, RenderBiome, RenderElement) qui implémentent les fonctions fillData et render.
 
 Mise en place de la partie Génération Prodécurale :
 
 - [x] Classe de base "ProceduralObject", possédant son équivalent en RenderObject, ainsi qu'une liste de sous éléments de type ProceduralObject. Implémenter la fonction draw() qui sera sensiblement la même pour tous les objets procéduraux (?).
-- [ ] Une ou plusieurs classes dérivées de "ProceduralObject" (ProceduralMap, ProceduralBiome, ProceduralElement) qui implémentent les fonctions generate() et createRenderObject.
-- [ ] Dans la classe Application, créer des ProceduralObjects (en fonction d'une seed) hiérarchiquement, et appelez la fonction draw() sur l'objet principal.
+- [x] Une ou plusieurs classes dérivées de "ProceduralObject" (ProceduralMap, ProceduralBiome, ProceduralElement) qui implémentent les fonctions generate() et createRenderObject.
+- [x] Dans la classe Application, créer des ProceduralObjects (en fonction d'une seed) hiérarchiquement, et appelez la fonction draw() sur l'objet principal.
 
 Mise en place des fonctions utilitaires :
 
