@@ -11,7 +11,7 @@ int Tools::nbSub = 100;
 float Tools::scale = 50;
 float Tools::width = 1;
 float Tools::speed = 10;
-float Tools::seaLevel = -15;
+float Tools::seaLevel = -5;
 
 /**
  * Take a string representation of a bool and converts it to bool
