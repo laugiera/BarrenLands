@@ -19,7 +19,7 @@ std::vector<glcustom::Texture *> ProceduralRock::chooseTextures(TextureManager *
 
 }
 
-//static 
+//static
 void ProceduralRock::setPositions(std::vector<ProceduralObject *> objects){
 
 }
