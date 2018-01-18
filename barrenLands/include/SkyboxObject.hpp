@@ -13,8 +13,6 @@ public:
     SkyboxObject();
     ~SkyboxObject();
 
-  /*  void generateVertices();
-    void generateIndices();*/
     void createRenderObject(glcustom::GPUProgram *program);
     void draw(const glm::mat4 &viewMatrix);
 

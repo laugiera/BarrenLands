@@ -17,6 +17,6 @@ void main(){
 	// return vertex position in camera space
 
 	gl_Position =  (uMVP * vec4(vertexPosition_modelspace,1)).xyww;
-	uV = normalize(vertexPosition_modelspace.xyz);
+	uV = vec3(aVertexTexCoords,1);
 
 }

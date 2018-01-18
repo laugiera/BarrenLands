@@ -36,6 +36,7 @@ void glcustom::Texture::load2D(const std::string filePath) {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     debind(GL_TEXTURE_2D);
 
+
 }
 
 std::vector< glimac::Image*> glcustom::Texture::loadSkyboxFile(const std::vector<std::string> filePath){
@@ -48,8 +49,6 @@ std::vector< glimac::Image*> glcustom::Texture::loadSkyboxFile(const std::vector
         }
         images.push_back(image.get());
     }
-    std::cout << images[0]->getPixels()<<std::endl;
-    std::cout << image->getPixels()<<std::endl;
     return images;
 }
 
@@ -58,13 +57,6 @@ void glcustom::Texture::loadSkybox(const std::string texturePath) {
         glActiveTexture(GL_TEXTURE0);
         glGenTextures(1, &m_id);
         bind(GL_TEXTURE_CUBE_MAP);
-        // load each image and copy into a side of the cube-map texture
- /*       std::vector< glimac::Image *> images = loadSkyboxFile({texturePath+"/xpos.png",
-                                                                               texturePath+"/xneg.png",
-                                                                               texturePath+"/ypos.png",
-                                                                               texturePath+"/yneg.png",
-                                                                               texturePath+"/zpos.png",
-                                                                               texturePath+"/zneg.png"});*/
 
         std::unique_ptr<glimac::Image> xneg,xpos,yneg,ypos,zneg,zpos;
         xneg = glimac::loadImage(texturePath+"/xneg.png");
@@ -90,8 +82,8 @@ void glcustom::Texture::loadSkybox(const std::string texturePath) {
         setupCubeMap(xpos->getPixels(),xneg->getPixels(),ypos->getPixels(),yneg->getPixels(),
                      zpos->getPixels(),zneg->getPixels(),xpos->getWidth(),xpos->getHeight());
         // format cube map texture
-        glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-        glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);

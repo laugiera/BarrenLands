@@ -12,7 +12,6 @@ TextureManager::TextureManager(const glimac::FilePath &appPath) : appPath(appPat
 
 void TextureManager::createTextures() {
 
-
     glcustom::Texture *  skybox = new glcustom::Texture( appPath.dirPath() + "textures",GL_TEXTURE_CUBE_MAP );
     textures[skybox]="skybox";
 
