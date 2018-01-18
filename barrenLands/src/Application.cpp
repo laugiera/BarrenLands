@@ -18,7 +18,7 @@ Application::Application(const glimac::FilePath &appPath) : windowManager(Tools:
     textureManager = new TextureManager(appPath);
     programManager = new ProgramManager(appPath);
     camera = new CameraManager();
-    noiseManager = new NoiseManager(1200);
+    noiseManager = &NoiseManager::getInstance();
 }
 
 int Application::initOpenGl() {
@@ -63,29 +63,20 @@ void Application::appLoop() {
 
     bool done = false;
     int rightPressed = 0;
-    int caseCamI = camera->getPosition().z/Tools::scale + Tools::width*Tools::nbSub/2;
-    int caseCamJ = camera->getPosition().x/Tools::scale + Tools::width*Tools::nbSub/2;
+    camera->moveFront(Tools::speed, testMap.getVerticesTab());
     while(!done) {
         // Event loop:
         SDL_Event e{};
         while(windowManager.pollEvent(e)) {
             if (e.type == SDL_KEYDOWN) {
                 if (e.key.keysym.sym == SDLK_LEFT) {
-                    caseCamI = camera->getPosition().z/Tools::scale + Tools::width*Tools::nbSub/2;
-                    caseCamJ = camera->getPosition().x/Tools::scale + Tools::width*Tools::nbSub/2;
-                    camera->moveLeft(Tools::speed, Tools::nbSub, Tools::width, Tools::scale, testMap.getVertices(caseCamI,caseCamJ).position.y +0.3);
+                    camera->moveLeft(Tools::speed, testMap.getVerticesTab());
                 } else if (e.key.keysym.sym == SDLK_RIGHT) {
-                    caseCamI = camera->getPosition().z/Tools::scale + Tools::width*Tools::nbSub/2;
-                    caseCamJ = camera->getPosition().x/Tools::scale + Tools::width*Tools::nbSub/2;
-                    camera->moveLeft(-Tools::speed, Tools::nbSub, Tools::width, Tools::scale, testMap.getVertices(caseCamI,caseCamJ).position.y +0.3);
+                    camera->moveLeft(-Tools::speed, testMap.getVerticesTab());
                 } else if (e.key.keysym.sym == SDLK_UP) {
-                    caseCamI = camera->getPosition().z/Tools::scale + Tools::width*Tools::nbSub/2;
-                    caseCamJ = camera->getPosition().x/Tools::scale + Tools::width*Tools::nbSub/2;
-                    camera->moveFront(Tools::speed, Tools::nbSub, Tools::width, Tools::scale, testMap.getVertices(caseCamI,caseCamJ).position.y +0.3);
+                    camera->moveFront(Tools::speed, testMap.getVerticesTab());
                 } else if (e.key.keysym.sym == SDLK_DOWN) {
-                    caseCamI = camera->getPosition().z/Tools::scale + Tools::width*Tools::nbSub/2;
-                    caseCamJ = camera->getPosition().x/Tools::scale + Tools::width*Tools::nbSub/2;
-                    camera->moveFront(-Tools::speed, Tools::nbSub, Tools::width, Tools::scale, testMap.getVertices(caseCamI,caseCamJ).position.y +0.3);
+                    camera->moveFront(-Tools::speed, testMap.getVerticesTab());
                 } else if (e.key.keysym.sym == SDLK_v) {
                     if(camera->getChoice() == 0){
                         camera->setChoice(1);

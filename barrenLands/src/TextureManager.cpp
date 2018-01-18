@@ -17,8 +17,7 @@ void TextureManager::createTextures() {
     textures[skybox]="skybox";
 
     //moisture map
-    NoiseManager noise(1200);
-    float** humidite = noise.getElevationMap(Tools::nbSub +1, Tools::nbSub +1);
+    float** humidite = NoiseManager::getInstance().getElevationMap(Tools::nbSub +1, Tools::nbSub +1);
     std::vector<float> moistureVector;
     for(int i = 0; i < Tools::nbSub +1; i++){
         for(int j = 0 ; j < Tools::nbSub +1; j++){

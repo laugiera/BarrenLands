@@ -88,6 +88,10 @@ glimac::ShapeVertex ProceduralMap::getVertices(int i, int j){
     return vertices[i*(Tools::nbSub+1)+j];
 }
 
+std::vector<glimac::ShapeVertex> ProceduralMap::getVerticesTab(){
+    return vertices;
+}
+
 void ProceduralMap::createBiomes() {
     //utiliser un loader
     for(int i = 0; i<8 ; i++){
@@ -130,7 +134,6 @@ void ProceduralMap::createBiomes() {
         }
 
     }
-
 }
 
 std::vector<glcustom::Texture *> ProceduralMap::chooseTextures(TextureManager *textureManager) {
@@ -159,8 +162,7 @@ ProceduralMap::~ProceduralMap() {
 }
 
 void ProceduralMap::createMoistureMap() {
-    NoiseManager noise(1200);
-    float ** humidite = noise.getElevationMap(Tools::nbSub +1, Tools::nbSub +1);
+    float ** humidite = NoiseManager::getInstance().getElevationMap(Tools::nbSub +1, Tools::nbSub +1);
     for(int i = 0; i < Tools::nbSub +1; i++){
         for(int j = 0 ; j < Tools::nbSub +1; j++){
             moistureMap.push_back(humidite[i][j]);
