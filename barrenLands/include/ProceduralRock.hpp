@@ -19,8 +19,7 @@ public:
     virtual void generateNormals() =0;
 
     //commun à tous les rocks
-    void createRenderObject(ProgramManager *programManager, TextureManager *textureManager);
-    void draw(const glm::mat4 &viewMatrix);
+    void createRenderObject(ProgramManager *programManager, TextureManager *textureManager, Color * _color);
     std::vector<glcustom::Texture *> chooseTextures(TextureManager *textureManager);
 
     //static

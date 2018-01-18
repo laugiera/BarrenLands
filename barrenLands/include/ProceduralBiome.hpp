@@ -20,7 +20,7 @@ public:
     void setVertices(const std::vector<glimac::ShapeVertex *> &vertices);
 
     void addVertex(glimac::ShapeVertex *vertex);
-    void ProceduralObject::draw(const glm::mat4 &viewMatrix);
+    void draw(const glm::mat4 &viewMatrix);
 
 
     Color *getColor() const;

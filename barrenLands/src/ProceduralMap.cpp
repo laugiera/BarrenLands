@@ -84,7 +84,7 @@ void ProceduralMap::createRenderObject(ProgramManager *programManager, TextureMa
     for(ProceduralBiome * b : biomes){
         b->createRenderObject(programManager, textureManager);
     }
-    renderObject = new RenderMap(programManager->getLightProgram(), chooseTextures(textureManager));
+    renderObject = new RenderMap(programManager->getMapProgram(), chooseTextures(textureManager));
     renderObject->fillData(vertices, indices);
     createRenderSea(programManager, textureManager);
 }
@@ -193,6 +193,10 @@ void ProceduralMap::createRenderSea(ProgramManager *programManager, TextureManag
 void ProceduralMap::draw(const glm::mat4 &viewMatrix) {
     sea->transform(glm::vec3(0), 0, glm::vec3(0,1,0), glm::vec3(100,100,100));
     sea->render(viewMatrix);
-    ProceduralObject::draw(viewMatrix);
+    ProceduralObject::draw(viewMatrix); //draw the map vertex
+    //draw the elements
+    for(ProceduralObject * biome : biomes){
+        biome->draw(viewMatrix);
+    }
 }
 

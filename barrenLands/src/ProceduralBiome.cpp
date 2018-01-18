@@ -5,7 +5,6 @@
 #include "ProceduralBiome.hpp"
 
 void ProceduralBiome::createRenderObject(ProgramManager *programManager, TextureManager *textureManager) {
-    createElements();
     for(ProceduralObject * element : elements){
         element->createRenderObject(programManager, textureManager, getColor());
     }
