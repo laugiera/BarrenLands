@@ -24,6 +24,7 @@ public:
     static float scale;
     static float width;
     static float speed;
+    static float seaLevel;
 
 //transforms a string bool (ex "true") into a bool, throws std::invalid_argument
 static bool boolFromString(std::string s);

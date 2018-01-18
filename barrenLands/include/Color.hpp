@@ -5,6 +5,7 @@
 #ifndef BARRENLANDS_COLOR_HPP
 #define BARRENLANDS_COLOR_HPP
 
+#include "glm/vec3.hpp"
 
 class Color {
 public:
@@ -23,6 +24,8 @@ public:
     void darken(float intensity);
 
     void lighten(float intensity);
+
+    glm::vec3 getVec3();
 
 
 private:

@@ -28,7 +28,9 @@ void RenderObject::fillData(std::vector<glimac::ShapeVertex> vertices, std::vect
 }
 
 RenderObject::RenderObject(glcustom::GPUProgram *program, std::vector<glcustom::Texture *> textures,  Color *_color)
-        : program(program), textures(textures), vao(), color(_color){}
+        : program(program), textures(textures), vao(), color(_color){
+    if(!color) color = new Color();
+}
 
 void RenderObject::transform(const glm::vec3 &translate, const float angle, const glm::vec3 &axesRotation,
                              const glm::vec3 &scale) {
@@ -66,7 +68,7 @@ void RenderObject::sendUniforms(const glm::mat4 &viewMatrix) {
     program->sendUniformMat4("uMV", modelViewMatrix);
     program->sendUniformMat4("uNormal", normals);
 
-    program->sendUniformVec3("uColor", glm::vec3(0.5, 0.5, 0.5));
+    program->sendUniformVec3("uColor", glm::vec3(color->getVec3()));
     /*
     program->sendUniformVec3("uKd",glm::vec3(1.0));
     program->sendUniformVec3("uKs",glm::vec3(1.0));

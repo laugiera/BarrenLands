@@ -6,6 +6,7 @@
 #define BARRENLANDS_PROCEDURALMAP_HPP
 
 #include "ProceduralObject.hpp"
+#include "ProceduralSea.hpp"
 #include "NoiseManager.hpp"
 #include "RenderMap.hpp"
 #include "ProceduralBiome.hpp"
@@ -36,8 +37,8 @@ public:
     glimac::ShapeVertex getVertices(int i, int j);
 
     std::vector<glimac::ShapeVertex> getVerticesTab();
-    
-    void createRenderSea(ProgramManager *programManager, TextureManager *textureManager);
+
+    void createSea();
 
     void draw(const glm::mat4 & viewMatrix);
 
@@ -49,7 +50,7 @@ public:
 private:
     std::vector<ProceduralBiome *> biomes;
     std::vector<float> moistureMap;
-    RenderObject * sea;
+    ProceduralObject * sea;
 
 };
 
