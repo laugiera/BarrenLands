@@ -5,7 +5,7 @@
 #ifndef BARRENLANDS_FLATROCK_H
 #define BARRENLANDS_FLATROCK_H
 
-#include <ProceduralRock.h>
+#include <ProceduralRock.hpp>
 
 class FlatRock : public ProceduralRock {
 public:

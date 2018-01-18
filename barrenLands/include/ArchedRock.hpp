@@ -5,7 +5,7 @@
 #ifndef BARRENLANDS_ARCHEDROCK_H
 #define BARRENLANDS_ARCHEDROCK_H
 
-#include <ProceduralRock.h>
+#include <ProceduralRock.hpp>
 
 class ArchedRock : public ProceduralRock {
 public:

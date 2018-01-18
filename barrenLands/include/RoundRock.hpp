@@ -5,7 +5,7 @@
 #ifndef BARRENLANDS_ROUNDROCK_H
 #define BARRENLANDS_ROUNDROCK_H
 
-#include <ProceduralRock.h>
+#include <ProceduralRock.hpp>
 
 class RoundRock : public ProceduralRock {
 public:

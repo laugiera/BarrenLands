@@ -28,7 +28,7 @@ public:
     virtual void bindTextures();
     virtual void debindTextures();
 
-    void setColor(Color *_color){
+    virtual void setColor(Color *_color){
         color = color;
     }
 

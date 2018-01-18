@@ -11,6 +11,7 @@
 #include "ProceduralBiome.hpp"
 #include "ProgramManager.hpp"
 #include "TextureManager.hpp"
+#include <Color.hpp>
 
 class ProceduralMap : public ProceduralObject{
 public:
@@ -34,6 +35,10 @@ public:
 
     glimac::ShapeVertex getVertices(int i, int j);
     std::vector<glimac::ShapeVertex> getVerticesTab();
+
+    /**BIOMES COLORS**/
+    static Color *sand;
+    static Color *grass;
 
 
 private:

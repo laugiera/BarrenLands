@@ -7,6 +7,10 @@
 #include <TextureManager.hpp>
 #include "ProceduralMap.hpp"
 
+/**BIOMES COLORS**/
+Color *ProceduralMap::sand = new Color(255.f/255.f, 255.f/255.f, 153.f/255.f);
+Color *ProceduralMap::grass = new Color(153.f/255.f, 204.f/255.f, 0.f/255.f);
+
 void ProceduralMap::generateVertices(NoiseManager *noise) {
     vertices.clear();
     int width = Tools::width;
@@ -101,8 +105,10 @@ void ProceduralMap::createBiomes() {
         if (vertices[i].position.y < 0.25){
             if (moistureMap[i] < 2.f/6.f){
                 biomes[0]->addVertex(&vertices[i]); // desert
+                biomes[0]->setColor(ProceduralMap::sand);
             } else {
                 biomes[1]->addVertex(&vertices[i]); //herbe
+                biomes[1]->setColor(ProceduralMap::grass);
             }
 
         } else if (vertices[i].position.y < 0.5){

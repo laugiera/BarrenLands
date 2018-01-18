@@ -2,7 +2,7 @@
 // Created by natshez on 18/01/2018.
 //
 
-#include "ProceduralRock.h"
+#include "ProceduralRock.hpp"
 ProceduralRock::ProceduralRock(): ProceduralObject(){}
 ProceduralRock::~ProceduralRock() {}
 

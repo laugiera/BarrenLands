@@ -12,6 +12,10 @@ public:
     RenderRock(glcustom::GPUProgram *program, std::vector<glcustom::Texture *> _textures, Color *_color);
     void sendUniforms(const glm::mat4 &viewMatrix);
 
+    void setColor(Color *_color){
+        color->darken(10);
+    }
+
 };
 
 
