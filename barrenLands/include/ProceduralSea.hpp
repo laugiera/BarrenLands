@@ -5,9 +5,9 @@
 #ifndef BARRENLANDS_PROCEDURALSEA_HPP
 #define BARRENLANDS_PROCEDURALSEA_HPP
 
+#include "ProceduralObject.hpp"
 
 class ProceduralSea : public ProceduralObject {
-
 };
 
 
