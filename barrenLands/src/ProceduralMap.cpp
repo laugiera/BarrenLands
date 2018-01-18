@@ -44,7 +44,7 @@ void ProceduralMap::generateIndices() {
 
 }
 
-ProceduralMap::ProceduralMap(NoiseManager *noise) : ProceduralObject(){
+ProceduralMap::ProceduralMap(NoiseManager *noise) : ProceduralObject(), sea(nullptr){
     generateVertices(noise);
     generateIndices();
     generateNormals();
@@ -86,6 +86,7 @@ void ProceduralMap::createRenderObject(ProgramManager *programManager, TextureMa
     }
     renderObject = new RenderMap(programManager->getLightProgram(), chooseTextures(textureManager));
     renderObject->fillData(vertices, indices);
+    createRenderSea(programManager, textureManager);
 }
 
 glimac::ShapeVertex ProceduralMap::getVertices(int i, int j){
@@ -174,5 +175,24 @@ void ProceduralMap::createMoistureMap() {
             moistureMap.push_back(humidite[i][j]);
         }
     }
+}
+
+void ProceduralMap::createRenderSea(ProgramManager *programManager, TextureManager *textureManager) {
+    std::vector<glimac::ShapeVertex> _vertices;
+    _vertices.push_back(glimac::ShapeVertex(glm::vec3(-1,0,-1), glm::vec3(0,1,0), glm::vec2(0,0)));
+    _vertices.push_back(glimac::ShapeVertex(glm::vec3(-1,0,1), glm::vec3(0,1,0), glm::vec2(1,0)));
+    _vertices.push_back(glimac::ShapeVertex(glm::vec3(1,0,1), glm::vec3(0,1,0), glm::vec2(1,1)));
+    _vertices.push_back(glimac::ShapeVertex(glm::vec3(1,0,-1), glm::vec3(0,1,0), glm::vec2(0,1)));
+
+    std::vector<uint32_t> indices = {0,1,2,2,0,3};
+
+    sea = new RenderObject(programManager->getTestProgram(), std::vector<glcustom::Texture*>(1, textureManager->getRandomTexture("sand")));
+    sea->fillData(vertices, indices);
+}
+
+void ProceduralMap::draw(const glm::mat4 &viewMatrix) {
+    sea->transform(glm::vec3(0), 0, glm::vec3(0,1,0), glm::vec3(100,100,100));
+    sea->render(viewMatrix);
+    ProceduralObject::draw(viewMatrix);
 }
 

@@ -54,6 +54,8 @@ void Application::appLoop() {
     SkyboxObject * test = new SkyboxObject();
     test -> createRenderObject(programManager, textureManager);
 
+    //ProceduralObject * testSea = new Proc
+
     /*ElementFactory* factory = new ElementFactory(); //Décommenter "POSITION" dans PROCEDURALOBJECT
     std::vector<ProceduralObject*> elementVect;
     for(int i =0; i<Tools::nbSub+1; ++i){
