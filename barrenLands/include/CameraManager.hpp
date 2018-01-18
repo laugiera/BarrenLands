@@ -4,6 +4,7 @@
 #include <glimac/TrackballCamera.hpp>
 #include <glimac/FreeflyCamera.hpp>
 #include <glimac/glm.hpp>
+#include <glimac/common.hpp>
 #include "../include/Tools.hpp"
 
 class CameraManager{
@@ -23,6 +24,10 @@ public :
     void moveLeft(float t, int nbrSub, float width, float scale, float posy);
     void moveFront(float t, int nbrSub, float width, float scale, float posy);
 
+    //Déplacement ++
+    void moveLeft(float t, std::vector<glimac::ShapeVertex> tab);
+    void moveFront(float t, std::vector<glimac::ShapeVertex> tab);
+
     //GETTER AND SETTER
     glm::vec3 getPosition(){
         return _position;
@@ -39,6 +44,12 @@ public :
     }
 
 private:
+    //METHOD
+    int inTriangle(glimac::ShapeVertex O, glimac::ShapeVertex A, glimac::ShapeVertex B);
+    float determinerHauteur(glimac::ShapeVertex O, glimac::ShapeVertex A, glimac::ShapeVertex B);
+
+    //ATTRIBUTS
+
     glm::vec3 _position;
     TrackballCamera _camera1;
     FreeflyCamera _camera2;
