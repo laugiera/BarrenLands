@@ -24,6 +24,7 @@ public:
 
 
     glimac::ShapeVertex getVertices(int i, int j);
+    std::vector<glimac::ShapeVertex> getVerticesTab();
 
     void setTextures(const std::vector<glcustom::Texture *> &textures);
 

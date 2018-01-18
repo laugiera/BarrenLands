@@ -10,7 +10,7 @@ void ProceduralBiome::createRenderObject(ProgramManager *programManager, Texture
     }
 }
 
-ProceduralBiome::ProceduralBiome() : elements(elements) {
+ProceduralBiome::ProceduralBiome() : elements() {
     indices.clear();
     createElements();
 }
