@@ -16,6 +16,7 @@
 class ProceduralObject {
 public:
     ProceduralObject();
+    ProceduralObject(glm::vec3 &_position, const Color &_color);
 
     virtual ~ProceduralObject();
 
@@ -31,11 +32,28 @@ public:
 
     virtual std::vector<glcustom::Texture *> chooseTextures(TextureManager *textureManager);
 
-    //glm::vec3 position; //A enlever, là pour faire des tests.
+    void setColor(Color &_color){
+        color = color;
+    }
+
+    Color & getColor(){
+        return color;
+    }
+
+    void setPosition(glm::vec3 &_position){
+        position = position;
+    }
+
+    glm::vec3 & getPosition(){
+        return position;
+    }
+
 protected:
     std::vector<glimac::ShapeVertex> vertices;
     std::vector<uint32_t> indices;
     RenderObject * renderObject;
+    Color color;
+    glm::vec3 position;
 };
 
 
