@@ -21,11 +21,14 @@ public:
 
     glcustom::GPUProgram * getLightProgram() const;
 
+    glcustom::GPUProgram *getSkyboxProgram() const;
+
     void reloadPrograms();
 private:
     glimac::FilePath appPath;
     glcustom::GPUProgram * testProgram;
     glcustom::GPUProgram * lightProgram;
+    glcustom::GPUProgram * skyboxProgram;
 
 };
 
