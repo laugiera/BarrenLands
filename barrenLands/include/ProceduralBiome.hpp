@@ -6,10 +6,12 @@
 #define BARRENLANDS_PROCEDURALBIOME_HPP
 
 #include "ProceduralObject.hpp"
+#include <Color.hpp>
 
 class ProceduralBiome : public ProceduralObject{
 public:
-    ProceduralBiome();
+    ProceduralBiome( Color *_color = new Color());
+    ~ProceduralBiome();
 
     virtual void createRenderObject(ProgramManager *programManager, TextureManager *textureManager);
     void createElements();
@@ -18,10 +20,15 @@ public:
 
     void addVertex(glimac::ShapeVertex *vertex);
 
+    Color *getColor() const;
+
+    void setColor(Color *color);
+
 private:
     std::vector<ProceduralObject *> elements;
     std::vector<glimac::ShapeVertex *> vertices;
     std::string name;
+    Color * color;
 
 };
 

@@ -12,11 +12,10 @@
 #include "ProgramManager.hpp"
 #include "TextureManager.hpp"
 
-
 class ProceduralObject {
 public:
     ProceduralObject();
-    ProceduralObject(glm::vec3 &_position, const Color &_color);
+    //ProceduralObject(glm::vec3 &_position);
 
     virtual ~ProceduralObject();
 
@@ -26,33 +25,24 @@ public:
 
     virtual void generateNormals();
 
-    virtual void createRenderObject(ProgramManager *programManager, TextureManager *textureManager);
+    virtual void createRenderObject(ProgramManager *programManager, TextureManager *textureManager,Color *color = nullptr);
 
     virtual void draw(const glm::mat4 &viewMatrix);
 
     virtual std::vector<glcustom::Texture *> chooseTextures(TextureManager *textureManager);
 
-    void setColor(Color &_color){
-        color = color;
-    }
-
-    Color & getColor(){
-        return color;
+    glm::vec3 & getPosition(){
+        return position;
     }
 
     void setPosition(glm::vec3 &_position){
         position = position;
     }
 
-    glm::vec3 & getPosition(){
-        return position;
-    }
-
 protected:
     std::vector<glimac::ShapeVertex> vertices;
     std::vector<uint32_t> indices;
     RenderObject * renderObject;
-    Color color;
     glm::vec3 position;
 };
 

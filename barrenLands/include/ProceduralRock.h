@@ -6,13 +6,11 @@
 #define BARRENLANDS_ROCK_H
 
 #include <ProceduralObject.hpp>
-#include <Color.hpp>
 
 class ProceduralRock : public ProceduralObject {
 
 public:
     ProceduralRock();
-    ProceduralRock(glm::vec3 &_position, const Color &_color);
     virtual ~ProceduralRock();
 
     //à redéfinir pour chaque élement
