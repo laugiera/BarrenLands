@@ -6,17 +6,17 @@
 #define BARRENLANDS_SKYBOXOBJECT_CPP_H
 
 #include <ProceduralObject.hpp>
-#include <RenderSkybox.h>
+#include <RenderSkybox.hpp>
 
 class SkyboxObject : public ProceduralObject {
 public:
     SkyboxObject();
     ~SkyboxObject();
 
-    void createRenderObject(glcustom::GPUProgram *program);
+    void createRenderObject(ProgramManager *programManager, TextureManager *textureManager);
     void draw(const glm::mat4 &viewMatrix);
+    std::vector<glcustom::Texture *> chooseTextures(TextureManager *textureManager);
 
-    void setTextures(glcustom::Texture * textures);
 };
 
 #endif //BARRENLANDS_SKYBOXOBJECT_CPP_H
