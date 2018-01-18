@@ -1,4 +1,4 @@
-//
+/*//
 // Created by natshez on 17/01/2018.
 //
 
@@ -15,9 +15,6 @@ SkyboxObject::SkyboxObject() : ProceduralObject() {
 
 SkyboxObject::~SkyboxObject() {
     delete renderObject;
-    for(glcustom::Texture* texture : textures){
-        delete texture;
-    }
 }
 
 void SkyboxObject::createRenderObject(glcustom::GPUProgram *program) {
@@ -33,4 +30,4 @@ void SkyboxObject::draw(const glm::mat4 &viewMatrix) {
 
 void SkyboxObject::setTextures(glcustom::Texture * textures) {
     ProceduralObject::textures.push_back(textures);
-}
+}*/

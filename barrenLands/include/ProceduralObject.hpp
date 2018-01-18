@@ -20,19 +20,21 @@ public:
     virtual ~ProceduralObject();
 
     virtual void generateVertices();
-    virtual void generateIndices();
-    virtual void generateNormals();
-    virtual void createRenderObject(ProgramManager *programManager, TextureManager *textureManager);
-    virtual void draw(const glm::mat4 &viewMatrix);
-    virtual std::vector<glcustom::Texture *> chooseTextures(TextureManager *textureManager);
 
-    void setTextures(const std::vector<glcustom::Texture *> &textures);
+    virtual void generateIndices();
+
+    virtual void generateNormals();
+
+    virtual void createRenderObject(ProgramManager *programManager, TextureManager *textureManager);
+
+    virtual void draw(const glm::mat4 &viewMatrix);
+
+    virtual std::vector<glcustom::Texture *> chooseTextures(TextureManager *textureManager);
 
 protected:
     std::vector<glimac::ShapeVertex> vertices;
     std::vector<uint32_t> indices;
     RenderObject * renderObject;
-    std::vector<glcustom::Texture *> textures;
 };
 
 

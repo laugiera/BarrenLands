@@ -18,7 +18,7 @@ ProgramManager::~ProgramManager() {
 void ProgramManager::createPrograms() {
     //test Program
     testProgram = new glcustom::GPUProgram(appPath, "testShader",  "testShader");
-    std::vector<std::string> uniform_variables = {"uMV", "uMVP","uNormal","uColor", "uTexture"};
+    std::vector<std::string> uniform_variables = {"uMV", "uMVP","uNormal","uColor", "uTexture0"};
     testProgram->addUniforms(uniform_variables);
 
     uniform_variables.clear();

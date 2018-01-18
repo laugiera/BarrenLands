@@ -151,18 +151,17 @@ void Application::testInterface() {
     textureManager->createTextures();
     programManager->createPrograms();
 
-/*    Light light = Light(1,"Test",glm::vec3(0.5,0.1,0));
+    Light light = Light(1,"Test",glm::vec3(0.5,0.1,0));
     light.addLightUniforms(programManager->getLightProgram());
 
     //----> Edit with the class you want to test :
-    ProceduralMap * testObject = new ProceduralMap(noiseManager);
+    ProceduralObject * testObject = new ProceduralObject();
     //---->TestProgram uses TestShader with texture support
     testObject->createRenderObject(programManager, textureManager);
-*/
 
-    SkyboxObject * test = new SkyboxObject();
+   /* SkyboxObject * test = new SkyboxObject();
     test -> setTextures(textureManager->getRandomTexture("skybox"));
-    test -> createRenderObject(programManager->getSkyboxProgram());
+    test -> createRenderObject(programManager->getSkyboxProgram());*/
 
     bool done = false;
     int rightPressed = 0;
@@ -213,19 +212,21 @@ void Application::testInterface() {
         clearGl();
         glDepthFunc(GL_LEQUAL);
 
-     /*   programManager->getLightProgram()->use();
+        programManager->getLightProgram()->use();
         light.resetDirection();
         light.rotate(windowManager.getTime(),camera->getViewMatrix());
         light.sendLightUniforms(programManager->getLightProgram());
 
-        testObject->draw(camera->getViewMatrix());*/
-        glDepthMask(GL_FALSE);
+       /* glDepthMask(GL_FALSE);
         test->draw(camera->getViewMatrix());
         glDepthMask(GL_TRUE);
-        windowManager.swapBuffers();
-        //printErrors();
-    }
+        windowManager.swapBuffers();*/
 
-    //delete testObject;
-  delete test;
+        testObject->draw(camera->getViewMatrix());
+        windowManager.swapBuffers();
+        printErrors();
+
+    }
+  delete testObject;
+  //delete test;
 }
