@@ -23,7 +23,7 @@ namespace glcustom {
         void fillBuffer(const std::vector<type> &vertices, VBO *vbo , IBO *ibo = nullptr) {
             bind();
             if(ibo){
-                std::cout << "ibo binded";
+                //std::cout << "ibo binded";
                 ibo->bind();
             }
             //activate properties

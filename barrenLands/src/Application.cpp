@@ -48,18 +48,22 @@ void Application::appLoop() {
 
     //autres lights ajoutées aux bons programs
 
-    /*ElementFactory* factory = new ElementFactory();
-    std::vector<ProceduralObject*> elementVect;
-    elementVect.push_back(factory->createProceduralObject());
-
-    elementVect[0]->setTextures(std::vector<glcustom::Texture*>(1,textureManager->getTextures()[0]));
-    elementVect[0]->createRenderObject(programManager->getLightProgram());*/
-
     ProceduralMap testMap(noiseManager);
     testMap.createRenderObject(programManager, textureManager);
 
     SkyboxObject * test = new SkyboxObject();
     test -> createRenderObject(programManager, textureManager);
+
+    /*ElementFactory* factory = new ElementFactory(); //Décommenter "POSITION" dans PROCEDURALOBJECT
+    std::vector<ProceduralObject*> elementVect;
+    for(int i =0; i<Tools::nbSub+1; ++i){
+        for(int j =0; j<Tools::nbSub+1; ++j){
+            elementVect.push_back(factory->createProceduralObject());
+            elementVect[i*(Tools::nbSub+1)+j]->createRenderObject(programManager, textureManager);
+            elementVect[i*(Tools::nbSub+1)+j]->position = testMap.getVertices(i,j).position;
+        }
+    }*/
+
 
     bool done = false;
     int rightPressed = 0;
@@ -120,6 +124,14 @@ void Application::appLoop() {
 
         //elementVect[0]->draw(camera->getViewMatrix());
         testMap.draw(camera->getViewMatrix());
+
+        /*for(int i =0; i<Tools::nbSub+1; ++i){
+            for(int j =0; j<Tools::nbSub+1; ++j){
+
+                elementVect[i*(Tools::nbSub+1)+j]->draw(glm::scale(glm::translate(camera->getViewMatrix() , elementVect[i*(Tools::nbSub+1)+j]->position) , glm::vec3(0.1,0.1,0.1)));
+            }
+        }*/
+
         windowManager.swapBuffers();
         printErrors();
 
