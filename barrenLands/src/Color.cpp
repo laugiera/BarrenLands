@@ -17,7 +17,7 @@ Color::Color(float r) {
     a = 1;
 }
 
-Color::Color(float r, float g, float b) : a(sanitize255(r)), g(sanitize255(g)), b(sanitize255(b)), a(1)  {}
+Color::Color(float r, float g, float b) : r(sanitize255(r)), g(sanitize255(g)), b(sanitize255(b)), a(1)  {}
 
 Color::Color(float r, float g, float b, float a) : r(sanitize255(r)), g(sanitize255(g)), b(sanitize255(b)), a(sanitize255(a)) {}
 
