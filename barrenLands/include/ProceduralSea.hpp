@@ -8,6 +8,14 @@
 #include "ProceduralObject.hpp"
 
 class ProceduralSea : public ProceduralObject {
+public:
+    ProceduralSea();
+
+private:
+    void generateVertices();
+    void generateIndices();
+    void createRenderObject(ProgramManager *programManager, TextureManager *textureManager,Color *color = nullptr);
+    void draw(const glm::mat4 & viewMatrix);
 };
 
 

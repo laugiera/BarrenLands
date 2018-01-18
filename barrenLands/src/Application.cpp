@@ -60,7 +60,6 @@ void Application::appLoop() {
     SkyboxObject * test = new SkyboxObject();
     test -> createRenderObject(programManager, textureManager);
 
-    //ProceduralObject * testSea = new Proc
 
     /*ElementFactory* factory = new ElementFactory(); //Décommenter "POSITION" dans PROCEDURALOBJECT
     std::vector<ProceduralObject*> elementVect;
@@ -182,12 +181,15 @@ void Application::testInterface() {
     light.addLightUniforms(programManager->getLightProgram());
 
     //----> Edit with the class you want to test :
-    ProceduralObject * testObject = new ProceduralObject();
+    //ProceduralObject * testObject = new ProceduralObject();
     //---->TestProgram uses TestShader with texture support
-    testObject->createRenderObject(programManager, textureManager);
+    //testObject->createRenderObject(programManager, textureManager);
 
     SkyboxObject * test = new SkyboxObject();
     test -> createRenderObject(programManager, textureManager);
+
+    ProceduralObject * testSea = new ProceduralSea();
+    testSea->createRenderObject(programManager, textureManager);
 
     bool done = false;
     int rightPressed = 0;
@@ -243,7 +245,9 @@ void Application::testInterface() {
         light.rotate(windowManager.getTime(),camera->getViewMatrix());
         light.sendLightUniforms(programManager->getLightProgram());
 
-        testObject->draw(camera->getViewMatrix());
+        //testObject->draw(camera->getViewMatrix());
+
+        testSea->draw(camera->getViewMatrix());
 
         glDepthMask(GL_FALSE);
         test->draw(camera->getViewMatrix());
@@ -257,6 +261,7 @@ void Application::testInterface() {
         printErrors();
 
     }
-  delete testObject;
+  //delete testObject;
+    delete testSea;
   delete test;
 }
