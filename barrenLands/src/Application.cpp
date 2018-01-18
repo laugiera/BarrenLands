@@ -112,6 +112,7 @@ void Application::appLoop() {
             }
         }
         clearGl();
+        glDepthFunc(GL_LEQUAL);
 
         programManager->getLightProgram()->use();
         light.resetDirection();
