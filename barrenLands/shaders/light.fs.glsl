@@ -15,7 +15,6 @@ uniform sampler2D uTexture0;
 uniform sampler2D uTexture1;
 uniform sampler2D uTexture2;
 uniform float uSubDiv;
-uniform vec3 uColor;
 
 uniform vec4 uLightDirSun;
 uniform float uLightIntensitySun;
@@ -24,60 +23,59 @@ uniform vec4 uLightDirMoon;
 uniform float uLightIntensityMoon;
 uniform vec3 uLightColorMoon;
 
+uniform vec3 uColors[6];
+
 vec3 multiplyTexture(vec3 color, vec4 textureAlpha) {
     textureAlpha = textureAlpha * 0.3;
     color.x = color.x + 0.2;
     return color - textureAlpha.xyz;
 }
 
-vec3 toundra_neige = vec3(200.f/255.f, 250.f/255.f, 245.f/255.f);
+/*vec3 toundra_neige = vec3(200.f/255.f, 250.f/255.f, 245.f/255.f);
 vec3 toundra = vec3(168.f/255.f, 212.f/255.f, 206.f/255.f);
 vec3 roche = vec3(150.f/255.f, 150.f/255.f, 150.f/255.f);
-vec3 toundra_herbe = vec3(153.f/255.f, 153.f/255.f, 51.f/255.f);
+//vec3 toundra_herbe = vec3(153.f/255.f, 153.f/255.f, 51.f/255.f);
 vec3 herbe = vec3(153.f/255.f, 204.f/255.f, 0.f/255.f);
 vec3 savane = vec3(255.f/255.f, 153.f/255.f, 0.f/255.f);
-vec3 craquele = vec3(255.f/255.f, 153.f/255.f, 102.f/255.f);
-vec3 sable = vec3(255.f/255.f, 255.f/255.f, 153.f/255.f);
+//vec3 craquele = vec3(255.f/255.f, 153.f/255.f, 102.f/255.f);
+vec3 sable = vec3(255.f/255.f, 255.f/255.f, 153.f/255.f);*/
 
-vec3 sableTexture = multiplyTexture(sable, texture(uTexture1, uV));
-vec3 toundraNeigeTexture = multiplyTexture(toundra_neige, texture(uTexture2, uV));
+vec3 sableTexture = multiplyTexture(uColors[0], texture(uTexture1, uV));
+vec3 toundraNeigeTexture = multiplyTexture(uColors[3], texture(uTexture2, uV));
 
 float height = vPosition.y;
 float moisture = (texture(uTexture0, uV/uSubDiv)).x;
 //float moisture = 0.5;
 
+
 vec3 assignColor() {
 if (height < 0.25){
     if (moisture < 2.f/6.f){
-    return sableTexture;
+    return sableTexture; //sable
     } else {
-    return herbe;
+    return uColors[1]; //grass
     }
 
 } else if (height < 0.5){
     if (moisture < 2.f/6.f){
-        return craquele;
-    } else if (moisture < 5.f/6.f){
-        return savane;
+        return uColors[5]; //savana
     } else {
-        return herbe;
+        return uColors[1]; //grass
     }
 
 } else if (height < 0.75){
     if (moisture < 2.f/6.f){
-        return roche;
-    } else if (moisture < 4.f/6.f){
-        return toundra;
-    } else {
-        return toundra_herbe;
+        return uColors[4]; //rock
+    } else  {
+        return uColors[2]; //toundra
     }
 } else {
     if (moisture < 2.f/6.f){
-        return roche;
+        return uColors[4]; //rock
     } else if (moisture < 3.f/6.f){
-        return toundra;
+        return uColors[2]; //toundra
     } else {
-        return toundraNeigeTexture;
+        return uColors[3]; //snow
     }
 
 }
@@ -126,4 +124,7 @@ void main() {
     color = getLightColor(uLightColorMoon,uLightIntensityMoon,uLightDirMoon.xyz)
     + getLightColor(uLightColorSun,uLightIntensitySun,uLightDirSun.xyz);
 }
+
+
+
 

@@ -79,7 +79,7 @@ void ProceduralObject::generateNormals() {
 
 void ProceduralObject::createRenderObject(ProgramManager *programManager, TextureManager *textureManager, Color *color) {
     std::vector<glcustom::Texture *> textures = chooseTextures(textureManager);
-    renderObject = new RenderObject(programManager->getLightProgram(), textures);
+    renderObject = new RenderObject(programManager->getElementProgram(), textures);
     renderObject->fillData(vertices, indices);
     renderObject->setColor(color);
 }

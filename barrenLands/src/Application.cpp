@@ -43,15 +43,12 @@ void Application::clearGl() {
 void Application::appLoop() {
     programManager->createPrograms();
 
-/*
-    Light light = Light(1,"Test",glm::vec3(0.5,0.1,0));
-    light.addLightUniforms(programManager->getLightProgram());
-*/
-
     Light sun = Light(1,"Sun",glm::vec3(0.5,0.1,0));
     sun.addLightUniforms(programManager->getMapProgram());
+    sun.addLightUniforms(programManager->getElementProgram());
     Light moon = Light(1,"Moon",glm::vec3(0,0.1,0.5));
     moon.addLightUniforms(programManager->getMapProgram());
+    moon.addLightUniforms(programManager->getElementProgram());
 
 
     ProceduralMap testMap(noiseManager);
@@ -133,11 +130,6 @@ void Application::appLoop() {
         clearGl();
         glDepthFunc(GL_LEQUAL);
 
-       /* programManager->getLightProgram()->use();
-        light.resetDirection();
-        light.rotate(windowManager.getTime(),camera->getViewMatrix());
-        light.sendLightUniforms(programManager->getLightProgram());*/
-
         programManager->getMapProgram()->use();
         sun.resetDirection();
         sun.rotate(windowManager.getTime(), camera->getViewMatrix());
@@ -147,8 +139,12 @@ void Application::appLoop() {
         moon.rotate(-windowManager.getTime(), camera->getViewMatrix());
         moon.sendLightUniforms(programManager->getMapProgram());
 
+        programManager->getElementProgram()->use();
+        sun.sendLightUniforms(programManager->getElementProgram());
+        moon.sendLightUniforms(programManager->getElementProgram());
+
         glDepthMask(GL_FALSE);
-        test->draw(camera->getViewMatrix());
+        test->draw(camera->getViewMatrix()); //skybox
         glDepthMask(GL_TRUE);
 
         //elementVect[0]->draw(camera->getViewMatrix());
@@ -189,8 +185,6 @@ void Application::testInterface() {
     textureManager->createTextures();
     programManager->createPrograms();
 
-    Light light = Light(1,"Test",glm::vec3(0.5,0.1,0));
-    light.addLightUniforms(programManager->getLightProgram());
 
     //----> Edit with the class you want to test :
     //ProceduralObject * testObject = new ProceduralObject();
@@ -251,11 +245,6 @@ void Application::testInterface() {
         }
         clearGl();
         glDepthFunc(GL_LEQUAL);
-
-        programManager->getLightProgram()->use();
-        light.resetDirection();
-        light.rotate(windowManager.getTime(),camera->getViewMatrix());
-        light.sendLightUniforms(programManager->getLightProgram());
 
         //testObject->draw(camera->getViewMatrix());
 
