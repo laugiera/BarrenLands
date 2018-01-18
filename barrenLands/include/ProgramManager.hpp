@@ -19,7 +19,7 @@ public:
 
     void createPrograms();
 
-    glcustom::GPUProgram * getLightProgram() const;
+    glcustom::GPUProgram * getElementProgram() const;
 
     glcustom::GPUProgram *getSkyboxProgram() const;
 
@@ -29,7 +29,7 @@ public:
 private:
     glimac::FilePath appPath;
     glcustom::GPUProgram * testProgram;
-    glcustom::GPUProgram * lightProgram;
+    glcustom::GPUProgram * elementProgram;
     glcustom::GPUProgram * skyboxProgram;
     glcustom::GPUProgram * mapProgram;
 
