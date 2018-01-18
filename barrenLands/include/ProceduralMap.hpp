@@ -26,7 +26,7 @@ public:
 
     void createRenderObject(ProgramManager *programManager, TextureManager *textureManager);
 
-    void createBiomes(glcustom::Texture * moisture);
+    void createBiomes();
 
     void createMoistureMap();
 
@@ -38,6 +38,7 @@ public:
 
 private:
     std::vector<ProceduralBiome *> biomes;
+    std::vector<float> moistureMap;
 
 };
 

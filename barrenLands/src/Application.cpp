@@ -18,7 +18,7 @@ Application::Application(const glimac::FilePath &appPath) : windowManager(Tools:
     textureManager = new TextureManager(appPath);
     programManager = new ProgramManager(appPath);
     camera = new CameraManager();
-    noiseManager = new NoiseManager(1200);
+    noiseManager = &NoiseManager::getInstance();
 }
 
 int Application::initOpenGl() {
@@ -60,8 +60,7 @@ void Application::appLoop() {
 
     bool done = false;
     int rightPressed = 0;
-    int caseCamI = camera->getPosition().z/Tools::scale + Tools::width*Tools::nbSub/2;
-    int caseCamJ = camera->getPosition().x/Tools::scale + Tools::width*Tools::nbSub/2;
+    camera->moveFront(Tools::speed, testMap.getVerticesTab());
     while(!done) {
         // Event loop:
         SDL_Event e{};

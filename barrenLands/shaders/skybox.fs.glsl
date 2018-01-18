@@ -10,5 +10,5 @@ uniform samplerCube  uTexture0;
 
 
 void main() {
-   color = textureCube(uTexture0,uV);
+   color = texture(uTexture0,uV);
 }
