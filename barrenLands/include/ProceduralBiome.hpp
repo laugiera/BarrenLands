@@ -20,6 +20,11 @@ public:
     void setVertices(const std::vector<glimac::ShapeVertex *> &vertices);
 
     void addVertex(glimac::ShapeVertex *vertex);
+
+    void setPosition(){
+        elements[0]->setPosition(vertices[0]->position);
+    }
+
     void draw(const glm::mat4 &viewMatrix);
 
 

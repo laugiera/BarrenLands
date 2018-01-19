@@ -35,8 +35,10 @@ void ProceduralBiome::addVertex(glimac::ShapeVertex *vertex) {
 }
 
 void ProceduralBiome::draw(const glm::mat4 &viewMatrix) {
-
+    //setPosition();
     for(ProceduralObject * element : elements){
+        //std::cout << element->getPosition() << std::endl;
+        //glm::mat4 modelMat = glm::translate(viewMatrix, glm::vec3(2,3 ,5));
         element->draw(viewMatrix);
     }
 }
