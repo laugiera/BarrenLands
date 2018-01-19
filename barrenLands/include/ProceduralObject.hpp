@@ -36,7 +36,7 @@ public:
     }
 
     void setPosition(glm::vec3 &_position){
-        position = position;
+        position = _position;
     }
 
 protected:

@@ -6,7 +6,7 @@
 
 ProceduralBiome::ProceduralBiome(Color *_color) : elements(), color(new Color(_color)) {
     indices.clear();
-    createElements();
+    //createElements();
 }
 
 ProceduralBiome::~ProceduralBiome(){
@@ -20,13 +20,14 @@ ProceduralBiome::~ProceduralBiome(){
 }
 
 /**
- * Create the procedural objects for all the element the biom contains
+ * Create the procedural objects for all the element the biome contains
  * will certainly be replaced by addElement()
  */
-void ProceduralBiome::createElements() {
+void ProceduralBiome::createElements(glm::vec3 position) {
     //Use factory to fill elements attribute
     ElementFactory factory = ElementFactory();
     elements.push_back(factory.createProceduralObject());
+    elements[elements.size()-1]->setPosition(position);
 }
 
 /**
@@ -45,8 +46,11 @@ void ProceduralBiome::createRenderObject(ProgramManager *programManager, Texture
  * @param viewMatrix
  */
 void ProceduralBiome::draw(const glm::mat4 &viewMatrix) {
+    //setPosition();
     for(ProceduralObject * element : elements){
-        element->draw(viewMatrix);
+        //std::cout << element->getPosition() << std::endl;
+        glm::mat4 modelMat = glm::scale(glm::translate(viewMatrix, element->getPosition()),glm::vec3(0.5));
+        element->draw(modelMat);
     }
 }
 
@@ -75,7 +79,10 @@ Color* ProceduralBiome::getColor() const {
     return color;
 }
 
-/**Set the biome color
+/**
+ * Set the biome color
+ * @param color
+ */
 void ProceduralBiome::setColor(Color *color) {
     ProceduralBiome::color = color;
 }
