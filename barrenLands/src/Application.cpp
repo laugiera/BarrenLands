@@ -174,7 +174,10 @@ void Application::printErrors() {
 }
 
 Application::~Application() {
- delete programManager;
+    delete programManager;
+    delete textureManager;
+    //delete windowManager; ->compiler says cannot delete type glimac::SDLWindowManager
+
 }
 
 const glimac::SDLWindowManager &Application::getWindowManager() const {
