@@ -6,9 +6,6 @@
 
 
 RenderObject::~RenderObject() {
-    for(glcustom::Texture * texture : textures){
-        delete texture;
-    }
     delete color;
 }
 
@@ -16,7 +13,7 @@ void RenderObject::fillData(std::vector<glimac::ShapeVertex> vertices, std::vect
     indices = _indices;
     //si les indices n'ont pas étés renseignés, remplir le tableau d'indices avec les indices des vertices (de 0 à nbVertices-1)
     if(indices.empty()){
-        for(int i = 0; i < vertices.size(); i++){
+        for(uint32_t i = 0; i < vertices.size(); i++){
             indices.push_back(i);
         }
     }
@@ -28,8 +25,10 @@ void RenderObject::fillData(std::vector<glimac::ShapeVertex> vertices, std::vect
 }
 
 RenderObject::RenderObject(glcustom::GPUProgram *program, std::vector<glcustom::Texture *> textures,  Color *_color)
-        : program(program), textures(textures), vao(), color(_color){
-    if(!color) color = new Color();
+        : program(program), textures(textures), vao(), color(nullptr){
+    if(_color){
+        color = new Color(_color);
+    } else color = new Color();
 }
 
 void RenderObject::transform(const glm::vec3 &translate, const float angle, const glm::vec3 &axesRotation,

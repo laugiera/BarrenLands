@@ -17,8 +17,17 @@ public:
 
     Color(float r, float g, float b, float a);
 
+    Color ( Color * c);
+
     inline float sanitize255(float f){
+        f = (f > 255)? 255 : f;
         return (f>1)? f/255.f : f;
+    }
+
+    inline float trunk01(float f){
+        f = (f>1)? 1 : f;
+        f = (f<0)? 0 : f;
+        return f;
     }
 
     void darken(float intensity);

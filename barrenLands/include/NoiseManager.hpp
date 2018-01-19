@@ -29,7 +29,8 @@ public:
         return NoiseManager::seed;
     }
     float** getElevationMap(const int width, const int height,const float frequency = 0.05,const float elevationMax = 5);
-
+    float** getMoistureMap(const int width, const int height,const float frequency = 0.05);
+    float** getRockMap(const int width, const int height,const float frequency = 0.05);
 };
 
 
