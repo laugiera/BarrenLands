@@ -6,7 +6,10 @@
 #include <ProgramManager.hpp>
 #include <TextureManager.hpp>
 #include "ProceduralMap.hpp"
-
+/**
+ * Constructor
+ * @param NoiseManager * noise
+ */
 ProceduralMap::ProceduralMap(NoiseManager *noise) : ProceduralObject(), sea(nullptr){
     generateVertices(noise);
     generateIndices();
@@ -15,7 +18,9 @@ ProceduralMap::ProceduralMap(NoiseManager *noise) : ProceduralObject(), sea(null
     createBiomes();
     createSea();
 }
-
+/**
+ * Destructor
+ */
 ProceduralMap::~ProceduralMap() {
     delete sea;
     for( ProceduralObject * b : biomes){

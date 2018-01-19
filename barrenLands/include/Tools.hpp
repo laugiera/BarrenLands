@@ -14,16 +14,18 @@
 #include <fstream>
 #include <iostream>
 #include "glm/vec2.hpp"
-
+/**
+ * Variables and functions used in the app
+ */
 class Tools {
 public:
 
     static float windowWidth;
     static float windowHeight;
-    static int nbSub;
+    static int nbSub; //map subdivisions
     static float scale;
     static float width;
-    static float speed;
+    static float speed; //camera speed
     static float seaLevel;
 
 //transforms a string bool (ex "true") into a bool, throws std::invalid_argument

@@ -25,7 +25,7 @@ Mise en place des fonctions utilitaires :
 - [x] Créer un manager CameraManager permettant de switcher de caméras
 
 Objectif à la fin du sprint 1 :
-- [ ] Pouvoir créer rapidement des ProceduralObjects et les RenderObjects correspondants via la démarche suivante :
+- [x] Pouvoir créer rapidement des ProceduralObjects et les RenderObjects correspondants via la démarche suivante :
 1. Créer une nouvelle classe ProceduralXXX, dérivée de ProceduralObject (à minima) et réimplémenter sa fonction generate()
 2. Créer une nouvelle classe RenderXXX, dérivée de RenderObject (à minima) avec des paramètres spéciaux propres à cet objet (texture, uniform, etc.)
 3. Réimplémenter la fonction createRenderObject() de la classe ProceduralXXX en créant un nouvel objet RenderXXX
@@ -36,6 +36,8 @@ Objectif à la fin du sprint 1 :
 - [x] Pouvoir se déplacer facilement sur la carte.
 
 Plus :
-- [ ] Faire la doc
-- [ ] Eliminer les fuites mémoires
+- [x] Faire la doc
+- [ ] Eliminer les fuites mémoires (+ bug dans RenderSkybox Destructor)
+- [ ] Faire la factory et les maps de répartitions
 - [ ] Rendu instancié
+- [ ] Exterioriser la proj matrix

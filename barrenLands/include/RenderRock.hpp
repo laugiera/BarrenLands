@@ -6,7 +6,11 @@
 #define BARRENLANDS_RENDERROCK_H
 
 #include "RenderObject.hpp"
-
+/**
+ * Class RenderRock
+ * Corresponding to Procedural Rock Class
+ * common to all rocks
+ */
 class RenderRock : public RenderObject{
 public:
     RenderRock(glcustom::GPUProgram *program, std::vector<glcustom::Texture *> _textures, Color *_color);

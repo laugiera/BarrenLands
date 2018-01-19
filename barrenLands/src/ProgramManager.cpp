@@ -3,19 +3,26 @@
 //
 
 #include "../include/ProgramManager.hpp"
-
+/**
+ * Constructor
+ * @param appPath
+ */
 ProgramManager::ProgramManager(const std::string &appPath) : testProgram(nullptr), elementProgram(nullptr), skyboxProgram(
         nullptr), mapProgram(nullptr), appPath(appPath) {
     createPrograms();
 }
-
+/**
+ * Destructor
+ */
 ProgramManager::~ProgramManager() {
     delete testProgram;
     delete elementProgram;
     delete skyboxProgram;
     delete mapProgram;
 }
-
+/**
+ * createPrograms()
+ */
 void ProgramManager::createPrograms() {
     //test Program
     testProgram = new glcustom::GPUProgram(appPath, "testShader",  "testShader");
@@ -42,7 +49,18 @@ void ProgramManager::createPrograms() {
 
 
 }
+/**
+ * reloadPrograms()
+ * reload the modifications maded in shadders, for debuging facilities
+ * \!/ TO MAJ with the programs from the above functions
+ */
+void ProgramManager::reloadPrograms() {
+    std::vector<std::string> uniform_variables = testProgram->getUniformList();
+    testProgram->setProgram(appPath, "testShader",  "testShader");
+    testProgram->addUniforms(uniform_variables);
 
+}
+/**Getters and setters for each program**/
 glcustom::GPUProgram *ProgramManager::getTestProgram() const {
     return testProgram;
 }
@@ -50,12 +68,6 @@ glcustom::GPUProgram *ProgramManager::getTestProgram() const {
 
 glcustom::GPUProgram *ProgramManager::getElementProgram() const {
     return elementProgram;
-}
-void ProgramManager::reloadPrograms() {
-    std::vector<std::string> uniform_variables = testProgram->getUniformList();
-    testProgram->setProgram(appPath, "testShader",  "testShader");
-    testProgram->addUniforms(uniform_variables);
-
 }
 
 glcustom::GPUProgram *ProgramManager::getSkyboxProgram() const {

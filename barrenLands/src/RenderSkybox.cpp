@@ -4,29 +4,41 @@
 
 #include "RenderSkybox.hpp"
 
-
+/**
+ * Destructor
+ */
 RenderSkybox::~RenderSkybox() {
     for(glcustom::Texture * texture : textures){
         //delete texture; -> bug !!!
     }
 }
-
+/**
+ * Constructor
+ * @param program
+ * @param textures
+ */
 RenderSkybox::RenderSkybox(glcustom::GPUProgram *program, std::vector<glcustom::Texture *> textures)
         : RenderObject(program, textures){}
-
-
-
+/**
+ * bindTextures()
+ * bind a GL_TEXTURE_CUBE_MAP texture
+ */
 void RenderSkybox::bindTextures() {
     int textureUnit = GL_TEXTURE0;
     textures[0]->bind(GL_TEXTURE_CUBE_MAP, textureUnit);
     program->sendUniformTextureUnit("uTexture" + std::to_string(0), 0);
 
 }
-
+/**
+ * debindTextures()
+ */
 void RenderSkybox::debindTextures() {
     textures[0]->debind(GL_TEXTURE_CUBE_MAP);
 }
-
+/**
+ * sendUniforms()
+ * @param viewMatrix
+ */
 void RenderSkybox::sendUniforms(const glm::mat4 &viewMatrix) {
     glm::mat4 projMatrix = glm::perspective(glm::radians(70.f), Tools::windowWidth/Tools::windowHeight, 0.1f, 1500.f);
     glm::mat4 modelViewMatrix = viewMatrix * modelMatrix;

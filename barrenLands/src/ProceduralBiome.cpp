@@ -3,12 +3,16 @@
 //
 
 #include "ProceduralBiome.hpp"
-
+/**
+ * Constructor
+ * @param _color
+ */
 ProceduralBiome::ProceduralBiome(Color *_color) : elements(), color(new Color(_color)) {
     indices.clear();
-    //createElements();
 }
-
+/**
+ * Destructor
+ */
 ProceduralBiome::~ProceduralBiome(){
     delete color;
     for(ProceduralObject * el : elements){
@@ -18,7 +22,6 @@ ProceduralBiome::~ProceduralBiome(){
         delete v;
     }
 }
-
 /**
  * Create the procedural objects for all the element the biome contains
  * will certainly be replaced by addElement()
@@ -29,7 +32,6 @@ void ProceduralBiome::createElements(glm::vec3 position) {
     elements.push_back(factory.createProceduralObject());
     elements[elements.size()-1]->setPosition(position);
 }
-
 /**
  * Creates the render objects for all the elements the biome contains
  * @param programManager

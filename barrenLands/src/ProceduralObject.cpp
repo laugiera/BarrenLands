@@ -5,16 +5,24 @@
 #include <ProgramManager.hpp>
 #include <TextureManager.hpp>
 #include "../include/ProceduralObject.hpp"
-
+/**
+ * Constructor
+ * generates defaults vertices and indices
+ */
 ProceduralObject::ProceduralObject() : renderObject(nullptr), position(glm::vec3(0.f)) {
     generateVertices();
     generateIndices();
 }
-
+/**
+ * Destructor
+ */
 ProceduralObject::~ProceduralObject() {
     delete renderObject;
 }
-
+/**
+ * generateVertices()
+ * Cube
+ */
 void ProceduralObject::generateVertices() {
     vertices.clear();
     //FACE AVANT
@@ -50,7 +58,10 @@ void ProceduralObject::generateVertices() {
 
 
 }
-
+/**
+ * generateIndices()
+ *
+ */
 void ProceduralObject::generateIndices() {
     indices.clear();
     uint32_t _indices[] =
@@ -72,24 +83,43 @@ void ProceduralObject::generateIndices() {
     indices = std::vector<uint32_t>(_indices, _indices + sizeof(_indices) / sizeof(uint32_t));
 
 }
-
+/**
+ * generateNormals()
+ */
 void ProceduralObject::generateNormals() {
 
 }
-
+/**
+ * createRenderObject()
+ * creates corresponding renderObject and it's GPU Program
+ * By default, Element program is used and one random texture from the texture manager is added
+ * @param ProgramManager * programManager
+ * @param TextureManager * textureManager
+ * @param Color * color, default null
+ */
 void ProceduralObject::createRenderObject(ProgramManager *programManager, TextureManager *textureManager, Color *color) {
     std::vector<glcustom::Texture *> textures = chooseTextures(textureManager);
     renderObject = new RenderObject(programManager->getElementProgram(), textures);
     renderObject->fillData(vertices, indices);
     renderObject->setColor(color);
 }
-
+/**
+ * draw()
+ * makes a default transformation on the model matrix
+ * render the object
+ * @param glm::mat4  viewMatrix
+ */
 void ProceduralObject::draw(const glm::mat4 &viewMatrix) {
     //transformer selon la position, rotation, scale de l'objet
     renderObject->transform(glm::vec3(0,0,0), 0, glm::vec3(0,1,0), glm::vec3(1,1,1));
     renderObject->render(viewMatrix);
 }
-
+/**
+ * chooseTextures()
+ * return an random texture from textureManager; by default it's a sand texture
+ * @param TextureManager * textureManager
+ * @return
+ */
 std::vector<glcustom::Texture *> ProceduralObject::chooseTextures(TextureManager *textureManager) {
     return std::vector<glcustom::Texture *>(1, textureManager->getRandomTexture("sand"));
 }

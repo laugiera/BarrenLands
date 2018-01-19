@@ -11,6 +11,10 @@
 #include <GPUProgram.hpp>
 #include <iostream>
 
+/**
+ * Class Light
+ * manage directionnal light
+ */
 class Light {
 public:
     Light(const float &_intensity, const std::string &_name, const glm::vec3 &_color);

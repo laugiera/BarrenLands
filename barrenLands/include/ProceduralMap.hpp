@@ -13,7 +13,11 @@
 #include "ProgramManager.hpp"
 #include "TextureManager.hpp"
 #include <Color.hpp>
-
+/**
+ * Class ProceduralMap
+ * Derived from ProceduralObject
+ * Manage the game Map with its biomes, vertices, sea and noise maps
+ */
 class ProceduralMap : public ProceduralObject{
 public:
     ProceduralMap(NoiseManager *noise);

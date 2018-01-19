@@ -3,6 +3,10 @@
 
 #include "FlatRock.hpp"
 
+/**
+ * Class ElementFactory
+ * Creates all sort of object for the map
+ */
 class ElementFactory{
 public:
     ElementFactory() = default;

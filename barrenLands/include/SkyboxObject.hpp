@@ -7,7 +7,9 @@
 
 #include <ProceduralObject.hpp>
 #include <RenderSkybox.hpp>
-
+/**
+ * Class SkyboxObject
+ */
 class SkyboxObject : public ProceduralObject {
 public:
     SkyboxObject();

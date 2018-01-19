@@ -10,7 +10,10 @@
 #include "Tools.hpp"
 #include "NoiseManager.hpp"
 #include <map>
-
+/**
+ * Class TextureManager
+ * Create and manage all textures in the app
+ */
 class TextureManager {
 public:
     TextureManager(const glimac::FilePath &appPath);

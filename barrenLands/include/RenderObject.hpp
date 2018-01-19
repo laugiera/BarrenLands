@@ -12,7 +12,10 @@
 #include "Tools.hpp"
 #include <Texture.hpp>
 #include <Color.hpp>
-
+/**
+ * Class RenderObject
+ * Corresponding to ProceduralObject Class
+ */
 class RenderObject {
 public:
     RenderObject() = default;
@@ -27,7 +30,9 @@ public:
     virtual void sendUniforms(const glm::mat4 &viewMatrix);
     virtual void bindTextures();
     virtual void debindTextures();
-
+    /**
+     * Getter and setter for color
+     */
     virtual void setColor(Color *_color){
         color = _color;
     }

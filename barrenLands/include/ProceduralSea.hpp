@@ -6,7 +6,9 @@
 #define BARRENLANDS_PROCEDURALSEA_HPP
 
 #include "ProceduralObject.hpp"
-
+/**
+ * Class ProceduralSea
+ */
 class ProceduralSea : public ProceduralObject {
 public:
     ProceduralSea();

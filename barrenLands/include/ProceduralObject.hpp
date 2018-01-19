@@ -11,7 +11,10 @@
 #include "glimac/Sphere.hpp"
 #include "ProgramManager.hpp"
 #include "TextureManager.hpp"
-
+/**
+ * Class ProceduralObject
+ * By default, it's a cube
+ */
 class ProceduralObject {
 public:
     ProceduralObject();
@@ -31,6 +34,7 @@ public:
 
     virtual std::vector<glcustom::Texture *> chooseTextures(TextureManager *textureManager);
 
+    /**Getter and setter for postion**/
     glm::vec3 & getPosition(){
         return position;
     }

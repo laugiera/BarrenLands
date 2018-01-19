@@ -6,7 +6,10 @@
 #define BARRENLANDS_RENDERSKYBOX_H
 
 #include "RenderObject.hpp"
-
+/**
+ * Class RenderSkybox
+ * Corresponding to SkyboxObject
+ */
 class RenderSkybox : public RenderObject{
 public :
 

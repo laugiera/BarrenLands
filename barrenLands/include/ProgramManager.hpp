@@ -8,7 +8,10 @@
 
 #include <GPUProgram.hpp>
 #include <Light.hpp>
-
+/**
+ * Class ProgramManager
+ * Initialise and manage all GPU Program of the app with their uniforms variables
+ */
 class ProgramManager {
 public:
     ProgramManager(const std::string &appPath);
