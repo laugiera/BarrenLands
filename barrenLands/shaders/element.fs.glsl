@@ -23,7 +23,6 @@ uniform vec3 uLightColorMoon;
 
 vec3 multiplyTexture(vec3 color, vec4 textureAlpha) {
     textureAlpha = textureAlpha * 0.3;
-    color.x = color.x + 0.2;
     return color - textureAlpha.xyz;
 }
 

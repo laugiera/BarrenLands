@@ -6,7 +6,13 @@
 #define BARRENLANDS_ROCK_H
 
 #include <ProceduralObject.hpp>
-
+#include <RenderRock.hpp>
+/**
+ * Class ProceduralRock
+ * Derived from ProceduralObject
+ * Abstract class for the Rock Object concept
+ * Will be derived in concret rock classes
+ */
 class ProceduralRock : public ProceduralObject {
 
 public:
@@ -24,9 +30,6 @@ public:
 
     //static
     static void setPositions(std::vector<ProceduralObject *> objects);
-
-
-
 
 };
 

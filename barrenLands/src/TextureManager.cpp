@@ -3,16 +3,21 @@
 //
 
 #include "TextureManager.hpp"
-
+/**
+ * Construtor
+ * @param appPath
+ */
 TextureManager::TextureManager(const glimac::FilePath &appPath) : appPath(appPath) {
     createTextures();
     loadTextures(appPath.dirPath() + "textures/");
 
 }
-
+/**
+ * createTextures
+ */
 void TextureManager::createTextures() {
 
-
+    //skybox
     glcustom::Texture *  skybox = new glcustom::Texture( appPath.dirPath() + "textures",GL_TEXTURE_CUBE_MAP );
     textures[skybox]="skybox";
 
@@ -27,7 +32,10 @@ void TextureManager::createTextures() {
     glcustom::Texture * moisture = new glcustom::Texture(Tools::nbSub +1, Tools::nbSub +1, moistureVector.data(), GL_RED);
     textures[moisture] = "moisture";
 }
-
+/**
+ * getTextures
+ * @return std::vector<glcustom::Texture *>
+ */
 const std::vector<glcustom::Texture *> TextureManager::getTextures() const {
     std::vector<glcustom::Texture *> _textures;
     std::map<glcustom::Texture *, std::string>::const_iterator it;
@@ -37,7 +45,10 @@ const std::vector<glcustom::Texture *> TextureManager::getTextures() const {
 
     return _textures;
 }
-
+/**
+ * loadTextures()
+ * @param folderPath
+ */
 void TextureManager::loadTextures(const std::string &folderPath) {
     std::string filePath = folderPath + "/textures.txt";
     try {
@@ -52,7 +63,11 @@ void TextureManager::loadTextures(const std::string &folderPath) {
         std::cerr << "loading of textures failed : " << e->what() << std::endl;
     }
 }
-
+/**
+ * getRandomTexture()
+ * @param std::string qualifier / name
+ * @return glcustom::Texture *
+ */
 glcustom::Texture * TextureManager::getRandomTexture(const std::string &qualifier) {
     std::vector<glcustom::Texture *> _textures;
     std::map<glcustom::Texture *, std::string>::const_iterator it;

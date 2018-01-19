@@ -7,6 +7,10 @@
 #include <glimac/common.hpp>
 #include "../include/Tools.hpp"
 
+/**
+ * Class CameraManager
+ * manage two different cameras (freefly and trackball) and tells wich one is the current camera
+ */
 class CameraManager{
 public :
     //METHODS

@@ -8,7 +8,11 @@
 #include "ProceduralObject.hpp"
 #include <Color.hpp>
 #include <ElementFactory.hpp>
-
+/**
+ * Class ProceduralBiome
+ * Derived from Procedural Object
+ * Manage biome, his color, vertices, elements
+ */
 class ProceduralBiome : public ProceduralObject{
 public:
     ProceduralBiome( Color *_color = new Color());
@@ -21,7 +25,10 @@ public:
     void setVertices(const std::vector<glimac::ShapeVertex *> &vertices);
 
     void addVertex(glimac::ShapeVertex *vertex);
-
+    /**
+     * setPosition()
+     *
+     */
     void setPosition(){
         if(vertices.size() != 0){
             std::cout << vertices[20]->position << std::endl;

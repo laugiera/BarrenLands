@@ -6,7 +6,10 @@
 #define BARRENLANDS_COLOR_HPP
 
 #include "glm/vec3.hpp"
-
+/**
+ * Class Color
+ * Manage a color and its rpg composantes
+ */
 class Color {
 public:
     Color();
@@ -19,11 +22,20 @@ public:
 
     Color ( Color * c);
 
+    /**
+     * sanitize255()
+     * @param float f value of rgb composante
+     * @return normalised value of the composante between 0 and 1
+     */
     inline float sanitize255(float f){
         f = (f > 255)? 255 : f;
         return (f>1)? f/255.f : f;
     }
-
+    /**
+     *  trunk01()
+     * @param float f value of rgb composante
+     * @return value trunked, between 0 and 1
+     */
     inline float trunk01(float f){
         f = (f>1)? 1 : f;
         f = (f<0)? 0 : f;

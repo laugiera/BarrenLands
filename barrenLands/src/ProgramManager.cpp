@@ -3,21 +3,25 @@
 //
 
 #include "../include/ProgramManager.hpp"
-
+/**
+ * Constructor
+ * @param appPath
+ */
 ProgramManager::ProgramManager(const std::string &appPath) : testProgram(nullptr), elementProgram(nullptr), skyboxProgram(
         nullptr), mapProgram(nullptr), appPath(appPath) {
     createPrograms();
 }
-
+/**
+ * Destructor
+ */
 ProgramManager::~ProgramManager() {
     delete testProgram;
     delete elementProgram;
     delete skyboxProgram;
     delete mapProgram;
 }
-
 /**
- * Creates the programs
+ * createPrograms()
  */
 void ProgramManager::createPrograms() {
     //test Program
@@ -45,9 +49,10 @@ void ProgramManager::createPrograms() {
 
 
 }
-
 /**
- * Reload the GPUprograms to be able to alter the shaders while running the app
+ * reloadPrograms()
+ * reload the modifications maded in shadders, for debuging facilities
+ * \!/ TO MAJ with the programs from the above functions
  */
 void ProgramManager::reloadPrograms() {
     std::vector<std::string> uniform_variables = testProgram->getUniformList();
@@ -55,9 +60,7 @@ void ProgramManager::reloadPrograms() {
     testProgram->addUniforms(uniform_variables);
 
 }
-
-/***** GETTERS *****/
-
+/**Getters and setters for each program**/
 glcustom::GPUProgram *ProgramManager::getTestProgram() const {
     return testProgram;
 }

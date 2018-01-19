@@ -21,6 +21,11 @@
 #include "ElementFactory.hpp"
 #include "ProceduralSea.hpp"
 
+/**
+ * Class Application
+ * main class of the project
+ */
+
 class Application {
 public:
     Application(const glimac::FilePath &appPath);

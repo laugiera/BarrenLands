@@ -15,14 +15,18 @@ Color *RenderMap::savannah = new Color(255.f/255.f, 153.f/255.f, 0.f/255.f);
 
 unsigned  int RenderMap::biomesNumber = 6;
 
-
+/**
+ * Constructor
+ * @param program
+ * @param _textures
+ */
 RenderMap::RenderMap(glcustom::GPUProgram *program, std::vector<glcustom::Texture *> _textures) : RenderObject(program,
                                                                                                               _textures) {
 
 }
-
 /**
- * Send Map uniforms
+ * sendUniforms
+ * Redefined with map uniforms
  * @param viewMatrix
  */
 void RenderMap::sendUniforms(const glm::mat4 &viewMatrix) {

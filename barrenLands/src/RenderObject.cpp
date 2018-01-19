@@ -4,22 +4,17 @@
 
 #include "../include/RenderObject.hpp"
 
-
-RenderObject::RenderObject(glcustom::GPUProgram *program, std::vector<glcustom::Texture *> textures,  Color *_color)
-        : program(program), textures(textures), vao(), color(nullptr){
-    if(_color){
-        color = new Color(_color);
-    } else color = new Color();
-}
-
+/**
+ * Destructor
+ */
 RenderObject::~RenderObject() {
     delete color;
 }
-
 /**
- * Fills the buffers. If the indices vector is empty generates a vector of orderer
- * @param vertices
- * @param _indices
+ * fillData()
+ * fills vbo, ibo and vao buffers
+ * @param std::vector<glimac::ShapeVertex> vertices
+ * @param std::vector<uint32_t> _indices
  */
 void RenderObject::fillData(std::vector<glimac::ShapeVertex> vertices, std::vector<uint32_t> _indices) {
     indices = _indices;
@@ -35,9 +30,26 @@ void RenderObject::fillData(std::vector<glimac::ShapeVertex> vertices, std::vect
     ibo.fillBuffer(indices);
     vao.fillBuffer(vertices, &vbo, &ibo);
 }
-
-
-
+/**
+ * Constructor
+ * @param glcustom::GPUProgram * program
+ * @param std::vector<glcustom::Texture *> textures
+ * @param Color * _color
+ */
+RenderObject::RenderObject(glcustom::GPUProgram *program, std::vector<glcustom::Texture *> textures,  Color *_color)
+        : program(program), textures(textures), vao(), color(nullptr){
+    if(_color){
+        color = new Color(_color);
+    } else color = new Color(); //default value
+}
+/**
+ * transform()
+ * Applies transformation to the modelMatrix
+ * @param translate
+ * @param angle
+ * @param axesRotation
+ * @param scale
+ */
 void RenderObject::transform(const glm::vec3 &translate, const float angle, const glm::vec3 &axesRotation,
                              const glm::vec3 &scale) {
     glm::mat4 transformation = glm::mat4(1.f);
@@ -46,7 +58,11 @@ void RenderObject::transform(const glm::vec3 &translate, const float angle, cons
     transformation = glm::scale(transformation,scale);
     modelMatrix = transformation;
 }
-
+/**
+ * bindTextures()
+ * bind all textures (GL_TEXTURE_2D) and send them as uniforms
+ * \!/ uniform name will be "uTexture" + number of the unit on wich it is binded
+ */
 void RenderObject::bindTextures() {
     int textureUnit = GL_TEXTURE0;
     int i = 0;
@@ -56,13 +72,19 @@ void RenderObject::bindTextures() {
         i++;
     }
 }
-
+/**
+ * debindTextures()
+ */
 void RenderObject::debindTextures() {
     for(glcustom::Texture * texture : textures){
         texture->debind(GL_TEXTURE_2D);
     }
 }
-
+/**
+ * sendUniforms()
+ * send MV, MVP, normals uniforms, and uColor uniform
+ * @param glm::mat4  viewMatrix
+ */
 void RenderObject::sendUniforms(const glm::mat4 &viewMatrix) {
     //proj matrix à externaliser
     glm::mat4 projMatrix = glm::perspective(glm::radians(70.f), Tools::windowWidth/Tools::windowHeight, 0.1f, 1500.f);
@@ -82,7 +104,11 @@ void RenderObject::sendUniforms(const glm::mat4 &viewMatrix) {
      */
 
 }
-
+/**
+ * render()
+ * render the object by using it's own GPU Program, sending it's own uniforms and binding it's own textures
+ * @param viewMatrix
+ */
 void RenderObject::render(const glm::mat4 &viewMatrix) {
     program->use();
     sendUniforms(viewMatrix);

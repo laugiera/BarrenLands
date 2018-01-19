@@ -6,10 +6,11 @@
 #define BARRENLANDS_RENDERMAP_HPP
 
 #include "RenderObject.hpp"
-
-
-
-
+/**
+ * Class RenderMap
+ * Derived from RenderObject
+ * Also manage biomes colors for the biomes created in the corresponding ProceduralMap class
+ */
 class RenderMap : public RenderObject{
 public:
     RenderMap(glcustom::GPUProgram *program, std::vector<glcustom::Texture *> textures);
