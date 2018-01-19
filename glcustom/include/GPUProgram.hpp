@@ -41,7 +41,7 @@ namespace glcustom {
         void sendUniformVec3(std::string name, glm::vec3 value);
         void sendUniformVec4(std::string name, glm::vec4 value);
         void sendUniformTextureUnit(std::string name, int value);
-        void sendUniformArrayVec3(std::string name, glm::vec3 values[], int size);
+        void sendUniformArrayVec3(std::string name, glm::vec3 *values, int size);
         void use();
         GLint getUniformId(std::string name);
         /*

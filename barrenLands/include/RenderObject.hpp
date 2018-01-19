@@ -29,7 +29,7 @@ public:
     virtual void debindTextures();
 
     virtual void setColor(Color *_color){
-        color = color;
+        color = _color;
     }
 
     Color * getColor(){

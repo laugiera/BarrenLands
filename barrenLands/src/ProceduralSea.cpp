@@ -6,19 +6,27 @@
 
 void ProceduralSea::generateVertices() {
     vertices.clear();
-    vertices.push_back(glimac::ShapeVertex(glm::vec3(1,0,1), glm::vec3(0,1,0), glm::vec2(1,1)));
-    vertices.push_back(glimac::ShapeVertex(glm::vec3(-1,0,1), glm::vec3(0,1,0), glm::vec2(1,0)));
-    vertices.push_back(glimac::ShapeVertex(glm::vec3(-1,0,-1), glm::vec3(0,1,0), glm::vec2(0,0)));
-    vertices.push_back(glimac::ShapeVertex(glm::vec3(1,0,-1), glm::vec3(0,1,0), glm::vec2(0,1)));
-
+    float nbDiv = 24;
+    float angle = 2 * glm::pi<float>()/nbDiv;
+    vertices.push_back(glimac::ShapeVertex(glm::vec3(0,0,0), glm::vec3(0,1,0), glm::vec2(0.5,0.5)));
+    for(int i = 0 ; i < nbDiv; i ++){
+        float x = glm::cos( angle * i );
+        float z = glm::sin( angle * i );
+        vertices.push_back(glimac::ShapeVertex(glm::vec3(x,0,z), glm::vec3(0,1,0), glm::vec2((x+1)/2,(z+1)/2)));
+    }
 }
 
 void ProceduralSea::generateIndices() {
     indices.clear();
-    indices =  {
-                    0,1,2,
-                    0,2,3,
-            };
+    uint32_t nbDiv = 24;
+    for(uint32_t i = 1; i < nbDiv; i++){
+        indices.push_back(0);
+        indices.push_back(i);
+        indices.push_back(i+1);
+    }
+    indices.push_back(0);
+    indices.push_back(nbDiv);
+    indices.push_back(1);
 }
 
 ProceduralSea::ProceduralSea() {
@@ -28,7 +36,7 @@ ProceduralSea::ProceduralSea() {
 
 void ProceduralSea::createRenderObject(ProgramManager *programManager, TextureManager *textureManager, Color *color) {
     std::vector<glcustom::Texture *> texture(1,textureManager->getRandomTexture("sea"));
-    renderObject = new RenderObject(programManager->getTestProgram(), texture, new Color(0,0,255));
+    renderObject = new RenderObject(programManager->getTestProgram(), texture, new Color(0.25,0.55, 0.7));
     renderObject->fillData(vertices, indices);
 }
 
