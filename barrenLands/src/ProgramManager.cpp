@@ -16,6 +16,9 @@ ProgramManager::~ProgramManager() {
     delete mapProgram;
 }
 
+/**
+ * Creates the programs
+ */
 void ProgramManager::createPrograms() {
     //test Program
     testProgram = new glcustom::GPUProgram(appPath, "testShader",  "testShader");
@@ -43,19 +46,24 @@ void ProgramManager::createPrograms() {
 
 }
 
-glcustom::GPUProgram *ProgramManager::getTestProgram() const {
-    return testProgram;
-}
-
-
-glcustom::GPUProgram *ProgramManager::getElementProgram() const {
-    return elementProgram;
-}
+/**
+ * Reload the GPUprograms to be able to alter the shaders while running the app
+ */
 void ProgramManager::reloadPrograms() {
     std::vector<std::string> uniform_variables = testProgram->getUniformList();
     testProgram->setProgram(appPath, "testShader",  "testShader");
     testProgram->addUniforms(uniform_variables);
 
+}
+
+/***** GETTERS *****/
+
+glcustom::GPUProgram *ProgramManager::getTestProgram() const {
+    return testProgram;
+}
+
+glcustom::GPUProgram *ProgramManager::getElementProgram() const {
+    return elementProgram;
 }
 
 glcustom::GPUProgram *ProgramManager::getSkyboxProgram() const {

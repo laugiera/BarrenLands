@@ -5,10 +5,22 @@
 #include "../include/RenderObject.hpp"
 
 
+RenderObject::RenderObject(glcustom::GPUProgram *program, std::vector<glcustom::Texture *> textures,  Color *_color)
+        : program(program), textures(textures), vao(), color(nullptr){
+    if(_color){
+        color = new Color(_color);
+    } else color = new Color();
+}
+
 RenderObject::~RenderObject() {
     delete color;
 }
 
+/**
+ * Fills the buffers. If the indices vector is empty generates a vector of orderer
+ * @param vertices
+ * @param _indices
+ */
 void RenderObject::fillData(std::vector<glimac::ShapeVertex> vertices, std::vector<uint32_t> _indices) {
     indices = _indices;
     //si les indices n'ont pas étés renseignés, remplir le tableau d'indices avec les indices des vertices (de 0 à nbVertices-1)
@@ -24,12 +36,7 @@ void RenderObject::fillData(std::vector<glimac::ShapeVertex> vertices, std::vect
     vao.fillBuffer(vertices, &vbo, &ibo);
 }
 
-RenderObject::RenderObject(glcustom::GPUProgram *program, std::vector<glcustom::Texture *> textures,  Color *_color)
-        : program(program), textures(textures), vao(), color(nullptr){
-    if(_color){
-        color = new Color(_color);
-    } else color = new Color();
-}
+
 
 void RenderObject::transform(const glm::vec3 &translate, const float angle, const glm::vec3 &axesRotation,
                              const glm::vec3 &scale) {

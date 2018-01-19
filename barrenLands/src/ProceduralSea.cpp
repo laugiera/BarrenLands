@@ -4,6 +4,11 @@
 
 #include "ProceduralSea.hpp"
 
+ProceduralSea::ProceduralSea() {
+    generateVertices();
+    generateIndices();
+}
+
 void ProceduralSea::generateVertices() {
     vertices.clear();
     float nbDiv = 24;
@@ -27,11 +32,6 @@ void ProceduralSea::generateIndices() {
     indices.push_back(0);
     indices.push_back(nbDiv);
     indices.push_back(1);
-}
-
-ProceduralSea::ProceduralSea() {
-    generateVertices();
-    generateIndices();
 }
 
 void ProceduralSea::createRenderObject(ProgramManager *programManager, TextureManager *textureManager, Color *color) {

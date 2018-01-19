@@ -15,6 +15,10 @@ ProceduralObject::~ProceduralObject() {
     delete renderObject;
 }
 
+/**
+ * Creates the vertices for a default cube 2x2x2 centerd on 0,0,0
+ * Vector must be cleared to avoid conflicts with redefinitions
+ **/
 void ProceduralObject::generateVertices() {
     vertices.clear();
     //FACE AVANT
@@ -51,6 +55,9 @@ void ProceduralObject::generateVertices() {
 
 }
 
+/**
+ * Creates the indices
+ */
 void ProceduralObject::generateIndices() {
     indices.clear();
     uint32_t _indices[] =
@@ -73,10 +80,19 @@ void ProceduralObject::generateIndices() {
 
 }
 
+/**
+ * Generates normals
+ */
 void ProceduralObject::generateNormals() {
-
 }
 
+/**
+ * Creates the render Object associated withe de procedural object
+ * Decides which GPU program and textures the render Object is to be instancied with
+ * @param programManager
+ * @param textureManager
+ * @param color
+ */
 void ProceduralObject::createRenderObject(ProgramManager *programManager, TextureManager *textureManager, Color *color) {
     std::vector<glcustom::Texture *> textures = chooseTextures(textureManager);
     renderObject = new RenderObject(programManager->getElementProgram(), textures);
@@ -84,15 +100,26 @@ void ProceduralObject::createRenderObject(ProgramManager *programManager, Textur
     renderObject->setColor(color);
 }
 
+
+/**
+ * Chooses which textures form the texture Manager must be used to render the object
+ * @param textureManager
+ * @return
+ */
+std::vector<glcustom::Texture *> ProceduralObject::chooseTextures(TextureManager *textureManager) {
+    return std::vector<glcustom::Texture *>(1, textureManager->getRandomTexture("sand"));
+}
+
+/**
+ * Transform the object and draws it
+ * @param viewMatrix
+ */
 void ProceduralObject::draw(const glm::mat4 &viewMatrix) {
     //transformer selon la position, rotation, scale de l'objet
     renderObject->transform(glm::vec3(0,0,0), 0, glm::vec3(0,1,0), glm::vec3(1,1,1));
     renderObject->render(viewMatrix);
 }
 
-std::vector<glcustom::Texture *> ProceduralObject::chooseTextures(TextureManager *textureManager) {
-    return std::vector<glcustom::Texture *>(1, textureManager->getRandomTexture("sand"));
-}
 
 
 
