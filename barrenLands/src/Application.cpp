@@ -101,26 +101,26 @@ void Application::appLoop() {
 
     bool done = false;
     int rightPressed = 0;
-    camera->moveFront(Tools::speed, Map->getVerticesTab());
+    camera->moveFront(Tools::speed, Map->getVertices());
     while(!done) {
         // Event loop:
         SDL_Event e{};
         while(windowManager.pollEvent(e)) {
             if (e.type == SDL_KEYDOWN) {
                 if (e.key.keysym.sym == SDLK_z) { // Z
-                    camera->moveFront(Tools::speed, Map->getVerticesTab());
+                    camera->moveFront(Tools::speed, Map->getVertices());
                 } else if (e.key.keysym.sym == SDLK_s) { // S
-                    camera->moveFront(-Tools::speed, Map->getVerticesTab());
+                    camera->moveFront(-Tools::speed, Map->getVertices());
                 }
                 if (e.key.keysym.sym == SDLK_q) { // Q
-                    camera->moveLeft(Tools::speed, Map->getVerticesTab());
+                    camera->moveLeft(Tools::speed, Map->getVertices());
                 } else if (e.key.keysym.sym == SDLK_d) { // D
-                    camera->moveLeft(-Tools::speed, Map->getVerticesTab());
+                    camera->moveLeft(-Tools::speed, Map->getVertices());
                 }
                 if (e.key.keysym.sym == SDLK_UP) {
-                    camera->moveFront(Tools::speed, Map->getVerticesTab());
+                    camera->moveFront(Tools::speed, Map->getVertices());
                 } else if (e.key.keysym.sym == SDLK_DOWN) {
-                    camera->moveFront(-Tools::speed, Map->getVerticesTab());
+                    camera->moveFront(-Tools::speed, Map->getVertices());
                 }
                 if (e.key.keysym.sym == SDLK_LEFT) {
                     camera->rotateLeft(-Tools::speed);

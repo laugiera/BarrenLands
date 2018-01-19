@@ -7,7 +7,28 @@
 #include <TextureManager.hpp>
 #include "ProceduralMap.hpp"
 
+ProceduralMap::ProceduralMap(NoiseManager *noise) : ProceduralObject(), sea(nullptr){
+    generateVertices(noise);
+    generateIndices();
+    generateNormals();
+    createMoistureMap();
+    createBiomes();
+    createSea();
+}
 
+ProceduralMap::~ProceduralMap() {
+    delete sea;
+    for( ProceduralObject * b : biomes){
+        delete b;
+    }
+}
+
+/**
+ * Generate map vertices to form a plannar shape with a set number of subdivisions
+ * Uses a noise map to handle height
+ * Vector must be cleared first to avoid conflict with superClass implementation
+ * @param noise
+ */
 void ProceduralMap::generateVertices(NoiseManager *noise) {
     vertices.clear();
     int width = Tools::width;
@@ -25,6 +46,9 @@ void ProceduralMap::generateVertices(NoiseManager *noise) {
     }
 }
 
+/**
+ * Generates indices according to map geometry
+ */
 void ProceduralMap::generateIndices() {
     indices.clear();
     int i, j;
@@ -38,18 +62,11 @@ void ProceduralMap::generateIndices() {
             indices.push_back((i+1)*Tools::nbSub + j + 2 + i); //3
         }
     }
-
 }
 
-ProceduralMap::ProceduralMap(NoiseManager *noise) : ProceduralObject(), sea(nullptr){
-    generateVertices(noise);
-    generateIndices();
-    generateNormals();
-    createMoistureMap();
-    createBiomes();
-    createSea();
-}
-
+/**
+ * Generates normals according to map geometry
+ */
 void ProceduralMap::generateNormals() {
     int i, j;
     glm::vec3 dir1;
@@ -78,6 +95,11 @@ void ProceduralMap::generateNormals() {
     }
 }
 
+/**
+ * Create a render object for the map and for the sea and the biomes by calling their create function
+ * @param programManager
+ * @param textureManager
+ */
 void ProceduralMap::createRenderObject(ProgramManager *programManager, TextureManager *textureManager) {
     for(ProceduralBiome * b : biomes){
         b->createRenderObject(programManager, textureManager);
@@ -88,17 +110,30 @@ void ProceduralMap::createRenderObject(ProgramManager *programManager, TextureMa
     sea->createRenderObject(programManager, textureManager);
 }
 
-glimac::ShapeVertex ProceduralMap::getVertices(int i, int j){
+/**
+ * Return the vertex designated by the coordinates i, j
+ * @param i
+ * @param j
+ * @return
+ */
+glimac::ShapeVertex ProceduralMap::getVertex(int i, int j){
     return vertices[i*(Tools::nbSub+1)+j];
 }
 
-std::vector<glimac::ShapeVertex> ProceduralMap::getVerticesTab(){
+/**
+ * Returns all the vertices of the map
+ * @return
+ */
+std::vector<glimac::ShapeVertex> ProceduralMap::getVertices(){
     return vertices;
 }
 
+/**
+ * Creates the biomes
+ * Uses the moisture map and height to define biomes
+ * Pushes elements to the biomes using a scattering map for each Family of element
+ */
 void ProceduralMap::createBiomes() {
-    //utiliser un loader
-    //RenderMap::biomesNumber = 6;
     for(int i = 0; i<RenderMap::biomesNumber ; i++){
         biomes.push_back(new ProceduralBiome());
     }
@@ -181,6 +216,12 @@ void ProceduralMap::createBiomes() {
     }
 }
 
+/**
+ * Chooses textures in the texture Manager to pass to the renderModel
+ * Also creates the moistureTexture from the MoistureMap and adds it to the vector
+ * @param textureManager
+ * @return
+ */
 std::vector<glcustom::Texture *> ProceduralMap::chooseTextures(TextureManager *textureManager) {
     glcustom::Texture * moistureTexture = new glcustom::Texture(Tools::nbSub +1, Tools::nbSub +1, moistureMap.data(), GL_RED);
     std::vector<glcustom::Texture *> textures;
@@ -188,23 +229,12 @@ std::vector<glcustom::Texture *> ProceduralMap::chooseTextures(TextureManager *t
     textures.push_back(textureManager->getRandomTexture("sand"));
     textures.push_back(textureManager->getRandomTexture("rock"));
     return textures;
-
-    /* plus tard
-    Récupérer les textures depuis les biomes
-    for(int i = 0; i<8 ; i++){
-        //textures.push_back(biomes[i]->getTexture());
-
-    }
-    return textures;
-     */
 }
 
-ProceduralMap::~ProceduralMap() {
 
-    delete sea;
-    delete[] biomes.data();
-}
-
+/**
+ * Creates the moistureMap using the noiseManager
+ */
 void ProceduralMap::createMoistureMap() {
     float ** humidite = NoiseManager::getInstance().getMoistureMap(Tools::nbSub +1, Tools::nbSub +1);
     for(int i = 0; i < Tools::nbSub +1; i++){
@@ -214,13 +244,22 @@ void ProceduralMap::createMoistureMap() {
     }
 }
 
+/**
+ * Creates the procedural Element for the sea
+ */
 void ProceduralMap::createSea() {
     sea = new ProceduralSea();
 }
 
+/**
+ * Draw the map and calls draw for the sea and the biomes
+ * @param viewMatrix
+ */
 void ProceduralMap::draw(const glm::mat4 &viewMatrix) {
+    //draw the sea
     sea->draw(viewMatrix);
-    ProceduralObject::draw(viewMatrix); //draw the map vertex
+    //draw the map vertex
+    ProceduralObject::draw(viewMatrix);
     //draw the elements
     for(ProceduralObject * biome : biomes){
         biome->draw(viewMatrix);

@@ -34,9 +34,9 @@ public:
 
     virtual std::vector<glcustom::Texture *> chooseTextures(TextureManager *textureManager);
 
-    glimac::ShapeVertex getVertices(int i, int j);
+    glimac::ShapeVertex getVertex(int i, int j);
 
-    std::vector<glimac::ShapeVertex> getVerticesTab();
+    std::vector<glimac::ShapeVertex> getVertices();
 
     void createSea();
 
