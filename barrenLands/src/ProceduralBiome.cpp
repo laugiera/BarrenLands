@@ -12,7 +12,7 @@ void ProceduralBiome::createRenderObject(ProgramManager *programManager, Texture
 
 ProceduralBiome::ProceduralBiome(Color *_color) : elements(), color(_color) {
     indices.clear();
-    createElements();
+    //createElements();
 }
 
 ProceduralBiome::~ProceduralBiome(){
@@ -24,6 +24,13 @@ void ProceduralBiome::createElements() {
     //Use factory to fill elements attribute
     ElementFactory factory = ElementFactory();
     elements.push_back(factory.createProceduralObject());
+}
+
+void ProceduralBiome::createElements(glm::vec3 position) {
+    //Use factory to fill elements attribute
+    ElementFactory factory = ElementFactory();
+    elements.push_back(factory.createProceduralObject());
+    elements[elements.size()-1]->setPosition(position);
 }
 
 void ProceduralBiome::setVertices(const std::vector<glimac::ShapeVertex *> &vertices) {
@@ -38,8 +45,8 @@ void ProceduralBiome::draw(const glm::mat4 &viewMatrix) {
     //setPosition();
     for(ProceduralObject * element : elements){
         //std::cout << element->getPosition() << std::endl;
-        //glm::mat4 modelMat = glm::translate(viewMatrix, glm::vec3(2,3 ,5));
-        element->draw(viewMatrix);
+        glm::mat4 modelMat = glm::scale(glm::translate(viewMatrix, element->getPosition()),glm::vec3(0.5));
+        element->draw(modelMat);
     }
 }
 

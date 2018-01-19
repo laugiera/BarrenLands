@@ -81,6 +81,7 @@ void ProceduralMap::generateNormals() {
 void ProceduralMap::createRenderObject(ProgramManager *programManager, TextureManager *textureManager) {
     for(ProceduralBiome * b : biomes){
         b->createRenderObject(programManager, textureManager);
+        b->setPosition();
     }
     renderObject = new RenderMap(programManager->getMapProgram(), chooseTextures(textureManager));
     renderObject->fillData(vertices, indices);
@@ -101,40 +102,78 @@ void ProceduralMap::createBiomes() {
     for(int i = 0; i<RenderMap::biomesNumber ; i++){
         biomes.push_back(new ProceduralBiome());
     }
+
+    //ObjectMap
+    std::vector <float> objectVec;
+    float** objectMap = NoiseManager::getInstance().getRockMap(Tools::nbSub +1, Tools::nbSub +1);
+    for(int i = 0; i < Tools::nbSub +1; i++){
+        for(int j = 0 ; j < Tools::nbSub +1; j++){
+            objectVec.push_back(objectMap[i][j]);
+        }
+    }
+
+    //Affectation des valeurs
     for(int i = 0; i<vertices.size(); i++){
         if (vertices[i].position.y < 0.25){
             if (moistureMap[i] < 2.f/6.f){
                 biomes[0]->addVertex(&vertices[i]); // desert
                 biomes[0]->setColor(RenderMap::sand);
+                if(objectVec[i] >= 0.4){
+                    biomes[0]->createElements(vertices[i].position);
+                }
             } else {
                 biomes[1]->addVertex(&vertices[i]); //herbe
                 biomes[1]->setColor(RenderMap::grass);
+                if(objectVec[i] >= 0.4){
+                    biomes[1]->createElements(vertices[i].position);
+                }
             }
 
         } else if (vertices[i].position.y < 0.5){
             if (moistureMap[i] < 2.f/6.f){
                 biomes[2]->addVertex(&vertices[i]); //savane
                 biomes[2]->setColor(RenderMap::savannah);
+                if(objectVec[i] >= 0.4){
+                    biomes[2]->createElements(vertices[i].position);
+                }
             } else {
                 biomes[1]->addVertex(&vertices[i]); //herbe
+                if(objectVec[i] >= 0.4){
+                    biomes[1]->createElements(vertices[i].position);
+                }
             }
 
         } else if (vertices[i].position.y < 0.75){
             if (moistureMap[i] < 2.f/6.f){
                 biomes[3]->addVertex(&vertices[i]); //roche
                 biomes[3]->setColor(RenderMap::rock);
+                if(objectVec[i] >= 0.4){
+                    biomes[3]->createElements(vertices[i].position);
+                }
             } else if (moistureMap[i] < 4.f/6.f){
                 biomes[4]->addVertex(&vertices[i]); //toundra
                 biomes[4]->setColor(RenderMap::toundra);
+                if(objectVec[i] >= 0.4){
+                    biomes[4]->createElements(vertices[i].position);
+                }
             }
         } else {
             if (moistureMap[i] < 2.f/6.f){
                 biomes[3]->addVertex(&vertices[i]); //roche
+                if(objectVec[i] >= 0.4){
+                    biomes[3]->createElements(vertices[i].position);
+                }
             } else if (moistureMap[i] < 3.f/6.f){
                 biomes[4]->addVertex(&vertices[i]); //toundra
+                if(objectVec[i] >= 0.4){
+                    biomes[4]->createElements(vertices[i].position);
+                }
             } else {
                 biomes[5]->addVertex(&vertices[i]); //toundra neige
                 biomes[5]->setColor(RenderMap::snow);
+                if(objectVec[i] >= 0.4){
+                    biomes[5]->createElements(vertices[i].position);
+                }
             }
 
         }
@@ -168,7 +207,7 @@ ProceduralMap::~ProceduralMap() {
 }
 
 void ProceduralMap::createMoistureMap() {
-    float ** humidite = NoiseManager::getInstance().getElevationMap(Tools::nbSub +1, Tools::nbSub +1);
+    float ** humidite = NoiseManager::getInstance().getMoistureMap(Tools::nbSub +1, Tools::nbSub +1);
     for(int i = 0; i < Tools::nbSub +1; i++){
         for(int j = 0 ; j < Tools::nbSub +1; j++){
             moistureMap.push_back(humidite[i][j]);

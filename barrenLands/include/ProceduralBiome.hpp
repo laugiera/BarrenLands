@@ -16,13 +16,20 @@ public:
 
     virtual void createRenderObject(ProgramManager *programManager, TextureManager *textureManager);
     void createElements();
+    void createElements(glm::vec3 position);
 
     void setVertices(const std::vector<glimac::ShapeVertex *> &vertices);
 
     void addVertex(glimac::ShapeVertex *vertex);
 
     void setPosition(){
-        elements[0]->setPosition(vertices[0]->position);
+        if(vertices.size() != 0){
+            std::cout << vertices[20]->position << std::endl;
+            elements[0]->setPosition(vertices[20]->position);
+            std::cout << elements[0]->getPosition() << std::endl;
+        }
+        std::cout << elements.size() << std::endl;
+        std::cout << vertices.size() << std::endl;
     }
 
     void draw(const glm::mat4 &viewMatrix);
