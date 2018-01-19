@@ -7,6 +7,9 @@
 
 #include "RenderObject.hpp"
 
+
+
+
 class RenderMap : public RenderObject{
 public:
     RenderMap(glcustom::GPUProgram *program, std::vector<glcustom::Texture *> textures);
@@ -20,7 +23,10 @@ public:
     static Color *rock;
     static Color *savannah;
     static unsigned  int biomesNumber;
+
+
 };
+
 
 
 #endif //BARRENLANDS_RENDERMAP_HPP

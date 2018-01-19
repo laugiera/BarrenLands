@@ -97,7 +97,8 @@ std::vector<glimac::ShapeVertex> ProceduralMap::getVerticesTab(){
 
 void ProceduralMap::createBiomes() {
     //utiliser un loader
-    for(int i = 0; i<6 ; i++){
+    //RenderMap::biomesNumber = 6;
+    for(int i = 0; i<RenderMap::biomesNumber ; i++){
         biomes.push_back(new ProceduralBiome());
     }
     for(int i = 0; i<vertices.size(); i++){
