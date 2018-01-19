@@ -13,6 +13,7 @@
 class RenderMap : public RenderObject{
 public:
     RenderMap(glcustom::GPUProgram *program, std::vector<glcustom::Texture *> textures);
+    
     void sendUniforms(const glm::mat4 &viewMatrix);
 
     /**BIOMES COLORS**/
@@ -23,6 +24,8 @@ public:
     static Color *rock;
     static Color *savannah;
     static unsigned  int biomesNumber;
+
+    //comment on delete tous ces trucs là
 
 
 };

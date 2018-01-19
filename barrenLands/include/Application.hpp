@@ -27,7 +27,7 @@ public:
 
     virtual ~Application();
 
-    int initOpenGl();
+    void initOpenGl();
     void clearGl();
     void appLoop();
     void testInterface();

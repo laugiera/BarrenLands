@@ -7,7 +7,10 @@
 
 
 
-
+/**
+ * Constructs the App with the SDL2 WindowManager
+ * @param appPath
+ */
 Application::Application(const glimac::FilePath &appPath) : windowManager(Tools::windowWidth, Tools::windowHeight, "BarrenLands"),
                                                             programManager(nullptr),
                                                             camera(nullptr),
@@ -21,28 +24,54 @@ Application::Application(const glimac::FilePath &appPath) : windowManager(Tools:
     noiseManager = &NoiseManager::getInstance();
 }
 
-int Application::initOpenGl() {
-    // Initialize glew for OpenGL3+ support
+Application::~Application() {
+    delete programManager;
+    delete textureManager;
+    //delete windowManager; ->compiler says cannot delete type glimac::SDLWindowManager
+
+}
+
+/**
+ * Initializes the OpenGL Context and glew for OpenGL 3+ support
+ * throws std::runtime
+ */
+void Application::initOpenGl() {
     GLenum glewInitError = glewInit();
     if(GLEW_OK != glewInitError) {
-        std::cerr << glewGetErrorString(glewInitError) << std::endl;
-        return EXIT_FAILURE; //handle exception
+        std::cerr << glewGetErrorString(glewInitError) << std::endl; //error message has a weird ass format
+        throw std::runtime_error("Glew could not be initialized"); //handle exception
     }
     std::cout << "OpenGL Version : " << glGetString(GL_VERSION) << std::endl;
     std::cout << "GLEW Version : " << glewGetString(GLEW_VERSION) << std::endl;
 
+    //OpenGL initialization
     glEnable(GL_DEPTH_TEST);
 }
 
+/**
+ * Render Loop related OpenGl Actions.
+ * Mainly Buffer clearing
+ */
 void Application::clearGl() {
-    //glClear(GL_COLOR_BUFFER_BIT);
+    //clearing of color and depth buffers
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    //setting background color
     glClearColor(0.7, 0.3, 0.2, 1);
+
+    //depth handling for the skybox
+    glDepthFunc(GL_LEQUAL);
 }
 
+/**
+ * Final Application Loop
+ * Handles initialization, SDL event loop and Rendering loop
+ */
 void Application::appLoop() {
+    //creation of GPU Programs
     programManager->createPrograms();
 
+    //initialization of lights
     Light sun = Light(1,"Sun",glm::vec3(0.5,0.1,0));
     sun.addLightUniforms(programManager->getMapProgram());
     sun.addLightUniforms(programManager->getElementProgram());
@@ -50,12 +79,13 @@ void Application::appLoop() {
     moon.addLightUniforms(programManager->getMapProgram());
     moon.addLightUniforms(programManager->getElementProgram());
 
+    //intialization of map
+    ProceduralMap * Map = new ProceduralMap(noiseManager);
+    Map->createRenderObject(programManager, textureManager);
 
-    ProceduralMap testMap(noiseManager);
-    testMap.createRenderObject(programManager, textureManager);
-
-    SkyboxObject * test = new SkyboxObject();
-    test -> createRenderObject(programManager, textureManager);
+    //initilization of skybox
+    SkyboxObject * sky = new SkyboxObject();
+    sky -> createRenderObject(programManager, textureManager);
 
 
     /*ElementFactory* factory = new ElementFactory(); //Décommenter "POSITION" dans PROCEDURALOBJECT
@@ -64,33 +94,33 @@ void Application::appLoop() {
         for(int j =0; j<Tools::nbSub+1; ++j){
             elementVect.push_back(factory->createProceduralObject());
             elementVect[i*(Tools::nbSub+1)+j]->createRenderObject(programManager, textureManager);
-            elementVect[i*(Tools::nbSub+1)+j]->position = testMap.getVertices(i,j).position;
+            elementVect[i*(Tools::nbSub+1)+j]->position = Map->getVertices(i,j).position;
         }
     }*/
 
 
     bool done = false;
     int rightPressed = 0;
-    camera->moveFront(Tools::speed, testMap.getVerticesTab());
+    camera->moveFront(Tools::speed, Map->getVerticesTab());
     while(!done) {
         // Event loop:
         SDL_Event e{};
         while(windowManager.pollEvent(e)) {
             if (e.type == SDL_KEYDOWN) {
                 if (e.key.keysym.sym == SDLK_z) { // Z
-                    camera->moveFront(Tools::speed, testMap.getVerticesTab());
+                    camera->moveFront(Tools::speed, Map->getVerticesTab());
                 } else if (e.key.keysym.sym == SDLK_s) { // S
-                    camera->moveFront(-Tools::speed, testMap.getVerticesTab());
+                    camera->moveFront(-Tools::speed, Map->getVerticesTab());
                 }
                 if (e.key.keysym.sym == SDLK_q) { // Q
-                    camera->moveLeft(Tools::speed, testMap.getVerticesTab());
+                    camera->moveLeft(Tools::speed, Map->getVerticesTab());
                 } else if (e.key.keysym.sym == SDLK_d) { // D
-                    camera->moveLeft(-Tools::speed, testMap.getVerticesTab());
+                    camera->moveLeft(-Tools::speed, Map->getVerticesTab());
                 }
                 if (e.key.keysym.sym == SDLK_UP) {
-                    camera->moveFront(Tools::speed, testMap.getVerticesTab());
+                    camera->moveFront(Tools::speed, Map->getVerticesTab());
                 } else if (e.key.keysym.sym == SDLK_DOWN) {
-                    camera->moveFront(-Tools::speed, testMap.getVerticesTab());
+                    camera->moveFront(-Tools::speed, Map->getVerticesTab());
                 }
                 if (e.key.keysym.sym == SDLK_LEFT) {
                     camera->rotateLeft(-Tools::speed);
@@ -128,8 +158,8 @@ void Application::appLoop() {
         }
 
         clearGl();
-        glDepthFunc(GL_LEQUAL);
 
+        //configuring and sending light uniforms
         programManager->getMapProgram()->use();
         sun.resetDirection();
         sun.rotate(windowManager.getTime(), camera->getViewMatrix());
@@ -143,13 +173,17 @@ void Application::appLoop() {
         sun.sendLightUniforms(programManager->getElementProgram());
         moon.sendLightUniforms(programManager->getElementProgram());
 
+        //draw skybox
         glDepthMask(GL_FALSE);
-        test->draw(camera->getViewMatrix()); //skybox
+        sky->draw(camera->getViewMatrix());
         glDepthMask(GL_TRUE);
 
-        //elementVect[0]->draw(camera->getViewMatrix());
-        testMap.draw(camera->getViewMatrix());
+        //draw map
 
+        Map->draw(camera->getViewMatrix());
+
+        //sky draw element -> will be called by draw map later
+        //elementVect[0]->draw(camera->getViewMatrix());
         /*for(int i =0; i<Tools::nbSub+1; ++i){
             for(int j =0; j<Tools::nbSub+1; ++j){
 
@@ -161,11 +195,15 @@ void Application::appLoop() {
         printErrors();
 
     }
-    delete test;
+    delete sky;
+    delete Map;
     //delete factory;
 
 }
 
+/**
+ * Print OpenGL Errors
+ */
 void Application::printErrors() {
     GLuint error = glGetError();
     if (error != GL_NO_ERROR) {
@@ -173,30 +211,40 @@ void Application::printErrors() {
     }
 }
 
-Application::~Application() {
-    delete programManager;
-    delete textureManager;
-    //delete windowManager; ->compiler says cannot delete type glimac::SDLWindowManager
 
-}
-
+/**
+ * Get a pointer on the SDL2 WindowManager
+ * @return
+ */
 const glimac::SDLWindowManager &Application::getWindowManager() const {
     return windowManager;
 }
 
+/**
+ * Test Loop : can be used instead of AppLoop to display an interface optimiezd
+ * for testing the geometry creation and texture or color ajustement on Procedural Objects in development phase
+ */
 void Application::testInterface() {
-    textureManager->createTextures();
+    //textureManager->createTextures();
     programManager->createPrograms();
 
+    /********
 
-    //----> Edit with the class you want to test :
-    //ProceduralObject * testObject = new ProceduralObject();
-    //---->TestProgram uses TestShader with texture support
-    //testObject->createRenderObject(programManager, textureManager);
+    ----> Edit with the class you want to test :
+    ----> TestProgram uses TestShader with texture support
 
+     Example :
+
+    ProceduralObject * testObject = new ProceduralObject();
+    testObject->createRenderObject(programManager, textureManager);
+
+     ********/
+
+    //test skybox
     SkyboxObject * test = new SkyboxObject();
     test -> createRenderObject(programManager, textureManager);
 
+    //test sea
     ProceduralObject * testSea = new ProceduralSea();
     testSea->createRenderObject(programManager, textureManager);
 
@@ -247,25 +295,23 @@ void Application::testInterface() {
             }
         }
         clearGl();
-        glDepthFunc(GL_LEQUAL);
+        /******
+        Example : testObject->draw(camera->getViewMatrix());
+         ******/
 
-        //testObject->draw(camera->getViewMatrix());
-
+        //sea
         testSea->draw(camera->getViewMatrix());
 
+        //skybox
         glDepthMask(GL_FALSE);
         test->draw(camera->getViewMatrix());
         glDepthMask(GL_TRUE);
 
-
-
         windowManager.swapBuffers();
-
-
         printErrors();
 
     }
   //delete testObject;
     delete testSea;
-  delete test;
+    delete test;
 }

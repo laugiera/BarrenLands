@@ -161,10 +161,9 @@ std::vector<glcustom::Texture *> ProceduralMap::chooseTextures(TextureManager *t
 }
 
 ProceduralMap::~ProceduralMap() {
-    /*
-    delete proceduralObject;
-    delete bio
-     */
+
+    delete sea;
+    delete[] biomes.data();
 }
 
 void ProceduralMap::createMoistureMap() {
@@ -177,18 +176,6 @@ void ProceduralMap::createMoistureMap() {
 }
 
 void ProceduralMap::createSea() {
-    /*
-    std::vector<glimac::ShapeVertex> _vertices;
-    _vertices.push_back(glimac::ShapeVertex(glm::vec3(-1,0,-1), glm::vec3(0,1,0), glm::vec2(0,0)));
-    _vertices.push_back(glimac::ShapeVertex(glm::vec3(-1,0,1), glm::vec3(0,1,0), glm::vec2(1,0)));
-    _vertices.push_back(glimac::ShapeVertex(glm::vec3(1,0,1), glm::vec3(0,1,0), glm::vec2(1,1)));
-    _vertices.push_back(glimac::ShapeVertex(glm::vec3(1,0,-1), glm::vec3(0,1,0), glm::vec2(0,1)));
-
-    std::vector<uint32_t> indices = {0,1,2,2,0,3};
-
-    sea = new RenderObject(programManager->getTestProgram(), std::vector<glcustom::Texture*>(1, textureManager->getRandomTexture("sand")));
-    sea->fillData(vertices, indices);
-     */
     sea = new ProceduralSea();
 }
 
