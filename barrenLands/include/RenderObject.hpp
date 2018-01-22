@@ -49,6 +49,7 @@ protected:
     std::vector<uint32_t> indices;
     std::vector<glcustom::Texture *> textures;
     Color *color;
+    int verticesCount;
 };
 
 

@@ -3,6 +3,7 @@
 //
 #define GLEW_STATIC
 #include <RoundRock.hpp>
+#include "ProceduralGrass.hpp"
 #include "Application.hpp"
 #include <SharpRock.hpp>
 
@@ -228,6 +229,14 @@ void Application::testInterface() {
     //textureManager->createTextures();
     programManager->createPrograms();
 
+    //initialization of lights
+    Light sun = Light(1,"Sun",glm::vec3(0.5,0.1,0));
+    sun.addLightUniforms(programManager->getMapProgram());
+    sun.addLightUniforms(programManager->getElementProgram());
+    Light moon = Light(1,"Moon",glm::vec3(0,0.1,0.5));
+    moon.addLightUniforms(programManager->getMapProgram());
+    moon.addLightUniforms(programManager->getElementProgram());
+
     /********
 
     ----> Edit with the class you want to test :
@@ -248,9 +257,20 @@ void Application::testInterface() {
     ProceduralObject * testRock = new SharpRock();
     testRock->createRenderObject(programManager, textureManager);
 
+
+
     //test RoundRock
-    ProceduralObject * roundRock = new RoundRock();
-    roundRock->createRenderObject(programManager, textureManager);
+    /*ProceduralObject * roundRock = new RoundRock();
+    roundRock->createRenderObject(programManager, textureManager);*/
+
+    //test Grass
+/*
+    std::vector<ProceduralObject *> grass;
+    for(int i = 0; i < 100; ++i){
+        grass.push_back(new ProceduralGrass());
+        grass[i]->createRenderObject(programManager, textureManager);
+    }
+*/
 
     bool done = false;
     int rightPressed = 0;
@@ -299,15 +319,40 @@ void Application::testInterface() {
             }
         }
         clearGl();
+
+        //configuring and sending light uniforms
+        programManager->getMapProgram()->use();
+        sun.resetDirection();
+        sun.rotate(windowManager.getTime(), camera->getViewMatrix());
+        sun.sendLightUniforms(programManager->getMapProgram());
+
+        moon.resetDirection();
+        moon.rotate(-windowManager.getTime(), camera->getViewMatrix());
+        moon.sendLightUniforms(programManager->getMapProgram());
+
+        programManager->getElementProgram()->use();
+        sun.sendLightUniforms(programManager->getElementProgram());
+        moon.sendLightUniforms(programManager->getElementProgram());
+
+
+
         /******
         Example : testObject->draw(camera->getViewMatrix());
          ******/
 
-        //sea
+        //sharp rock
         testRock->draw(camera->getViewMatrix());
+
+        //glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
 
         //round rock
         //roundRock->draw(camera->getViewMatrix());
+
+       /* for(int i = 0; i < grass.size(); ++i){
+            grass[i]->draw(camera->getViewMatrix());
+        }*/
+
+        //glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
 
         //skybox
         glDepthMask(GL_FALSE);
@@ -321,5 +366,8 @@ void Application::testInterface() {
   //delete testObject;
     delete testRock;
     delete test;
-    delete roundRock;
+/*    for(int i = 0; i < grass.size(); ++i){
+        delete grass[i];
+        grass[i] = nullptr;
+    }*/
 }
