@@ -1,9 +1,9 @@
 //
 // Created by Lou Landry on 15/01/2018.
 //
-
+#define GLEW_STATIC
+#include <RoundRock.hpp>
 #include "Application.hpp"
-
 #include <SharpRock.hpp>
 
 
@@ -248,6 +248,10 @@ void Application::testInterface() {
     ProceduralObject * testRock = new SharpRock();
     testRock->createRenderObject(programManager, textureManager);
 
+    //test RoundRock
+    ProceduralObject * roundRock = new RoundRock();
+    roundRock->createRenderObject(programManager, textureManager);
+
     bool done = false;
     int rightPressed = 0;
     camera->moveFront(-5);
@@ -302,6 +306,9 @@ void Application::testInterface() {
         //sea
         testRock->draw(camera->getViewMatrix());
 
+        //round rock
+        //roundRock->draw(camera->getViewMatrix());
+
         //skybox
         glDepthMask(GL_FALSE);
         test->draw(camera->getViewMatrix());
@@ -314,4 +321,5 @@ void Application::testInterface() {
   //delete testObject;
     delete testRock;
     delete test;
+    delete roundRock;
 }

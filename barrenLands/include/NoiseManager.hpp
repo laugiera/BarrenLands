@@ -20,6 +20,7 @@ class NoiseManager {
 private:
     FastNoise noise;
     static float seed;
+    int counter;
     NoiseManager();
     ~NoiseManager(){}
 public:
@@ -46,7 +47,9 @@ public:
     float** getElevationMap(const int width, const int height,const float frequency = 0.05,const float elevationMax = 5);
     float** getMoistureMap(const int width, const int height,const float frequency = 0.05);
     float** getRockMap(const int width, const int height,const float frequency = 0.05);
+
     float * getVerticesDisturbation(const int size);
+    float getRandomFloat();
 };
 
 

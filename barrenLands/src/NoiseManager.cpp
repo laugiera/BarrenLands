@@ -20,6 +20,7 @@ float NoiseManager::seed = 1200;
  * Constructor with default noise parameters
  */
 NoiseManager::NoiseManager(){
+    counter = 0;
     noise.SetNoiseType(FastNoise::PerlinFractal);
     noise.SetInterp(FastNoise::Quintic);
    // noise.SetFractalType(FastNoise::RigidMulti);
@@ -127,12 +128,18 @@ float** NoiseManager::getRockMap(const int width, const int height,const float f
         }
     }
     return rockMap;
+}
+
+float NoiseManager::getRandomFloat() {
+    counter ++;
+    return noise.GetNoise(counter, counter);
 };
 
 float* NoiseManager::getVerticesDisturbation(const int size){
     float* array = new float[size];
     for(int i =0; i < size; i++){
-     array[i] = noise.GetNoise(i,i)*20;
+     //array[i] = noise.GetNoise(i,i)*10;
+        array[i] = 0;
     }
     return array;
 }

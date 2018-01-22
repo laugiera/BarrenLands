@@ -87,7 +87,6 @@ void ProceduralObject::generateIndices() {
  * generateNormals()
  */
 void ProceduralObject::generateNormals() {
-
 }
 /**
  * createRenderObject()
