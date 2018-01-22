@@ -17,7 +17,7 @@ ProceduralObject::ProceduralObject() : renderObject(nullptr), position(glm::vec3
  * Destructor
  */
 ProceduralObject::~ProceduralObject() {
-    delete renderObject;
+    //delete renderObject;
 }
 /**
  * generateVertices()
