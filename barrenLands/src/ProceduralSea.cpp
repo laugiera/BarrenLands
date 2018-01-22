@@ -3,6 +3,15 @@
 //
 
 #include "ProceduralSea.hpp"
+
+/**
+ * Constructor
+ */
+ProceduralSea::ProceduralSea() {
+    generateVertices();
+    generateIndices();
+}
+
 /**
  * generateVertices()
  * Redefined to make a circle for the sea
@@ -33,13 +42,7 @@ void ProceduralSea::generateIndices() {
     indices.push_back(nbDiv);
     indices.push_back(1);
 }
-/**
- * Constructor
- */
-ProceduralSea::ProceduralSea() {
-    generateVertices();
-    generateIndices();
-}
+
 /**
  * createRenderObject()
  * Redefined to use sea texture, sea colo and Test GPU Program

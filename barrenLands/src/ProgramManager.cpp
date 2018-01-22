@@ -51,7 +51,7 @@ void ProgramManager::createPrograms() {
 }
 /**
  * reloadPrograms()
- * reload the modifications maded in shadders, for debuging facilities
+ * reload the modifications maded in shadders, for debuging
  * \!/ TO MAJ with the programs from the above functions
  */
 void ProgramManager::reloadPrograms() {
