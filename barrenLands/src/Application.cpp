@@ -254,14 +254,16 @@ void Application::testInterface() {
     test -> createRenderObject(programManager, textureManager);
 
     //test sea
+    /*
     ProceduralObject * testRock = new SharpRock();
     testRock->createRenderObject(programManager, textureManager);
+     */
 
 
 
     //test RoundRock
-    /*ProceduralObject * roundRock = new RoundRock();
-    roundRock->createRenderObject(programManager, textureManager);*/
+    ProceduralObject * roundRock = new RoundRock();
+    roundRock->createRenderObject(programManager, textureManager);
 
     //test Grass
 /*
@@ -341,18 +343,18 @@ void Application::testInterface() {
          ******/
 
         //sharp rock
-        testRock->draw(camera->getViewMatrix());
+        //testRock->draw(camera->getViewMatrix());
 
-        //glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+        glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
 
         //round rock
-        //roundRock->draw(camera->getViewMatrix());
+        roundRock->draw(camera->getViewMatrix());
 
        /* for(int i = 0; i < grass.size(); ++i){
             grass[i]->draw(camera->getViewMatrix());
         }*/
 
-        //glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
+        glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
 
         //skybox
         glDepthMask(GL_FALSE);
@@ -364,7 +366,8 @@ void Application::testInterface() {
 
     }
   //delete testObject;
-    delete testRock;
+    //delete testRock;
+    delete roundRock;
     delete test;
 /*    for(int i = 0; i < grass.size(); ++i){
         delete grass[i];

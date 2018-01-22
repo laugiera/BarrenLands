@@ -123,8 +123,28 @@ std::vector<glcustom::Texture *> ProceduralObject::chooseTextures(TextureManager
     return std::vector<glcustom::Texture *>(1, textureManager->getRandomTexture("sand"));
 }
 
-void ProceduralObject::subdivideFace(std::vector<glimac::ShapeVertex> &_vertices) { //prend un vecteur de 3 vertices
+void ProceduralObject::subdivideObject(std::vector<glimac::ShapeVertex> &_vertices, int nbRecurse) {
+    if(nbRecurse == 0){
+        return;
+    }
+    std::vector<glimac::ShapeVertex> subdividedObject;
+    int i = 0;
+    while (i<_vertices.size()){
+        std::vector<glimac::ShapeVertex> face;
+        for(int j = 0; j<3; j++){
+            face.push_back(_vertices[i]);
+            i++;
+        }
+        subdivideFace(face);
+        subdividedObject.insert(subdividedObject.end(), face.begin(), face.end());
+    }
+    _vertices.clear();
+    _vertices = subdividedObject;
+    subdivideObject(_vertices, nbRecurse-1);
+}
 
+void ProceduralObject::subdivideFace(std::vector<glimac::ShapeVertex> &_vertices, int nbRecurse) {
+    //prend un vecteur de 3 vertices
     glm::vec3 subDiv1, subDiv2, subDiv3;
     float deux = 2;
     subDiv1 = (_vertices[1].position - _vertices[0].position) /deux + _vertices[0].position;
@@ -167,7 +187,10 @@ void ProceduralObject::subdivideFace(std::vector<glimac::ShapeVertex> &_vertices
     _vertices.clear();
     _vertices = __vertices;
 
+
 }
+
+
 
 
 
