@@ -2,6 +2,7 @@
 // Created by Lou Landry on 15/01/2018.
 //
 
+#include <RoundRock.hpp>
 #include "Application.hpp"
 
 
@@ -248,6 +249,10 @@ void Application::testInterface() {
     ProceduralObject * testSea = new ProceduralSea();
     testSea->createRenderObject(programManager, textureManager);
 
+    //test RoundRock
+    ProceduralObject * roundRock = new RoundRock();
+    roundRock->createRenderObject(programManager, textureManager);
+
     bool done = false;
     int rightPressed = 0;
     camera->moveFront(-5);
@@ -302,6 +307,9 @@ void Application::testInterface() {
         //sea
         testSea->draw(camera->getViewMatrix());
 
+        //round rock
+        roundRock->draw(camera->getViewMatrix());
+
         //skybox
         glDepthMask(GL_FALSE);
         test->draw(camera->getViewMatrix());
@@ -314,4 +322,5 @@ void Application::testInterface() {
   //delete testObject;
     delete testSea;
     delete test;
+    delete roundRock;
 }

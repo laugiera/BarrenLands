@@ -20,6 +20,7 @@ float NoiseManager::seed = 1200;
  * Constructor with default noise parameters
  */
 NoiseManager::NoiseManager(){
+    counter = 0;
     noise.SetNoiseType(FastNoise::PerlinFractal);
     noise.SetInterp(FastNoise::Quintic);
    // noise.SetFractalType(FastNoise::RigidMulti);
@@ -127,4 +128,9 @@ float** NoiseManager::getRockMap(const int width, const int height,const float f
         }
     }
     return rockMap;
+}
+
+float NoiseManager::getRandomFloat() {
+    counter ++;
+    return noise.GetNoise(counter, counter);
 };

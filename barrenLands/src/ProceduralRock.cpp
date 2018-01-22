@@ -4,7 +4,10 @@
 
 #include "ProceduralRock.hpp"
 /** Constructor and destructor**/
-ProceduralRock::ProceduralRock(): ProceduralObject(){}
+ProceduralRock::ProceduralRock(): ProceduralObject(){
+    //generateVertices();
+    //generateIndices();
+}
 ProceduralRock::~ProceduralRock() {}
 /**
  * createRenderObject()
