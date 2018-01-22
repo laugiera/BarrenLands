@@ -21,6 +21,7 @@ void ProceduralRock::createRenderObject(ProgramManager *programManager, TextureM
     std::vector<glcustom::Texture *> textures = chooseTextures(textureManager);
     //TO CHANGE
     //renderObject = new RenderRock(programManager->getElementProgram(), textures,color); // to change if program is different
+    color = new Color(30, 70, 150);
     renderObject = new RenderObject(programManager->getElementProgram(), textures, color);
     renderObject->fillData(vertices, indices);
     //renderObject->setColor(color);
@@ -33,6 +34,7 @@ void ProceduralRock::createRenderObject(ProgramManager *programManager, TextureM
  */
 std::vector<glcustom::Texture *> ProceduralRock::chooseTextures(TextureManager *textureManager) {
     return std::vector<glcustom::Texture *>(1, textureManager->getRandomTexture("rock"));
+    //return std::vector<glcustom::Texture *>();
 }
 /**
  * static setPositions()

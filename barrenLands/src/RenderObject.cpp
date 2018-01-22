@@ -17,18 +17,27 @@ RenderObject::~RenderObject() {
  * @param std::vector<uint32_t> _indices
  */
 void RenderObject::fillData(std::vector<glimac::ShapeVertex> vertices, std::vector<uint32_t> _indices) {
+    verticesCount = vertices.size();
     indices = _indices;
     //si les indices n'ont pas étés renseignés, remplir le tableau d'indices avec les indices des vertices (de 0 à nbVertices-1)
+    glcustom::VBO vbo;
+    vbo.fillBuffer(vertices);
+
     if(indices.empty()){
+        /*
         for(uint32_t i = 0; i < vertices.size(); i++){
             indices.push_back(i);
         }
+         */
+        vao.fillBuffer(vertices, &vbo);
+    } else {
+        glcustom::IBO ibo;
+        ibo.fillBuffer(indices);
+        vao.fillBuffer(vertices, &vbo, &ibo);
     }
-    glcustom::VBO vbo;
-    vbo.fillBuffer(vertices);
-    glcustom::IBO ibo;
-    ibo.fillBuffer(indices);
-    vao.fillBuffer(vertices, &vbo, &ibo);
+
+
+
 }
 /**
  * Constructor
@@ -114,7 +123,11 @@ void RenderObject::render(const glm::mat4 &viewMatrix) {
     sendUniforms(viewMatrix);
     bindTextures();
     vao.bind();
-    glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+    if(indices.empty()){
+        glDrawArrays(GL_TRIANGLES, 0, verticesCount);
+    } else {
+        glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+    }
     vao.debind();
     debindTextures();
 }

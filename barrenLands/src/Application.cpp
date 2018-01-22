@@ -229,6 +229,14 @@ void Application::testInterface() {
     //textureManager->createTextures();
     programManager->createPrograms();
 
+    //initialization of lights
+    Light sun = Light(1,"Sun",glm::vec3(0.5,0.1,0));
+    sun.addLightUniforms(programManager->getMapProgram());
+    sun.addLightUniforms(programManager->getElementProgram());
+    Light moon = Light(1,"Moon",glm::vec3(0,0.1,0.5));
+    moon.addLightUniforms(programManager->getMapProgram());
+    moon.addLightUniforms(programManager->getElementProgram());
+
     /********
 
     ----> Edit with the class you want to test :
@@ -248,6 +256,7 @@ void Application::testInterface() {
     //test sea
     ProceduralObject * testSea = new ProceduralSea();
     testSea->createRenderObject(programManager, textureManager);
+
 
     //test RoundRock
     ProceduralObject * roundRock = new RoundRock();
@@ -300,6 +309,23 @@ void Application::testInterface() {
             }
         }
         clearGl();
+
+        //configuring and sending light uniforms
+        programManager->getMapProgram()->use();
+        sun.resetDirection();
+        sun.rotate(windowManager.getTime(), camera->getViewMatrix());
+        sun.sendLightUniforms(programManager->getMapProgram());
+
+        moon.resetDirection();
+        moon.rotate(-windowManager.getTime(), camera->getViewMatrix());
+        moon.sendLightUniforms(programManager->getMapProgram());
+
+        programManager->getElementProgram()->use();
+        sun.sendLightUniforms(programManager->getElementProgram());
+        moon.sendLightUniforms(programManager->getElementProgram());
+
+
+
         /******
         Example : testObject->draw(camera->getViewMatrix());
          ******/
@@ -307,8 +333,12 @@ void Application::testInterface() {
         //sea
         testSea->draw(camera->getViewMatrix());
 
+        glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+
         //round rock
         roundRock->draw(camera->getViewMatrix());
+
+        glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
 
         //skybox
         glDepthMask(GL_FALSE);
