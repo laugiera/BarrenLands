@@ -71,61 +71,9 @@ void RoundRock::generateVertices(){
 }
 void RoundRock::generateIndices(){
     indices.clear();
-    /*
-    indices = {
-            0,1,2,
-            1,2,3,
-            2,3,0,
-            3,0,1
-    };
-     */
 }
 void RoundRock::generateNormals(){}
 
-void RoundRock::subdivideFace(std::vector<glimac::ShapeVertex> &_vertices) { //prend un vecteur de 3 vertices
 
-    glm::vec3 subDiv1, subDiv2, subDiv3;
-    float deux = 2;
-    subDiv1 = (_vertices[1].position - _vertices[0].position) /deux + _vertices[0].position;
-    subDiv2 = (_vertices[2].position - _vertices[1].position) /deux + _vertices[1].position;
-    subDiv3 = (_vertices[0].position - _vertices[2].position) /deux + _vertices[2].position;
-
-    glimac::ShapeVertex v1(glm::vec3(subDiv1),
-                           glm::vec3(glm::normalize(subDiv1)),
-                           glm::vec2(1,1)
-    );
-
-    glimac::ShapeVertex v2(glm::vec3(subDiv2),
-                           glm::vec3(glm::normalize(subDiv2)),
-                           glm::vec2(1,1)
-    );
-
-    glimac::ShapeVertex v3(glm::vec3(subDiv3),
-                           glm::vec3(glm::normalize(subDiv3)),
-                           glm::vec2(1,1)
-    );
-
-    std::vector<glimac::ShapeVertex> __vertices;
-
-    __vertices.emplace_back(_vertices[0]);
-    __vertices.emplace_back(v1);
-    __vertices.emplace_back(v3);
-
-    __vertices.emplace_back(v1);
-    __vertices.emplace_back(v3);
-    __vertices.emplace_back(v2);
-
-    __vertices.emplace_back(v3);
-    __vertices.emplace_back(v2);
-    __vertices.emplace_back(_vertices[2]);
-
-    __vertices.emplace_back(v2);
-    __vertices.emplace_back(v1);
-    __vertices.emplace_back(_vertices[1]);
-
-    _vertices.clear();
-    _vertices = __vertices;
-
-}
 
 

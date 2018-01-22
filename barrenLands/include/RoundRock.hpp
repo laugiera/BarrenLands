@@ -14,7 +14,6 @@ public:
     void generateVertices();
     void generateIndices();
     void generateNormals();
-    void subdivideFace(std::vector<glimac::ShapeVertex> &_vertices);
 };
 
 

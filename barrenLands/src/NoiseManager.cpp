@@ -134,3 +134,12 @@ float NoiseManager::getRandomFloat() {
     counter ++;
     return noise.GetNoise(counter, counter);
 };
+
+float* NoiseManager::getVerticesDisturbation(const int size){
+    float* array = new float[size];
+    for(int i =0; i < size; i++){
+     //array[i] = noise.GetNoise(i,i)*10;
+        array[i] = 0;
+    }
+    return array;
+}

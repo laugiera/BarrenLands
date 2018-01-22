@@ -1,11 +1,11 @@
 //
 // Created by Lou Landry on 15/01/2018.
 //
-
+#define GLEW_STATIC
 #include <RoundRock.hpp>
+#include "ProceduralGrass.hpp"
 #include "Application.hpp"
-
-
+#include <SharpRock.hpp>
 
 
 /**
@@ -254,13 +254,23 @@ void Application::testInterface() {
     test -> createRenderObject(programManager, textureManager);
 
     //test sea
-    ProceduralObject * testSea = new ProceduralSea();
-    testSea->createRenderObject(programManager, textureManager);
+    ProceduralObject * testRock = new SharpRock();
+    testRock->createRenderObject(programManager, textureManager);
+
 
 
     //test RoundRock
-    ProceduralObject * roundRock = new RoundRock();
-    roundRock->createRenderObject(programManager, textureManager);
+    /*ProceduralObject * roundRock = new RoundRock();
+    roundRock->createRenderObject(programManager, textureManager);*/
+
+    //test Grass
+/*
+    std::vector<ProceduralObject *> grass;
+    for(int i = 0; i < 100; ++i){
+        grass.push_back(new ProceduralGrass());
+        grass[i]->createRenderObject(programManager, textureManager);
+    }
+*/
 
     bool done = false;
     int rightPressed = 0;
@@ -330,15 +340,19 @@ void Application::testInterface() {
         Example : testObject->draw(camera->getViewMatrix());
          ******/
 
-        //sea
-        testSea->draw(camera->getViewMatrix());
+        //sharp rock
+        testRock->draw(camera->getViewMatrix());
 
-        glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+        //glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
 
         //round rock
-        roundRock->draw(camera->getViewMatrix());
+        //roundRock->draw(camera->getViewMatrix());
 
-        glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
+       /* for(int i = 0; i < grass.size(); ++i){
+            grass[i]->draw(camera->getViewMatrix());
+        }*/
+
+        //glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
 
         //skybox
         glDepthMask(GL_FALSE);
@@ -350,7 +364,10 @@ void Application::testInterface() {
 
     }
   //delete testObject;
-    delete testSea;
+    delete testRock;
     delete test;
-    delete roundRock;
+/*    for(int i = 0; i < grass.size(); ++i){
+        delete grass[i];
+        grass[i] = nullptr;
+    }*/
 }

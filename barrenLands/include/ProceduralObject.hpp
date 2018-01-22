@@ -34,6 +34,8 @@ public:
 
     virtual std::vector<glcustom::Texture *> chooseTextures(TextureManager *textureManager);
 
+    void subdivideFace(std::vector<glimac::ShapeVertex> &_vertices);
+
     /**Getter and setter for postion**/
     glm::vec3 & getPosition(){
         return position;
