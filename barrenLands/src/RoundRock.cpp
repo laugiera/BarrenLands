@@ -49,44 +49,8 @@ void RoundRock::generateVertices(){
     vertices.push_back(glimac::ShapeVertex(_vertices[3]));
     vertices.push_back(glimac::ShapeVertex(_vertices[0]));
     vertices.push_back(glimac::ShapeVertex(_vertices[1]));
-
-
-    std::vector<glimac::ShapeVertex> testVertices;
-
-    std::vector<glimac::ShapeVertex>::iterator it = vertices.begin();
-
-    int i = 0;
-    while (i<vertices.size()){
-        std::vector<glimac::ShapeVertex> face;
-        for(int j = 0; j<3; j++){
-            face.push_back(vertices[i]);
-            i++;
-        }
-        subdivideFace(face);
-        testVertices.insert(testVertices.end(), face.begin(), face.end());
-    }
-    /*
-
-    std::vector<glimac::ShapeVertex> face;
-
-    face.push_back(vertices[0]);
-    face.push_back(vertices[1]);
-    face.push_back(vertices[2]);
-    subdivideFace(face);
-    vertices.insert( vertices.end(), face.begin(), face.end());
-
-
-    face.clear();
-    face.push_back(vertices[3]);
-    face.push_back(vertices[4]);
-    face.push_back(vertices[5]);
-    subdivideFace(face);
-
-    vertices.insert( vertices.end(), face.begin(), face.end());
-
-*/
-
-    vertices = testVertices;
+    
+    subdivideObject(vertices, 3);
 
 
 }
