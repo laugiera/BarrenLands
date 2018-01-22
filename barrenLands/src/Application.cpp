@@ -1,8 +1,9 @@
 //
 // Created by Lou Landry on 15/01/2018.
 //
-
+#define GLEW_STATIC
 #include <RoundRock.hpp>
+#include "ProceduralGrass.hpp"
 #include "Application.hpp"
 
 
@@ -249,9 +250,16 @@ void Application::testInterface() {
     ProceduralObject * testSea = new ProceduralSea();
     testSea->createRenderObject(programManager, textureManager);
 
-    //test RoundRock
+    /*//test RoundRock
     ProceduralObject * roundRock = new RoundRock();
-    roundRock->createRenderObject(programManager, textureManager);
+    roundRock->createRenderObject(programManager, textureManager);*/
+
+    //test Grass
+    std::vector<ProceduralObject *> grass;
+    for(int i = 0; i < 100; ++i){
+        grass.push_back(new ProceduralGrass());
+        grass[i]->createRenderObject(programManager, textureManager);
+    }
 
     bool done = false;
     int rightPressed = 0;
@@ -308,7 +316,10 @@ void Application::testInterface() {
         testSea->draw(camera->getViewMatrix());
 
         //round rock
-        roundRock->draw(camera->getViewMatrix());
+
+        for(int i = 0; i < grass.size(); ++i){
+            grass[i]->draw(camera->getViewMatrix());
+        }
 
         //skybox
         glDepthMask(GL_FALSE);
@@ -322,5 +333,8 @@ void Application::testInterface() {
   //delete testObject;
     delete testSea;
     delete test;
-    delete roundRock;
+    for(int i = 0; i < grass.size(); ++i){
+        delete grass[i];
+        grass[i] = nullptr;
+    }
 }
