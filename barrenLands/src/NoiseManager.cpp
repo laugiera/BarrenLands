@@ -128,3 +128,11 @@ float** NoiseManager::getRockMap(const int width, const int height,const float f
     }
     return rockMap;
 };
+
+float* NoiseManager::getVerticesDisturbation(const int size){
+    float* array = new float[size];
+    for(int i =0; i < size; i++){
+     array[i] = noise.GetNoise(i,i)*20;
+    }
+    return array;
+}

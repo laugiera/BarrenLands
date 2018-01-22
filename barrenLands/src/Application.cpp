@@ -4,7 +4,7 @@
 
 #include "Application.hpp"
 
-
+#include <SharpRock.hpp>
 
 
 /**
@@ -245,8 +245,8 @@ void Application::testInterface() {
     test -> createRenderObject(programManager, textureManager);
 
     //test sea
-    ProceduralObject * testSea = new ProceduralSea();
-    testSea->createRenderObject(programManager, textureManager);
+    ProceduralObject * testRock = new SharpRock();
+    testRock->createRenderObject(programManager, textureManager);
 
     bool done = false;
     int rightPressed = 0;
@@ -300,7 +300,7 @@ void Application::testInterface() {
          ******/
 
         //sea
-        testSea->draw(camera->getViewMatrix());
+        testRock->draw(camera->getViewMatrix());
 
         //skybox
         glDepthMask(GL_FALSE);
@@ -312,6 +312,6 @@ void Application::testInterface() {
 
     }
   //delete testObject;
-    delete testSea;
+    delete testRock;
     delete test;
 }
