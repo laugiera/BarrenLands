@@ -254,16 +254,14 @@ void Application::testInterface() {
     test -> createRenderObject(programManager, textureManager);
 
     //test sea
-    /*
     ProceduralObject * testRock = new SharpRock();
     testRock->createRenderObject(programManager, textureManager);
-     */
 
 
 
     //test RoundRock
-    ProceduralObject * roundRock = new RoundRock();
-    roundRock->createRenderObject(programManager, textureManager);
+ /*   ProceduralObject * roundRock = new RoundRock();
+    roundRock->createRenderObject(programManager, textureManager);*/
 
     ProceduralObject * roundRock2 = new RoundRock();
     roundRock2->createRenderObject(programManager, textureManager);
@@ -349,30 +347,21 @@ void Application::testInterface() {
          ******/
 
         //sharp rock
-        //testRock->draw(camera->getViewMatrix());
+        testRock->draw(camera->getViewMatrix());
 
-        roundRock->draw(camera->getViewMatrix());
 
         //round rock
-// offset the wireframe
-        glEnable(GL_POLYGON_OFFSET_LINE);
-        glPolygonOffset(-1,-1);
 
-// draw the wireframe
         glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-// draw the same polygons again
+
         //roundRock->draw(camera->getViewMatrix());
 
-// restore default polygon mode
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-
-        glDisable(GL_POLYGON_OFFSET_LINE);
 
 
         roundRock2->draw(camera->getViewMatrix());
 
         //roundRock3->draw(camera->getViewMatrix());
-
 
 
        /* for(int i = 0; i < grass.size(); ++i){
@@ -390,8 +379,8 @@ void Application::testInterface() {
 
     }
   //delete testObject;
-    //delete testRock;
-    delete roundRock;
+    delete testRock;
+    //delete roundRock;
     delete test;
 /*    for(int i = 0; i < grass.size(); ++i){
         delete grass[i];

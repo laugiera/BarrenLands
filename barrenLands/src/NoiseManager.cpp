@@ -135,11 +135,8 @@ float NoiseManager::getRandomFloat() {
     return noise.GetNoise(counter, counter);
 };
 
-float* NoiseManager::getVerticesDisturbation(const int size){
-    float* array = new float[size];
-    for(int i =0; i < size; i++){
-     //array[i] = noise.GetNoise(i,i)*10;
-        array[i] = 0;
-    }
-    return array;
+float NoiseManager::getVerticesDisturbation(const int x, const int y, const int z){
+    float disturb = noise.GetNoise(2*x,2*y,2*z)*10;
+    return disturb;
+
 }

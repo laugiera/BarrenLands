@@ -1,4 +1,4 @@
 cmake-build-debug/*
 .idea/*
-barrenLands/src/application.cpp
-barrenLands/src/main.cpp
+barrenLands/src/Application.cpp
+barrenLands/main.cpp
