@@ -1,4 +1,4 @@
-#version 330 core
+#version 330
 
 // Entrées du shader
 // Interpolated values from the vertex shaders

@@ -19,7 +19,7 @@ ProceduralBiome::~ProceduralBiome(){
         delete el;
     }
     for(glimac::ShapeVertex * v : vertices){
-        delete v;
+       // delete v;
     }
 }
 /**
