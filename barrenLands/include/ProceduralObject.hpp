@@ -34,9 +34,9 @@ public:
 
     virtual std::vector<glcustom::Texture *> chooseTextures(TextureManager *textureManager);
 
-    void subdivideObject(std::vector<glimac::ShapeVertex> &_vertices, int nbRecurse = 1);
+    virtual void subdivideObject(std::vector<glimac::ShapeVertex> &_vertices, int nbRecurse = 1);
 
-    void subdivideFace(std::vector<glimac::ShapeVertex> &_vertices, int nbRecurse = 1);
+    virtual void subdivideFace(std::vector<glimac::ShapeVertex> &_vertices, int nbRecurse = 1);
 
     /**Getter and setter for postion**/
     glm::vec3 & getPosition(){
