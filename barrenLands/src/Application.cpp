@@ -6,6 +6,7 @@
 #include "ProceduralGrass.hpp"
 #include "Application.hpp"
 #include <SharpRock.hpp>
+#include <ArchedRock.hpp>
 
 
 /**
@@ -254,7 +255,7 @@ void Application::testInterface() {
     test -> createRenderObject(programManager, textureManager);
 
     //test sea
-    ProceduralObject * testRock = new SharpRock();
+    ProceduralObject * testRock = new ArchedRock();
     testRock->createRenderObject(programManager, textureManager);
 
 
@@ -347,7 +348,9 @@ void Application::testInterface() {
          ******/
 
         //sharp rock
+
         //testRock->draw(camera->getViewMatrix());
+
 
 
         //round rock
