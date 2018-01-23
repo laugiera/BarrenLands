@@ -263,6 +263,12 @@ void Application::testInterface() {
  /*   ProceduralObject * roundRock = new RoundRock();
     roundRock->createRenderObject(programManager, textureManager);*/
 
+    ProceduralObject * roundRock2 = new RoundRock();
+    roundRock2->createRenderObject(programManager, textureManager);
+
+    ProceduralObject * roundRock3 = new RoundRock();
+    roundRock3->createRenderObject(programManager, textureManager);
+
     //test Grass
 /*
     std::vector<ProceduralObject *> grass;
@@ -343,16 +349,23 @@ void Application::testInterface() {
         //sharp rock
         testRock->draw(camera->getViewMatrix());
 
-        glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+        //glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
 
         //round rock
        // roundRock->draw(camera->getViewMatrix());
+
+
+        //roundRock2->draw(camera->getViewMatrix());
+
+        //roundRock3->draw(camera->getViewMatrix());
+
+        //std::cout << "randomFloat : " << NoiseManager::getInstance().getRandomFloat() << std::endl;
 
        /* for(int i = 0; i < grass.size(); ++i){
             grass[i]->draw(camera->getViewMatrix());
         }*/
 
-        glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
+        //glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
 
         //skybox
         glDepthMask(GL_FALSE);
