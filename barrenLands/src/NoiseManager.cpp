@@ -136,7 +136,7 @@ float NoiseManager::getRandomFloat() {
 };
 
 float NoiseManager::getVerticesDisturbation(const int x, const int y, const int z){
-    float disturb = noise.GetNoise(4*x,4*y,4*z)*10;
+    float disturb = noise.GetNoise(2*x,2*y,2*z)*10;
     return disturb;
 
 }

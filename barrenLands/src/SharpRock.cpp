@@ -68,7 +68,6 @@ void SharpRock::generateVertices(){
     vertices.push_back(glimac::ShapeVertex(highRightFront, glm::vec3(0,1,0), glm::vec2(0,0)));
     vertices.push_back(glimac::ShapeVertex(highLeftBack, glm::vec3(0,1,0), glm::vec2(0,1)));
 
-
     //FACE BAS
     vertices.push_back(glimac::ShapeVertex(bottomLeftBack, glm::vec3(0,-1,0), glm::vec2(0,0)));
     vertices.push_back(glimac::ShapeVertex(bottomRightBack, glm::vec3(0,-1,0), glm::vec2(0,0)));
@@ -82,17 +81,7 @@ void SharpRock::generateVertices(){
     std::vector<glimac::ShapeVertex> _vertices;
     std::vector<glimac::ShapeVertex>::iterator it = vertices.begin();
 
-    int i = 0;
-    while (i<vertices.size()){
-        std::vector<glimac::ShapeVertex> face;
-        for(int j = 0; j<3; j++){
-            face.push_back(vertices[i]);
-            i++;
-        }
-        subdivideFace(face);
-        _vertices.insert(_vertices.end(), face.begin(), face.end());
-    }
-    vertices = _vertices;
+    ProceduralObject::subdivideObject(vertices);
 
     //procedural transformation
     for (int k = 0; k < vertices.size(); ++k) {
