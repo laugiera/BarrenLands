@@ -7,6 +7,9 @@
 RoundRock::RoundRock() : ProceduralRock(){
     generateVertices();
     generateIndices();
+    //position = glm::vec3(NoiseManager::getInstance().getRandomFloat(), NoiseManager::getInstance().getRandomFloat(), NoiseManager::getInstance().getRandomFloat());
+    //position *= 3;
+
 }
 RoundRock::~RoundRock(){}
 void RoundRock::generateVertices(){
@@ -26,19 +29,25 @@ void RoundRock::generateVertices(){
     }
 
     /*
-    _vertices.emplace_back(glm::normalize(glm::vec3(1,-1,0)), glm::normalize(glm::vec3(1,-1,0)), glm::vec2(1,1)NoiseManager::getInstance().getRandomFloat());
+    _vertices.emplace_back(glm::normalize(glm::vec3(1,-1,0)), glm::normalize(glm::vec3(1,-1,0)), glm::vec2(1,1));
     _vertices.emplace_back(glm::normalize(glm::vec3(0,-1,1)), glm::normalize(glm::vec3(0,-1,1)), glm::vec2(1,1));
     _vertices.emplace_back(glm::normalize(glm::vec3(-1,-1,0)), glm::normalize(glm::vec3(-1,-1,0)), glm::vec2(1,1));
     _vertices.emplace_back(glm::normalize(glm::vec3(0, 1, -1)), glm::normalize(glm::vec3(0, 1, -1)), glm::vec2(1,1));
     */
 
-    for(int i = 0; i<4; i++){
-        NoiseManager::getInstance().getRandomFloat();
-        center.x += _vertices[i].position.x / 4;
-        center.y += _vertices[i].position.y / 4;
-        center.z += _vertices[i].position.z /4;
+    for(int i = 0; i<_vertices.size(); i++){
+        center.x += _vertices[i].position.x / _vertices.size();
+        center.y += _vertices[i].position.y / _vertices.size();
+        center.z += _vertices[i].position.z /_vertices.size();
     }
 
+    for(int i = 0; i<_vertices.size(); i++){
+        glm::vec3 pos = glm::normalize(_vertices[i].position - center);
+        _vertices[i].position = center + pos;
+        std::cout << "vertex : " << i << " : " << _vertices[i].position << std::endl;
+    }
+
+    std::cout << std::endl;
     generateNormals();
 
     //face1
@@ -62,6 +71,21 @@ void RoundRock::generateVertices(){
     vertices.push_back(glimac::ShapeVertex(_vertices[1]));
 
     subdivideObject(vertices, 2);
+    /*
+    glimac::ShapeVertex centerVertex(glm::vec3(center),
+                                     glm::vec3(0,0,0),
+                                     glm::vec2(1,1)
+    );
+
+
+    vertices.emplace_back(centerVertex);
+    vertices.emplace_back(centerVertex);
+    vertices.emplace_back(centerVertex);
+
+    for(int i = 0; i< vertices.size(); i++){
+        std::cout << "vertex : " << i << " : " << glm::distance(center, vertices[i].position) << std::endl;
+    }
+     */
 
 
 }
@@ -71,6 +95,7 @@ void RoundRock::generateIndices(){
 void RoundRock::generateNormals() {
     for(int i = 0; i< vertices.size(); i++){
         vertices[i]. normal = glm::normalize(vertices[i].position - center);
+        //std::cout << "vertex : " << i << " : " << glm::distance(center, vertices[i].position) << std::endl;
     }
 }
 
@@ -86,23 +111,23 @@ void RoundRock::subdivideFace(std::vector<glimac::ShapeVertex> &_vertices, int n
     normal2 = glm::normalize(subDiv2 - center);
     normal3 = glm::normalize(subDiv3 - center);
 
-    subDiv1 = subDiv1 + (normal1-subDiv1) / deux;
-    subDiv2 = subDiv2 + (normal2-subDiv2) / deux;
-    subDiv3 = subDiv3 + (normal3-subDiv3) / deux;
+    subDiv1 = subDiv1 + (normal1 - (subDiv1-center)) /*/ deux*/;
+    subDiv2 = subDiv2 + (normal2 - (subDiv2-center)) /*/ deux*/;
+    subDiv3 = subDiv3 + (normal3 - (subDiv3-center)) /*/ deux*/;
 
 
     glimac::ShapeVertex v1(glm::vec3(subDiv1),
-                           glm::vec3(glm::normalize(subDiv1)),
+                           glm::vec3(normal1),
                            glm::vec2(1,1)
     );
 
     glimac::ShapeVertex v2(glm::vec3(subDiv2),
-                           glm::vec3(glm::normalize(subDiv2)),
+                           glm::vec3(normal2),
                            glm::vec2(1,1)
     );
 
     glimac::ShapeVertex v3(glm::vec3(subDiv3),
-                           glm::vec3(glm::normalize(subDiv3)),
+                           glm::vec3(normal3),
                            glm::vec2(1,1)
     );
 
@@ -126,6 +151,9 @@ void RoundRock::subdivideFace(std::vector<glimac::ShapeVertex> &_vertices, int n
 
     _vertices.clear();
     _vertices = __vertices;
+
+
+
 
 
 }

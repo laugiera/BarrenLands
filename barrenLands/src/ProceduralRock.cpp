@@ -43,3 +43,4 @@ std::vector<glcustom::Texture *> ProceduralRock::chooseTextures(TextureManager *
 void ProceduralRock::setPositions(std::vector<ProceduralObject *> objects){
 
 }
+
