@@ -22,7 +22,7 @@ public:
     //à redéfinir pour chaque élement
     virtual void generateVertices() =0;
     virtual void generateIndices() =0;
-    virtual void generateNormals() =0;
+    virtual void generateNormals();
 
     //commun à tous les rocks
     void createRenderObject(ProgramManager *programManager, TextureManager *textureManager, Color * _color);

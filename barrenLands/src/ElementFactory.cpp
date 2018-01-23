@@ -6,5 +6,5 @@
  */
 ProceduralObject* ElementFactory::createProceduralObject(){
     //return new ProceduralObject();
-    return new FlatRock();
+    return new MenirRock();
 }
