@@ -131,7 +131,7 @@ float** NoiseManager::getRockMap(const int width, const int height,const float f
 }
 
 float NoiseManager::getRandomFloat() {
-    counter += 10;
+    counter += 5;
     return noise.GetNoise(counter, counter);
 };
 
