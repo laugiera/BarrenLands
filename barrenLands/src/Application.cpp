@@ -6,8 +6,6 @@
 #include "ProceduralGrass.hpp"
 #include "ProceduralBranche.hpp"
 #include "Application.hpp"
-#include <SharpRock.hpp>
-#include <ArchedRock.hpp>
 
 
 /**
@@ -75,10 +73,10 @@ void Application::appLoop() {
     programManager->createPrograms();
 
     //initialization of lights
-    Light sun = Light(1,"Sun",glm::vec3(0.7,0.1,0));
+    Light sun = Light(1,"Sun",glm::vec3(0.5,0.1,0));
     sun.addLightUniforms(programManager->getMapProgram());
     sun.addLightUniforms(programManager->getElementProgram());
-    Light moon = Light(1,"Moon",glm::vec3(0,0.1,0.7));
+    Light moon = Light(1,"Moon",glm::vec3(0,0.1,0.5));
     moon.addLightUniforms(programManager->getMapProgram());
     moon.addLightUniforms(programManager->getElementProgram());
 
@@ -90,11 +88,12 @@ void Application::appLoop() {
     SkyboxObject * sky = new SkyboxObject();
     sky -> createRenderObject(programManager, textureManager);
 
-    ProceduralObject * grass = new ProceduralGrass(glm::vec3(0,0,0));
+
+/*    ProceduralObject * grass = new ProceduralGrass(glm::vec3(0,0,0));
     grass->createRenderObject(programManager, textureManager);
 
 
-    /*ElementFactory* factory = new ElementFactory(); //Décommenter "POSITION" dans PROCEDURALOBJECT
+    ElementFactory* factory = new ElementFactory(); //Décommenter "POSITION" dans PROCEDURALOBJECT
     std::vector<ProceduralObject*> elementVect;
     for(int i =0; i<Tools::nbSub+1; ++i){
         for(int j =0; j<Tools::nbSub+1; ++j){
@@ -182,7 +181,7 @@ void Application::appLoop() {
         glDepthMask(GL_FALSE);
         sky->draw(camera->getViewMatrix());
         glDepthMask(GL_TRUE);
-        grass->draw(camera->getViewMatrix());
+        //grass->draw(camera->getViewMatrix());
         //draw map
 
         Map->draw(camera->getViewMatrix());
@@ -203,7 +202,7 @@ void Application::appLoop() {
     delete sky;
     delete Map;
     //delete factory;
-    delete grass;
+   // delete grass;
 
 }
 
@@ -356,11 +355,6 @@ void Application::testInterface() {
         Example : testObject->draw(camera->getViewMatrix());
          ******/
 
-        //sharp rock
-
-        //testRock->draw(camera->getViewMatrix());
-
-
 
         //round rock
 
@@ -392,6 +386,7 @@ void Application::testInterface() {
     //delete testObject;
 
     //delete testRock;
+
     //delete roundRock;
     delete test;
     //delete grass;

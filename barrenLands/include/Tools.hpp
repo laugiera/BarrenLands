@@ -14,6 +14,7 @@
 #include <fstream>
 #include <iostream>
 #include "glm/vec2.hpp"
+#include <glimac/glm.hpp>
 /**
  * Variables and functions used in the app
  */
@@ -27,6 +28,7 @@ public:
     static float width;
     static float speed; //camera speed
     static float seaLevel;
+    static glm::mat4 projMatrix;
 
 //transforms a string bool (ex "true") into a bool, throws std::invalid_argument
 static bool boolFromString(std::string s);

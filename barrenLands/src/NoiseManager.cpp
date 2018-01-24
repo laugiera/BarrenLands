@@ -137,7 +137,9 @@ float NoiseManager::getRandomFloat() {
     noise.SetFrequency(0.05);
     noise.SetNoiseType(FastNoise::PerlinFractal);
     counter += 5;
-    return noise.GetNoise(counter, counter);
+    float e = noise.GetNoise(counter, counter);
+    //std::cout << e <<std::endl;
+    return e;
 };
 
 float NoiseManager::getVerticesDisturbation(const int x, const int y, const int z){

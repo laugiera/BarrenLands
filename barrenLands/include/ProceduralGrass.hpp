@@ -12,7 +12,6 @@ public:
     void generateVertices(){};
     void generateIndices(){};
     void addGrass(float theta1, float theta2, float theta3, float x, float z, float y = 0);
-    //void generateNormals();
 
     //commun à tous les grass
     void createRenderObject(ProgramManager *programManager, TextureManager *textureManager, Color * _color);
@@ -20,8 +19,6 @@ public:
 
 
     void draw(const glm::mat4 &viewMatrix);
-    //static
-    static void setPositions(std::vector<ProceduralObject *> objects);
 
     //Methode pour le placement
     int inTriangle(glm::vec3 O, glm::vec3 A, glm::vec3 B, glm::vec3 _position);

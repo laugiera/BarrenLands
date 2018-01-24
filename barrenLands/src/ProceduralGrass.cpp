@@ -24,7 +24,7 @@ ProceduralGrass::ProceduralGrass(glm::vec3 pos): ProceduralObject(){
     //On prépare la répartition des herbes
     std::vector<glm::vec2> rayons;
     for(i=0; i < 20; ++i){
-        rayons.push_back(glm::vec2(NoiseManager::getInstance().getRandomFloat()*10, NoiseManager::getInstance().getRandomFloat()*10));
+        rayons.push_back(glm::vec2(NoiseManager::getInstance().getRandomFloat(), NoiseManager::getInstance().getRandomFloat()));
     }
     int caseI =0;
     int caseJ =0;
@@ -113,11 +113,8 @@ void ProceduralGrass::addGrass(float theta1, float theta2, float theta3, float x
  */
 void ProceduralGrass::createRenderObject(ProgramManager *programManager, TextureManager *textureManager,  Color * color){
     std::vector<glcustom::Texture *> textures = chooseTextures(textureManager);
-    //TO CHANGE
-    //renderObject = new RenderRock(programManager->getElementProgram(), textures,color); // to change if program is different
     renderObject = new RenderObject(programManager->getElementProgram(), textures, color);
     renderObject->fillData(vertices, indices);
-    //renderObject->setColor(color);
 }
 /**
  * chooseTextures()
@@ -126,14 +123,7 @@ void ProceduralGrass::createRenderObject(ProgramManager *programManager, Texture
  * @return
  */
 std::vector<glcustom::Texture *> ProceduralGrass::chooseTextures(TextureManager *textureManager) {
-    return std::vector<glcustom::Texture *>(1, textureManager->getRandomTexture("rock"));
-}
-/**
- * static setPositions()
- * @param objects
- */
-void ProceduralGrass::setPositions(std::vector<ProceduralObject *> objects){
-
+    return std::vector<glcustom::Texture *>();
 }
 
 void ProceduralGrass::draw(const glm::mat4 &viewMatrix) {

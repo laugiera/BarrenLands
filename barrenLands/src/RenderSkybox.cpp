@@ -40,9 +40,8 @@ void RenderSkybox::debindTextures() {
  * @param viewMatrix
  */
 void RenderSkybox::sendUniforms(const glm::mat4 &viewMatrix) {
-    glm::mat4 projMatrix = glm::perspective(glm::radians(70.f), Tools::windowWidth/Tools::windowHeight, 0.1f, 1500.f);
     glm::mat4 modelViewMatrix = viewMatrix * modelMatrix;
-    glm::mat4 modelViewProjMatrix = projMatrix * modelViewMatrix;
+    glm::mat4 modelViewProjMatrix = Tools::projMatrix * modelViewMatrix;
     glm::mat4 normals = glm::transpose(glm::inverse(modelViewMatrix));
     program->sendUniformMat4("uMVP", modelViewProjMatrix);
     program->sendUniformMat4("uMV", modelViewMatrix);

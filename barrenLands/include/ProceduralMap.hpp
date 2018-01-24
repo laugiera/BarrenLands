@@ -34,8 +34,6 @@ public:
 
     void createBiomes();
 
-    void createMoistureMap();
-
     virtual std::vector<glcustom::Texture *> chooseTextures(TextureManager *textureManager);
 
     void createBiomeColors();

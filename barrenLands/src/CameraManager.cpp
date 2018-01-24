@@ -1,5 +1,6 @@
 #include "../include/CameraManager.hpp"
 
+
 /**
  * CameraManager()
  * constructor of the two camera. Initialize current camera to trackball camera
