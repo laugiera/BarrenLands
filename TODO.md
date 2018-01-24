@@ -36,8 +36,12 @@ Objectif à la fin du sprint 1 :
 - [x] Pouvoir se déplacer facilement sur la carte.
 
 Plus :
-- [x] Faire la doc
+- [ ] Faire la doc
 - [ ] Eliminer les fuites mémoires (+ bug dans RenderSkybox Destructor)
 - [ ] Faire la factory et les maps de répartitions
 - [ ] Rendu instancié
 - [ ] Exterioriser la proj matrix
+
+- [ ] Son
+- [ ] Textures, blur
+- [ ] Shadow mapping

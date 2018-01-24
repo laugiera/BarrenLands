@@ -5,12 +5,12 @@
 #include "../include/Tools.hpp"
 
 
-float Tools::windowWidth = 1000;
-float Tools::windowHeight = 800;
+float Tools::windowWidth = 1200;
+float Tools::windowHeight = 1000;
 int Tools::nbSub = 100;
 float Tools::scale = 100;
 float Tools::width = 1;
-float Tools::speed = 10;
+float Tools::speed = 15;
 float Tools::seaLevel = -5;
 
 /**
