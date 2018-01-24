@@ -109,11 +109,18 @@ void Color::randomSimilarColor(float intensity) {
 }
 
 void Color::complementaryColor() {
-    r = 1/r;
-    g = 1/g;
-    b = 1/b;
+    r = 1 - r;
+    g = 1 - g;
+    b = 1 - b;
 
 
+}
+
+void Color::saturate(float intensity) {
+    float average = (r + g + b) / 3.f;
+    r += (r-average) * intensity;
+    g += (g-average) * intensity;
+    b += (b-average) * intensity;
 }
 
 

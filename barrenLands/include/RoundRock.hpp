@@ -6,6 +6,7 @@
 #define BARRENLANDS_ROUNDROCK_H
 
 #include <ProceduralRock.hpp>
+#include "NoiseManager.hpp"
 
 class RoundRock : public ProceduralRock {
 public:

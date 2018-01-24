@@ -144,7 +144,8 @@ void RoundRock::subdivideFace(std::vector<glimac::ShapeVertex> &_vertices, int n
 Color *RoundRock::chooseColor(Color *_color) {
     Color * alteredColor = new Color(_color);
     alteredColor->red(0.1);
-    alteredColor->randomSimilarColor(0.1);
+    alteredColor->lighten(NoiseManager::getInstance().getRandomFloat()/10.f);
+    //alteredColor->randomSimilarColor(0.1);
     return alteredColor;
 }
 

@@ -145,7 +145,7 @@ void CrystalRock::subdivideFace(std::vector<glimac::ShapeVertex> &_vertices, int
 
 Color *CrystalRock::chooseColor(Color *_color) {
     Color * alteredColor = new Color(_color);
-    alteredColor->red(0.2);
+    //alteredColor->red(0.2);
     alteredColor->darken(0.3);
     return alteredColor;
 }

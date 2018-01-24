@@ -8,6 +8,7 @@
 #include "glm/vec3.hpp"
 #include <string>
 #include "NoiseManager.hpp"
+#include <iostream>
 
 enum {RANDOM, RED, GREEN, BLUE, ALPHA};
 
@@ -49,8 +50,8 @@ public:
     }
 
     void darken(float intensity);
-
     void lighten(float intensity);
+    void saturate(float intensity);
 
     void red(float intensity = 0.1);
     void green(float intensity = 0.1);
@@ -60,6 +61,11 @@ public:
     void complementaryColor();
 
     glm::vec3 getVec3();
+
+    friend std::ostream &operator<<(std::ostream & stream, const Color & c){
+        stream << "( " << c.r << ", " << c.g << ", " << c.b << ')' ;
+        return stream;
+    }
 
 
 private:

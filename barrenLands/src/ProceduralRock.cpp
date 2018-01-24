@@ -47,7 +47,7 @@ void ProceduralRock::generateNormals() {
 
 Color *ProceduralRock::chooseColor(Color *_color) {
     Color * alteredColor = new Color(_color);
-    alteredColor->randomSimilarColor(0.1);
+    //alteredColor->randomSimilarColor(0.1);
     return alteredColor;
 }
 
