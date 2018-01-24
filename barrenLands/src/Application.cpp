@@ -261,8 +261,8 @@ void Application::testInterface() {
 
 
     //test RoundRock
- /*   ProceduralObject * roundRock = new RoundRock();
-    roundRock->createRenderObject(programManager, textureManager);*/
+    ProceduralObject * menirRock = new MenirRock();
+    menirRock->createRenderObject(programManager, textureManager);
 
     ProceduralObject * roundRock2 = new RoundRock();
     roundRock2->createRenderObject(programManager, textureManager);
@@ -348,8 +348,9 @@ void Application::testInterface() {
          ******/
 
         //sharp rock
-        //glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
-        testRock->draw(camera->getViewMatrix());
+
+        //testRock->draw(camera->getViewMatrix());
+
 
 
         //round rock
@@ -363,7 +364,9 @@ void Application::testInterface() {
 
         //roundRock2->draw(camera->getViewMatrix());
 
-        //roundRock3->draw(camera->getViewMatrix());
+        menirRock->draw(camera->getViewMatrix());
+
+        //roundRock2->draw(camera->getViewMatrix());
 
 
        /* for(int i = 0; i < grass.size(); ++i){

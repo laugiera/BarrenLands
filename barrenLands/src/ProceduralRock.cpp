@@ -34,3 +34,14 @@ std::vector<glcustom::Texture *> ProceduralRock::chooseTextures(TextureManager *
     return std::vector<glcustom::Texture *>();
 }
 
+void ProceduralRock::generateNormals() {
+    for(int i = 0; i< vertices.size(); i += 3){
+        glm::vec3 dir1 = vertices[i+1].position - vertices[i].position;
+        glm::vec3 dir2 = vertices[i+2].position - vertices[i+1].position;
+        glm::vec3 norm = glm::normalize(glm::cross(dir1, dir2));
+        vertices[i].normal = norm;
+        vertices[i+1].normal = norm;
+        vertices[i+2].normal = norm;
+    }
+}
+

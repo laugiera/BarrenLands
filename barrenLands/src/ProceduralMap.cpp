@@ -157,6 +157,7 @@ void ProceduralMap::createBiomes() {
         }
     }
 
+
     //Affectation des valeurs
     for(int i = 0; i<vertices.size(); i++){
         if (vertices[i].position.y < 0.5){

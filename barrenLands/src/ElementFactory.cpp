@@ -5,9 +5,10 @@
  * @return ProceduralObject*
  */
 ProceduralObject* ElementFactory::createProceduralRock(const std::string &name){
-    //return new ProceduralObject();
     if(name == "sand")
         return new RoundRock();
+    else if(name == "toundra")
+        return new MenirRock();
     else
-        return new RoundRock();
+        return new CrystalRock();
 }
