@@ -6,6 +6,7 @@ in vec2 uV;
 in vec3 vPosition;
 in vec3 normal_cameraspace;
 in vec3 eyeDirection_cameraspace;
+in float uMoisture;
 
 // Ouput data
 out vec3 color;
@@ -34,27 +35,26 @@ vec3 sableTexture = multiplyTexture(uColors[0], texture(uTexture1, uV));
 vec3 toundraNeigeTexture = multiplyTexture(uColors[3], texture(uTexture2, uV));
 
 float height = vPosition.y;
-float moisture = (texture(uTexture0, uV/uSubDiv)).x;
-//float moisture = 0.5;
+//float uMoisture = (texture(uTexture0, uV/uSubDiv)).x;
 
 
 vec3 assignColor() {
 if (height < 1){
-    if (moisture <= 0.1){
+    if (uMoisture <= 0.1){
     return sableTexture; //sable
     } else {
         return uColors[1]; //grass
     }
 
 } else if (height < 2){
-    if (moisture < 0.5){
+    if (uMoisture < 0.5){
         return uColors[5]; //savana
     } else {
         return uColors[1]; //grass
     }
 
 } else if (height < 5){
-    if (moisture < 0.1){
+    if (uMoisture < 0.1){
         return uColors[4]; //rock
     } else  {
         return uColors[2]; //toundra
