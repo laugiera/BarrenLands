@@ -88,7 +88,8 @@ void Application::appLoop() {
     SkyboxObject * sky = new SkyboxObject();
     sky -> createRenderObject(programManager, textureManager);
 
-
+    ProceduralObject * grass = new ProceduralGrass(glm::vec3(0,0,0));
+    grass->createRenderObject(programManager, textureManager);
     /*ElementFactory* factory = new ElementFactory(); //Décommenter "POSITION" dans PROCEDURALOBJECT
     std::vector<ProceduralObject*> elementVect;
     for(int i =0; i<Tools::nbSub+1; ++i){
@@ -178,7 +179,7 @@ void Application::appLoop() {
         glDepthMask(GL_FALSE);
         sky->draw(camera->getViewMatrix());
         glDepthMask(GL_TRUE);
-
+        grass->draw(camera->getViewMatrix());
         //draw map
 
         Map->draw(camera->getViewMatrix());
@@ -199,6 +200,7 @@ void Application::appLoop() {
     delete sky;
     delete Map;
     //delete factory;
+    delete grass;
 
 }
 
@@ -254,8 +256,8 @@ void Application::testInterface() {
     test -> createRenderObject(programManager, textureManager);
 
     //test sea
-    ProceduralObject * testRock = new SharpRock();
-    testRock->createRenderObject(programManager, textureManager);
+    //ProceduralObject * testRock = new SharpRock();
+    //testRock->createRenderObject(programManager, textureManager);
 
 
 
@@ -264,13 +266,9 @@ void Application::testInterface() {
     roundRock->createRenderObject(programManager, textureManager);*/
 
     //test Grass
-/*
-    std::vector<ProceduralObject *> grass;
-    for(int i = 0; i < 100; ++i){
-        grass.push_back(new ProceduralGrass());
-        grass[i]->createRenderObject(programManager, textureManager);
-    }
-*/
+    ProceduralObject * grass = new ProceduralGrass(glm::vec3(0,0,0));
+    grass->createRenderObject(programManager, textureManager);
+
 
     bool done = false;
     int rightPressed = 0;
@@ -341,16 +339,16 @@ void Application::testInterface() {
          ******/
 
         //sharp rock
-        testRock->draw(camera->getViewMatrix());
+        //testRock->draw(camera->getViewMatrix());
 
         //glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
 
         //round rock
         //roundRock->draw(camera->getViewMatrix());
 
-       /* for(int i = 0; i < grass.size(); ++i){
-            grass[i]->draw(camera->getViewMatrix());
-        }*/
+
+        grass->draw(camera->getViewMatrix());
+
 
         //glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
 
@@ -364,10 +362,8 @@ void Application::testInterface() {
 
     }
   //delete testObject;
-    delete testRock;
+    //delete testRock;
     delete test;
-/*    for(int i = 0; i < grass.size(); ++i){
-        delete grass[i];
-        grass[i] = nullptr;
-    }*/
+    delete grass;
+
 }
