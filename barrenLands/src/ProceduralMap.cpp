@@ -140,6 +140,8 @@ std::vector<glimac::ShapeVertex> ProceduralMap::getVertices(){
  */
 void ProceduralMap::createBiomes() {
 
+    createBiomeColors();
+    
     biomes.push_back(new ProceduralBiome(RenderMap::sand,"sand"));
     biomes.push_back(new ProceduralBiome(RenderMap::grass,"grass"));
     biomes.push_back(new ProceduralBiome(RenderMap::savannah,"savannah"));
@@ -255,5 +257,30 @@ void ProceduralMap::draw(const glm::mat4 &viewMatrix) {
     for(ProceduralObject * biome : biomes){
         biome->draw(viewMatrix);
     }
+}
+
+void ProceduralMap::createBiomeColors() {
+    Color baseColor = Color();
+    Color derivedColor = baseColor;
+
+    derivedColor.lighten(0.2);  derivedColor.red(0.2); derivedColor.green(0.1);
+    RenderMap::sand = new Color(&derivedColor);
+
+    derivedColor = baseColor; derivedColor.lighten(0.2);  derivedColor.green(0.2); derivedColor.blue(0.1);
+    RenderMap::grass = new Color(&derivedColor);
+
+    derivedColor = baseColor; derivedColor.lighten(0.5);
+    RenderMap::snow = new Color(&derivedColor);
+
+    derivedColor = baseColor; derivedColor.lighten(0.3); derivedColor.blue(0.3);
+    RenderMap::rock = new Color(&derivedColor);
+
+    derivedColor = baseColor; derivedColor.darken(0.1); derivedColor.blue(0.3); derivedColor.randomSimilarColor(0.2);
+    RenderMap::toundra = new Color(&derivedColor);
+
+    derivedColor = baseColor; derivedColor.darken(0.1); derivedColor.red(0.3); derivedColor.randomSimilarColor(0.2);
+    RenderMap::savannah = new Color(&derivedColor);
+
+
 }
 

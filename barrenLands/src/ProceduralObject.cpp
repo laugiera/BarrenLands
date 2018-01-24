@@ -101,7 +101,7 @@ void ProceduralObject::createRenderObject(ProgramManager *programManager, Textur
     std::vector<glcustom::Texture *> textures = chooseTextures(textureManager);
     renderObject = new RenderObject(programManager->getElementProgram(), textures);
     renderObject->fillData(vertices, indices);
-    renderObject->setColor(color);
+    renderObject->setColor(chooseColor(color));
 }
 /**
  * draw()
@@ -189,6 +189,14 @@ void ProceduralObject::subdivideFace(std::vector<glimac::ShapeVertex> &_vertices
     _vertices = __vertices;
 
 
+}
+
+Color *ProceduralObject::chooseColor(Color *_color) {
+    if(!_color){
+        return new Color;
+    } else {
+        return new Color(_color);
+    }
 }
 
 

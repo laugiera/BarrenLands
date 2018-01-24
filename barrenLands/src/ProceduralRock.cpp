@@ -20,7 +20,7 @@ ProceduralRock::~ProceduralRock() {}
 void ProceduralRock::createRenderObject(ProgramManager *programManager, TextureManager *textureManager,  Color * color){
     std::vector<glcustom::Texture *> textures = chooseTextures(textureManager);
 
-    renderObject = new RenderObject(programManager->getElementProgram(), textures, color);
+    renderObject = new RenderObject(programManager->getElementProgram(), textures, chooseColor(color));
     renderObject->fillData(vertices, indices);
 }
 /**
@@ -43,5 +43,11 @@ void ProceduralRock::generateNormals() {
         vertices[i+1].normal = norm;
         vertices[i+2].normal = norm;
     }
+}
+
+Color *ProceduralRock::chooseColor(Color *_color) {
+    Color * alteredColor = new Color(_color);
+    alteredColor->randomSimilarColor(0.1);
+    return alteredColor;
 }
 

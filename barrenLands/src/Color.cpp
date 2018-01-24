@@ -9,9 +9,9 @@
  */
 Color::Color() {
     //remplacer par des nb générés par la classe noise
-    r = 0.5;
-    g = 0.5;
-    b = 0.5;
+    r = trunk01(NoiseManager::getInstance().getRandomFloat());
+    g = trunk01(NoiseManager::getInstance().getRandomFloat());
+    b = trunk01(NoiseManager::getInstance().getRandomFloat());
     a = 1;
 }
 
@@ -55,7 +55,7 @@ Color::Color(Color *c) : r(c->r),
  * @param intensity of darkening
  */
 void Color::darken(float intensity) {
-    float step = 0.01;
+    float step = 1;
     r -= step*intensity;
     g -= step*intensity;
     b -= step*intensity;
@@ -66,7 +66,7 @@ void Color::darken(float intensity) {
  * @param intensity of lightening
  */
 void Color::lighten(float intensity) {
-    float step = 0.01;
+    float step = 1;
     r += step*intensity;
     g += step*intensity;
     b += step*intensity;
@@ -82,5 +82,40 @@ glm::vec3 Color::getVec3() {
     }
     return glm::vec3( trunk01(r), trunk01(g), trunk01(b) );
 }
+
+void Color::red(float intensity) {
+    float step = 1;
+    r += step*intensity;
+}
+
+void Color::green(float intensity) {
+    float step = 1;
+    g += step*intensity;
+}
+
+void Color::blue(float intensity) {
+    float step = 1;
+    b += step*intensity;
+}
+
+void Color::randomSimilarColor(float intensity) {
+    float random = NoiseManager::getInstance().getRandomFloat(); //number beetween -1 and 1
+    float step = 10;
+    r += random * step *intensity;
+    random = NoiseManager::getInstance().getRandomFloat();
+    g += random * step *intensity;
+    random = NoiseManager::getInstance().getRandomFloat();
+    b += random * step *intensity;
+}
+
+void Color::complementaryColor() {
+    r = 1/r;
+    g = 1/g;
+    b = 1/b;
+
+
+}
+
+
 
 

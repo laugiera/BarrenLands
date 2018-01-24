@@ -38,6 +38,8 @@ public:
 
     virtual std::vector<glcustom::Texture *> chooseTextures(TextureManager *textureManager);
 
+    void createBiomeColors();
+
     glimac::ShapeVertex getVertex(int i, int j);
 
     std::vector<glimac::ShapeVertex> getVertices();
