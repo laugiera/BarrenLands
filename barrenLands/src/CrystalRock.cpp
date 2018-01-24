@@ -11,6 +11,7 @@ CrystalRock::CrystalRock() : ProceduralRock(){
 }
 
 CrystalRock::~CrystalRock(){}
+
 //to change after with his own vertices
 void CrystalRock::generateVertices(){
     vertices.clear();
