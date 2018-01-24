@@ -52,7 +52,7 @@ void MenirRock::generateVertices(){
         //std::cout << "vertex : " << i << " : " << _vertices[i].position << std::endl;
     }
 
-    std::cout << std::endl;
+    //std::cout << std::endl;
 
 
     //face1

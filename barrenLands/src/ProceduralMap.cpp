@@ -160,8 +160,8 @@ void ProceduralMap::createBiomes() {
 
     //Affectation des valeurs
     for(int i = 0; i<vertices.size(); i++){
-        if (vertices[i].position.y < 0.5){
-            if (moistureMap[i] < 2.f/6.f){
+        if (vertices[i].position.y < 1){
+            if (moistureMap[i] <= 0.1){
                 biomes[0]->addVertex(&vertices[i]); // desert
                 if(objectVec[i] >= 0.4){
                     biomes[0]->createElements(vertices[i].position, "rock");
@@ -173,8 +173,8 @@ void ProceduralMap::createBiomes() {
                 }
             }
 
-        } else if (vertices[i].position.y < 0.75){
-            if (moistureMap[i] < 2.f/6.f){
+        } else if (vertices[i].position.y < 2){
+            if (moistureMap[i] < 0.5){
                 biomes[2]->addVertex(&vertices[i]); //savane
                 if(objectVec[i] >= 0.4){
                     biomes[2]->createElements(vertices[i].position, "rock");
@@ -186,21 +186,20 @@ void ProceduralMap::createBiomes() {
                 }
             }
 
-        } else if (vertices[i].position.y < 3){
-            if (moistureMap[i] < 2.f/6.f){
+        } else if (vertices[i].position.y < 5){
+            if (moistureMap[i] < 0.1){
                 biomes[3]->addVertex(&vertices[i]); //roche
                 if(objectVec[i] >= 0.4){
                     biomes[3]->createElements(vertices[i].position, "rock");
                 }
-            } else if (moistureMap[i] < 4.f/6.f){
+            } else {
                 biomes[4]->addVertex(&vertices[i]); //toundra
                 if(objectVec[i] >= 0.4){
                     biomes[4]->createElements(vertices[i].position, "rock");
                 }
             }
         } else {
-            std::cout << vertices[i].position.y << std::endl;
-                biomes[5]->addVertex(&vertices[i]); //toundra neige - no elements
+            biomes[5]->addVertex(&vertices[i]); //toundra neige - no elements
         }
 
     }
