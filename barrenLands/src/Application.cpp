@@ -5,8 +5,6 @@
 #include <RoundRock.hpp>
 #include "ProceduralGrass.hpp"
 #include "Application.hpp"
-#include <SharpRock.hpp>
-#include <ArchedRock.hpp>
 
 
 /**
@@ -89,9 +87,9 @@ void Application::appLoop() {
     SkyboxObject * sky = new SkyboxObject();
     sky -> createRenderObject(programManager, textureManager);
 
-    ProceduralObject * grass = new ProceduralGrass(glm::vec3(0,0,0), Map->getVertices());
+ /*   ProceduralObject * grass = new ProceduralGrass(glm::vec3(0,0,0), Map->getVertices());
     grass->createRenderObject(programManager, textureManager);
-
+*/
 
     bool done = false;
     int rightPressed = 0;
@@ -249,13 +247,6 @@ void Application::testInterface() {
 
     //test sea
 
-    //ProceduralObject * testRock = new SharpRock();
-    //testRock->createRenderObject(programManager, textureManager);
-
-    ProceduralObject * testRock = new ArchedRock();
-    testRock->createRenderObject(programManager, textureManager);
-
-
 
 
     //test RoundRock
@@ -341,11 +332,6 @@ void Application::testInterface() {
         Example : testObject->draw(camera->getViewMatrix());
          ******/
 
-        //sharp rock
-
-        //testRock->draw(camera->getViewMatrix());
-
-
 
         //round rock
 
@@ -376,7 +362,6 @@ void Application::testInterface() {
     }
     //delete testObject;
 
-    delete testRock;
     //delete roundRock;
     delete test;
     delete grass;

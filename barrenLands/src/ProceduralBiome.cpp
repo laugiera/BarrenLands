@@ -31,8 +31,11 @@ void ProceduralBiome::createElements(glm::vec3 position, const std::string & typ
     ElementFactory factory = ElementFactory();
     if(type == "rock"){
         elements.push_back(factory.createProceduralRock(name));
+        elements[elements.size()-1]->setPosition(position);
     }
-    elements[elements.size()-1]->setPosition(position);
+    else if (type == "grass"){
+        elements.push_back(factory.createProceduralGrass());
+    }
 }
 /**
  * Creates the render objects for all the elements the biome contains

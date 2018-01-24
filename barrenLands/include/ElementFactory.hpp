@@ -3,6 +3,7 @@
 #include <RoundRock.hpp>
 #include "MenirRock.hpp"
 #include "CrystalRock.hpp"
+#include <ProceduralGrass.hpp>
 
 /**
  * Class ElementFactory
@@ -13,6 +14,7 @@ public:
     ElementFactory() = default;
 
     ProceduralObject* createProceduralRock(const std::string &name);
+    ProceduralObject* createProceduralGrass();
 };
 
 #endif //BARRENLANDS_ELEMENTFACTORY_HPP

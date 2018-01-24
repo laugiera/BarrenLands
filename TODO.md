@@ -40,8 +40,9 @@ Plus :
 - [ ] Eliminer les fuites mémoires (+ bug dans RenderSkybox Destructor)
 - [ ] Faire la factory et les maps de répartitions
 - [ ] Rendu instancié
-- [ ] Exterioriser la proj matrix
+- [x] Exterioriser la proj matrix
 
 - [ ] Son
 - [ ] Textures, blur
 - [ ] Shadow mapping
+- [ ] interface pour choisir une seed

@@ -157,11 +157,8 @@ void ProceduralGrass::addGrass(float theta1, float theta2, float theta3, float x
  */
 void ProceduralGrass::createRenderObject(ProgramManager *programManager, TextureManager *textureManager,  Color * color){
     std::vector<glcustom::Texture *> textures = chooseTextures(textureManager);
-    //TO CHANGE
-    //renderObject = new RenderRock(programManager->getElementProgram(), textures,color); // to change if program is different
     renderObject = new RenderObject(programManager->getElementProgram(), textures, color);
     renderObject->fillData(vertices, indices);
-    //renderObject->setColor(color);
 }
 /**
  * chooseTextures()

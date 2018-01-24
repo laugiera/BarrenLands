@@ -169,6 +169,7 @@ void ProceduralMap::createBiomes() {
                                                         vertices[i].position.y,
                                                         vertices[i].position.z ),
                                                         "rock");
+
                 }
             } else {
                 biomes[1]->addVertex(&vertices[i]); //herbe
@@ -177,6 +178,7 @@ void ProceduralMap::createBiomes() {
                                                         vertices[i].position.y,
                                                         vertices[i].position.z ),
                                               "rock");
+                    biomes[1]->createElements(position, "grass");
                 }
             }
 
