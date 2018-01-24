@@ -1,4 +1,4 @@
-#version 330 core
+#version 330
 
 // Entrées du shader
 // Interpolated values from the vertex shaders
@@ -68,5 +68,6 @@ vec3 getLightColor(vec3 lightColor, float lightPower, vec3 direction){
 void main() {
       color = getLightColor(uLightColorMoon,uLightIntensityMoon,uLightDirMoon.xyz)
       + getLightColor(uLightColorSun,uLightIntensitySun,uLightDirSun.xyz);
+      //color = normal_cameraspace;
 }
 

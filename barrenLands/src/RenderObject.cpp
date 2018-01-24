@@ -106,11 +106,7 @@ void RenderObject::sendUniforms(const glm::mat4 &viewMatrix) {
     program->sendUniformMat4("uNormal", normals);
 
     program->sendUniformVec3("uColor", glm::vec3(color->getVec3()));
-    /*
-    program->sendUniformVec3("uKd",glm::vec3(1.0));
-    program->sendUniformVec3("uKs",glm::vec3(1.0));
-    program->sendUniform1f("uShininess", 64);
-     */
+
 
 }
 /**

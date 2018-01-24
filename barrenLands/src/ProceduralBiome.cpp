@@ -7,7 +7,7 @@
  * Constructor
  * @param _color
  */
-ProceduralBiome::ProceduralBiome(Color *_color) : elements(), color(new Color(_color)) {
+ProceduralBiome::ProceduralBiome(Color *_color,const std::string &_name) : elements(), color(new Color(_color)), name(_name) {
     indices.clear();
 }
 /**
@@ -19,17 +19,19 @@ ProceduralBiome::~ProceduralBiome(){
         delete el;
     }
     for(glimac::ShapeVertex * v : vertices){
-        delete v;
+       // delete v;
     }
 }
 /**
  * Create the procedural objects for all the element the biome contains
  * will certainly be replaced by addElement()
  */
-void ProceduralBiome::createElements(glm::vec3 position) {
+void ProceduralBiome::createElements(glm::vec3 position, const std::string & type) {
     //Use factory to fill elements attribute
     ElementFactory factory = ElementFactory();
-    elements.push_back(factory.createProceduralObject());
+    if(type == "rock"){
+        elements.push_back(factory.createProceduralRock(name));
+    }
     elements[elements.size()-1]->setPosition(position);
 }
 /**
@@ -48,11 +50,8 @@ void ProceduralBiome::createRenderObject(ProgramManager *programManager, Texture
  * @param viewMatrix
  */
 void ProceduralBiome::draw(const glm::mat4 &viewMatrix) {
-    //setPosition();
     for(ProceduralObject * element : elements){
-        //std::cout << element->getPosition() << std::endl;
-        glm::mat4 modelMat = glm::scale(glm::translate(viewMatrix, element->getPosition()),glm::vec3(0.5));
-        element->draw(modelMat);
+        element->draw(viewMatrix);
     }
 }
 
@@ -87,4 +86,12 @@ Color* ProceduralBiome::getColor() const {
  */
 void ProceduralBiome::setColor(Color *color) {
     ProceduralBiome::color = color;
+}
+
+void ProceduralBiome::setName(const std::string &name) {
+    ProceduralBiome::name = name;
+}
+
+const std::string &ProceduralBiome::getName() const {
+    return name;
 }

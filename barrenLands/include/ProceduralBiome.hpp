@@ -15,29 +15,34 @@
  */
 class ProceduralBiome : public ProceduralObject{
 public:
-    ProceduralBiome( Color *_color = new Color());
+    ProceduralBiome( Color *_color = new Color(), const std::string &_name = "");
     ~ProceduralBiome();
 
     virtual void createRenderObject(ProgramManager *programManager, TextureManager *textureManager);
     void createElements();
-    void createElements(glm::vec3 position);
+    void createElements(glm::vec3 position,const std::string & type);
 
     void setVertices(const std::vector<glimac::ShapeVertex *> &vertices);
 
     void addVertex(glimac::ShapeVertex *vertex);
+
+    void setName(const std::string &name);
+
+    const std::string &getName() const;
+
     /**
      * setPosition()
      *
      */
-    void setPosition(){
-        if(vertices.size() != 0){
+    /*void setPosition(){
+        if(vertices.size() > 20 && elements.size() != 0){
             std::cout << vertices[20]->position << std::endl;
             elements[0]->setPosition(vertices[20]->position);
             std::cout << elements[0]->getPosition() << std::endl;
         }
         std::cout << elements.size() << std::endl;
         std::cout << vertices.size() << std::endl;
-    }
+    }*/
 
     void draw(const glm::mat4 &viewMatrix);
 

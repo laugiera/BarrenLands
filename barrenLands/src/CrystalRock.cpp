@@ -2,19 +2,17 @@
 // Created by natshez on 18/01/2018.
 //
 
-#include "RoundRock.hpp"
+#include "CrystalRock.hpp"
 
-RoundRock::RoundRock() : ProceduralRock(){
+CrystalRock::CrystalRock() : ProceduralRock(){
     generateVertices();
     generateIndices();
-    //position = glm::vec3(NoiseManager::getInstance().getRandomFloat(), NoiseManager::getInstance().getRandomFloat(), NoiseManager::getInstance().getRandomFloat());
-    //position *= 3;
     generateNormals();
-
 }
-RoundRock::~RoundRock(){}
-void RoundRock::generateVertices(){
 
+CrystalRock::~CrystalRock(){}
+//to change after with his own vertices
+void CrystalRock::generateVertices(){
     vertices.clear();
 
     std::vector<glimac::ShapeVertex> _vertices;
@@ -30,10 +28,10 @@ void RoundRock::generateVertices(){
     }
 */
 
-    _vertices.emplace_back(glm::normalize(glm::vec3(1,-1,0)), glm::normalize(glm::vec3(1,-1,0)), glm::vec2(1,1));
-    _vertices.emplace_back(glm::normalize(glm::vec3(0,-1,1)), glm::normalize(glm::vec3(0,-1,1)), glm::vec2(1,1));
-    _vertices.emplace_back(glm::normalize(glm::vec3(-1,-1,0)), glm::normalize(glm::vec3(-1,-1,0)), glm::vec2(1,1));
-    _vertices.emplace_back(glm::normalize(glm::vec3(0, 1, -1)), glm::normalize(glm::vec3(0, 1, -1)), glm::vec2(1,1));
+    _vertices.emplace_back(glm::vec3(-0.2,-0.2,0), glm::vec3(0,0,0), glm::vec2(1,1));
+    _vertices.emplace_back(glm::vec3(0,-0.2,0.2), glm::vec3(0,0,0), glm::vec2(1,1));
+    _vertices.emplace_back(glm::vec3(-0.2,-0.2,0), glm::vec3(0,0,0), glm::vec2(1,1));
+    _vertices.emplace_back(glm::vec3(0, 4, 0), glm::vec3(0,0,0), glm::vec2(1,1));
 
 
     for(int i = 0; i<_vertices.size(); i++){
@@ -43,7 +41,13 @@ void RoundRock::generateVertices(){
     }
 
     for(int i = 0; i<_vertices.size(); i++){
-        glm::vec3 pos = glm::normalize(_vertices[i].position - center);
+        glm::vec3 pos;
+        if(glm::distance(_vertices[i].position, center) > 1){
+            pos = glm::normalize(_vertices[i].position - center);
+        } else {
+            pos = _vertices[i].position - center;
+        }
+        center = glm::vec3(0,0,0);
         _vertices[i].position = center + pos;
         std::cout << "vertex : " << i << " : " << _vertices[i].position << std::endl;
     }
@@ -71,20 +75,19 @@ void RoundRock::generateVertices(){
     vertices.push_back(glimac::ShapeVertex(_vertices[0]));
     vertices.push_back(glimac::ShapeVertex(_vertices[1]));
 
-    subdivideObject(vertices, 3);
-
+    subdivideObject(vertices, 4);
 }
-void RoundRock::generateIndices(){
+void CrystalRock::generateIndices(){
     indices.clear();
 }
-void RoundRock::generateNormals() {
+void CrystalRock::generateNormals(){
     ProceduralRock::generateNormals();
 }
 
-void RoundRock::subdivideFace(std::vector<glimac::ShapeVertex> &_vertices, int nbRecurse) {
+void CrystalRock::subdivideFace(std::vector<glimac::ShapeVertex> &_vertices, int nbRecurse) {
     //prend un vecteur de 3 vertices : une face
     glm::vec3 subDiv1, subDiv2, subDiv3, normal1, normal2, normal3;
-    float deux = 2;
+    float deux = 2, quatre = 4;
     //prend les milieux de chaques cotés
     subDiv1 = (_vertices[1].position - _vertices[0].position) /deux + _vertices[0].position;
     subDiv2 = (_vertices[2].position - _vertices[1].position) /deux + _vertices[1].position;
@@ -96,9 +99,9 @@ void RoundRock::subdivideFace(std::vector<glimac::ShapeVertex> &_vertices, int n
     normal3 = glm::normalize(subDiv3 - center);
 
     //pousse les nouveaux point le long des vecteurs trouvé précédemment jusqu'à ce qu'ils soint situés à une distance 1 du centre
-    subDiv1 = subDiv1 + (normal1 - (subDiv1-center)) / deux;
-    subDiv2 = subDiv2 + (normal2 - (subDiv2-center)) / deux;
-    subDiv3 = subDiv3 + (normal3 - (subDiv3-center)) / deux;
+    subDiv1 = subDiv1 + (normal1 - (subDiv1-center)) / (deux * nbRecurse);
+    subDiv2 = subDiv2 + (normal2 - (subDiv2-center)) / (deux * nbRecurse);
+    subDiv3 = subDiv3 + (normal3 - (subDiv3-center)) / (deux * nbRecurse);
 
     //crée des vertex à partir des nouveaux points
     glimac::ShapeVertex v1(glm::vec3(subDiv1),
@@ -137,10 +140,6 @@ void RoundRock::subdivideFace(std::vector<glimac::ShapeVertex> &_vertices, int n
 
     _vertices.clear();
     _vertices = __vertices;
-
-
 }
-
-
 
 

@@ -59,6 +59,17 @@ void ProgramManager::reloadPrograms() {
     testProgram->setProgram(appPath, "testShader",  "testShader");
     testProgram->addUniforms(uniform_variables);
 
+    uniform_variables = elementProgram->getUniformList();
+    elementProgram->setProgram(appPath, "element",  "element");
+    elementProgram->addUniforms(uniform_variables);
+
+    uniform_variables = skyboxProgram->getUniformList();
+    skyboxProgram->setProgram(appPath, "skybox",  "skybox");
+    skyboxProgram->addUniforms(uniform_variables);
+
+    uniform_variables = mapProgram->getUniformList();
+    mapProgram->setProgram(appPath, "light",  "light");
+    mapProgram->addUniforms(uniform_variables);
 }
 /**Getters and setters for each program**/
 glcustom::GPUProgram *ProgramManager::getTestProgram() const {

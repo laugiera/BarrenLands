@@ -10,6 +10,7 @@
 #include <GL/glew.h>
 #include <GL/glut.h>
 #include <iostream>
+#include <glm/vec3.hpp>
 
 /**
  * Class NoiseManager
@@ -48,7 +49,7 @@ public:
     float** getMoistureMap(const int width, const int height,const float frequency = 0.05);
     float** getRockMap(const int width, const int height,const float frequency = 0.05);
 
-    float * getVerticesDisturbation(const int size);
+    float getVerticesDisturbation(const int x, const int y, const int z);
     float getRandomFloat();
 };
 

@@ -39,35 +39,28 @@ float moisture = (texture(uTexture0, uV/uSubDiv)).x;
 
 
 vec3 assignColor() {
-if (height < 0.25){
+if (height < 0.5){
     if (moisture < 2.f/6.f){
     return sableTexture; //sable
     } else {
     return uColors[1]; //grass
     }
 
-} else if (height < 0.5){
+} else if (height < 0.75){
     if (moisture < 2.f/6.f){
         return uColors[5]; //savana
     } else {
         return uColors[1]; //grass
     }
 
-} else if (height < 0.75){
+} else if (height < 2){
     if (moisture < 2.f/6.f){
         return uColors[4]; //rock
     } else  {
         return uColors[2]; //toundra
     }
 } else {
-    if (moisture < 2.f/6.f){
-        return uColors[4]; //rock
-    } else if (moisture < 3.f/6.f){
-        return uColors[2]; //toundra
-    } else {
         return toundraNeigeTexture; //snow
-    }
-
 }
 }
 

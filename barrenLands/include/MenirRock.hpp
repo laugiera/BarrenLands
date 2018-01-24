@@ -7,14 +7,16 @@
 
 #include <ProceduralRock.hpp>
 
-class FlatRock : public ProceduralRock {
+class MenirRock : public ProceduralRock {
 public:
-     FlatRock();
-     ~FlatRock();
+     MenirRock();
+     ~MenirRock();
      void generateVertices();
      void generateIndices();
      void generateNormals();
-
+     void subdivideFace( std::vector<glimac::ShapeVertex> & face, int nbRecurse);
+private :
+    glm::vec3 center;
 };
 
 

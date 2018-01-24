@@ -6,6 +6,7 @@
 #include "ProceduralGrass.hpp"
 #include "Application.hpp"
 #include <SharpRock.hpp>
+#include <ArchedRock.hpp>
 
 
 /**
@@ -256,15 +257,26 @@ void Application::testInterface() {
     test -> createRenderObject(programManager, textureManager);
 
     //test sea
+
     //ProceduralObject * testRock = new SharpRock();
     //testRock->createRenderObject(programManager, textureManager);
+
+    ProceduralObject * testRock = new ArchedRock();
+    testRock->createRenderObject(programManager, textureManager);
+
 
 
 
     //test RoundRock
-    /*ProceduralObject * roundRock = new RoundRock();
-    roundRock->createRenderObject(programManager, textureManager);*/
+    ProceduralObject * menirRock = new MenirRock();
+    menirRock->createRenderObject(programManager, textureManager);
 
+    ProceduralObject * roundRock2 = new RoundRock();
+    roundRock2->createRenderObject(programManager, textureManager);
+/*
+    ProceduralObject * roundRock3 = new RoundRock();
+    roundRock3->createRenderObject(programManager, textureManager);
+*/
     //test Grass
     ProceduralObject * grass = new ProceduralGrass(glm::vec3(0,0,0));
     grass->createRenderObject(programManager, textureManager);
@@ -339,18 +351,28 @@ void Application::testInterface() {
          ******/
 
         //sharp rock
+
         //testRock->draw(camera->getViewMatrix());
 
-        //glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+
 
         //round rock
+
+        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
         //roundRock->draw(camera->getViewMatrix());
 
 
         grass->draw(camera->getViewMatrix());
 
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
-        //glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
+
+        //roundRock2->draw(camera->getViewMatrix());
+
+        menirRock->draw(camera->getViewMatrix());
+
+        //roundRock2->draw(camera->getViewMatrix());
 
         //skybox
         glDepthMask(GL_FALSE);
@@ -361,8 +383,10 @@ void Application::testInterface() {
         printErrors();
 
     }
-  //delete testObject;
-    //delete testRock;
+    //delete testObject;
+
+    delete testRock;
+    //delete roundRock;
     delete test;
     delete grass;
 

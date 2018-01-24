@@ -108,7 +108,7 @@ void ProceduralMap::generateNormals() {
 void ProceduralMap::createRenderObject(ProgramManager *programManager, TextureManager *textureManager) {
     for(ProceduralBiome * b : biomes){
         b->createRenderObject(programManager, textureManager);
-        b->setPosition();
+        //b->setPosition();
     }
     renderObject = new RenderMap(programManager->getMapProgram(), chooseTextures(textureManager));
     renderObject->fillData(vertices, indices);
@@ -139,83 +139,68 @@ std::vector<glimac::ShapeVertex> ProceduralMap::getVertices(){
  * Pushes elements to the biomes using a scattering map for each Family of element
  */
 void ProceduralMap::createBiomes() {
-    for(int i = 0; i<RenderMap::biomesNumber ; i++){
-        biomes.push_back(new ProceduralBiome());
-    }
+
+    biomes.push_back(new ProceduralBiome(RenderMap::sand,"sand"));
+    biomes.push_back(new ProceduralBiome(RenderMap::grass,"grass"));
+    biomes.push_back(new ProceduralBiome(RenderMap::savannah,"savannah"));
+    biomes.push_back(new ProceduralBiome(RenderMap::rock,"rock"));
+    biomes.push_back(new ProceduralBiome(RenderMap::toundra,"toundra"));
+    biomes.push_back(new ProceduralBiome(RenderMap::snow,"snow"));
+
 
     //ObjectMap
     std::vector <float> objectVec;
-    float** objectMap = NoiseManager::getInstance().getRockMap(Tools::nbSub +1, Tools::nbSub +1);
+    float** objectMap = NoiseManager::getInstance().getRockMap(Tools::nbSub +1, Tools::nbSub +1, 0.5);
     for(int i = 0; i < Tools::nbSub +1; i++){
         for(int j = 0 ; j < Tools::nbSub +1; j++){
             objectVec.push_back(objectMap[i][j]);
         }
     }
 
+
     //Affectation des valeurs
     for(int i = 0; i<vertices.size(); i++){
-        if (vertices[i].position.y < 0.25){
+        if (vertices[i].position.y < 0.5){
             if (moistureMap[i] < 2.f/6.f){
                 biomes[0]->addVertex(&vertices[i]); // desert
-                biomes[0]->setColor(RenderMap::sand);
                 if(objectVec[i] >= 0.4){
-                    biomes[0]->createElements(vertices[i].position);
-                }
-            } else {
-                biomes[1]->addVertex(&vertices[i]); //herbe
-                biomes[1]->setColor(RenderMap::grass);
-                if(objectVec[i] >= 0.4){
-                    biomes[1]->createElements(vertices[i].position);
-                }
-            }
-
-        } else if (vertices[i].position.y < 0.5){
-            if (moistureMap[i] < 2.f/6.f){
-                biomes[2]->addVertex(&vertices[i]); //savane
-                biomes[2]->setColor(RenderMap::savannah);
-                if(objectVec[i] >= 0.4){
-                    biomes[2]->createElements(vertices[i].position);
+                    biomes[0]->createElements(vertices[i].position, "rock");
                 }
             } else {
                 biomes[1]->addVertex(&vertices[i]); //herbe
                 if(objectVec[i] >= 0.4){
-                    biomes[1]->createElements(vertices[i].position);
+                    biomes[1]->createElements(vertices[i].position, "rock");
                 }
             }
 
         } else if (vertices[i].position.y < 0.75){
             if (moistureMap[i] < 2.f/6.f){
-                biomes[3]->addVertex(&vertices[i]); //roche
-                biomes[3]->setColor(RenderMap::rock);
+                biomes[2]->addVertex(&vertices[i]); //savane
                 if(objectVec[i] >= 0.4){
-                    biomes[3]->createElements(vertices[i].position);
-                }
-            } else if (moistureMap[i] < 4.f/6.f){
-                biomes[4]->addVertex(&vertices[i]); //toundra
-                biomes[4]->setColor(RenderMap::toundra);
-                if(objectVec[i] >= 0.4){
-                    biomes[4]->createElements(vertices[i].position);
-                }
-            }
-        } else {
-            if (moistureMap[i] < 2.f/6.f){
-                biomes[3]->addVertex(&vertices[i]); //roche
-                if(objectVec[i] >= 0.4){
-                    biomes[3]->createElements(vertices[i].position);
-                }
-            } else if (moistureMap[i] < 3.f/6.f){
-                biomes[4]->addVertex(&vertices[i]); //toundra
-                if(objectVec[i] >= 0.4){
-                    biomes[4]->createElements(vertices[i].position);
+                    biomes[2]->createElements(vertices[i].position, "rock");
                 }
             } else {
-                biomes[5]->addVertex(&vertices[i]); //toundra neige
-                biomes[5]->setColor(RenderMap::snow);
+                biomes[1]->addVertex(&vertices[i]); //herbe
                 if(objectVec[i] >= 0.4){
-                    biomes[5]->createElements(vertices[i].position);
+                    biomes[1]->createElements(vertices[i].position, "rock");
                 }
             }
 
+        } else if (vertices[i].position.y < 3){
+            if (moistureMap[i] < 2.f/6.f){
+                biomes[3]->addVertex(&vertices[i]); //roche
+                if(objectVec[i] >= 0.4){
+                    biomes[3]->createElements(vertices[i].position, "rock");
+                }
+            } else if (moistureMap[i] < 4.f/6.f){
+                biomes[4]->addVertex(&vertices[i]); //toundra
+                if(objectVec[i] >= 0.4){
+                    biomes[4]->createElements(vertices[i].position, "rock");
+                }
+            }
+        } else {
+            std::cout << vertices[i].position.y << std::endl;
+                biomes[5]->addVertex(&vertices[i]); //toundra neige - no elements
         }
 
     }
@@ -264,7 +249,8 @@ void ProceduralMap::draw(const glm::mat4 &viewMatrix) {
     //draw the sea
     sea->draw(viewMatrix);
     //draw the map vertex
-    ProceduralObject::draw(viewMatrix);
+    renderObject->transform(position, 0, glm::vec3(0,1,0), glm::vec3(1));
+    renderObject->render(viewMatrix);
     //draw the elements
     for(ProceduralObject * biome : biomes){
         biome->draw(viewMatrix);
