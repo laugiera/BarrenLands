@@ -37,13 +37,13 @@ ProceduralGrass::ProceduralGrass(glm::vec3 pos): ProceduralObject(){
         caseI = int((position.z+rayons[k].y) + Tools::width*Tools::nbSub/2);
         caseJ = int((position.x+rayons[k].x) + Tools::width*Tools::nbSub/2);
 
-        std::cout << "CASE " << caseI << "    " << caseJ << std::endl;
+        //std::cout << "CASE " << caseI << "    " << caseJ << std::endl;
 
         v1 = tab[caseI*(Tools::nbSub+1) + caseJ];
         v2 = tab[caseI*(Tools::nbSub+1) + caseJ + 1];
         v3 = tab[(caseI+1)*(Tools::nbSub+1) + caseJ];
         v4 = tab[(caseI+1)*(Tools::nbSub+1) + caseJ + 1];
-        std::cout << v1.y << " " << v2.y << " "  << v3.y << " "  << v4.y << std::endl;
+        //std::cout << v1.y << " " << v2.y << " "  << v3.y << " "  << v4.y << std::endl;
 
         if(inTriangle(v1, v2, v3, glm::vec3(position.x + rayons[k].x, 0, position.z + rayons[k].y)) == 1){
             hauteur = determinerHauteur(v1, v2, v3, glm::vec3(position.x + rayons[k].x, 0, position.z + rayons[k].y));
@@ -54,7 +54,7 @@ ProceduralGrass::ProceduralGrass(glm::vec3 pos): ProceduralObject(){
         else{
             hauteur = v1.y;
         }
-        std::cout << hauteur << std::endl << std::endl;
+        //std::cout << hauteur << std::endl << std::endl;
         addGrass(90*NoiseManager::getInstance().getRandomFloat()+90,
                  90*NoiseManager::getInstance().getRandomFloat()+90,
                  90*NoiseManager::getInstance().getRandomFloat()+90,
@@ -138,7 +138,7 @@ void ProceduralGrass::setPositions(std::vector<ProceduralObject *> objects){
 
 void ProceduralGrass::draw(const glm::mat4 &viewMatrix) {
     //transformer selon la position, rotation, scale de l'objet
-    renderObject->transform(position, 0, glm::vec3(0,1,0), glm::vec3(1));
+    renderObject->transform(glm::vec3(0,0,0), 0, glm::vec3(0,1,0), glm::vec3(1));
     renderObject->render(viewMatrix);
 }
 
