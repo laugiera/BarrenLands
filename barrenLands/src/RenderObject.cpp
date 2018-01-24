@@ -50,6 +50,7 @@ RenderObject::RenderObject(glcustom::GPUProgram *program, std::vector<glcustom::
     if(_color){
         color = new Color(_color);
     } else color = new Color(); //default value
+    std::cout << "render object created" << std::endl;
 }
 /**
  * transform()

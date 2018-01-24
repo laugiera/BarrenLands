@@ -12,6 +12,7 @@
 ProceduralObject::ProceduralObject() : renderObject(nullptr), position(glm::vec3(0.f)) {
     generateVertices();
     generateIndices();
+    std::cout << "procedural object created" << std::endl;
 }
 /**
  * Destructor
@@ -98,10 +99,12 @@ void ProceduralObject::generateNormals() {
  * @param Color * color, default null
  */
 void ProceduralObject::createRenderObject(ProgramManager *programManager, TextureManager *textureManager, Color *color) {
-    std::vector<glcustom::Texture *> textures = chooseTextures(textureManager);
-    renderObject = new RenderObject(programManager->getElementProgram(), textures);
-    renderObject->fillData(vertices, indices);
-    renderObject->setColor(chooseColor(color));
+    if(!renderObject){
+        std::vector<glcustom::Texture *> textures = chooseTextures(textureManager);
+        renderObject = new RenderObject(programManager->getElementProgram(), textures);
+        renderObject->fillData(vertices, indices);
+        renderObject->setColor(chooseColor(color));
+    }
 }
 /**
  * draw()
@@ -111,8 +114,12 @@ void ProceduralObject::createRenderObject(ProgramManager *programManager, Textur
  */
 void ProceduralObject::draw(const glm::mat4 &viewMatrix) {
     //transformer selon la position, rotation, scale de l'objet
-    renderObject->transform(position, 0, glm::vec3(0,1,0), glm::vec3(0.2));
-    renderObject->render(viewMatrix);
+    for(int i = 0; i<positions.size(); i++){
+        renderObject->setColor(&colors[i]);
+        renderObject->transform(positions[i], 0, glm::vec3(0,1,0), glm::vec3(0.2));
+        renderObject->render(viewMatrix);
+    }
+
 }
 /**
  * chooseTextures()
@@ -200,7 +207,7 @@ Color *ProceduralObject::chooseColor(Color *_color) {
 }
 
 
-float ProceduralObject::getHauteur(){
+float ProceduralObject::getHauteur(const glm::vec3 &_position) {
     //Récupérations des coordonnées de la map
     float** terrain = NoiseManager::getInstance().heightMap;
     std::vector<glm::vec3> tab;
@@ -216,8 +223,8 @@ float ProceduralObject::getHauteur(){
     int caseJ;
     int hauteur;
 
-    caseI = (position.z) + Tools::width*Tools::nbSub/2;
-    caseJ = (position.x) + Tools::width*Tools::nbSub/2;
+    caseI = (_position.z) + Tools::width*Tools::nbSub/2;
+    caseJ = (_position.x) + Tools::width*Tools::nbSub/2;
 
     glm::vec3 v1 = tab[caseI*(Tools::nbSub+1) + caseJ];
     glm::vec3 v2 = tab[caseI*(Tools::nbSub+1) + caseJ + 1];
@@ -306,6 +313,28 @@ float ProceduralObject::determinerY(glm::vec3 O, glm::vec3 A, glm::vec3 B){
     //std::cout << "a = " << a << " b = " << b << " c = " << c << " d = " << d << " res = " << (-a*_position.x/Tools::scale - c*_position.z/Tools::scale - d)/b << std::endl;
     return (-a*position.x - c*position.z - d)/b;
 }
+
+glm::mat4 ProceduralObject::getRandomRotation() {
+    return glm::rotate(glm::mat4(1.f), 0.f, glm::vec3(0,1,0));
+}
+
+glm::mat4 ProceduralObject::getRandomScale() {
+    return glm::scale(glm::mat4(1.f), glm::vec3(1,1,1));
+}
+
+void ProceduralObject::addInstance(const glm::vec3 &position, const Color &biomeColor) {
+    glm::vec3 truePosition = position;
+    //truePosition.y = getHauteur(position);
+    positions.push_back(truePosition);
+
+    Color trueColor = chooseColor(biomeColor);
+    colors.push_back(trueColor);
+}
+
+Color ProceduralObject::chooseColor(const Color &_c) {
+    return _c;
+}
+
 
 
 

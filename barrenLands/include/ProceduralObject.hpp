@@ -36,9 +36,15 @@ public:
 
     virtual Color * chooseColor(Color * _color = nullptr);
 
+    virtual Color chooseColor(const Color & c);
+
     virtual void subdivideObject(std::vector<glimac::ShapeVertex> &_vertices, int nbRecurse = 1);
 
     virtual void subdivideFace(std::vector<glimac::ShapeVertex> &_vertices, int nbRecurse = 1);
+
+    virtual void addInstance(const glm::vec3 &position, const Color &biomeColor);
+    virtual glm::mat4 getRandomRotation();
+    virtual glm::mat4 getRandomScale();
 
     /**Getter and setter for postion**/
     glm::vec3 & getPosition(){
@@ -49,7 +55,7 @@ public:
         position = _position;
     }
 
-    float getHauteur();
+    float getHauteur(const glm::vec3 &_position);
     glm::vec3 getNormale();
 
     int inTriangle(glm::vec3 O, glm::vec3 A, glm::vec3 B);
@@ -60,6 +66,8 @@ protected:
     std::vector<uint32_t> indices;
     RenderObject * renderObject;
     glm::vec3 position;
+    std::vector<glm::vec3> positions;
+    std::vector<Color> colors;
 };
 
 
