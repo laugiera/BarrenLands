@@ -28,8 +28,6 @@ public:
     void createRenderObject(ProgramManager *programManager, TextureManager *textureManager, Color * _color);
     std::vector<glcustom::Texture *> chooseTextures(TextureManager *textureManager);
 
-    //static
-    static void setPositions(std::vector<ProceduralObject *> objects);
 
 };
 

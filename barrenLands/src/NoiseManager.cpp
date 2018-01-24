@@ -37,6 +37,7 @@ NoiseManager::NoiseManager(){
  * @return float** double array of map vertices
  */
 float** NoiseManager::getElevationMap(const int width, const int height,const float frequency,const float elevationMax){
+    noise.SetNoiseType(FastNoise::PerlinFractal);
     noise.SetFrequency(frequency);
 
     float** elevationMap = 0;
@@ -80,22 +81,22 @@ float** NoiseManager::getMoistureMap(const int width, const int height,const flo
      * Améliorations :
      *  -avoir plutôt du sable sur les bords
      * */
-    noise.SetFrequency(frequency);
+    noise.SetFrequency(0.9);
+    noise.SetNoiseType(FastNoise::Value);
 
     float** moistureMap = 0;
-    float e = 0, b = 0.1, c = 0.5, distance_carre =0, distance = 0;
+    float e = 0;
     moistureMap = new float*[width];
 
     for (int x = 0; x < width; x++)
     {
         moistureMap[x] = new float[height];
         for (int y = 0; y < height; y++){
-            e = (noise.GetNoise(x,y)
+/*            e = (noise.GetNoise(x,y)
                  + 0.5 * noise.GetNoise(2*x,2*y)
-                 + 0.25 * noise.GetNoise(4*x,3*y))*2;
+                 + 0.25 * noise.GetNoise(4*x,3*y));*/
 
-            e = pow(e,2);
-            moistureMap[x][y] = e;
+            moistureMap[x][y] = noise.GetNoise(x,y);
         }
     }
     return moistureMap;
@@ -111,6 +112,7 @@ float** NoiseManager::getMoistureMap(const int width, const int height,const flo
 float** NoiseManager::getRockMap(const int width, const int height,const float frequency){
 
     noise.SetFrequency(frequency);
+    noise.SetNoiseType(FastNoise::Value);
 
     float** rockMap = 0;
     float e = 0;
@@ -131,11 +133,15 @@ float** NoiseManager::getRockMap(const int width, const int height,const float f
 }
 
 float NoiseManager::getRandomFloat() {
+    noise.SetFrequency(0.05);
+    noise.SetNoiseType(FastNoise::PerlinFractal);
     counter += 5;
     return noise.GetNoise(counter, counter);
 };
 
 float NoiseManager::getVerticesDisturbation(const int x, const int y, const int z){
+    noise.SetFrequency(0.05);
+    noise.SetNoiseType(FastNoise::PerlinFractal);
     float disturb = noise.GetNoise(2*x,2*y,2*z)*10;
     return disturb;
 

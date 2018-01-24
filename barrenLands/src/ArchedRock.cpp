@@ -84,8 +84,6 @@ void ArchedRock::generateVertices(){
         if(vertices[k].position.y == 0.5){
             float disturb = NoiseManager::getInstance().getVerticesDisturbation(vertices[k].position.x,vertices[k].position.y,vertices[k].position.z);
             vertices[k].position.y += abs(10*disturb);
-            vertices[k].position.z += abs(5*disturb);
-            vertices[k].position.x += abs(disturb);
         }
     }
 

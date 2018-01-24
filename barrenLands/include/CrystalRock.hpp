@@ -2,8 +2,8 @@
 // Created by natshez on 18/01/2018.
 //
 
-#ifndef BARRENLANDS_FLATROCK_H
-#define BARRENLANDS_FLATROCK_H
+#ifndef BARRENLANDS_CRYSTALROCK_H
+#define BARRENLANDS_CRYSTALROCK_H
 
 #include <ProceduralRock.hpp>
 
@@ -20,4 +20,4 @@ private :
 };
 
 
-#endif //BARRENLANDS_FLATROCK_H
+#endif //BARRENLANDS_CRYSTALROCK_H

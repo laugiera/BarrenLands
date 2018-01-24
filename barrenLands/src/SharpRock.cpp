@@ -86,10 +86,7 @@ void SharpRock::generateVertices(){
     //procedural transformation
     for (int k = 0; k < vertices.size(); ++k) {
         float disturb = NoiseManager::getInstance().getVerticesDisturbation(vertices[k].position.x,vertices[k].position.y,vertices[k].position.z);
-        vertices[k].position.x += disturb;
-        //vertices[k].position.y += disturb;
-        //vertices[k].position.z += disturb;
-        std::cout << disturb << std::endl;
+        vertices[k].position.x += 10*disturb;
     }
 
 }

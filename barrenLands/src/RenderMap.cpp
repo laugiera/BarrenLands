@@ -30,7 +30,6 @@ RenderMap::RenderMap(glcustom::GPUProgram *program, std::vector<glcustom::Textur
  * @param viewMatrix
  */
 void RenderMap::sendUniforms(const glm::mat4 &viewMatrix) {
-    //glm::vec3 colors[RenderMap::biomesNumber] = {
     glm::vec3 colors[] = {
                     sand->getVec3(),
                     grass->getVec3(),

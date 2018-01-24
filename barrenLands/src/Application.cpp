@@ -362,6 +362,8 @@ void Application::testInterface() {
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 
+        //roundRock2->draw(camera->getViewMatrix());
+
         menirRock->draw(camera->getViewMatrix());
 
         //roundRock2->draw(camera->getViewMatrix());

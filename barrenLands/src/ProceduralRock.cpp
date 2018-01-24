@@ -19,12 +19,9 @@ ProceduralRock::~ProceduralRock() {}
  */
 void ProceduralRock::createRenderObject(ProgramManager *programManager, TextureManager *textureManager,  Color * color){
     std::vector<glcustom::Texture *> textures = chooseTextures(textureManager);
-    //TO CHANGE
-    //renderObject = new RenderRock(programManager->getElementProgram(), textures,color); // to change if program is different
-    color = new Color(200, 200, 150);
+
     renderObject = new RenderObject(programManager->getElementProgram(), textures, color);
     renderObject->fillData(vertices, indices);
-    //renderObject->setColor(color);
 }
 /**
  * chooseTextures()
@@ -35,13 +32,6 @@ void ProceduralRock::createRenderObject(ProgramManager *programManager, TextureM
 std::vector<glcustom::Texture *> ProceduralRock::chooseTextures(TextureManager *textureManager) {
     //return std::vector<glcustom::Texture *>(1, textureManager->getRandomTexture("rock"));
     return std::vector<glcustom::Texture *>();
-}
-/**
- * static setPositions()
- * @param objects
- */
-void ProceduralRock::setPositions(std::vector<ProceduralObject *> objects){
-
 }
 
 void ProceduralRock::generateNormals() {

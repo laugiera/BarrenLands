@@ -1,7 +1,8 @@
 #ifndef BARRENLANDS_ELEMENTFACTORY_HPP
 #define BARRENLANDS_ELEMENTFACTORY_HPP
-
+#include <RoundRock.hpp>
 #include "MenirRock.hpp"
+#include "CrystalRock.hpp"
 
 /**
  * Class ElementFactory
@@ -11,8 +12,7 @@ class ElementFactory{
 public:
     ElementFactory() = default;
 
-    ProceduralObject* createProceduralObject();
-    //ProceduralMap* createProceduralMap();
+    ProceduralObject* createProceduralRock(const std::string &name);
 };
 
 #endif //BARRENLANDS_ELEMENTFACTORY_HPP
