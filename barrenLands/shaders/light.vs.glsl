@@ -4,12 +4,14 @@
 layout(location = 0) in vec3 vertexPosition_modelspace;
 layout(location = 1) in vec3 vertexNormal_modelspace;
 layout(location = 2) in vec2 aVertexTexCoords;
+layout(location = 3) in float moisture;
 
 // Output data ; will be interpolated for each fragment.
 out vec2 uV;
 out vec3 vPosition;
 out vec3 normal_cameraspace;
 out vec3 eyeDirection_cameraspace;
+out float uMoisture;
 
 // Values that stay constant for the whole mesh.
 uniform mat4 uMVP;
@@ -31,6 +33,7 @@ void main(){
 	normal_cameraspace = ( uMV * vec4(vertexNormal_modelspace,0)).xyz; // Only correct if ModelMatrix does not scale the model ! Use its inverse transpose if not.
 
 	uV = aVertexTexCoords;
+	uMoisture = moisture;
 
 }
 

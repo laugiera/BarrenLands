@@ -40,12 +40,14 @@ void ProceduralMap::generateVertices(NoiseManager *noise) {
     int i, j;
     //test génération bruit
     float** terrain = noise->getElevationMap(Tools::nbSub+1, Tools::nbSub+1);
+    float ** humidite = NoiseManager::getInstance().getMoistureMap(Tools::nbSub +1, Tools::nbSub +1);
     for(i=0; i<Tools::nbSub+1; ++i){
         for(j=0; j<Tools::nbSub+1; j++){
             vertices.push_back(glimac::ShapeVertex(
                     glm::vec3(-width*Tools::nbSub/2.0+j*width, terrain[i][j], -width*Tools::nbSub/2.0+i*width),
                     glm::vec3(0, 0, 0),
-                    glm::vec2(i, j)
+                    glm::vec2(i, j),
+                    humidite[i][j]
             ));
         }
     }
@@ -162,8 +164,8 @@ void ProceduralMap::createBiomes() {
 
     //Affectation des valeurs
     for(int i = 0; i<vertices.size(); i++){
-        if (vertices[i].position.y < 0.5){
-            if (moistureMap[i] < 2.f/6.f){
+        if (vertices[i].position.y < 1){
+            if (vertices[i].moisture <= 0.1){
                 biomes[0]->addVertex(&vertices[i]); // desert
                 if(objectVec[i] >= 0.4){
                     biomes[0]->createElements(vertices[i].position, "rock");
@@ -175,8 +177,8 @@ void ProceduralMap::createBiomes() {
                 }
             }
 
-        } else if (vertices[i].position.y < 0.75){
-            if (moistureMap[i] < 2.f/6.f){
+        } else if (vertices[i].position.y < 2){
+            if (vertices[i].moisture < 0.5){
                 biomes[2]->addVertex(&vertices[i]); //savane
                 if(objectVec[i] >= 0.4){
                     biomes[2]->createElements(vertices[i].position, "rock");
@@ -188,21 +190,20 @@ void ProceduralMap::createBiomes() {
                 }
             }
 
-        } else if (vertices[i].position.y < 3){
-            if (moistureMap[i] < 2.f/6.f){
+        } else if (vertices[i].position.y < 5){
+            if (vertices[i].moisture < 0.1){
                 biomes[3]->addVertex(&vertices[i]); //roche
                 if(objectVec[i] >= 0.4){
                     biomes[3]->createElements(vertices[i].position, "rock");
                 }
-            } else if (moistureMap[i] < 4.f/6.f){
+            } else {
                 biomes[4]->addVertex(&vertices[i]); //toundra
                 if(objectVec[i] >= 0.4){
                     biomes[4]->createElements(vertices[i].position, "rock");
                 }
             }
         } else {
-            std::cout << vertices[i].position.y << std::endl;
-                biomes[5]->addVertex(&vertices[i]); //toundra neige - no elements
+            biomes[5]->addVertex(&vertices[i]); //toundra neige - no elements
         }
 
     }

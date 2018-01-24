@@ -81,8 +81,9 @@ float** NoiseManager::getMoistureMap(const int width, const int height,const flo
      * Améliorations :
      *  -avoir plutôt du sable sur les bords
      * */
-    noise.SetFrequency(0.9);
-    noise.SetNoiseType(FastNoise::Value);
+    noise.SetFrequency(frequency);
+    noise.SetNoiseType(FastNoise::PerlinFractal);
+    noise.SetFractalOctaves(1);
 
     float** moistureMap = 0;
     float e = 0;
@@ -92,11 +93,12 @@ float** NoiseManager::getMoistureMap(const int width, const int height,const flo
     {
         moistureMap[x] = new float[height];
         for (int y = 0; y < height; y++){
-/*            e = (noise.GetNoise(x,y)
-                 + 0.5 * noise.GetNoise(2*x,2*y)
-                 + 0.25 * noise.GetNoise(4*x,3*y));*/
+           e = (noise.GetNoise(x,y)
+                 + 0.75 * noise.GetNoise(2*x,2*y)
+                 + 0.5 * noise.GetNoise(4*x,3*y));
 
-            moistureMap[x][y] = noise.GetNoise(x,y);
+            moistureMap[x][y] = e;
+            //std::cout << moistureMap[x][y] <<std::endl;
         }
     }
     return moistureMap;

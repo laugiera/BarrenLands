@@ -113,7 +113,6 @@ void glcustom::Texture::create2D(GLsizei width, GLsizei height, const GLvoid * d
 
 }
 
-
 void glcustom::Texture::bind(const GLenum type, GLenum textureUnit) {
     m_texture_unit = textureUnit;
     glActiveTexture(m_texture_unit);

@@ -34,13 +34,16 @@ namespace glcustom {
             const GLuint VERTEX_ATTR_POSITION = 0;
             const GLuint VERTEX_ATTR_NORMAL = 1;
             const GLuint VERTEX_ATTR_TEXTURE = 2;
+            const GLuint VERTEX_ATTR_MOISTURE = 3;
             glEnableVertexAttribArray(VERTEX_ATTR_POSITION);
             glEnableVertexAttribArray(VERTEX_ATTR_NORMAL);
             glEnableVertexAttribArray(VERTEX_ATTR_TEXTURE);
+            glEnableVertexAttribArray(VERTEX_ATTR_MOISTURE);
             vbo->bind();
             glVertexAttribPointer(VERTEX_ATTR_POSITION, 3, GL_FLOAT, GL_FALSE, sizeof(type), (const GLvoid*)offsetof(type, position));
             glVertexAttribPointer(VERTEX_ATTR_NORMAL, 3, GL_FLOAT, GL_FALSE, sizeof(type), (const GLvoid*)offsetof(type, normal));
             glVertexAttribPointer(VERTEX_ATTR_TEXTURE, 2, GL_FLOAT, GL_FALSE, sizeof(type), (const GLvoid*)offsetof(type, texCoords));
+            glVertexAttribPointer(VERTEX_ATTR_MOISTURE, 1, GL_FLOAT, GL_FALSE, sizeof(type), (const GLvoid*)offsetof(type, moisture));
             vbo->debind();
             /*
             if(ibo){ibo->debind();}
