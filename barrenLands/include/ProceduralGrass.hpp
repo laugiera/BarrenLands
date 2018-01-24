@@ -20,6 +20,8 @@ public:
 
     void draw(const glm::mat4 &viewMatrix);
 
+
+
     //Methode pour le placement
     int inTriangle(glm::vec3 O, glm::vec3 A, glm::vec3 B, glm::vec3 _position);
     float determinerHauteur(glm::vec3 O, glm::vec3 A, glm::vec3 B, glm::vec3 _position);
