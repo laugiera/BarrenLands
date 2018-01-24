@@ -10,8 +10,8 @@
  * Constructor
  * @param NoiseManager * noise
  */
-ProceduralMap::ProceduralMap(NoiseManager *noise) : ProceduralObject(), sea(nullptr){
-    generateVertices(noise);
+ProceduralMap::ProceduralMap() : ProceduralObject(), sea(nullptr){
+    generateVertices();
     generateIndices();
     generateNormals();
     createMoistureMap();
@@ -34,13 +34,13 @@ ProceduralMap::~ProceduralMap() {
  * Vector must be cleared first to avoid conflict with superClass implementation
  * @param noise
  */
-void ProceduralMap::generateVertices(NoiseManager *noise) {
+void ProceduralMap::generateVertices() {
     vertices.clear();
     float width = Tools::width;
     int i, j;
     //test génération bruit
-    float** terrain = noise->getElevationMap(Tools::nbSub+1, Tools::nbSub+1);
-    float ** humidite = NoiseManager::getInstance().getMoistureMap(Tools::nbSub +1, Tools::nbSub +1);
+    float** terrain = NoiseManager::getInstance().heightMap;
+    float ** humidite = NoiseManager::getInstance().moistureMap;
     for(i=0; i<Tools::nbSub+1; ++i){
         for(j=0; j<Tools::nbSub+1; j++){
             vertices.push_back(glimac::ShapeVertex(
@@ -263,7 +263,7 @@ void ProceduralMap::draw(const glm::mat4 &viewMatrix) {
 void ProceduralMap::createBiomeColors() {
     Color baseColor = Color();
     baseColor.saturate(-0.3);
-    baseColor.lighten(0.2);
+    baseColor.lighten(0.5);
     std::cout <<"base Color : "<< baseColor << std::endl;
     Color derivedColor = baseColor;
 

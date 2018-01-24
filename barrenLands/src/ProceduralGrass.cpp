@@ -4,7 +4,7 @@
 
 ProceduralGrass::ProceduralGrass(glm::vec3 pos): ProceduralObject(){
     //Récupérations des coordonnées de la map
-    float** terrain = NoiseManager::getInstance().getElevationMap(Tools::nbSub+1, Tools::nbSub+1);
+    float** terrain = NoiseManager::getInstance().heightMap;
     std::vector<glm::vec3> tab;
     int i;
     int j;
@@ -55,50 +55,6 @@ ProceduralGrass::ProceduralGrass(glm::vec3 pos): ProceduralObject(){
             hauteur = v1.y;
         }
         std::cout << hauteur << std::endl << std::endl;
-        addGrass(90*NoiseManager::getInstance().getRandomFloat()+90,
-                 90*NoiseManager::getInstance().getRandomFloat()+90,
-                 90*NoiseManager::getInstance().getRandomFloat()+90,
-                 position.x + rayons[k].x,
-                 position.z + rayons[k].y,
-                 hauteur);
-    }
-}
-
-ProceduralGrass::ProceduralGrass(glm::vec3 pos, std::vector<glimac::ShapeVertex> tab): ProceduralObject(){
-    int i;
-
-    //Initialisation
-    vertices.clear();
-    indices.clear();
-    height = 0.1;
-    width = 0.01;
-    position = pos;
-
-    //On prépare la répartition des herbes
-    std::vector<glm::vec2> rayons;
-    for(i=0; i < 300; ++i){
-        rayons.push_back(glm::vec2(NoiseManager::getInstance().getRandomFloat()*10, NoiseManager::getInstance().getRandomFloat()*10));
-    }
-    int caseCamI =0;
-    int caseCamJ =0;
-    float hauteur = 0;
-
-    for(int k =0; k<rayons.size(); ++k){
-        caseCamI = int((position.z+rayons[k].y) + Tools::width*Tools::nbSub/2);
-        caseCamJ = int((position.x+rayons[k].x) + Tools::width*Tools::nbSub/2);
-
-        //std::cout << "CASE " << caseI << "    " << caseJ << std::endl;
-        if(inTriangle(tab[caseCamI*(Tools::nbSub+1)+caseCamJ].position, tab[caseCamI*(Tools::nbSub+1)+caseCamJ+1].position, tab[(caseCamI+1)*(Tools::nbSub+1)+caseCamJ].position, glm::vec3(position.x + rayons[k].x, 0, position.z + rayons[k].y)) == 1){
-            hauteur = determinerHauteur(tab[caseCamI*(Tools::nbSub+1)+caseCamJ].position, tab[caseCamI*(Tools::nbSub+1)+caseCamJ+1].position, tab[(caseCamI+1)*(Tools::nbSub+1)+caseCamJ].position, glm::vec3(position.x + rayons[k].x, 0, position.z + rayons[k].y));
-        }
-        else if(inTriangle(tab[caseCamI*(Tools::nbSub+1)+caseCamJ+1].position, tab[(caseCamI+1)*(Tools::nbSub+1)+caseCamJ].position, tab[(caseCamI+1)*(Tools::nbSub+1)+caseCamJ+1].position, glm::vec3(position.x + rayons[k].x, 0, position.z + rayons[k].y)) == 1){
-            hauteur = determinerHauteur(tab[caseCamI*(Tools::nbSub+1)+caseCamJ+1].position, tab[(caseCamI+1)*(Tools::nbSub+1)+caseCamJ].position, tab[(caseCamI+1)*(Tools::nbSub+1)+caseCamJ+1].position, glm::vec3(position.x + rayons[k].x, 0, position.z + rayons[k].y));
-        }
-        else{
-            hauteur = tab[caseCamI*(Tools::nbSub+1)+caseCamJ].position.y;
-        }
-
-        //std::cout << hauteur << std::endl << std::endl;
         addGrass(90*NoiseManager::getInstance().getRandomFloat()+90,
                  90*NoiseManager::getInstance().getRandomFloat()+90,
                  90*NoiseManager::getInstance().getRandomFloat()+90,

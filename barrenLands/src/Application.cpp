@@ -74,24 +74,24 @@ void Application::appLoop() {
     programManager->createPrograms();
 
     //initialization of lights
-    Light sun = Light(1,"Sun",glm::vec3(0.5,0.1,0));
+    Light sun = Light(1,"Sun",glm::vec3(0.7,0.1,0));
     sun.addLightUniforms(programManager->getMapProgram());
     sun.addLightUniforms(programManager->getElementProgram());
-    Light moon = Light(1,"Moon",glm::vec3(0,0.1,0.5));
+    Light moon = Light(1,"Moon",glm::vec3(0,0.1,0.7));
     moon.addLightUniforms(programManager->getMapProgram());
     moon.addLightUniforms(programManager->getElementProgram());
 
     //intialization of map
-    ProceduralMap * Map = new ProceduralMap(noiseManager);
+    ProceduralMap * Map = new ProceduralMap();
     Map->createRenderObject(programManager, textureManager);
 
     //initilization of skybox
     SkyboxObject * sky = new SkyboxObject();
     sky -> createRenderObject(programManager, textureManager);
 
-    ProceduralObject * grass = new ProceduralGrass(glm::vec3(0,0,0), Map->getVertices());
+    ProceduralObject * grass = new ProceduralGrass(glm::vec3(0,0,0));
     grass->createRenderObject(programManager, textureManager);
-    
+
     /*ElementFactory* factory = new ElementFactory(); //Décommenter "POSITION" dans PROCEDURALOBJECT
     std::vector<ProceduralObject*> elementVect;
     for(int i =0; i<Tools::nbSub+1; ++i){

@@ -3,6 +3,7 @@
 //
 
 #include <glm/geometric.hpp>
+#include <Tools.hpp>
 #include "../include/NoiseManager.hpp"
 
 /****
@@ -26,6 +27,8 @@ NoiseManager::NoiseManager(){
    // noise.SetFractalType(FastNoise::RigidMulti);
    // noise.SetFractalOctaves();
     noise.SetSeed(NoiseManager::getSeed());
+    heightMap = getElevationMap(Tools::nbSub+1, Tools::nbSub+1);
+    moistureMap = getMoistureMap(Tools::nbSub+1, Tools::nbSub+1);
 }
 /**
  * getElevationMap()

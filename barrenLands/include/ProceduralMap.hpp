@@ -20,11 +20,11 @@
  */
 class ProceduralMap : public ProceduralObject{
 public:
-    ProceduralMap(NoiseManager *noise);
+    ProceduralMap();
 
     virtual ~ProceduralMap();
 
-    void generateVertices(NoiseManager *noise);
+    void generateVertices();
 
     void generateIndices();
 
