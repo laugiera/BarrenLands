@@ -89,8 +89,9 @@ void Application::appLoop() {
     SkyboxObject * sky = new SkyboxObject();
     sky -> createRenderObject(programManager, textureManager);
 
-    ProceduralObject * grass = new ProceduralGrass(glm::vec3(0,0,0));
+    ProceduralObject * grass = new ProceduralGrass(glm::vec3(0,0,0), Map->getVertices());
     grass->createRenderObject(programManager, textureManager);
+    
     /*ElementFactory* factory = new ElementFactory(); //Décommenter "POSITION" dans PROCEDURALOBJECT
     std::vector<ProceduralObject*> elementVect;
     for(int i =0; i<Tools::nbSub+1; ++i){
