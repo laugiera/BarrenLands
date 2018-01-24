@@ -18,9 +18,6 @@ ProceduralBiome::~ProceduralBiome(){
     for(ProceduralObject * el : elements){
         delete el;
     }
-    for(glimac::ShapeVertex * v : vertices){
-       // delete v;
-    }
 }
 /**
  * Create the procedural objects for all the element the biome contains

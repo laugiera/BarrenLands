@@ -9,7 +9,7 @@
  */
 RenderSkybox::~RenderSkybox() {
     for(glcustom::Texture * texture : textures){
-        //delete texture; -> bug !!!
+        delete texture;
     }
 }
 /**

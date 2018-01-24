@@ -36,13 +36,21 @@ Objectif à la fin du sprint 1 :
 - [x] Pouvoir se déplacer facilement sur la carte.
 
 Plus :
-- [ ] Faire la doc
-- [ ] Eliminer les fuites mémoires (+ bug dans RenderSkybox Destructor)
-- [ ] Faire la factory et les maps de répartitions
-- [ ] Rendu instancié
+- [x] Eliminer les fuites mémoires (+ bug dans RenderSkybox Destructor)
+- [x] Faire la factory et les maps de répartitions
+- [x] Rendu instancié
 - [x] Exterioriser la proj matrix
+******************************************************************************************************************************
 
+IL RESTE :
+- [ ] Répartition des rochers (faire des scale et des rotations, les regrouper un peu plus si besion) + les positionner correctement selon la hauteur du sol => ANNE
+- [ ] Répartition des "arbres" => ANNE
+- [ ] Modélisation des arbres => ETIENNE
+- [ ] Variations couleurs => LOU
+
+- [ ] Faire des belles textures, blur à l'horizon, contours des objets => LOU
+- [ ] Shadow mapping => ANNE
+- [ ] interface pour choisir une seed (une interface "home" et une inferface "pause" pour sauvegarder/importer ?)
 - [ ] Son
-- [ ] Textures, blur
-- [ ] Shadow mapping
-- [ ] interface pour choisir une seed
+- [ ] Finir la doc
+- [ ] Préparer la démo
