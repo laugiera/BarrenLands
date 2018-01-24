@@ -168,12 +168,12 @@ void ProceduralMap::createBiomes() {
             if (vertices[i].moisture <= 0.1){
                 biomes[0]->addVertex(&vertices[i]); // desert
                 if(objectVec[i] >= 0.4){
-                    biomes[0]->createElements(vertices[i].position, "rock");
+                    biomes[0]->createElement(vertices[i].position, "rock");
                 }
             } else {
                 biomes[1]->addVertex(&vertices[i]); //herbe
                 if(objectVec[i] >= 0.4){
-                    biomes[1]->createElements(vertices[i].position, "rock");
+                    biomes[1]->createElement(vertices[i].position, "rock");
                 }
             }
 
@@ -181,12 +181,12 @@ void ProceduralMap::createBiomes() {
             if (vertices[i].moisture < 0.5){
                 biomes[2]->addVertex(&vertices[i]); //savane
                 if(objectVec[i] >= 0.4){
-                    biomes[2]->createElements(vertices[i].position, "rock");
+                    biomes[2]->createElement(vertices[i].position, "rock");
                 }
             } else {
                 biomes[1]->addVertex(&vertices[i]); //herbe
                 if(objectVec[i] >= 0.4){
-                    biomes[1]->createElements(vertices[i].position, "rock");
+                    biomes[1]->createElement(vertices[i].position, "rock");
                 }
             }
 
@@ -194,12 +194,12 @@ void ProceduralMap::createBiomes() {
             if (vertices[i].moisture < 0.1){
                 biomes[3]->addVertex(&vertices[i]); //roche
                 if(objectVec[i] >= 0.4){
-                    biomes[3]->createElements(vertices[i].position, "rock");
+                    biomes[3]->createElement(vertices[i].position, "rock");
                 }
             } else {
                 biomes[4]->addVertex(&vertices[i]); //toundra
                 if(objectVec[i] >= 0.4){
-                    biomes[4]->createElements(vertices[i].position, "rock");
+                    biomes[4]->createElement(vertices[i].position, "rock");
                 }
             }
         } else {
@@ -255,8 +255,9 @@ void ProceduralMap::draw(const glm::mat4 &viewMatrix) {
     renderObject->transform(glm::vec3(0,0,0), 0, glm::vec3(0,1,0), glm::vec3(1));
     renderObject->render(viewMatrix);
     //draw the elements
-    for(ProceduralObject * biome : biomes){
-        biome->draw(viewMatrix);
+    std::vector<ProceduralObject *> elements = ElementManager::getInstance().getAllElements();
+    for(ProceduralObject * el : elements){
+        el->draw(viewMatrix);
     }
 }
 

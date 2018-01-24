@@ -9,6 +9,7 @@
  */
 ProceduralBiome::ProceduralBiome(Color *_color,const std::string &_name) : elements(), color(new Color(_color)), name(_name) {
     indices.clear();
+    createElements();
 }
 /**
  * Destructor
@@ -16,7 +17,7 @@ ProceduralBiome::ProceduralBiome(Color *_color,const std::string &_name) : eleme
 ProceduralBiome::~ProceduralBiome(){
     delete color;
     for(ProceduralObject * el : elements){
-        delete el;
+        //delete el;
     }
     for(glimac::ShapeVertex * v : vertices){
        // delete v;
@@ -26,13 +27,16 @@ ProceduralBiome::~ProceduralBiome(){
  * Create the procedural objects for all the element the biome contains
  * will certainly be replaced by addElement()
  */
-void ProceduralBiome::createElements(glm::vec3 position, const std::string & type) {
+void ProceduralBiome::createElement(glm::vec3 position, const std::string &type) {
     //Use factory to fill elements attribute
-    ElementFactory factory = ElementFactory();
-    if(type == "rock"){
-        elements.push_back(factory.createProceduralRock(name));
+    if(rocks.empty()){
+        throw std::runtime_error("Biome " + name + " : an element category is empty");
     }
-    elements[elements.size()-1]->setPosition(position);
+    if(type == "rock"){
+        rocks[0]->addInstance(position, *color);
+        //elements.push_back(ElementManager::getInstance().createProceduralRock(name));
+    }
+    //elements[elements.size()-1]->setPosition(position);
 }
 /**
  * Creates the render objects for all the elements the biome contains
@@ -40,9 +44,10 @@ void ProceduralBiome::createElements(glm::vec3 position, const std::string & typ
  * @param textureManager
  */
 void ProceduralBiome::createRenderObject(ProgramManager *programManager, TextureManager *textureManager) {
-    for(ProceduralObject * element : elements){
-        element->createRenderObject(programManager, textureManager, getColor());
+    for(ProceduralObject * rock : rocks){
+        rock->createRenderObject(programManager, textureManager, getColor());
     }
+
 }
 
 /**
@@ -50,8 +55,8 @@ void ProceduralBiome::createRenderObject(ProgramManager *programManager, Texture
  * @param viewMatrix
  */
 void ProceduralBiome::draw(const glm::mat4 &viewMatrix) {
-    for(ProceduralObject * element : elements){
-        element->draw(viewMatrix);
+    for(ProceduralObject * rock : rocks){
+        rock->draw(viewMatrix);
     }
 }
 
@@ -94,4 +99,8 @@ void ProceduralBiome::setName(const std::string &name) {
 
 const std::string &ProceduralBiome::getName() const {
     return name;
+}
+
+void ProceduralBiome::createElements() {
+    rocks.push_back(ElementManager::getInstance().createProceduralRock(name));
 }

@@ -18,7 +18,7 @@
 #include "TextureManager.hpp"
 #include "NoiseManager.hpp"
 #include "ProceduralMap.hpp"
-#include "ElementFactory.hpp"
+#include "ElementManager.hpp"
 #include "ProceduralSea.hpp"
 
 /**

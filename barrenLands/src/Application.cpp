@@ -89,10 +89,10 @@ void Application::appLoop() {
     SkyboxObject * sky = new SkyboxObject();
     sky -> createRenderObject(programManager, textureManager);
 
-    ProceduralObject * grass = new ProceduralGrass(glm::vec3(0,0,0), Map->getVertices());
-    grass->createRenderObject(programManager, textureManager);
+    //ProceduralObject * grass = new ProceduralGrass(glm::vec3(0,0,0), Map->getVertices());
+    //grass->createRenderObject(programManager, textureManager);
     
-    /*ElementFactory* factory = new ElementFactory(); //Décommenter "POSITION" dans PROCEDURALOBJECT
+    /*ElementManager* factory = new ElementManager(); //Décommenter "POSITION" dans PROCEDURALOBJECT
     std::vector<ProceduralObject*> elementVect;
     for(int i =0; i<Tools::nbSub+1; ++i){
         for(int j =0; j<Tools::nbSub+1; ++j){
@@ -181,7 +181,7 @@ void Application::appLoop() {
         glDepthMask(GL_FALSE);
         sky->draw(camera->getViewMatrix());
         glDepthMask(GL_TRUE);
-        grass->draw(camera->getViewMatrix());
+        //grass->draw(camera->getViewMatrix());
         //draw map
 
         Map->draw(camera->getViewMatrix());
@@ -202,7 +202,7 @@ void Application::appLoop() {
     delete sky;
     delete Map;
     //delete factory;
-    delete grass;
+    //delete grass;
 
 }
 

@@ -7,7 +7,7 @@
 
 #include "ProceduralObject.hpp"
 #include <Color.hpp>
-#include <ElementFactory.hpp>
+#include <ElementManager.hpp>
 /**
  * Class ProceduralBiome
  * Derived from Procedural Object
@@ -20,7 +20,7 @@ public:
 
     virtual void createRenderObject(ProgramManager *programManager, TextureManager *textureManager);
     void createElements();
-    void createElements(glm::vec3 position,const std::string & type);
+    void createElement(glm::vec3 position, const std::string &type);
 
     void setVertices(const std::vector<glimac::ShapeVertex *> &vertices);
 
@@ -56,6 +56,8 @@ private:
     std::vector<glimac::ShapeVertex *> vertices;
     std::string name;
     Color * color;
+    std::vector<ProceduralObject *> rocks;
+    std::vector<ProceduralObject *> herbs;
 
 };
 
