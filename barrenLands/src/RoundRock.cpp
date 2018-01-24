@@ -45,7 +45,7 @@ void RoundRock::generateVertices(){
     for(int i = 0; i<_vertices.size(); i++){
         glm::vec3 pos = glm::normalize(_vertices[i].position - center);
         _vertices[i].position = center + pos;
-        std::cout << "vertex : " << i << " : " << _vertices[i].position << std::endl;
+        //std::cout << "vertex : " << i << " : " << _vertices[i].position << std::endl;
     }
 
     std::cout << std::endl;

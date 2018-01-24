@@ -49,7 +49,7 @@ void MenirRock::generateVertices(){
         //glm::vec3 pos = glm::normalize(_vertices[i].position - center);
         glm::vec3 pos = _vertices[i].position - center;
         _vertices[i].position = center + pos;
-        std::cout << "vertex : " << i << " : " << _vertices[i].position << std::endl;
+        //std::cout << "vertex : " << i << " : " << _vertices[i].position << std::endl;
     }
 
     std::cout << std::endl;

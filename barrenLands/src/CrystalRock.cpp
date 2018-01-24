@@ -49,7 +49,7 @@ void CrystalRock::generateVertices(){
         }
         center = glm::vec3(0,0,0);
         _vertices[i].position = center + pos;
-        std::cout << "vertex : " << i << " : " << _vertices[i].position << std::endl;
+        //std::cout << "vertex : " << i << " : " << _vertices[i].position << std::endl;
     }
 
     std::cout << std::endl;

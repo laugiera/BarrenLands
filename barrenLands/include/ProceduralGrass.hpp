@@ -18,6 +18,8 @@ public:
     void createRenderObject(ProgramManager *programManager, TextureManager *textureManager, Color * _color);
     std::vector<glcustom::Texture *> chooseTextures(TextureManager *textureManager);
 
+
+    void draw(const glm::mat4 &viewMatrix);
     //static
     static void setPositions(std::vector<ProceduralObject *> objects);
 

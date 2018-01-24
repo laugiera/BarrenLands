@@ -134,6 +134,11 @@ void ProceduralGrass::setPositions(std::vector<ProceduralObject *> objects){
 
 }
 
+void ProceduralGrass::draw(const glm::mat4 &viewMatrix) {
+    //transformer selon la position, rotation, scale de l'objet
+    renderObject->transform(position, 0, glm::vec3(0,1,0), glm::vec3(1));
+    renderObject->render(viewMatrix);
+}
 
 int ProceduralGrass::inTriangle(glm::vec3 O, glm::vec3 A, glm::vec3 B, glm::vec3 _position){
     float detPOPA;
