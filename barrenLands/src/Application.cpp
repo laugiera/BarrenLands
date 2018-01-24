@@ -92,6 +92,7 @@ void Application::appLoop() {
     ProceduralObject * grass = new ProceduralGrass(glm::vec3(0,0,0));
     grass->createRenderObject(programManager, textureManager);
 
+
     /*ElementFactory* factory = new ElementFactory(); //Décommenter "POSITION" dans PROCEDURALOBJECT
     std::vector<ProceduralObject*> elementVect;
     for(int i =0; i<Tools::nbSub+1; ++i){
@@ -101,7 +102,6 @@ void Application::appLoop() {
             elementVect[i*(Tools::nbSub+1)+j]->position = Map->getVertices(i,j).position;
         }
     }*/
-
 
     bool done = false;
     int rightPressed = 0;
@@ -166,11 +166,11 @@ void Application::appLoop() {
         //configuring and sending light uniforms
         programManager->getMapProgram()->use();
         sun.resetDirection();
-        sun.rotate(windowManager.getTime(), camera->getViewMatrix());
+        sun.rotate(windowManager.getTime()*0.5, camera->getViewMatrix());
         sun.sendLightUniforms(programManager->getMapProgram());
 
         moon.resetDirection();
-        moon.rotate(-windowManager.getTime(), camera->getViewMatrix());
+        moon.rotate(-windowManager.getTime()*0.5, camera->getViewMatrix());
         moon.sendLightUniforms(programManager->getMapProgram());
 
         programManager->getElementProgram()->use();
