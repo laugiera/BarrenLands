@@ -34,7 +34,7 @@ void ProceduralBiome::createElements(glm::vec3 position, const std::string & typ
         elements[elements.size()-1]->setPosition(position);
     }
     else if (type == "grass"){
-        elements.push_back(factory.createProceduralGrass());
+        elements.push_back(factory.createProceduralGrass(position));
     }
 }
 /**

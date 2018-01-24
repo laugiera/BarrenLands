@@ -20,11 +20,11 @@
  */
 class ProceduralMap : public ProceduralObject{
 public:
-    ProceduralMap(NoiseManager *noise);
+    ProceduralMap();
 
     virtual ~ProceduralMap();
 
-    void generateVertices(NoiseManager *noise);
+    void generateVertices();
 
     void generateIndices();
 
@@ -33,8 +33,6 @@ public:
     void createRenderObject(ProgramManager *programManager, TextureManager *textureManager);
 
     void createBiomes();
-
-    void createMoistureMap();
 
     virtual std::vector<glcustom::Texture *> chooseTextures(TextureManager *textureManager);
 

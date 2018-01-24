@@ -10,11 +10,10 @@
  * Constructor
  * @param NoiseManager * noise
  */
-ProceduralMap::ProceduralMap(NoiseManager *noise) : ProceduralObject(), sea(nullptr){
-    generateVertices(noise);
+ProceduralMap::ProceduralMap() : ProceduralObject(), sea(nullptr){
+    generateVertices();
     generateIndices();
     generateNormals();
-    createMoistureMap();
     createBiomes();
     createSea();
 }
@@ -34,13 +33,13 @@ ProceduralMap::~ProceduralMap() {
  * Vector must be cleared first to avoid conflict with superClass implementation
  * @param noise
  */
-void ProceduralMap::generateVertices(NoiseManager *noise) {
+void ProceduralMap::generateVertices() {
     vertices.clear();
     float width = Tools::width;
     int i, j;
     //test génération bruit
-    float** terrain = noise->getElevationMap(Tools::nbSub+1, Tools::nbSub+1);
-    float ** humidite = NoiseManager::getInstance().getMoistureMap(Tools::nbSub +1, Tools::nbSub +1);
+    float** terrain = NoiseManager::getInstance().heightMap;
+    float ** humidite = NoiseManager::getInstance().moistureMap;
     for(i=0; i<Tools::nbSub+1; ++i){
         for(j=0; j<Tools::nbSub+1; j++){
             vertices.push_back(glimac::ShapeVertex(
@@ -154,66 +153,61 @@ void ProceduralMap::createBiomes() {
 
     //ObjectMap
     std::vector <float> objectVec;
+    float** rockMap = NoiseManager::getInstance().getRockMap(Tools::nbSub +1, Tools::nbSub +1, 0.5);
     float** objectMap = NoiseManager::getInstance().getRockMap(Tools::nbSub +1, Tools::nbSub +1, 0.5);
 
 
     //Affectation des valeurs
     float rockLevel = 0.6;
+    float grassLevel = 0.5;
 
     for(int i = 0; i<vertices.size(); i++){
         if (vertices[i].position.y < 1){
             if (vertices[i].moisture <= 0.1){
                 biomes[0]->addVertex(&vertices[i]); // desert
-                if(objectMap[i/(Tools::nbSub +1)][i%(Tools::nbSub +1)] > rockLevel){
-                    biomes[0]->createElements(glm::vec3(vertices[i].position.x + NoiseManager::getInstance().getRandomFloat(),
-                                                        vertices[i].position.y,
-                                                        vertices[i].position.z ),
+                if(objectMap[i/(Tools::nbSub +1)][i%(Tools::nbSub +1)] > rockLevel){ //roundrock
+                    biomes[0]->createElements(glm::vec3(vertices[i].position.x + NoiseManager::getInstance().getRandomFloat()*1.5, //big random
+                                                        vertices[i].position.y-0.05, //in the ground
+                                                        vertices[i].position.z  + NoiseManager::getInstance().getRandomFloat()),
                                                         "rock");
 
                 }
             } else {
                 biomes[1]->addVertex(&vertices[i]); //herbe
-                if(objectMap[i/(Tools::nbSub +1)][i%(Tools::nbSub +1)] > rockLevel){
-                    biomes[1]->createElements(glm::vec3(vertices[i].position.x + NoiseManager::getInstance().getRandomFloat(),
-                                                        vertices[i].position.y,
-                                                        vertices[i].position.z ),
-                                              "rock");
-                    biomes[1]->createElements(position, "grass");
-                }
+
+                if(objectMap[i/(Tools::nbSub +1)][i%(Tools::nbSub +1)] > grassLevel)
+                    biomes[1]->createElements(vertices[i].position, "grass");
             }
 
         } else if (vertices[i].position.y < 2){
             if (vertices[i].moisture < 0.5){
                 biomes[2]->addVertex(&vertices[i]); //savane
-                if(objectMap[i/(Tools::nbSub +1)][i%(Tools::nbSub +1)] > rockLevel){
+                if(objectMap[i/(Tools::nbSub +1)][i%(Tools::nbSub +1)] > rockLevel+0.1){ //crystal rock - small random
                     biomes[2]->createElements(glm::vec3(vertices[i].position.x + NoiseManager::getInstance().getRandomFloat(),
-                                                        vertices[i].position.y,
-                                                        vertices[i].position.z ),
+                                                        vertices[i].position.y-0.1, //in the ground
+                                                        vertices[i].position.z + NoiseManager::getInstance().getRandomFloat()),
                                               "rock");
                 }
             } else {
-                biomes[1]->addVertex(&vertices[i]); //herbe
-                if(objectMap[i/(Tools::nbSub +1)][i%(Tools::nbSub +1)] > rockLevel){
+                biomes[1]->addVertex(&vertices[i]); //herbe - round rocks
+                if(objectMap[i/(Tools::nbSub +1)][i%(Tools::nbSub +1)] > rockLevel){ //roundrock - small random
                     biomes[1]->createElements(glm::vec3(vertices[i].position.x + NoiseManager::getInstance().getRandomFloat(),
                                                         vertices[i].position.y,
-                                                        vertices[i].position.z ),
+                                                        vertices[i].position.z),
                                               "rock");
                 }
+
+                if(objectMap[i/(Tools::nbSub +1)][i%(Tools::nbSub +1)] > grassLevel)
+                    biomes[1]->createElements(vertices[i].position, "grass");
             }
 
         } else if (vertices[i].position.y < 5){
             if (vertices[i].moisture < 0.1){
-                biomes[3]->addVertex(&vertices[i]); //roche
-                if(objectMap[i/(Tools::nbSub +1)][i%(Tools::nbSub +1)] > rockLevel){
-                    biomes[3]->createElements(glm::vec3(vertices[i].position.x + NoiseManager::getInstance().getRandomFloat(),
-                                                        vertices[i].position.y,
-                                                        vertices[i].position.z ),
-                                              "rock");
-                }
+                biomes[3]->addVertex(&vertices[i]); //roche - no rocks
             } else {
                 biomes[4]->addVertex(&vertices[i]); //toundra
-                if(objectMap[i/(Tools::nbSub +1)][i%(Tools::nbSub +1)] > rockLevel){
-                    biomes[4]->createElements(glm::vec3(vertices[i].position.x + NoiseManager::getInstance().getRandomFloat(),
+                if(objectMap[i/(Tools::nbSub +1)][i%(Tools::nbSub +1)] > rockLevel+0.4){ // rare menhir rock - high on the mountains - no random
+                    biomes[4]->createElements(glm::vec3(vertices[i].position.x,
                                                         vertices[i].position.y,
                                                         vertices[i].position.z ),
                                               "rock");
@@ -241,19 +235,6 @@ std::vector<glcustom::Texture *> ProceduralMap::chooseTextures(TextureManager *t
     return textures;
 }
 
-
-/**
- * Creates the moistureMap using the noiseManager
- */
-void ProceduralMap::createMoistureMap() {
-    float ** humidite = NoiseManager::getInstance().getMoistureMap(Tools::nbSub +1, Tools::nbSub +1);
-    for(int i = 0; i < Tools::nbSub +1; i++){
-        for(int j = 0 ; j < Tools::nbSub +1; j++){
-            moistureMap.push_back(humidite[i][j]);
-        }
-    }
-}
-
 /**
  * Creates the procedural Element for the sea
  */
@@ -278,9 +259,9 @@ void ProceduralMap::draw(const glm::mat4 &viewMatrix) {
 }
 
 void ProceduralMap::createBiomeColors() {
-    Color baseColor = Color();
+  /*  Color baseColor = Color();
     baseColor.saturate(-0.3);
-    baseColor.lighten(0.2);
+    baseColor.lighten(0.5);
     std::cout <<"base Color : "<< baseColor << std::endl;
     Color derivedColor = baseColor;
 
@@ -309,6 +290,6 @@ void ProceduralMap::createBiomeColors() {
     RenderMap::savannah = new Color(&derivedColor);
     std::cout <<"savannah Color : "<< derivedColor << std::endl;
 
-
+*/
 }
 

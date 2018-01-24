@@ -202,7 +202,7 @@ Color *ProceduralObject::chooseColor(Color *_color) {
 
 float ProceduralObject::getHauteur(){
     //Récupérations des coordonnées de la map
-    float** terrain = NoiseManager::getInstance().getElevationMap(Tools::nbSub+1, Tools::nbSub+1);
+    float** terrain = NoiseManager::getInstance().heightMap;
     std::vector<glm::vec3> tab;
     int i;
     int j;
@@ -238,7 +238,41 @@ float ProceduralObject::getHauteur(){
 }
 
 glm::vec3 ProceduralObject::getNormale(){
+    //Récupérations des coordonnées de la map
+    float** terrain = NoiseManager::getInstance().heightMap;
+    std::vector<glm::vec3> tab;
+    int i;
+    int j;
+    for(i=0; i<Tools::nbSub+1; ++i){
+        for(j=0; j<Tools::nbSub+1; j++){
+            tab.push_back(glm::vec3(-Tools::width*Tools::nbSub/2.0+j*Tools::width, terrain[i][j], -Tools::width*Tools::nbSub/2.0+i*Tools::width));
+        }
+    }
 
+    int caseI;
+    int caseJ;
+    glm::vec3 normale;
+
+    caseI = (position.z) + Tools::width*Tools::nbSub/2;
+    caseJ = (position.x) + Tools::width*Tools::nbSub/2;
+
+    glm::vec3 v1 = tab[caseI*(Tools::nbSub+1) + caseJ];
+    glm::vec3 v2 = tab[caseI*(Tools::nbSub+1) + caseJ + 1];
+    glm::vec3 v3 = tab[(caseI+1)*(Tools::nbSub+1) + caseJ];
+    glm::vec3 v4 = tab[(caseI+1)*(Tools::nbSub+1) + caseJ + 1];
+
+    if(inTriangle(v1, v2, v3) == 1){
+        glm::vec3 dir1 = v2 - v1;
+        glm::vec3 dir2 = v3 - v1;
+        normale = glm::cross(dir2, dir1);
+    }
+    else {
+        glm::vec3 dir1 = v2 - v3;
+        glm::vec3 dir2 = v4 - v3;
+        normale = glm::cross(dir2, dir1);
+    }
+
+    return normale;
 }
 
 

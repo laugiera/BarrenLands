@@ -25,6 +25,10 @@ private:
     NoiseManager();
     ~NoiseManager(){}
 public:
+    float** heightMap;
+    float** moistureMap;
+
+
     /**
      * getInstance()
      * @return NoiseManager & unique instance

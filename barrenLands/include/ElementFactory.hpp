@@ -14,7 +14,7 @@ public:
     ElementFactory() = default;
 
     ProceduralObject* createProceduralRock(const std::string &name);
-    ProceduralObject* createProceduralGrass();
+    ProceduralObject* createProceduralGrass(const glm::vec3 &position);
 };
 
 #endif //BARRENLANDS_ELEMENTFACTORY_HPP

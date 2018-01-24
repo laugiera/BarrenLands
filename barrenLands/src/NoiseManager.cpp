@@ -3,6 +3,7 @@
 //
 
 #include <glm/geometric.hpp>
+#include <Tools.hpp>
 #include "../include/NoiseManager.hpp"
 
 /****
@@ -26,6 +27,8 @@ NoiseManager::NoiseManager(){
    // noise.SetFractalType(FastNoise::RigidMulti);
    // noise.SetFractalOctaves();
     noise.SetSeed(NoiseManager::getSeed());
+    heightMap = getElevationMap(Tools::nbSub+1, Tools::nbSub+1);
+    moistureMap = getMoistureMap(Tools::nbSub+1, Tools::nbSub+1);
 }
 /**
  * getElevationMap()
@@ -134,7 +137,9 @@ float NoiseManager::getRandomFloat() {
     noise.SetFrequency(0.05);
     noise.SetNoiseType(FastNoise::PerlinFractal);
     counter += 5;
-    return noise.GetNoise(counter, counter);
+    float e = noise.GetNoise(counter, counter);
+    //std::cout << e <<std::endl;
+    return e;
 };
 
 float NoiseManager::getVerticesDisturbation(const int x, const int y, const int z){

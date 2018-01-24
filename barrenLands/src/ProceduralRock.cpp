@@ -30,7 +30,6 @@ void ProceduralRock::createRenderObject(ProgramManager *programManager, TextureM
  * @return
  */
 std::vector<glcustom::Texture *> ProceduralRock::chooseTextures(TextureManager *textureManager) {
-    //return std::vector<glcustom::Texture *>(1, textureManager->getRandomTexture("rock"));
     return std::vector<glcustom::Texture *>();
 }
 
