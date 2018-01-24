@@ -74,10 +74,10 @@ void Application::appLoop() {
     programManager->createPrograms();
 
     //initialization of lights
-    Light sun = Light(1,"Sun",glm::vec3(0.5,0.1,0));
+    Light sun = Light(1,"Sun",glm::vec3(0.7,0.1,0));
     sun.addLightUniforms(programManager->getMapProgram());
     sun.addLightUniforms(programManager->getElementProgram());
-    Light moon = Light(1,"Moon",glm::vec3(0,0.1,0.5));
+    Light moon = Light(1,"Moon",glm::vec3(0,0.1,0.7));
     moon.addLightUniforms(programManager->getMapProgram());
     moon.addLightUniforms(programManager->getElementProgram());
 
@@ -91,16 +91,6 @@ void Application::appLoop() {
 
     ProceduralObject * grass = new ProceduralGrass(glm::vec3(0,0,0), Map->getVertices());
     grass->createRenderObject(programManager, textureManager);
-    
-    /*ElementFactory* factory = new ElementFactory(); //Décommenter "POSITION" dans PROCEDURALOBJECT
-    std::vector<ProceduralObject*> elementVect;
-    for(int i =0; i<Tools::nbSub+1; ++i){
-        for(int j =0; j<Tools::nbSub+1; ++j){
-            elementVect.push_back(factory->createProceduralObject());
-            elementVect[i*(Tools::nbSub+1)+j]->createRenderObject(programManager, textureManager);
-            elementVect[i*(Tools::nbSub+1)+j]->position = Map->getVertices(i,j).position;
-        }
-    }*/
 
 
     bool done = false;
@@ -166,11 +156,11 @@ void Application::appLoop() {
         //configuring and sending light uniforms
         programManager->getMapProgram()->use();
         sun.resetDirection();
-        sun.rotate(windowManager.getTime(), camera->getViewMatrix());
+        sun.rotate(windowManager.getTime()*0.5, camera->getViewMatrix());
         sun.sendLightUniforms(programManager->getMapProgram());
 
         moon.resetDirection();
-        moon.rotate(-windowManager.getTime(), camera->getViewMatrix());
+        moon.rotate(-windowManager.getTime()*0.5, camera->getViewMatrix());
         moon.sendLightUniforms(programManager->getMapProgram());
 
         programManager->getElementProgram()->use();

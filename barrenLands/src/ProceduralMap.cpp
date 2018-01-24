@@ -153,51 +153,66 @@ void ProceduralMap::createBiomes() {
     //ObjectMap
     std::vector <float> objectVec;
     float** objectMap = NoiseManager::getInstance().getRockMap(Tools::nbSub +1, Tools::nbSub +1, 0.5);
-    for(int i = 0; i < Tools::nbSub +1; i++){
-        for(int j = 0 ; j < Tools::nbSub +1; j++){
-            objectVec.push_back(objectMap[i][j]);
-        }
-    }
 
 
     //Affectation des valeurs
+    float rockLevel = 0.6;
+
     for(int i = 0; i<vertices.size(); i++){
         if (vertices[i].position.y < 1){
             if (vertices[i].moisture <= 0.1){
                 biomes[0]->addVertex(&vertices[i]); // desert
-                if(objectVec[i] >= 0.4){
-                    biomes[0]->createElements(vertices[i].position, "rock");
+                if(objectMap[i/(Tools::nbSub +1)][i%(Tools::nbSub +1)] > rockLevel){
+                    biomes[0]->createElements(glm::vec3(vertices[i].position.x + NoiseManager::getInstance().getRandomFloat(),
+                                                        vertices[i].position.y,
+                                                        vertices[i].position.z ),
+                                                        "rock");
                 }
             } else {
                 biomes[1]->addVertex(&vertices[i]); //herbe
-                if(objectVec[i] >= 0.4){
-                    biomes[1]->createElements(vertices[i].position, "rock");
+                if(objectMap[i/(Tools::nbSub +1)][i%(Tools::nbSub +1)] > rockLevel){
+                    biomes[1]->createElements(glm::vec3(vertices[i].position.x + NoiseManager::getInstance().getRandomFloat(),
+                                                        vertices[i].position.y,
+                                                        vertices[i].position.z ),
+                                              "rock");
                 }
             }
 
         } else if (vertices[i].position.y < 2){
             if (vertices[i].moisture < 0.5){
                 biomes[2]->addVertex(&vertices[i]); //savane
-                if(objectVec[i] >= 0.4){
-                    biomes[2]->createElements(vertices[i].position, "rock");
+                if(objectMap[i/(Tools::nbSub +1)][i%(Tools::nbSub +1)] > rockLevel){
+                    biomes[2]->createElements(glm::vec3(vertices[i].position.x + NoiseManager::getInstance().getRandomFloat(),
+                                                        vertices[i].position.y,
+                                                        vertices[i].position.z ),
+                                              "rock");
                 }
             } else {
                 biomes[1]->addVertex(&vertices[i]); //herbe
-                if(objectVec[i] >= 0.4){
-                    biomes[1]->createElements(vertices[i].position, "rock");
+                if(objectMap[i/(Tools::nbSub +1)][i%(Tools::nbSub +1)] > rockLevel){
+                    biomes[1]->createElements(glm::vec3(vertices[i].position.x + NoiseManager::getInstance().getRandomFloat(),
+                                                        vertices[i].position.y,
+                                                        vertices[i].position.z ),
+                                              "rock");
                 }
             }
 
         } else if (vertices[i].position.y < 5){
             if (vertices[i].moisture < 0.1){
                 biomes[3]->addVertex(&vertices[i]); //roche
-                if(objectVec[i] >= 0.4){
-                    biomes[3]->createElements(vertices[i].position, "rock");
+                if(objectMap[i/(Tools::nbSub +1)][i%(Tools::nbSub +1)] > rockLevel){
+                    biomes[3]->createElements(glm::vec3(vertices[i].position.x + NoiseManager::getInstance().getRandomFloat(),
+                                                        vertices[i].position.y,
+                                                        vertices[i].position.z ),
+                                              "rock");
                 }
             } else {
                 biomes[4]->addVertex(&vertices[i]); //toundra
-                if(objectVec[i] >= 0.4){
-                    biomes[4]->createElements(vertices[i].position, "rock");
+                if(objectMap[i/(Tools::nbSub +1)][i%(Tools::nbSub +1)] > rockLevel){
+                    biomes[4]->createElements(glm::vec3(vertices[i].position.x + NoiseManager::getInstance().getRandomFloat(),
+                                                        vertices[i].position.y,
+                                                        vertices[i].position.z ),
+                                              "rock");
                 }
             }
         } else {

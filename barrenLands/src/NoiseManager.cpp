@@ -114,7 +114,7 @@ float** NoiseManager::getMoistureMap(const int width, const int height,const flo
 float** NoiseManager::getRockMap(const int width, const int height,const float frequency){
 
     noise.SetFrequency(frequency);
-    noise.SetNoiseType(FastNoise::Value);
+    noise.SetNoiseType(FastNoise::Cellular);
 
     float** rockMap = 0;
     float e = 0;
@@ -124,11 +124,7 @@ float** NoiseManager::getRockMap(const int width, const int height,const float f
     {
         rockMap[x] = new float[height];
         for (int y = 0; y < height; y++){
-            e = (noise.GetNoise(x,y)
-                 + 0.25 * noise.GetNoise(4*x,3*y))*2;
-
-            e = pow(e,2);
-            rockMap[x][y] = e;
+            rockMap[x][y] = noise.GetNoise(x,y);
         }
     }
     return rockMap;
