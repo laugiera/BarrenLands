@@ -200,6 +200,78 @@ Color *ProceduralObject::chooseColor(Color *_color) {
 }
 
 
+float ProceduralObject::getHauteur(){
+    //Récupérations des coordonnées de la map
+    float** terrain = NoiseManager::getInstance().getElevationMap(Tools::nbSub+1, Tools::nbSub+1);
+    std::vector<glm::vec3> tab;
+    int i;
+    int j;
+    for(i=0; i<Tools::nbSub+1; ++i){
+        for(j=0; j<Tools::nbSub+1; j++){
+            tab.push_back(glm::vec3(-Tools::width*Tools::nbSub/2.0+j*Tools::width, terrain[i][j], -Tools::width*Tools::nbSub/2.0+i*Tools::width));
+        }
+    }
+
+    int caseI;
+    int caseJ;
+    int hauteur;
+
+    caseI = (position.z) + Tools::width*Tools::nbSub/2;
+    caseJ = (position.x) + Tools::width*Tools::nbSub/2;
+
+    glm::vec3 v1 = tab[caseI*(Tools::nbSub+1) + caseJ];
+    glm::vec3 v2 = tab[caseI*(Tools::nbSub+1) + caseJ + 1];
+    glm::vec3 v3 = tab[(caseI+1)*(Tools::nbSub+1) + caseJ];
+    glm::vec3 v4 = tab[(caseI+1)*(Tools::nbSub+1) + caseJ + 1];
+
+
+    if(inTriangle(v1, v2, v3) == 1){
+        hauteur = determinerY(v1, v2, v3);
+    }
+    else if(inTriangle(v2, v3, v4) == 1){
+        hauteur = determinerY(v2, v3, v4);
+    }
+    else{
+        hauteur = v1.y;
+    }
+    return hauteur;
+}
+
+glm::vec3 ProceduralObject::getNormale(){
+
+}
+
+
+int ProceduralObject::inTriangle(glm::vec3 O, glm::vec3 A, glm::vec3 B){
+    float detPOPA;
+    float detPAPB;
+    float detPBPO;
+
+    glm::vec2 PO = glm::vec2(O.x - position.x, O.z - position.z);
+    glm::vec2 PA = glm::vec2(A.x - position.x, A.z - position.z);
+    glm::vec2 PB = glm::vec2(B.x - position.x, B.z - position.z);
+
+    detPOPA = PO.x*PA.y - PO.y*PA.x;
+    detPAPB = PA.x*PB.y - PA.y*PB.x;
+    detPBPO = PB.x*PO.y - PB.y*PO.x;
+
+    if((detPOPA >=0 && detPAPB >=0 && detPBPO >= 0) ||
+       (detPOPA <0 && detPAPB <0 && detPBPO < 0)){
+        return 1;
+    }
+    else{
+        return 0;
+    }
+}
+
+float ProceduralObject::determinerY(glm::vec3 O, glm::vec3 A, glm::vec3 B){
+    float a = (A.y - O.y)*(B.z - O.z) - (A.z - O.z)*(B.y - O.y);
+    float b = (B.x - O.x)*(A.z - O.z) - (A.x - O.x)*(B.z - O.z);
+    float c = (A.x - O.x)*(B.y - O.y) - (B.x - O.x)*(A.y - O.y);
+    float d= -O.x*a - O.y*b - O.z*c;
+    //std::cout << "a = " << a << " b = " << b << " c = " << c << " d = " << d << " res = " << (-a*_position.x/Tools::scale - c*_position.z/Tools::scale - d)/b << std::endl;
+    return (-a*position.x - c*position.z - d)/b;
+}
 
 
 

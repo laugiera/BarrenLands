@@ -49,6 +49,12 @@ public:
         position = _position;
     }
 
+    float getHauteur();
+    glm::vec3 getNormale();
+
+    int inTriangle(glm::vec3 O, glm::vec3 A, glm::vec3 B);
+    float determinerY(glm::vec3 O, glm::vec3 A, glm::vec3 B);
+
 protected:
     std::vector<glimac::ShapeVertex> vertices;
     std::vector<uint32_t> indices;
