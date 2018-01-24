@@ -127,9 +127,12 @@ std::vector<glcustom::Texture *> ProceduralGrass::chooseTextures(TextureManager 
 }
 
 void ProceduralGrass::draw(const glm::mat4 &viewMatrix) {
-    //transformer selon la position, rotation, scale de l'objet
-    renderObject->transform(glm::vec3(0,0,0), 0, glm::vec3(0,1,0), glm::vec3(1));
-    renderObject->render(viewMatrix);
+    for(int i = 0; i< positions.size(); i++){
+        //ProceduralGrass* trueGrass = new ProceduralGrass(positions[i]);
+        //renderObject->fillData(trueGrass->getVertices(), trueGrass->getIndices());
+        //renderObject->render(viewMatrix);
+
+    }
 }
 
 int ProceduralGrass::inTriangle(glm::vec3 O, glm::vec3 A, glm::vec3 B, glm::vec3 _position){

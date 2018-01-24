@@ -335,6 +335,14 @@ Color ProceduralObject::chooseColor(const Color &_c) {
     return _c;
 }
 
+const std::vector<glimac::ShapeVertex> &ProceduralObject::getVertices() const {
+    return vertices;
+}
+
+const std::vector<uint32_t> &ProceduralObject::getIndices() const {
+    return indices;
+}
+
 
 
 
