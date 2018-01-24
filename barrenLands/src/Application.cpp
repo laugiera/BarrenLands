@@ -4,6 +4,7 @@
 #define GLEW_STATIC
 #include <RoundRock.hpp>
 #include "ProceduralGrass.hpp"
+#include "ProceduralBranche.hpp"
 #include "Application.hpp"
 
 
@@ -130,9 +131,9 @@ void Application::appLoop() {
                     rightPressed = 1;
                 }
             } else if (e.wheel.y == 1)
-                camera->zoom(-1);
+                camera->zoom(-Tools::speed);
             else if (e.wheel.y == -1)
-                camera->zoom(1);
+                camera->zoom(Tools::speed);
             else if (e.type == SDL_MOUSEBUTTONUP) {
                 if (e.button.button == SDL_BUTTON_RIGHT) {
                     rightPressed = 0;
@@ -245,21 +246,32 @@ void Application::testInterface() {
 
     //test sea
 
+    //ProceduralObject * testRock = new SharpRock();
+    //testRock->createRenderObject(programManager, textureManager);
+
+    //ProceduralObject * testRock = new ArchedRock();
+    //testRock->createRenderObject(programManager, textureManager);
+
+
 
 
     //test RoundRock
-    ProceduralObject * menirRock = new MenirRock();
-    menirRock->createRenderObject(programManager, textureManager);
+    //ProceduralObject * menirRock = new MenirRock();
+    //menirRock->createRenderObject(programManager, textureManager);
 
-    ProceduralObject * roundRock2 = new RoundRock();
-    roundRock2->createRenderObject(programManager, textureManager);
+    //ProceduralObject * roundRock2 = new RoundRock();
+    //roundRock2->createRenderObject(programManager, textureManager);
 /*
     ProceduralObject * roundRock3 = new RoundRock();
     roundRock3->createRenderObject(programManager, textureManager);
 */
     //test Grass
-    ProceduralObject * grass = new ProceduralGrass(glm::vec3(0,0,0));
-    grass->createRenderObject(programManager, textureManager);
+    //ProceduralObject * grass = new ProceduralGrass(glm::vec3(0,0,0));
+    //grass->createRenderObject(programManager, textureManager);
+
+    //test Branche
+    ProceduralObject * branche = new ProceduralBranche();
+    branche->createRenderObject(programManager, textureManager);
 
 
     bool done = false;
@@ -333,19 +345,19 @@ void Application::testInterface() {
 
         //round rock
 
-        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
         //roundRock->draw(camera->getViewMatrix());
 
 
-        grass->draw(camera->getViewMatrix());
+        branche->draw(camera->getViewMatrix());
 
-        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+        //glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 
         //roundRock2->draw(camera->getViewMatrix());
 
-        menirRock->draw(camera->getViewMatrix());
+        //menirRock->draw(camera->getViewMatrix());
 
         //roundRock2->draw(camera->getViewMatrix());
 
@@ -360,8 +372,11 @@ void Application::testInterface() {
     }
     //delete testObject;
 
+    //delete testRock;
+
     //delete roundRock;
     delete test;
-    delete grass;
+    //delete grass;
+    delete branche;
 
 }
