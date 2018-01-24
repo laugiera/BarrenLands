@@ -23,6 +23,7 @@ public:
     virtual void generateVertices() =0;
     virtual void generateIndices() =0;
     virtual void generateNormals();
+    Color * chooseColor(Color * _color);
 
     //commun à tous les rocks
     void createRenderObject(ProgramManager *programManager, TextureManager *textureManager, Color * _color);

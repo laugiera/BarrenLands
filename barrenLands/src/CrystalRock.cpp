@@ -11,6 +11,7 @@ CrystalRock::CrystalRock() : ProceduralRock(){
 }
 
 CrystalRock::~CrystalRock(){}
+
 //to change after with his own vertices
 void CrystalRock::generateVertices(){
     vertices.clear();
@@ -140,6 +141,13 @@ void CrystalRock::subdivideFace(std::vector<glimac::ShapeVertex> &_vertices, int
 
     _vertices.clear();
     _vertices = __vertices;
+}
+
+Color *CrystalRock::chooseColor(Color *_color) {
+    Color * alteredColor = new Color(_color);
+    //alteredColor->red(0.2);
+    alteredColor->darken(0.3);
+    return alteredColor;
 }
 
 

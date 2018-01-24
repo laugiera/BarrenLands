@@ -6,9 +6,16 @@
 #define BARRENLANDS_COLOR_HPP
 
 #include "glm/vec3.hpp"
+#include <string>
+#include "NoiseManager.hpp"
+#include <iostream>
+
+enum {RANDOM, RED, GREEN, BLUE, ALPHA};
+
+
 /**
  * Class Color
- * Manage a color and its rpg composantes
+ * Manage a color and its rgb composantes
  */
 class Color {
 public:
@@ -43,10 +50,22 @@ public:
     }
 
     void darken(float intensity);
-
     void lighten(float intensity);
+    void saturate(float intensity);
+
+    void red(float intensity = 0.1);
+    void green(float intensity = 0.1);
+    void blue(float intensity = 0.1);
+
+    void randomSimilarColor(float intensity = 0.1);
+    void complementaryColor();
 
     glm::vec3 getVec3();
+
+    friend std::ostream &operator<<(std::ostream & stream, const Color & c){
+        stream << "( " << c.r << ", " << c.g << ", " << c.b << ')' ;
+        return stream;
+    }
 
 
 private:

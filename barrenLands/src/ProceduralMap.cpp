@@ -142,6 +142,8 @@ std::vector<glimac::ShapeVertex> ProceduralMap::getVertices(){
  */
 void ProceduralMap::createBiomes() {
 
+    createBiomeColors();
+    
     biomes.push_back(new ProceduralBiome(RenderMap::sand,"sand"));
     biomes.push_back(new ProceduralBiome(RenderMap::grass,"grass"));
     biomes.push_back(new ProceduralBiome(RenderMap::savannah,"savannah"));
@@ -271,5 +273,40 @@ void ProceduralMap::draw(const glm::mat4 &viewMatrix) {
     for(ProceduralObject * biome : biomes){
         biome->draw(viewMatrix);
     }
+}
+
+void ProceduralMap::createBiomeColors() {
+    Color baseColor = Color();
+    baseColor.saturate(-0.3);
+    baseColor.lighten(0.2);
+    std::cout <<"base Color : "<< baseColor << std::endl;
+    Color derivedColor = baseColor;
+
+    derivedColor.lighten(0.1);  derivedColor.red(0.1); derivedColor.green(0.1);
+    RenderMap::sand = new Color(&derivedColor);
+    std::cout <<"sand Color : "<< derivedColor << std::endl;
+
+    derivedColor = baseColor; derivedColor.lighten(0);  derivedColor.green(0.1); derivedColor.blue(0.05);
+    RenderMap::grass = new Color(&derivedColor);
+    std::cout <<"grass Color : "<< derivedColor << std::endl;
+
+    derivedColor = baseColor; derivedColor.lighten(0.4); derivedColor.saturate(-0.8);
+    RenderMap::snow = new Color(&derivedColor);
+    std::cout <<"snow Color : "<< derivedColor << std::endl;
+
+    derivedColor = baseColor; derivedColor.lighten(0.2); derivedColor.complementaryColor();
+
+    RenderMap::rock = new Color(&derivedColor);
+    std::cout <<"rock Color : "<< derivedColor << std::endl;
+
+    derivedColor = baseColor; derivedColor.darken(0.1); derivedColor.red(0.01); //derivedColor.randomSimilarColor(0.1);
+    RenderMap::toundra = new Color(&derivedColor);
+    std::cout <<"toundra Color : "<< derivedColor << std::endl;
+
+    derivedColor = baseColor; derivedColor.darken(0.1); derivedColor.red(0.1); //derivedColor.randomSimilarColor(0.1);
+    RenderMap::savannah = new Color(&derivedColor);
+    std::cout <<"savannah Color : "<< derivedColor << std::endl;
+
+
 }
 

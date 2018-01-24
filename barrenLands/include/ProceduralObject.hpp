@@ -34,6 +34,8 @@ public:
 
     virtual std::vector<glcustom::Texture *> chooseTextures(TextureManager *textureManager);
 
+    virtual Color * chooseColor(Color * _color = nullptr);
+
     virtual void subdivideObject(std::vector<glimac::ShapeVertex> &_vertices, int nbRecurse = 1);
 
     virtual void subdivideFace(std::vector<glimac::ShapeVertex> &_vertices, int nbRecurse = 1);
