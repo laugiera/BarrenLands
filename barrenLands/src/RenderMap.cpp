@@ -13,6 +13,7 @@ Color *RenderMap::snow = new Color(200.f/255.f, 250.f/255.f, 245.f/255.f);
 Color *RenderMap::rock = new Color(150.f/255.f, 150.f/255.f, 150.f/255.f);
 Color *RenderMap::savannah = new Color(255.f/255.f, 153.f/255.f, 0.f/255.f);
 
+
 unsigned  int RenderMap::biomesNumber = 6;
 
 /**

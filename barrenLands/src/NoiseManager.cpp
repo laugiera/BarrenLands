@@ -98,7 +98,7 @@ float** NoiseManager::getMoistureMap(const int width, const int height,const flo
                  + 0.5 * noise.GetNoise(4*x,3*y));
 
             moistureMap[x][y] = e;
-            std::cout << moistureMap[x][y] <<std::endl;
+            //std::cout << moistureMap[x][y] <<std::endl;
         }
     }
     return moistureMap;
