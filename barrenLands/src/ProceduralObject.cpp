@@ -234,14 +234,14 @@ glm::vec3 ProceduralObject::getNormale(){
 }
 
 
-int ProceduralObject::inTriangle(glm::vec3 O, glm::vec3 A, glm::vec3 B, glm::vec3 _position){
+int ProceduralObject::inTriangle(glm::vec3 O, glm::vec3 A, glm::vec3 B){
     float detPOPA;
     float detPAPB;
     float detPBPO;
 
-    glm::vec2 PO = glm::vec2(O.x - _position.x, O.z - _position.z);
-    glm::vec2 PA = glm::vec2(A.x - _position.x, A.z - _position.z);
-    glm::vec2 PB = glm::vec2(B.x - _position.x, B.z - _position.z);
+    glm::vec2 PO = glm::vec2(O.x - position.x, O.z - position.z);
+    glm::vec2 PA = glm::vec2(A.x - position.x, A.z - position.z);
+    glm::vec2 PB = glm::vec2(B.x - position.x, B.z - position.z);
 
     detPOPA = PO.x*PA.y - PO.y*PA.x;
     detPAPB = PA.x*PB.y - PA.y*PB.x;
@@ -256,13 +256,13 @@ int ProceduralObject::inTriangle(glm::vec3 O, glm::vec3 A, glm::vec3 B, glm::vec
     }
 }
 
-float ProceduralObject::determinerY(glm::vec3 O, glm::vec3 A, glm::vec3 B, glm::vec3 _position){
+float ProceduralObject::determinerY(glm::vec3 O, glm::vec3 A, glm::vec3 B){
     float a = (A.y - O.y)*(B.z - O.z) - (A.z - O.z)*(B.y - O.y);
     float b = (B.x - O.x)*(A.z - O.z) - (A.x - O.x)*(B.z - O.z);
     float c = (A.x - O.x)*(B.y - O.y) - (B.x - O.x)*(A.y - O.y);
     float d= -O.x*a - O.y*b - O.z*c;
     //std::cout << "a = " << a << " b = " << b << " c = " << c << " d = " << d << " res = " << (-a*_position.x/Tools::scale - c*_position.z/Tools::scale - d)/b << std::endl;
-    return (-a*_position.x - c*_position.z - d)/b;
+    return (-a*position.x - c*position.z - d)/b;
 }
 
 

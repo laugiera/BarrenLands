@@ -36,7 +36,7 @@ ProceduralMap::~ProceduralMap() {
  */
 void ProceduralMap::generateVertices(NoiseManager *noise) {
     vertices.clear();
-    int width = Tools::width;
+    float width = Tools::width;
     int i, j;
     //test génération bruit
     float** terrain = noise->getElevationMap(Tools::nbSub+1, Tools::nbSub+1);
