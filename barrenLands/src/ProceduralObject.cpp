@@ -217,11 +217,11 @@ float ProceduralObject::getHauteur(){
     glm::vec3 v4 = tab[(caseI+1)*(Tools::nbSub+1) + caseJ + 1];
 
 
-    if(inTriangle(v1, v2, v3, glm::vec3(position.x, 0, position.z)) == 1){
-        hauteur = determinerY(v1, v2, v3, glm::vec3(position.x, 0, position.z));
+    if(inTriangle(v1, v2, v3) == 1){
+        hauteur = determinerY(v1, v2, v3);
     }
-    else if(inTriangle(v2, v3, v4, glm::vec3(position.x, 0, position.z)) == 1){
-        hauteur = determinerY(v2, v3, v4, glm::vec3(position.x, 0, position.z));
+    else if(inTriangle(v2, v3, v4) == 1){
+        hauteur = determinerY(v2, v3, v4);
     }
     else{
         hauteur = v1.y;

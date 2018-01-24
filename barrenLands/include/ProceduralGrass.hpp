@@ -6,6 +6,7 @@
 class ProceduralGrass : public ProceduralObject{
 public:
     ProceduralGrass(glm::vec3 pos);
+    ProceduralGrass(glm::vec3 pos, std::vector<glimac::ShapeVertex> tab);
     virtual ~ProceduralGrass();
 
     //à redéfinir pour chaque élement

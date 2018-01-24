@@ -248,7 +248,7 @@ void ProceduralMap::draw(const glm::mat4 &viewMatrix) {
     //draw the sea
     sea->draw(viewMatrix);
     //draw the map vertex
-    renderObject->transform(position, 0, glm::vec3(0,1,0), glm::vec3(1));
+    renderObject->transform(glm::vec3(0,0,0), 0, glm::vec3(0,1,0), glm::vec3(1));
     renderObject->render(viewMatrix);
     //draw the elements
     for(ProceduralObject * biome : biomes){
