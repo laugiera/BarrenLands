@@ -2,6 +2,9 @@
 #define BARRENLANDS_ELEMENTFACTORY_HPP
 
 #include "FlatRock.hpp"
+#include <RoundRock.hpp>
+#include <SharpRock.hpp>
+#include <ArchedRock.hpp>
 
 /**
  * Class ElementFactory
@@ -11,7 +14,7 @@ class ElementFactory{
 public:
     ElementFactory() = default;
 
-    ProceduralObject* createProceduralObject();
+    ProceduralObject* createProceduralRock(const std::string &name);
     //ProceduralMap* createProceduralMap();
 };
 

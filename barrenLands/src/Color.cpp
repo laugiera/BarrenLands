@@ -46,7 +46,7 @@ Color::Color(float r, float g, float b, float a) : r(sanitize255(r)), g(sanitize
  * @param c
  */
 Color::Color(Color *c) : r(c->r),
-                         g(c->b),
+                         g(c->g),
                          b(c->b),
                          a(c->a) {}
 

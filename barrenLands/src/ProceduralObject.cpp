@@ -110,7 +110,7 @@ void ProceduralObject::createRenderObject(ProgramManager *programManager, Textur
  */
 void ProceduralObject::draw(const glm::mat4 &viewMatrix) {
     //transformer selon la position, rotation, scale de l'objet
-    renderObject->transform(position, 0, glm::vec3(0,1,0), glm::vec3(1,1,1));
+    renderObject->transform(position, 0, glm::vec3(0,1,0), glm::vec3(0.2));
     renderObject->render(viewMatrix);
 }
 /**

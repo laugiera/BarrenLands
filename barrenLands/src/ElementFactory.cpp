@@ -4,7 +4,10 @@
  * createProceduralObject()
  * @return ProceduralObject*
  */
-ProceduralObject* ElementFactory::createProceduralObject(){
+ProceduralObject* ElementFactory::createProceduralRock(const std::string &name){
     //return new ProceduralObject();
-    return new FlatRock();
+    if(name == "sand")
+        return new RoundRock();
+    else
+        return new RoundRock();
 }
