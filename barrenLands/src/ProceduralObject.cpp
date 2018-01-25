@@ -20,6 +20,246 @@ ProceduralObject::ProceduralObject() : renderObject(nullptr), position(glm::vec3
 ProceduralObject::~ProceduralObject() {
     //delete renderObject;
 }
+
+/**
+ * createRenderObject()
+ * creates corresponding renderObject and it's GPU Program
+ * By default, Element program is used and one random texture from the texture manager is added
+ * @param ProgramManager * programManager
+ * @param TextureManager * textureManager
+ * @param Color * color, default null
+ */
+void ProceduralObject::createRenderObject(ProgramManager *programManager, TextureManager *textureManager, Color *color) {
+    if(!renderObject){
+        std::vector<glcustom::Texture *> textures = chooseTextures(textureManager);
+        renderObject = new RenderObject(programManager->getElementProgram(), textures);
+        renderObject->fillData(vertices, indices);
+        renderObject->setColor(chooseColor(color));
+    }
+}
+/**
+ * draw()
+ * render one object for each entry in the positions vector
+ * applies a random rotation and scale that can be defined for each class
+ * @param glm::mat4  viewMatrix
+ */
+void ProceduralObject::draw(const glm::mat4 &viewMatrix) {
+    //transformer selon la position, rotation, scale de l'objet
+    for(int i = 0; i<positions.size(); i++){
+        renderObject->setColor(&colors[i]);
+        renderObject->transform(positions[i], 0, glm::vec3(0,1,0), glm::vec3(0.2));
+        renderObject->render(viewMatrix);
+    }
+
+}
+
+/**
+ * Adds a instance of an object
+ * Adds its position and color to the positions and colors attributs after having modified them
+ * @param position
+ * @param biomeColor
+ */
+void ProceduralObject::addInstance(const glm::vec3 &position, const Color &biomeColor) {
+    glm::vec3 truePosition = getRandomPosition(position);
+    //truePosition.y += getHauteur(position); // if y wasn't 0 there is an offset with the ground
+    positions.push_back(truePosition);
+
+    Color trueColor = chooseColor(biomeColor);
+    colors.push_back(trueColor);
+}
+
+
+
+
+/********** SETTING RANDOM PARAMETERS OF THE OBJECT **********/
+
+/**
+ * Computes a random position from the base position passed to the function
+ * Y coordinates must be defaulted to 0 to allow for later modification with the getHauteur function
+ * If Y is different than 0 an offset will be created and the object will not be on the ground (but that can be on purpose)
+ * @param position
+ * @return
+ */
+glm::vec3 ProceduralObject::getRandomPosition(const glm::vec3 &position) {
+    //gérer l'alléatoire par rapport aux coordonnées de la vertex;
+    glm::vec3 truePosition = position;
+    truePosition.y = 0; //default configuration, can be overloaded with different settings;
+    return truePosition;
+}
+
+/**
+ * Computes a random rotation for the object in the world space
+ * @return
+ */
+glm::mat4 ProceduralObject::getRandomRotation() {
+    return glm::rotate(glm::mat4(1.f), 0.f, glm::vec3(0,1,0));
+}
+
+/**
+ * Computes a random scale for the object in the world space
+ * @return
+ */
+glm::mat4 ProceduralObject::getRandomScale() {
+    return glm::scale(glm::mat4(1.f), glm::vec3(1,1,1));
+}
+
+/**
+ * Alter the positions vector attribut as a whole to allow custom repartition of the objects
+ * Will affect all the object of this type on the map
+ */
+void ProceduralObject::scatter() {
+    //gérer la répartition du vecteur de positions;
+}
+
+/**
+ * Computes a color for the object from the color passed as parameter
+ * @param _color
+ * @return a pointer
+ */
+Color *ProceduralObject::chooseColor(Color *_color) {
+    if(!_color){
+        return new Color;
+    } else {
+        return new Color(_color);
+    }
+}
+/**
+ * Computes a color for the object from the color passed as parameter
+ * @param _color
+ * @return a color
+ */
+Color ProceduralObject::chooseColor(const Color &_c) {
+    return _c;
+}
+/**
+ * chooseTextures()
+ * return an random texture from textureManager; by default it's a sand texture
+ * @param TextureManager * textureManager
+ * @return
+ */
+std::vector<glcustom::Texture *> ProceduralObject::chooseTextures(TextureManager *textureManager) {
+    return std::vector<glcustom::Texture *>(1, textureManager->getRandomTexture("sand"));
+}
+
+
+
+
+/********** FINDING THE HEIGHT AND ORIENTATION OF THE GROUND BENEATH AN OBJECT **********/
+
+float ProceduralObject::getHauteur(const glm::vec3 &_position) {
+    //Récupérations des coordonnées de la map
+    float** terrain = NoiseManager::getInstance().heightMap;
+    std::vector<glm::vec3> tab;
+    int i;
+    int j;
+    for(i=0; i<Tools::nbSub+1; ++i){
+        for(j=0; j<Tools::nbSub+1; j++){
+            tab.push_back(glm::vec3(-Tools::width*Tools::nbSub/2.0+j*Tools::width, terrain[i][j], -Tools::width*Tools::nbSub/2.0+i*Tools::width));
+        }
+    }
+
+    int caseI =0;
+    int caseJ =0;
+    float hauteur = 0;
+    glm::vec3 v1;
+    glm::vec3 v2;
+    glm::vec3 v3;
+    glm::vec3 v4;
+        caseI = int((_position.z) + Tools::width*Tools::nbSub/2);
+        caseJ = int((_position.x) + Tools::width*Tools::nbSub/2);
+
+        v1 = tab[caseI*(Tools::nbSub+1) + caseJ];
+        v2 = tab[caseI*(Tools::nbSub+1) + caseJ + 1];
+        v3 = tab[(caseI+1)*(Tools::nbSub+1) + caseJ];
+        v4 = tab[(caseI+1)*(Tools::nbSub+1) + caseJ + 1];
+
+        if(inTriangle(v1, v2, v3, glm::vec3(_position.x, 0, _position.z)) == 1){
+            hauteur = determinerY(v1, v2, v3, glm::vec3(_position.x, 0, _position.z));
+        }
+        else if(inTriangle(v2, v3, v4, glm::vec3(_position.x, 0, _position.z)) == 1){
+            hauteur = determinerY(v2, v3, v4, glm::vec3(_position.x, 0, _position.z));
+        }
+        else{
+            hauteur = v1.y;
+        }
+    return hauteur;
+}
+
+int ProceduralObject::inTriangle(glm::vec3 O, glm::vec3 A, glm::vec3 B, const glm::vec3 &_position){
+    float detPOPA;
+    float detPAPB;
+    float detPBPO;
+
+    glm::vec2 PO = glm::vec2(O.x - _position.x, O.z - _position.z);
+    glm::vec2 PA = glm::vec2(A.x - _position.x, A.z - _position.z);
+    glm::vec2 PB = glm::vec2(B.x - _position.x, B.z - _position.z);
+
+    detPOPA = PO.x*PA.y - PO.y*PA.x;
+    detPAPB = PA.x*PB.y - PA.y*PB.x;
+    detPBPO = PB.x*PO.y - PB.y*PO.x;
+
+    if((detPOPA >=0 && detPAPB >=0 && detPBPO >= 0) ||
+       (detPOPA <0 && detPAPB <0 && detPBPO < 0)){
+        return 1;
+    }
+    else{
+        return 0;
+    }
+}
+
+float ProceduralObject::determinerY(glm::vec3 O, glm::vec3 A, glm::vec3 B, const glm::vec3 &_position){
+    float a = (A.y - O.y)*(B.z - O.z) - (A.z - O.z)*(B.y - O.y);
+    float b = (B.x - O.x)*(A.z - O.z) - (A.x - O.x)*(B.z - O.z);
+    float c = (A.x - O.x)*(B.y - O.y) - (B.x - O.x)*(A.y - O.y);
+    float d= -O.x*a - O.y*b - O.z*c;
+    //std::cout << "a = " << a << " b = " << b << " c = " << c << " d = " << d << " res = " << (-a*_position.x/Tools::scale - c*_position.z/Tools::scale - d)/b << std::endl;
+    return (-a*_position.x - c*_position.z - d)/b;
+}
+
+glm::vec3 ProceduralObject::getNormale(){
+    //Récupérations des coordonnées de la map
+    float** terrain = NoiseManager::getInstance().heightMap;
+    std::vector<glm::vec3> tab;
+    int i;
+    int j;
+    for(i=0; i<Tools::nbSub+1; ++i){
+        for(j=0; j<Tools::nbSub+1; j++){
+            tab.push_back(glm::vec3(-Tools::width*Tools::nbSub/2.0+j*Tools::width, terrain[i][j], -Tools::width*Tools::nbSub/2.0+i*Tools::width));
+        }
+    }
+
+    int caseI;
+    int caseJ;
+    glm::vec3 normale;
+
+    caseI = (position.z) + Tools::width*Tools::nbSub/2;
+    caseJ = (position.x) + Tools::width*Tools::nbSub/2;
+
+    glm::vec3 v1 = tab[caseI*(Tools::nbSub+1) + caseJ];
+    glm::vec3 v2 = tab[caseI*(Tools::nbSub+1) + caseJ + 1];
+    glm::vec3 v3 = tab[(caseI+1)*(Tools::nbSub+1) + caseJ];
+    glm::vec3 v4 = tab[(caseI+1)*(Tools::nbSub+1) + caseJ + 1];
+
+    if(inTriangle(v1, v2, v3, position) == 1){
+        glm::vec3 dir1 = v2 - v1;
+        glm::vec3 dir2 = v3 - v1;
+        normale = glm::cross(dir2, dir1);
+    }
+    else {
+        glm::vec3 dir1 = v2 - v3;
+        glm::vec3 dir2 = v4 - v3;
+        normale = glm::cross(dir2, dir1);
+    }
+
+    return normale;
+}
+
+
+
+
+
+/********** HANDLING OBJECT GEOMETRY **********/
+
 /**
  * generateVertices()
  * Cube
@@ -56,8 +296,6 @@ void ProceduralObject::generateVertices() {
     vertices.push_back(glimac::ShapeVertex(glm::vec3(1,-1,-1), glm::vec3(0,-1,0), glm::vec2(0,0)));
     vertices.push_back(glimac::ShapeVertex(glm::vec3(1,-1,1), glm::vec3(0,-1,0), glm::vec2(0,1)));
     vertices.push_back(glimac::ShapeVertex(glm::vec3(-1,-1,1), glm::vec3(0,-1,0), glm::vec2(1,0)));
-
-
 }
 /**
  * generateIndices()
@@ -86,53 +324,18 @@ void ProceduralObject::generateIndices() {
 }
 /**
  * generateNormals()
+ * Empty for the base model
  */
 void ProceduralObject::generateNormals() {
 
 }
 /**
- * createRenderObject()
- * creates corresponding renderObject and it's GPU Program
- * By default, Element program is used and one random texture from the texture manager is added
- * @param ProgramManager * programManager
- * @param TextureManager * textureManager
- * @param Color * color, default null
+ * Subdivides all the faces of an object any number of time
+ * @param _vertices
+ * @param nbRecurse
  */
-void ProceduralObject::createRenderObject(ProgramManager *programManager, TextureManager *textureManager, Color *color) {
-    if(!renderObject){
-        std::vector<glcustom::Texture *> textures = chooseTextures(textureManager);
-        renderObject = new RenderObject(programManager->getElementProgram(), textures);
-        renderObject->fillData(vertices, indices);
-        renderObject->setColor(chooseColor(color));
-    }
-}
-/**
- * draw()
- * makes a default transformation on the model matrix
- * render the object
- * @param glm::mat4  viewMatrix
- */
-void ProceduralObject::draw(const glm::mat4 &viewMatrix) {
-    //transformer selon la position, rotation, scale de l'objet
-    for(int i = 0; i<positions.size(); i++){
-        renderObject->setColor(&colors[i]);
-        renderObject->transform(positions[i], 0, glm::vec3(0,1,0), glm::vec3(0.2));
-        renderObject->render(viewMatrix);
-    }
-
-}
-/**
- * chooseTextures()
- * return an random texture from textureManager; by default it's a sand texture
- * @param TextureManager * textureManager
- * @return
- */
-std::vector<glcustom::Texture *> ProceduralObject::chooseTextures(TextureManager *textureManager) {
-    return std::vector<glcustom::Texture *>(1, textureManager->getRandomTexture("sand"));
-}
-
 void ProceduralObject::subdivideObject(std::vector<glimac::ShapeVertex> &_vertices, int nbRecurse) {
-    if(nbRecurse == 0){
+    if(nbRecurse <= 0){
         return;
     }
     std::vector<glimac::ShapeVertex> subdividedObject;
@@ -150,7 +353,13 @@ void ProceduralObject::subdivideObject(std::vector<glimac::ShapeVertex> &_vertic
     _vertices = subdividedObject;
     subdivideObject(_vertices, nbRecurse-1);
 }
-
+/**
+ * Default subdivision algorithm :
+ * one triangle outputs to 4 triangles
+ * New vertices stay on the face and are not pushed toxars the exterior
+ * @param _vertices
+ * @param nbRecurse
+ */
 void ProceduralObject::subdivideFace(std::vector<glimac::ShapeVertex> &_vertices, int nbRecurse) {
     //prend un vecteur de 3 vertices
     glm::vec3 subDiv1, subDiv2, subDiv3;
@@ -197,161 +406,17 @@ void ProceduralObject::subdivideFace(std::vector<glimac::ShapeVertex> &_vertices
 
 
 }
-
-void ProceduralObject::addInstance(const glm::vec3 &position, const Color &biomeColor) {
-    glm::vec3 truePosition = getRandomPosition(position);
-    //truePosition.y = getHauteur(position);
-    positions.push_back(truePosition);
-
-    Color trueColor = chooseColor(biomeColor);
-    colors.push_back(trueColor);
-}
-
-glm::vec3 ProceduralObject::getRandomPosition(const glm::vec3 &position) {
-    //gérer l'alléatoire par rapport aux coordonnées de la vertex;
-    return glm::vec3(position);
-}
-
-glm::mat4 ProceduralObject::getRandomRotation() {
-    return glm::rotate(glm::mat4(1.f), 0.f, glm::vec3(0,1,0));
-}
-
-glm::mat4 ProceduralObject::getRandomScale() {
-    return glm::scale(glm::mat4(1.f), glm::vec3(1,1,1));
-}
-
-void ProceduralObject::scatter() {
-    //gérer la répartition du vecteur de position;
-}
-
-Color *ProceduralObject::chooseColor(Color *_color) {
-    if(!_color){
-        return new Color;
-    } else {
-        return new Color(_color);
-    }
-}
-
-Color ProceduralObject::chooseColor(const Color &_c) {
-    return _c;
-}
-
-float ProceduralObject::getHauteur(const glm::vec3 &_position) {
-    //Récupérations des coordonnées de la map
-    float** terrain = NoiseManager::getInstance().heightMap;
-    std::vector<glm::vec3> tab;
-    int i;
-    int j;
-    for(i=0; i<Tools::nbSub+1; ++i){
-        for(j=0; j<Tools::nbSub+1; j++){
-            tab.push_back(glm::vec3(-Tools::width*Tools::nbSub/2.0+j*Tools::width, terrain[i][j], -Tools::width*Tools::nbSub/2.0+i*Tools::width));
-        }
-    }
-
-    int caseI =0;
-    int caseJ =0;
-    float hauteur = 0;
-    glm::vec3 v1;
-    glm::vec3 v2;
-    glm::vec3 v3;
-    glm::vec3 v4;
-        caseI = int((_position.z) + Tools::width*Tools::nbSub/2);
-        caseJ = int((_position.x) + Tools::width*Tools::nbSub/2);
-
-        v1 = tab[caseI*(Tools::nbSub+1) + caseJ];
-        v2 = tab[caseI*(Tools::nbSub+1) + caseJ + 1];
-        v3 = tab[(caseI+1)*(Tools::nbSub+1) + caseJ];
-        v4 = tab[(caseI+1)*(Tools::nbSub+1) + caseJ + 1];
-
-        if(inTriangle(v1, v2, v3, glm::vec3(_position.x, 0, _position.z)) == 1){
-            hauteur = determinerY(v1, v2, v3, glm::vec3(_position.x, 0, _position.z));
-        }
-        else if(inTriangle(v2, v3, v4, glm::vec3(_position.x, 0, _position.z)) == 1){
-            hauteur = determinerY(v2, v3, v4, glm::vec3(_position.x, 0, _position.z));
-        }
-        else{
-            hauteur = v1.y;
-        }
-    return hauteur;
-}
-
-glm::vec3 ProceduralObject::getNormale(){
-    //Récupérations des coordonnées de la map
-    float** terrain = NoiseManager::getInstance().heightMap;
-    std::vector<glm::vec3> tab;
-    int i;
-    int j;
-    for(i=0; i<Tools::nbSub+1; ++i){
-        for(j=0; j<Tools::nbSub+1; j++){
-            tab.push_back(glm::vec3(-Tools::width*Tools::nbSub/2.0+j*Tools::width, terrain[i][j], -Tools::width*Tools::nbSub/2.0+i*Tools::width));
-        }
-    }
-
-    int caseI;
-    int caseJ;
-    glm::vec3 normale;
-
-    caseI = (position.z) + Tools::width*Tools::nbSub/2;
-    caseJ = (position.x) + Tools::width*Tools::nbSub/2;
-
-    glm::vec3 v1 = tab[caseI*(Tools::nbSub+1) + caseJ];
-    glm::vec3 v2 = tab[caseI*(Tools::nbSub+1) + caseJ + 1];
-    glm::vec3 v3 = tab[(caseI+1)*(Tools::nbSub+1) + caseJ];
-    glm::vec3 v4 = tab[(caseI+1)*(Tools::nbSub+1) + caseJ + 1];
-
-    if(inTriangle(v1, v2, v3, position) == 1){
-        glm::vec3 dir1 = v2 - v1;
-        glm::vec3 dir2 = v3 - v1;
-        normale = glm::cross(dir2, dir1);
-    }
-    else {
-        glm::vec3 dir1 = v2 - v3;
-        glm::vec3 dir2 = v4 - v3;
-        normale = glm::cross(dir2, dir1);
-    }
-
-    return normale;
-}
-
-
-int ProceduralObject::inTriangle(glm::vec3 O, glm::vec3 A, glm::vec3 B, const glm::vec3 &_position){
-    float detPOPA;
-    float detPAPB;
-    float detPBPO;
-
-    glm::vec2 PO = glm::vec2(O.x - _position.x, O.z - _position.z);
-    glm::vec2 PA = glm::vec2(A.x - _position.x, A.z - _position.z);
-    glm::vec2 PB = glm::vec2(B.x - _position.x, B.z - _position.z);
-
-    detPOPA = PO.x*PA.y - PO.y*PA.x;
-    detPAPB = PA.x*PB.y - PA.y*PB.x;
-    detPBPO = PB.x*PO.y - PB.y*PO.x;
-
-    if((detPOPA >=0 && detPAPB >=0 && detPBPO >= 0) ||
-       (detPOPA <0 && detPAPB <0 && detPBPO < 0)){
-        return 1;
-    }
-    else{
-        return 0;
-    }
-}
-
-float ProceduralObject::determinerY(glm::vec3 O, glm::vec3 A, glm::vec3 B, const glm::vec3 &_position){
-    float a = (A.y - O.y)*(B.z - O.z) - (A.z - O.z)*(B.y - O.y);
-    float b = (B.x - O.x)*(A.z - O.z) - (A.x - O.x)*(B.z - O.z);
-    float c = (A.x - O.x)*(B.y - O.y) - (B.x - O.x)*(A.y - O.y);
-    float d= -O.x*a - O.y*b - O.z*c;
-    //std::cout << "a = " << a << " b = " << b << " c = " << c << " d = " << d << " res = " << (-a*_position.x/Tools::scale - c*_position.z/Tools::scale - d)/b << std::endl;
-    return (-a*_position.x - c*_position.z - d)/b;
-}
-
-
-
-
+/**
+ *  getVertices()
+ * @return all the vertices
+ */
 const std::vector<glimac::ShapeVertex> &ProceduralObject::getVertices() const {
     return vertices;
 }
-
+/**
+ * getIndices()
+ * @return all the indices
+ */
 const std::vector<uint32_t> &ProceduralObject::getIndices() const {
     return indices;
 }
