@@ -25,10 +25,6 @@ public:
 
     void createElement(glm::vec3 position, const std::string &type);
 
-    void setVertices(const std::vector<glimac::ShapeVertex *> &vertices);
-
-    void addVertex(glimac::ShapeVertex *vertex);
-
     void setName(const std::string &name);
 
     const std::string &getName() const;
@@ -44,7 +40,6 @@ public:
     void setColor(Color *color);
 
 private:
-    std::vector<glimac::ShapeVertex *> vertices;
     std::string name;
     Color * color;
     std::vector<ProceduralObject *> rocks;

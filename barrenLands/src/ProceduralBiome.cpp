@@ -58,22 +58,6 @@ void ProceduralBiome::createRenderObject(ProgramManager *programManager, Texture
 
 
 /**
- * Set the vertices vector
- * @param vertices
- */
-void ProceduralBiome::setVertices(const std::vector<glimac::ShapeVertex *> &vertices) {
-    ProceduralBiome::vertices = vertices;
-}
-
-/**
- * Add one vertex to vertices
- * @param vertex
- */
-void ProceduralBiome::addVertex(glimac::ShapeVertex *vertex) {
-    vertices.push_back(vertex);
-}
-
-/**
  * Get the biome color
  * @return
  */

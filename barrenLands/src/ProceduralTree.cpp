@@ -41,7 +41,7 @@ std::vector<glcustom::Texture *> ProceduralTree::chooseTextures(TextureManager *
 
 void ProceduralTree::addInstance(const glm::vec3 &position, const Color &biomeColor) {
 
-    glm::vec3 globalScale = glm::vec3(1, 0.8, 1);
+    glm::vec3 globalScale = glm::vec3(1, 0.3, 1);
 
     if(!tronc || !feuillage){
         throw std::runtime_error("Il n'y a pas de tronc ou de feuillage défini");
