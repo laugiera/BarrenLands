@@ -12,7 +12,7 @@
 ProceduralObject::ProceduralObject() : renderObject(nullptr), position(glm::vec3(0.f)) {
     generateVertices();
     generateIndices();
-    std::cout << "procedural object created" << std::endl;
+    //std::cout << "procedural object created" << std::endl;
 }
 /**
  * Destructor
@@ -324,7 +324,8 @@ glm::mat4 ProceduralObject::getRandomScale() {
 
 void ProceduralObject::addInstance(const glm::vec3 &position, const Color &biomeColor) {
     glm::vec3 truePosition = position;
-    //truePosition.y = getHauteur(position);
+    truePosition.y -= getHauteur(position);
+    std::cout << truePosition << std::endl;
     positions.push_back(truePosition);
 
     Color trueColor = chooseColor(biomeColor);

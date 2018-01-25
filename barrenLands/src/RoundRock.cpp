@@ -149,6 +149,10 @@ Color *RoundRock::chooseColor(Color *_color) {
     return alteredColor;
 }
 
+/*void RoundRock::Grouping(){
+    //if
+}*/
+
 
 
 
