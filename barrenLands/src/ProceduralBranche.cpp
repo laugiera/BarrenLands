@@ -94,5 +94,5 @@ std::vector<glcustom::Texture *> ProceduralBranche::chooseTextures(TextureManage
 }
 
 glm::mat4 ProceduralBranche::getRandomScale() {
-    return glm::scale(glm::mat4(1.f), glm::vec3(5,5,5));
+    return glm::scale(glm::mat4(1.f), glm::vec3(1,1,1));
 }

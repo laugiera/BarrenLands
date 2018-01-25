@@ -157,7 +157,7 @@ glm::vec3 ProceduralFeuillage::getRandomPosition(const glm::vec3 &position) {
 }
 
 glm::mat4 ProceduralFeuillage::getRandomScale() {
-    return glm::scale(glm::mat4(1.f), glm::vec3(5,5,5));
+    return glm::scale(glm::mat4(1.f), glm::vec3(1,1,1));
 }
 
 

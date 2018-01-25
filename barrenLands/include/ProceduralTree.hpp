@@ -13,8 +13,6 @@ public:
 
     void addInstance(const glm::vec3 &position, const Color &biomeColor);
 
-    glm::mat4 getRandomScale();
-
     //à redéfinir pour chaque élement
     void generateVertices();
 

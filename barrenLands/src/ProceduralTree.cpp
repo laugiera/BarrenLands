@@ -42,16 +42,17 @@ std::vector<glcustom::Texture *> ProceduralTree::chooseTextures(TextureManager *
 }
 
 void ProceduralTree::addInstance(const glm::vec3 &position, const Color &biomeColor) {
+
+    glm::vec3 globalScale = glm::vec3(1, 0.2, 1);
+
     if(!tronc || !feuillage){
         throw std::runtime_error("Il n'y a pas de tronc ou de feuillage défini");
     } else {
         tronc->addInstance(position, biomeColor);
         Color colorFeuille(0, 1, 0);
         glm::vec3 posFeuillage = glm::vec3(position.x, position.y + tronc->getHeight(), position.z);
+        posFeuillage = globalScale * posFeuillage;
         feuillage->addInstance(posFeuillage, colorFeuille);
     }
 }
 
-glm::mat4 ProceduralTree::getRandomScale() {
-    return glm::scale(glm::mat4(1.f), glm::vec3(1,1,1));
-}

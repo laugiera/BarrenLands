@@ -73,6 +73,7 @@ void Application::clearGl() {
 void Application::appLoop() {
     //creation of GPU Programs
     programManager->createPrograms();
+    ElementManager::getInstance().createAllElements();
 
     //initialization of lights
     Light sun = Light(1,"Sun",glm::vec3(0.5,0.1,0));
