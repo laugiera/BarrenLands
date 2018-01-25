@@ -26,8 +26,9 @@
 int main(int argc, char** argv) {
 
     Application app(argv[0]);
-    app.appLoop();
-    //app.testInterface();
+    //app.appLoop();
+
+    app.testInterface();
 
     return EXIT_SUCCESS;
 }

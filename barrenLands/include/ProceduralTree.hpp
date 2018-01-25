@@ -4,35 +4,31 @@
 #include "ProceduralObject.hpp"
 #include "ProceduralBranche.hpp"
 #include "ProceduralFeuillage.hpp"
+#include "ElementManager.hpp"
 
 class ProceduralTree : public ProceduralObject{
 public:
     ProceduralTree();
     virtual ~ProceduralTree();
 
+    void addInstance(const glm::vec3 &position, const Color &biomeColor);
+
+    glm::mat4 getRandomScale();
+
     //à redéfinir pour chaque élement
     void generateVertices();
+
     void generateIndices(){};
-    //void generateNormals();
 
     //commun à toutes les Tree
     void createRenderObject(ProgramManager *programManager, TextureManager *textureManager, Color * _color);
+
     std::vector<glcustom::Texture *> chooseTextures(TextureManager *textureManager);
 
-    void setPosition(glm::vec3 &_position){
-        position = _position;
-        tronc->setPosition(_position);
-        glm::vec3 posFeuillage = glm::vec3(_position.x, _position.y + tronc->getHeight(), _position.z);
-        feuillage->setPosition(posFeuillage);
-    }
-
-    void draw(const glm::mat4 &viewMatrix);
-    //static
-    static void setPositions(std::vector<ProceduralObject *> objects);
 
 private:
-    ProceduralBranche *tronc;
-    ProceduralFeuillage *feuillage;
+    ProceduralBranche * tronc;
+    ProceduralFeuillage * feuillage;
 };
 
 #endif //BARRENLANDS_PROCEDURALTREE_HPP

@@ -2,19 +2,17 @@
 #include "NoiseManager.hpp"
 /** Constructor and destructor**/
 
-ProceduralTree::ProceduralTree(): ProceduralObject(){
+ProceduralTree::ProceduralTree(): ProceduralObject(), tronc(nullptr), feuillage(nullptr){
     vertices.clear();
     indices.clear();
-    tronc = new ProceduralBranche();
-    feuillage = new ProceduralFeuillage();
-    glm::vec3 posFeuillage = glm::vec3(position.x, position.y + tronc->getHeight(), position.z);
-    feuillage->setPosition(posFeuillage);
+    //tronc = new ProceduralBranche();
+    tronc = ElementManager::getInstance().createProceduralBranche();
+    //feuillage = new ProceduralFeuillage();
+    feuillage = ElementManager::getInstance().createProceduralFeuillage();
 
 }
 
 ProceduralTree::~ProceduralTree() {
-    delete feuillage;
-    delete tronc;
 }
 
 void ProceduralTree::generateVertices(){
@@ -30,9 +28,8 @@ void ProceduralTree::generateVertices(){
  * @param Color * color, default null
  */
 void ProceduralTree::createRenderObject(ProgramManager *programManager, TextureManager *textureManager,  Color * color){
-    tronc->createRenderObject(programManager, textureManager,  color);
-    Color colorFeuille(0,1,0);
-    feuillage->createRenderObject(programManager, textureManager,  &colorFeuille);
+    tronc->createRenderObject(programManager, textureManager, color);
+    feuillage->createRenderObject(programManager, textureManager, color);
 }
 /**
  * chooseTextures()
@@ -43,15 +40,18 @@ void ProceduralTree::createRenderObject(ProgramManager *programManager, TextureM
 std::vector<glcustom::Texture *> ProceduralTree::chooseTextures(TextureManager *textureManager) {
     return std::vector<glcustom::Texture *>(1, textureManager->getRandomTexture("rock")); //A CHANGER ?
 }
-/**
- * static setPositions()
- * @param objects
- */
-void ProceduralTree::setPositions(std::vector<ProceduralObject *> objects){
 
+void ProceduralTree::addInstance(const glm::vec3 &position, const Color &biomeColor) {
+    if(!tronc || !feuillage){
+        throw std::runtime_error("Il n'y a pas de tronc ou de feuillage défini");
+    } else {
+        tronc->addInstance(position, biomeColor);
+        Color colorFeuille(0, 1, 0);
+        glm::vec3 posFeuillage = glm::vec3(position.x, position.y + tronc->getHeight(), position.z);
+        feuillage->addInstance(posFeuillage, colorFeuille);
+    }
 }
 
-void ProceduralTree::draw(const glm::mat4 &viewMatrix) {
-    tronc->draw(viewMatrix);
-    feuillage->draw(viewMatrix);
+glm::mat4 ProceduralTree::getRandomScale() {
+    return glm::scale(glm::mat4(1.f), glm::vec3(1,1,1));
 }

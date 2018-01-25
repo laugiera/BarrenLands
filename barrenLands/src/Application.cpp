@@ -218,6 +218,7 @@ const glimac::SDLWindowManager &Application::getWindowManager() const {
 void Application::testInterface() {
     //textureManager->createTextures();
     programManager->createPrograms();
+    ElementManager::getInstance().createAllElements();
 
     //initialization of lights
     Light sun = Light(1,"Sun",glm::vec3(0.5,0.1,0));
@@ -276,8 +277,12 @@ void Application::testInterface() {
     //Color * color = new Color(0,1,0);
     //feuillage->createRenderObject(programManager, textureManager, color);
 
-    ProceduralObject * feuillage = new ProceduralTree();
-    feuillage->createRenderObject(programManager, textureManager);
+    //ProceduralObject * feuillage = new ProceduralTree();
+    //feuillage->createRenderObject(programManager, textureManager);
+    ProceduralObject * tree = ElementManager::getInstance().createProceduralTree();
+    tree->addInstance(glm::vec3(0,0,0), Color(1,1,0));
+    tree->createRenderObject(programManager, textureManager);
+
 
     bool done = false;
     int rightPressed = 0;
@@ -347,6 +352,11 @@ void Application::testInterface() {
         Example : testObject->draw(camera->getViewMatrix());
          ******/
 
+        std::vector<ProceduralObject *> elements = ElementManager::getInstance().getAllElements();
+        for (ProceduralObject * el : elements){
+            el->draw(camera->getViewMatrix());
+        }
+
 
         //round rock
 
@@ -357,7 +367,7 @@ void Application::testInterface() {
 
         //branche->draw(camera->getViewMatrix());
 
-        feuillage->draw(camera->getViewMatrix());
+        //feuillage->draw(camera->getViewMatrix());
 
         //glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
@@ -385,7 +395,7 @@ void Application::testInterface() {
     delete test;
     //delete grass;
     //delete branche;
-    delete feuillage;
+    //delete feuillage;
     //delete color;
 
 }
