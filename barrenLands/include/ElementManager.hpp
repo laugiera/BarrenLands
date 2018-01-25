@@ -18,7 +18,7 @@ public:
 
 
     ProceduralObject* createProceduralRock(const std::string &name);
-    ProceduralObject* createProceduralGrass();
+    ProceduralObject* createProceduralGrass(const glm::vec3 & position);
     std::vector<ProceduralObject *> getAllElements();
 
 private:
