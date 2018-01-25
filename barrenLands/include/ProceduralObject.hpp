@@ -62,8 +62,8 @@ public:
 
     const std::vector<uint32_t> &getIndices() const;
 
-    int inTriangle(glm::vec3 O, glm::vec3 A, glm::vec3 B);
-    float determinerY(glm::vec3 O, glm::vec3 A, glm::vec3 B);
+    int inTriangle(glm::vec3 O, glm::vec3 A, glm::vec3 B, const glm::vec3 &_position);
+    float determinerY(glm::vec3 O, glm::vec3 A, glm::vec3 B, const glm::vec3 &_position);
 
 protected:
     std::vector<glimac::ShapeVertex> vertices;
