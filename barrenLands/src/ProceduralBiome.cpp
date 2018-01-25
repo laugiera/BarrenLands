@@ -105,3 +105,13 @@ void ProceduralBiome::createElements() {
     rocks.push_back(ElementManager::getInstance().createProceduralRock(name));
     grass.push_back(ElementManager::getInstance().createProceduralGrass());
 }
+
+const std::vector<ProceduralObject *> &ProceduralBiome::getRocks() const {
+    return rocks;
+}
+
+void ProceduralBiome::grouping(){
+    for (int i = 0; i < this->rocks.size(); ++i) {
+        rocks[i]->grouping();
+    }
+}

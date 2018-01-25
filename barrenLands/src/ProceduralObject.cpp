@@ -326,8 +326,9 @@ glm::mat4 ProceduralObject::getRandomScale() {
 
 void ProceduralObject::addInstance(const glm::vec3 &position, const Color &biomeColor) {
     glm::vec3 truePosition = position;
-    truePosition.y -= getHauteur(position);
-    std::cout << truePosition << std::endl;
+    float ecart = position.y - getHauteur(position);
+    truePosition.y -= ecart;
+    //std::cout << getHauteur(position) << " et " <<position.y<<  std::endl;
     positions.push_back(truePosition);
 
     Color trueColor = chooseColor(biomeColor);
@@ -344,6 +345,10 @@ const std::vector<glimac::ShapeVertex> &ProceduralObject::getVertices() const {
 
 const std::vector<uint32_t> &ProceduralObject::getIndices() const {
     return indices;
+}
+
+void ProceduralObject::grouping(){
+
 }
 
 

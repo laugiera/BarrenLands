@@ -65,6 +65,8 @@ public:
     int inTriangle(glm::vec3 O, glm::vec3 A, glm::vec3 B, const glm::vec3 &_position);
     float determinerY(glm::vec3 O, glm::vec3 A, glm::vec3 B, const glm::vec3 &_position);
 
+    virtual void grouping();
+
 protected:
     std::vector<glimac::ShapeVertex> vertices;
     std::vector<uint32_t> indices;

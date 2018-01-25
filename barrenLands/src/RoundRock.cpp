@@ -149,9 +149,17 @@ Color *RoundRock::chooseColor(Color *_color) {
     return alteredColor;
 }
 
-/*void RoundRock::Grouping(){
-    //if
-}*/
+void RoundRock::grouping(){
+    //if three x positions ar near each other, then we group them on the center of the triangle made by the three vertex
+    float epsilon = 1, decalage = 0.1, ecart = 0;
+    int i = 1;
+    while (i<positions.size()){
+        ecart = positions[i-1].x - positions[i].x;
+        if(ecart < epsilon){
+            positions[i-1].x += ecart - decalage;
+        }
+    }
+}
 
 
 

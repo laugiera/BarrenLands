@@ -207,7 +207,7 @@ void ProceduralMap::createBiomes() {
                 biomes[3]->addVertex(&vertices[i]); //roche - no rocks
             } else {
                 biomes[4]->addVertex(&vertices[i]); //toundra
-                if(objectMap[i/(Tools::nbSub +1)][i%(Tools::nbSub +1)] > rockLevel+0.4){ // rare menhir rock - high on the mountains - no random
+                if(objectMap[i/(Tools::nbSub +1)][i%(Tools::nbSub +1)] > rockLevel+0.3){ // rare menhir rock - high on the mountains - no random
                     biomes[4]->createElement(glm::vec3(vertices[i].position.x,
                                                         vertices[i].position.y,
                                                         vertices[i].position.z ),
@@ -218,6 +218,10 @@ void ProceduralMap::createBiomes() {
             biomes[5]->addVertex(&vertices[i]); //toundra neige - no elements
         }
 
+    }
+
+    for (int j = 0; j < biomes.size(); ++j) {
+        biomes[j]->grouping();
     }
 }
 

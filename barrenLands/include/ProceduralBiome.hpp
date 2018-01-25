@@ -51,6 +51,10 @@ public:
 
     void setColor(Color *color);
 
+    const std::vector<ProceduralObject *> &getRocks() const;
+
+    void grouping();
+
 private:
     std::vector<ProceduralObject *> elements;
     std::vector<glimac::ShapeVertex *> vertices;
