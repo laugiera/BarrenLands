@@ -81,7 +81,7 @@ public:
     const std::vector<uint32_t> &getIndices() const;
 
 
-    
+
     /***** Getter and setter for postion ******/ // À ENELEVER
 
     glm::vec3 & getPosition(){
