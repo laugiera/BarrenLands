@@ -155,11 +155,13 @@ void ProceduralMap::createBiomes() {
     std::vector <float> objectVec;
     float** rockMap = NoiseManager::getInstance().getRockMap(Tools::nbSub +1, Tools::nbSub +1, 0.5);
     float** objectMap = NoiseManager::getInstance().getRockMap(Tools::nbSub +1, Tools::nbSub +1, 0.5);
+    float** carteAuPifPourTesterArbre = NoiseManager::getInstance().getRockMap(Tools::nbSub +1, Tools::nbSub +1, 0.7);
 
 
     //Affectation des valeurs
     float rockLevel = 0.6;
     float grassLevel = 0.5;
+    float treeLevel = 0.7;
 
     try {
         for (int i = 0; i < vertices.size(); i++) {
@@ -181,6 +183,9 @@ void ProceduralMap::createBiomes() {
 
                     if (objectMap[i / (Tools::nbSub + 1)][i % (Tools::nbSub + 1)] > grassLevel)
                         biomes[1]->createElement(vertices[i].position, "grass");
+
+                    if (carteAuPifPourTesterArbre[i / (Tools::nbSub + 1)][i % (Tools::nbSub + 1)] > treeLevel)
+                        biomes[1]->createElement(vertices[i].position, "tree");
 
                 }
 

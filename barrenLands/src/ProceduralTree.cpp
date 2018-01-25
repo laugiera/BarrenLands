@@ -5,9 +5,7 @@
 ProceduralTree::ProceduralTree(): ProceduralObject(), tronc(nullptr), feuillage(nullptr){
     vertices.clear();
     indices.clear();
-    //tronc = new ProceduralBranche();
     tronc = ElementManager::getInstance().createProceduralBranche();
-    //feuillage = new ProceduralFeuillage();
     feuillage = ElementManager::getInstance().createProceduralFeuillage();
 
 }
@@ -43,7 +41,7 @@ std::vector<glcustom::Texture *> ProceduralTree::chooseTextures(TextureManager *
 
 void ProceduralTree::addInstance(const glm::vec3 &position, const Color &biomeColor) {
 
-    glm::vec3 globalScale = glm::vec3(1, 0.2, 1);
+    glm::vec3 globalScale = glm::vec3(1, 0.8, 1);
 
     if(!tronc || !feuillage){
         throw std::runtime_error("Il n'y a pas de tronc ou de feuillage défini");
@@ -55,4 +53,5 @@ void ProceduralTree::addInstance(const glm::vec3 &position, const Color &biomeCo
         feuillage->addInstance(posFeuillage, colorFeuille);
     }
 }
+
 

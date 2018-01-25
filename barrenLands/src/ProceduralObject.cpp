@@ -45,13 +45,15 @@ void ProceduralObject::createRenderObject(ProgramManager *programManager, Textur
  */
 void ProceduralObject::draw(const glm::mat4 &viewMatrix) {
     //transformer selon la position, rotation, scale de l'objet
-    glm::mat4 transfo(1.f);
-    for(int i = 0; i<positions.size(); i++){
-        renderObject->setColor(&colors[i]);
-        renderObject->transform(positions[i], 0, glm::vec3(0,1,0), glm::vec3(0.2));
-        transfo = getRandomScale()  * getRandomRotation();
-        renderObject->alterModelMatrix(transfo);
-        renderObject->render(viewMatrix);
+    if(renderObject) {
+        glm::mat4 transfo(1.f);
+        for (int i = 0; i < positions.size(); i++) {
+            renderObject->setColor(&colors[i]);
+            renderObject->transform(positions[i], 0, glm::vec3(0, 1, 0), glm::vec3(1));
+            transfo = getRandomScale() * getRandomRotation();
+            renderObject->alterModelMatrix(transfo);
+            renderObject->render(viewMatrix);
+        }
     }
 
 }
@@ -104,7 +106,7 @@ glm::mat4 ProceduralObject::getRandomRotation() {
  * @return
  */
 glm::mat4 ProceduralObject::getRandomScale() {
-    return glm::scale(glm::mat4(1.f), glm::vec3(1,1,1));
+    return glm::scale(glm::mat4(1.f), glm::vec3(0.2,0.2,0.2));
 }
 
 /**
