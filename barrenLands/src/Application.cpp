@@ -5,6 +5,8 @@
 #include <RoundRock.hpp>
 #include "ProceduralGrass.hpp"
 #include "ProceduralBranche.hpp"
+#include "ProceduralFeuillage.hpp"
+#include "ProceduralTree.hpp"
 #include "Application.hpp"
 
 
@@ -87,7 +89,6 @@ void Application::appLoop() {
     //initilization of skybox
     SkyboxObject * sky = new SkyboxObject();
     sky -> createRenderObject(programManager, textureManager);
-
 
     bool done = false;
     int rightPressed = 0;
@@ -189,8 +190,6 @@ void Application::appLoop() {
     delete Map;
     //delete factory;
    // delete grass;
-
-
 }
 
 /**
@@ -270,9 +269,15 @@ void Application::testInterface() {
     //grass->createRenderObject(programManager, textureManager);
 
     //test Branche
-    ProceduralObject * branche = new ProceduralBranche();
-    branche->createRenderObject(programManager, textureManager);
+    //ProceduralObject * branche = new ProceduralBranche();
+    //branche->createRenderObject(programManager, textureManager);
 
+    //ProceduralObject * feuillage = new ProceduralFeuillage();
+    //Color * color = new Color(0,1,0);
+    //feuillage->createRenderObject(programManager, textureManager, color);
+
+    ProceduralObject * feuillage = new ProceduralTree();
+    feuillage->createRenderObject(programManager, textureManager);
 
     bool done = false;
     int rightPressed = 0;
@@ -350,7 +355,9 @@ void Application::testInterface() {
         //roundRock->draw(camera->getViewMatrix());
 
 
-        branche->draw(camera->getViewMatrix());
+        //branche->draw(camera->getViewMatrix());
+
+        feuillage->draw(camera->getViewMatrix());
 
         //glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
@@ -377,6 +384,8 @@ void Application::testInterface() {
     //delete roundRock;
     delete test;
     //delete grass;
-    delete branche;
+    //delete branche;
+    delete feuillage;
+    //delete color;
 
 }

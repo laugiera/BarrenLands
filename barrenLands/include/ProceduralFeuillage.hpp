@@ -10,8 +10,8 @@ public:
 
     //à redéfinir pour chaque élement
     void generateVertices();
-    void generateIndices(){};
-    //void generateNormals();
+    void generateIndices();
+    void generateNormals();
 
     //commun à toutes les branches
     void createRenderObject(ProgramManager *programManager, TextureManager *textureManager, Color * _color);
