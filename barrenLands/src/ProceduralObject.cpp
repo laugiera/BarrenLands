@@ -25,6 +25,7 @@ ProceduralObject::~ProceduralObject() {
  * createRenderObject()
  * creates corresponding renderObject and it's GPU Program
  * By default, Element program is used and one random texture from the texture manager is added
+ * The color parameter is usefull only if the rendering for the object is not instanciated
  * @param ProgramManager * programManager
  * @param TextureManager * textureManager
  * @param Color * color, default null
@@ -32,9 +33,8 @@ ProceduralObject::~ProceduralObject() {
 void ProceduralObject::createRenderObject(ProgramManager *programManager, TextureManager *textureManager, Color *color) {
     if(!renderObject){
         std::vector<glcustom::Texture *> textures = chooseTextures(textureManager);
-        renderObject = new RenderObject(programManager->getElementProgram(), textures);
+        renderObject = new RenderObject(programManager->getElementProgram(), textures, color);
         renderObject->fillData(vertices, indices);
-        renderObject->setColor(chooseColor(color));
     }
 }
 /**
@@ -104,7 +104,7 @@ glm::mat4 ProceduralObject::getRandomRotation() {
  * @return
  */
 glm::mat4 ProceduralObject::getRandomScale() {
-    return glm::scale(glm::mat4(1.f), glm::vec3(0,0,0));
+    return glm::scale(glm::mat4(1.f), glm::vec3(1,1,1));
 }
 
 /**
