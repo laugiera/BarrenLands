@@ -22,6 +22,12 @@ public:
 
     virtual ~ProceduralObject();
 
+    virtual void addInstance(const glm::vec3 &position, const Color &biomeColor);
+    virtual glm::mat4 getRandomRotation();
+    virtual glm::mat4 getRandomScale();
+    virtual glm::vec3 getRandomPosition(const glm::vec3 &position);
+    virtual void scatter();
+
     virtual void generateVertices();
 
     virtual void generateIndices();
@@ -42,9 +48,8 @@ public:
 
     virtual void subdivideFace(std::vector<glimac::ShapeVertex> &_vertices, int nbRecurse = 1);
 
-    virtual void addInstance(const glm::vec3 &position, const Color &biomeColor);
-    virtual glm::mat4 getRandomRotation();
-    virtual glm::mat4 getRandomScale();
+
+
 
     /**Getter and setter for postion**/
     glm::vec3 & getPosition(){

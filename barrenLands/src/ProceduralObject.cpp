@@ -198,6 +198,32 @@ void ProceduralObject::subdivideFace(std::vector<glimac::ShapeVertex> &_vertices
 
 }
 
+void ProceduralObject::addInstance(const glm::vec3 &position, const Color &biomeColor) {
+    glm::vec3 truePosition = getRandomPosition(position);
+    //truePosition.y = getHauteur(position);
+    positions.push_back(truePosition);
+
+    Color trueColor = chooseColor(biomeColor);
+    colors.push_back(trueColor);
+}
+
+glm::vec3 ProceduralObject::getRandomPosition(const glm::vec3 &position) {
+    //gérer l'alléatoire par rapport aux coordonnées de la vertex;
+    return glm::vec3(position);
+}
+
+glm::mat4 ProceduralObject::getRandomRotation() {
+    return glm::rotate(glm::mat4(1.f), 0.f, glm::vec3(0,1,0));
+}
+
+glm::mat4 ProceduralObject::getRandomScale() {
+    return glm::scale(glm::mat4(1.f), glm::vec3(1,1,1));
+}
+
+void ProceduralObject::scatter() {
+    //gérer la répartition du vecteur de position;
+}
+
 Color *ProceduralObject::chooseColor(Color *_color) {
     if(!_color){
         return new Color;
@@ -206,6 +232,9 @@ Color *ProceduralObject::chooseColor(Color *_color) {
     }
 }
 
+Color ProceduralObject::chooseColor(const Color &_c) {
+    return _c;
+}
 
 float ProceduralObject::getHauteur(const glm::vec3 &_position) {
     //Récupérations des coordonnées de la map
@@ -314,26 +343,8 @@ float ProceduralObject::determinerY(glm::vec3 O, glm::vec3 A, glm::vec3 B){
     return (-a*position.x - c*position.z - d)/b;
 }
 
-glm::mat4 ProceduralObject::getRandomRotation() {
-    return glm::rotate(glm::mat4(1.f), 0.f, glm::vec3(0,1,0));
-}
 
-glm::mat4 ProceduralObject::getRandomScale() {
-    return glm::scale(glm::mat4(1.f), glm::vec3(1,1,1));
-}
 
-void ProceduralObject::addInstance(const glm::vec3 &position, const Color &biomeColor) {
-    glm::vec3 truePosition = position;
-    //truePosition.y = getHauteur(position);
-    positions.push_back(truePosition);
-
-    Color trueColor = chooseColor(biomeColor);
-    colors.push_back(trueColor);
-}
-
-Color ProceduralObject::chooseColor(const Color &_c) {
-    return _c;
-}
 
 const std::vector<glimac::ShapeVertex> &ProceduralObject::getVertices() const {
     return vertices;
@@ -342,6 +353,8 @@ const std::vector<glimac::ShapeVertex> &ProceduralObject::getVertices() const {
 const std::vector<uint32_t> &ProceduralObject::getIndices() const {
     return indices;
 }
+
+
 
 
 

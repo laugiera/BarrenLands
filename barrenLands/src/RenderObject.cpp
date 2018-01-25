@@ -5,6 +5,20 @@
 #include "../include/RenderObject.hpp"
 
 /**
+ * Constructor
+ * @param glcustom::GPUProgram * program
+ * @param std::vector<glcustom::Texture *> textures
+ * @param Color * _color
+ */
+RenderObject::RenderObject(glcustom::GPUProgram *program, std::vector<glcustom::Texture *> textures,  Color *_color)
+        : program(program), textures(textures), vao(), color(nullptr){
+    if(_color){
+        color = new Color(_color);
+    } else color = new Color(); //default value
+    std::cout << "render object created" << std::endl;
+}
+
+/**
  * Destructor
  */
 RenderObject::~RenderObject() {
@@ -22,13 +36,7 @@ void RenderObject::fillData(std::vector<glimac::ShapeVertex> vertices, std::vect
     //si les indices n'ont pas étés renseignés, remplir le tableau d'indices avec les indices des vertices (de 0 à nbVertices-1)
     glcustom::VBO vbo;
     vbo.fillBuffer(vertices);
-
     if(indices.empty()){
-        /*
-        for(uint32_t i = 0; i < vertices.size(); i++){
-            indices.push_back(i);
-        }
-         */
         vao.fillBuffer(vertices, &vbo);
     } else {
         glcustom::IBO ibo;
@@ -39,19 +47,7 @@ void RenderObject::fillData(std::vector<glimac::ShapeVertex> vertices, std::vect
 
 
 }
-/**
- * Constructor
- * @param glcustom::GPUProgram * program
- * @param std::vector<glcustom::Texture *> textures
- * @param Color * _color
- */
-RenderObject::RenderObject(glcustom::GPUProgram *program, std::vector<glcustom::Texture *> textures,  Color *_color)
-        : program(program), textures(textures), vao(), color(nullptr){
-    if(_color){
-        color = new Color(_color);
-    } else color = new Color(); //default value
-    std::cout << "render object created" << std::endl;
-}
+
 /**
  * transform()
  * Applies transformation to the modelMatrix
@@ -68,6 +64,11 @@ void RenderObject::transform(const glm::vec3 &translate, const float angle, cons
     transformation = glm::scale(transformation,scale);
     modelMatrix = transformation;
 }
+
+void RenderObject::transform(const glm::mat4 &transfos) {
+    modelMatrix = transfos;
+}
+
 /**
  * bindTextures()
  * bind all textures (GL_TEXTURE_2D) and send them as uniforms
@@ -126,3 +127,5 @@ void RenderObject::render(const glm::mat4 &viewMatrix) {
     vao.debind();
     debindTextures();
 }
+
+

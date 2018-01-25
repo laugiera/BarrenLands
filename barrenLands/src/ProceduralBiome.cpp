@@ -23,15 +23,13 @@ ProceduralBiome::~ProceduralBiome(){
  */
 void ProceduralBiome::createElement(glm::vec3 position, const std::string &type) {
     //Use factory to fill elements attribute
-    if(rocks.empty()){
-        throw std::runtime_error("Biome " + name + " : an element category is empty");
-    }
     if(type == "rock"){
+        if(rocks.empty()) throw std::runtime_error("Biome " + name + " : an element category is empty");
         rocks[0]->addInstance(position, *color);
     }
     else if (type == "grass"){
-        //elements.push_back(factory.createProceduralGrass(position));
-        grass[0]->addInstance(position, *color);
+        grass.push_back(ElementManager::getInstance().createProceduralGrass(position));
+        grass[grass.size()-1]->addInstance(glm::vec3(0,0,0), *color);
     }
 
 }
@@ -48,16 +46,6 @@ void ProceduralBiome::createRenderObject(ProgramManager *programManager, Texture
         gras->createRenderObject(programManager, textureManager, getColor());
     }
 
-}
-
-/**
- * Draws all the elements the biome contains
- * @param viewMatrix
- */
-void ProceduralBiome::draw(const glm::mat4 &viewMatrix) {
-    for(ProceduralObject * rock : rocks){
-        rock->draw(viewMatrix);
-    }
 }
 
 
@@ -103,5 +91,5 @@ const std::string &ProceduralBiome::getName() const {
 
 void ProceduralBiome::createElements() {
     rocks.push_back(ElementManager::getInstance().createProceduralRock(name));
-    grass.push_back(ElementManager::getInstance().createProceduralGrass());
+    //grass.push_back(ElementManager::getInstance().createProceduralGrass());
 }
