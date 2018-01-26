@@ -155,17 +155,19 @@ void ProceduralMap::createBiomes() {
     std::vector <float> objectVec;
     float** rockMap = NoiseManager::getInstance().getRockMap(Tools::nbSub +1, Tools::nbSub +1, 0.5);
     float** objectMap = NoiseManager::getInstance().getRockMap(Tools::nbSub +1, Tools::nbSub +1, 0.5);
+    float** carteAuPifPourTesterArbre = NoiseManager::getInstance().getRockMap(Tools::nbSub +1, Tools::nbSub +1, 0.7);
 
 
     //Affectation des valeurs
     float rockLevel = 0.6;
     float grassLevel = 0.5;
+    float treeLevel = 0.7;
 
     try {
         for (int i = 0; i < vertices.size(); i++) {
             if (vertices[i].position.y < 1) {
                 if (vertices[i].moisture <= 0.1) {
-                    biomes[0]->addVertex(&vertices[i]); // desert
+                    //desert
                     if (objectMap[i / (Tools::nbSub + 1)][i % (Tools::nbSub + 1)] > rockLevel) { //roundrock
                         biomes[0]->createElement(glm::vec3(vertices[i].position.x +
                                                            NoiseManager::getInstance().getRandomFloat() *
@@ -177,16 +179,19 @@ void ProceduralMap::createBiomes() {
 
                     }
                 } else {
-                    biomes[1]->addVertex(&vertices[i]); //herbe
+                    //herbe
 
                     if (objectMap[i / (Tools::nbSub + 1)][i % (Tools::nbSub + 1)] > grassLevel)
                         biomes[1]->createElement(vertices[i].position, "grass");
+
+                    if (carteAuPifPourTesterArbre[i / (Tools::nbSub + 1)][i % (Tools::nbSub + 1)] > treeLevel)
+                        biomes[1]->createElement(vertices[i].position, "tree");
 
                 }
 
             } else if (vertices[i].position.y < 2) {
                 if (vertices[i].moisture < 0.5) {
-                    biomes[2]->addVertex(&vertices[i]); //savane
+                     //savane
                     if (objectMap[i / (Tools::nbSub + 1)][i % (Tools::nbSub + 1)] >
                         rockLevel + 0.1) { //crystal rock - small random
                         biomes[2]->createElement(
@@ -196,7 +201,7 @@ void ProceduralMap::createBiomes() {
                                 "rock");
                     }
                 } else {
-                    biomes[1]->addVertex(&vertices[i]); //herbe - round rocks
+                     //herbe - round rocks
                     if (objectMap[i / (Tools::nbSub + 1)][i % (Tools::nbSub + 1)] >
                         rockLevel) { //roundrock - small random
                         biomes[1]->createElement(
@@ -212,9 +217,9 @@ void ProceduralMap::createBiomes() {
 
             } else if (vertices[i].position.y < 5) {
                 if (vertices[i].moisture < 0.1) {
-                    biomes[3]->addVertex(&vertices[i]); //roche - no rocks
+                     //roche - no rocks
                 } else {
-                    biomes[4]->addVertex(&vertices[i]); //toundra
+                    //toundra
                     if (objectMap[i / (Tools::nbSub + 1)][i % (Tools::nbSub + 1)] >
                         rockLevel + 0.4) { // rare menhir rock - high on the mountains - no random
                         biomes[4]->createElement(glm::vec3(vertices[i].position.x,
@@ -224,7 +229,7 @@ void ProceduralMap::createBiomes() {
                     }
                 }
             } else {
-                biomes[5]->addVertex(&vertices[i]); //toundra neige - no elements
+                //toundra neige - no elements
             }
 
         }

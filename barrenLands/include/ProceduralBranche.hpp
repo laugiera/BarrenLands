@@ -8,20 +8,21 @@ public:
     ProceduralBranche();
     virtual ~ProceduralBranche();
 
+    glm::mat4 getRandomScale();
+
     //à redéfinir pour chaque élement
     void generateVertices();
     void generateIndices(){};
     void generateNormals();
 
-    //commun à toutes les branches
-    void createRenderObject(ProgramManager *programManager, TextureManager *textureManager, Color * _color);
     std::vector<glcustom::Texture *> chooseTextures(TextureManager *textureManager);
 
     float getHeight(){
         return height;
     }
-
+/*
     void draw(const glm::mat4 &viewMatrix);
+    */
     //static
     static void setPositions(std::vector<ProceduralObject *> objects);
 

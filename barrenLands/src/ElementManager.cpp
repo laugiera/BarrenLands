@@ -1,5 +1,30 @@
 #include "ElementManager.hpp"
 
+ElementManager * ElementManager::instance = nullptr;
+
+
+/**
+ * Constructeur
+ * Créée tous les models en utilisant createAllElements()
+ */
+ElementManager::ElementManager() {
+    //createAllElements();
+}
+
+/**
+ * crée tous les models utilisés pour le rendu instancié et les ajoute dans les différents attributs du manager par famille
+ */
+void ElementManager::createAllElements() {
+    rocks.push_back(new RoundRock);
+    rocks.push_back(new MenirRock);
+    rocks.push_back(new CrystalRock);
+    feuillages.push_back(new ProceduralFeuillage);
+    branches.push_back(new ProceduralBranche);
+    trees.push_back(new ProceduralTree);
+
+    //cas spécial pour l'herbe qui n'est pas en rendu instancié
+}
+
 /**
  * createProceduralObject()
  * renvoie un pointer vers un des models de rock créé par le manager précédemment (dans createAllElements() )
@@ -12,25 +37,6 @@ ProceduralObject* ElementManager::createProceduralRock(const std::string &name){
         return rocks[1];
     else
         return rocks[2];
-}
-
-/**
- * crée tous les models utilisés pour le rendu instancié et les ajoute dans les différents attributs du manager par famille
- */
-void ElementManager::createAllElements() {
-    rocks.push_back(new RoundRock);
-    rocks.push_back(new MenirRock);
-    rocks.push_back(new CrystalRock);
-
-    //cas spécial pour l'herbe qui n'est pas en rendu instancié
-}
-
-/**
- * Constructeur
- * Créée tous les models en utilisant createAllElements()
- */
-ElementManager::ElementManager() {
-    createAllElements();
 }
 
 /**
@@ -51,6 +57,10 @@ std::vector<ProceduralObject *> ElementManager::getAllElements() {
     std::vector<ProceduralObject *> elements;
     elements.insert( elements.end(), rocks.begin(), rocks.end());
     elements.insert( elements.end(), grass.begin(), grass.end());
+    elements.insert( elements.end(), branches.begin(), branches.end());
+    elements.insert( elements.end(), feuillages.begin(), feuillages.end());
+    elements.insert( elements.end(), trees.begin(), trees.end());
+
     return elements;
 }
 
@@ -66,3 +76,16 @@ ProceduralObject *ElementManager::createProceduralGrass(const glm::vec3 & positi
     grass.push_back(g);
     return g;
 }
+
+ProceduralObject *ElementManager::createProceduralTree() {
+    return trees[0];
+}
+
+ProceduralBranche *ElementManager::createProceduralBranche() {
+    return branches[0];
+}
+
+ProceduralFeuillage *ElementManager::createProceduralFeuillage() {
+    return feuillages[0];
+}
+

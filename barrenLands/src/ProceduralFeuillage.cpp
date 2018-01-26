@@ -142,14 +142,6 @@ void ProceduralFeuillage::subdivideFace(std::vector<glimac::ShapeVertex> &_verti
 
 }
 
-void ProceduralFeuillage::createRenderObject(ProgramManager *programManager, TextureManager *textureManager,  Color * color){
-    std::vector<glcustom::Texture *> textures = chooseTextures(textureManager);
-    //TO CHANGE
-    //renderObject = new RenderRock(programManager->getElementProgram(), textures,color); // to change if program is different
-    renderObject = new RenderObject(programManager->getElementProgram(), textures, color);
-    renderObject->fillData(vertices, indices);
-    //renderObject->setColor(color);
-}
 /**
  * chooseTextures()
  * Redefined to get a rock texture
@@ -159,19 +151,15 @@ void ProceduralFeuillage::createRenderObject(ProgramManager *programManager, Tex
 std::vector<glcustom::Texture *> ProceduralFeuillage::chooseTextures(TextureManager *textureManager) {
     return std::vector<glcustom::Texture *>(1, textureManager->getRandomTexture("rock"));
 }
-/**
- * static setPositions()
- * @param objects
- */
-void ProceduralFeuillage::setPositions(std::vector<ProceduralObject *> objects){
 
+glm::vec3 ProceduralFeuillage::getRandomPosition(const glm::vec3 &position) {
+    return position;
 }
 
-void ProceduralFeuillage::draw(const glm::mat4 &viewMatrix) {
-    //transformer selon la position, rotation, scale de l'objet
-    renderObject->transform(position, 0, glm::vec3(0,1,0), glm::vec3(1));
-    renderObject->render(viewMatrix);
+glm::mat4 ProceduralFeuillage::getRandomScale() {
+    return glm::scale(glm::mat4(1.f), glm::vec3(0.3,0.3,0.3));
 }
+
 
 
 

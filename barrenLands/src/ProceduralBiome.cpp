@@ -7,9 +7,10 @@
  * Constructor
  * @param _color
  */
-ProceduralBiome::ProceduralBiome(Color *_color,const std::string &_name) : elements(), color(new Color(_color)), name(_name) {
+ProceduralBiome::ProceduralBiome(Color *_color,const std::string &_name) : color(new Color(_color)), name(_name) {
     indices.clear();
     createElements();
+    std::cout << "this was a biome object not a real one " <<std::endl;
 }
 /**
  * Destructor
@@ -24,12 +25,16 @@ ProceduralBiome::~ProceduralBiome(){
 void ProceduralBiome::createElement(glm::vec3 position, const std::string &type) {
     //Use factory to fill elements attribute
     if(type == "rock"){
-        if(rocks.empty()) throw std::runtime_error("Biome " + name + " : an element category is empty");
+        if(rocks.empty()) throw std::runtime_error("Biome " + name + " : an the rock category is empty");
         rocks[0]->addInstance(position, *color);
     }
     else if (type == "grass"){
         grass.push_back(ElementManager::getInstance().createProceduralGrass(position));
         grass[grass.size()-1]->addInstance(glm::vec3(0,0,0), *color);
+    }
+    else if (type == "tree"){
+        if(trees.empty()) throw std::runtime_error("Biome " + name + " : an the tree category is empty");
+        trees[0]->addInstance(position, *color);
     }
 
 }
@@ -45,25 +50,12 @@ void ProceduralBiome::createRenderObject(ProgramManager *programManager, Texture
     for(ProceduralObject * gras : grass){
         gras->createRenderObject(programManager, textureManager, getColor());
     }
+    for(ProceduralObject * tree : trees){
+        tree->createRenderObject(programManager, textureManager, getColor());
+    }
 
 }
 
-
-/**
- * Set the vertices vector
- * @param vertices
- */
-void ProceduralBiome::setVertices(const std::vector<glimac::ShapeVertex *> &vertices) {
-    ProceduralBiome::vertices = vertices;
-}
-
-/**
- * Add one vertex to vertices
- * @param vertex
- */
-void ProceduralBiome::addVertex(glimac::ShapeVertex *vertex) {
-    vertices.push_back(vertex);
-}
 
 /**
  * Get the biome color
@@ -91,5 +83,6 @@ const std::string &ProceduralBiome::getName() const {
 
 void ProceduralBiome::createElements() {
     rocks.push_back(ElementManager::getInstance().createProceduralRock(name));
+    trees.push_back(ElementManager::getInstance().createProceduralTree());
     //grass.push_back(ElementManager::getInstance().createProceduralGrass());
 }

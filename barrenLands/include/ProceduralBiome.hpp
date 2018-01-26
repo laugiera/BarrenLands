@@ -16,15 +16,14 @@
 class ProceduralBiome : public ProceduralObject{
 public:
     ProceduralBiome( Color *_color = new Color(), const std::string &_name = "");
+
     ~ProceduralBiome();
 
     virtual void createRenderObject(ProgramManager *programManager, TextureManager *textureManager);
+
     void createElements();
+
     void createElement(glm::vec3 position, const std::string &type);
-
-    void setVertices(const std::vector<glimac::ShapeVertex *> &vertices);
-
-    void addVertex(glimac::ShapeVertex *vertex);
 
     void setName(const std::string &name);
 
@@ -41,12 +40,11 @@ public:
     void setColor(Color *color);
 
 private:
-    std::vector<ProceduralObject *> elements;
-    std::vector<glimac::ShapeVertex *> vertices;
     std::string name;
     Color * color;
     std::vector<ProceduralObject *> rocks;
     std::vector<ProceduralObject *> grass;
+    std::vector<ProceduralObject *> trees;
 
 };
 
