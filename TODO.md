@@ -45,7 +45,7 @@ Plus :
 IL RESTE :
 - [ ] Répartition des rochers (faire des scale et des rotations, les regrouper un peu plus si besion) + les positionner correctement selon la hauteur du sol => ANNE
 - [ ] Répartition des "arbres" => ANNE
-- [ ] Modélisation des arbres => ETIENNE
+- [x] Modélisation des arbres => ETIENNE
 - [ ] Variations couleurs => LOU
 
 - [ ] Faire des belles textures, blur à l'horizon, contours des objets => LOU

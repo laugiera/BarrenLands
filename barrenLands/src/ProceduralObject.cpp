@@ -20,76 +20,7 @@ ProceduralObject::ProceduralObject() : renderObject(nullptr), position(glm::vec3
 ProceduralObject::~ProceduralObject() {
     //delete renderObject;
 }
-/**
- * generateVertices()
- * Cube
- */
-void ProceduralObject::generateVertices() {
-    vertices.clear();
-    //FACE AVANT
-    vertices.push_back(glimac::ShapeVertex(glm::vec3(1,1,1), glm::vec3(0,0,1), glm::vec2(0,0)));
-    vertices.push_back(glimac::ShapeVertex(glm::vec3(-1,1,1), glm::vec3(0,0,1), glm::vec2(0,1)));
-    vertices.push_back(glimac::ShapeVertex(glm::vec3(-1,-1,1), glm::vec3(0,0,1), glm::vec2(1,0)));
-    vertices.push_back(glimac::ShapeVertex(glm::vec3(1,-1,1), glm::vec3(0,0,1), glm::vec2(1,1)));
-    //Face ARRIERE
-    vertices.push_back(glimac::ShapeVertex(glm::vec3(1,1,-1), glm::vec3(0,0,-1), glm::vec2(0,0)));
-    vertices.push_back(glimac::ShapeVertex(glm::vec3(-1,1,-1), glm::vec3(0,0,-1), glm::vec2(0,1)));
-    vertices.push_back(glimac::ShapeVertex(glm::vec3(-1,-1,-1), glm::vec3(0,0,-1), glm::vec2(1,0)));
-    vertices.push_back(glimac::ShapeVertex(glm::vec3(1,-1,-1), glm::vec3(0,0,-1), glm::vec2(1,1)));
-    //FACE GAUCHE
-    vertices.push_back(glimac::ShapeVertex(glm::vec3(1,1,1), glm::vec3(-1,0,0), glm::vec2(0,0)));
-    vertices.push_back(glimac::ShapeVertex(glm::vec3(1,1,-1), glm::vec3(-1,0,0), glm::vec2(0,0)));
-    vertices.push_back(glimac::ShapeVertex(glm::vec3(1,-1,-1), glm::vec3(-1,0,0), glm::vec2(0,1)));
-    vertices.push_back(glimac::ShapeVertex(glm::vec3(1,-1,1), glm::vec3(-1,0,0), glm::vec2(1,0)));
-    //FACE DROITE
-    vertices.push_back(glimac::ShapeVertex(glm::vec3(-1,-1,-1), glm::vec3(1,0,0), glm::vec2(0,0)));
-    vertices.push_back(glimac::ShapeVertex(glm::vec3(-1,-1,1), glm::vec3(1,0,0), glm::vec2(0,0)));
-    vertices.push_back(glimac::ShapeVertex(glm::vec3(-1,1,1), glm::vec3(1,0,0), glm::vec2(0,1)));
-    vertices.push_back(glimac::ShapeVertex(glm::vec3(-1,1,-1), glm::vec3(1,0,0), glm::vec2(1,0)));
-    //FACE HAUT
-    vertices.push_back(glimac::ShapeVertex(glm::vec3(1,1,1), glm::vec3(0,1,0), glm::vec2(0,0)));
-    vertices.push_back(glimac::ShapeVertex(glm::vec3(-1,1,1), glm::vec3(0,1,0), glm::vec2(0,0)));
-    vertices.push_back(glimac::ShapeVertex(glm::vec3(-1,1,-1), glm::vec3(0,1,0), glm::vec2(0,1)));
-    vertices.push_back(glimac::ShapeVertex(glm::vec3(1,1,-1), glm::vec3(0,1,0), glm::vec2(1,0)));
-    //FACE BAS
-    vertices.push_back(glimac::ShapeVertex(glm::vec3(-1,-1,-1), glm::vec3(0,-1,0), glm::vec2(0,0)));
-    vertices.push_back(glimac::ShapeVertex(glm::vec3(1,-1,-1), glm::vec3(0,-1,0), glm::vec2(0,0)));
-    vertices.push_back(glimac::ShapeVertex(glm::vec3(1,-1,1), glm::vec3(0,-1,0), glm::vec2(0,1)));
-    vertices.push_back(glimac::ShapeVertex(glm::vec3(-1,-1,1), glm::vec3(0,-1,0), glm::vec2(1,0)));
 
-
-}
-/**
- * generateIndices()
- *
- */
-void ProceduralObject::generateIndices() {
-    indices.clear();
-    uint32_t _indices[] =
-            {
-                    0,1,2,
-                    0,2,3,
-                    4,5,6,
-                    4,6,7,
-                    8,9,10,
-                    8,10,11,
-                    12,13,14,
-                    12,14,15,
-                    16,17,18,
-                    16,18,19,
-                    20,21,22,
-                    20,22,23
-            };
-
-    indices = std::vector<uint32_t>(_indices, _indices + sizeof(_indices) / sizeof(uint32_t));
-
-}
-/**
- * generateNormals()
- */
-void ProceduralObject::generateNormals() {
-
-}
 /**
  * createRenderObject()
  * creates corresponding renderObject and it's GPU Program
@@ -108,18 +39,121 @@ void ProceduralObject::createRenderObject(ProgramManager *programManager, Textur
 }
 /**
  * draw()
- * makes a default transformation on the model matrix
- * render the object
+ * render one object for each entry in the positions vector
+ * applies a random rotation and scale that can be defined for each class
  * @param glm::mat4  viewMatrix
  */
 void ProceduralObject::draw(const glm::mat4 &viewMatrix) {
     //transformer selon la position, rotation, scale de l'objet
+    glm::mat4 transfo(1.f);
     for(int i = 0; i<positions.size(); i++){
         renderObject->setColor(&colors[i]);
         renderObject->transform(positions[i], 0, glm::vec3(0,1,0), glm::vec3(0.2));
+        //transfo = getRandomScale() * getRandomRotation() * transfo;
+        //renderObject->alterModelMatrix(transfo);
         renderObject->render(viewMatrix);
     }
 
+}
+
+/**
+ * Adds a instance of an object
+ * Adds its position and color to the positions and colors attributs after having modified them
+ * @param position
+ * @param biomeColor
+ */
+void ProceduralObject::addInstance(const glm::vec3 &position, const Color &biomeColor) {
+    glm::vec3 truePosition = position;
+    //glm::vec3 truePosition = getRandomPosition(position);
+    float ecart = position.y - getHauteur(position);
+    truePosition.y -= ecart;
+    positions.push_back(truePosition);
+
+    Color trueColor = chooseColor(biomeColor);
+    colors.push_back(trueColor);
+}
+/********** SETTING RANDOM PARAMETERS OF THE OBJECT **********/
+
+/**
+ * Computes a random position from the base position passed to the function
+ * Y coordinates must be defaulted to 0 to allow for later modification with the getHauteur function
+ * If Y is different than 0 an offset will be created and the object will not be on the ground (but that can be on purpose)
+ * @param position
+ * @return
+ */
+glm::vec3 ProceduralObject::getRandomPosition(const glm::vec3 &position) {
+/*    //gérer l'alléatoire par rapport aux coordonnées de la vertex;
+    glm::vec3 truePosition = position;
+   // truePosition.y = 0; //default configuration, can be overloaded with different settings;
+    truePosition *= getRandomRotation() * getRandomScale();
+    return truePosition;*/
+}
+
+/**
+ * Computes a random rotation for the object in the world space
+ * @return
+ */
+glm::mat4 ProceduralObject::getRandomRotation() {
+    return glm::rotate(glm::mat4(1.f), NoiseManager::getInstance().getRandomFloat(), glm::vec3(0,1,0));
+}
+
+/**
+ * Computes a random scale for the object in the world space
+ * @return
+ */
+glm::mat4 ProceduralObject::getRandomScale() {
+    return glm::scale(glm::mat4(1.f), glm::vec3(NoiseManager::getInstance().getRandomFloat()));
+}
+
+/**
+ * Alter the positions vector attribut as a whole to allow custom repartition of the objects
+ * Will affect all the object of this type on the map
+ */
+void ProceduralObject::scatter() {
+    //gérer la répartition du vecteur de positions;
+    //if three x or z positions ar near each other, then we group them
+    float epsilon = 20,  ecartX = 0, ecartZ = 0, ecartY = 0;
+    int i = 2;
+    while (i<positions.size()){
+        ecartX = (positions[i-1].x + positions[i-2].x + positions[i].x)/3;
+        ecartZ = (positions[i-1].x + positions[i-2].x + positions[i].x)/3;
+        if(ecartX < epsilon){
+            positions[i-1].x = positions[i].x  - (NoiseManager::getInstance().getRandomFloat()*1.5);
+            positions[i-1].z = positions[i].z ;
+            positions[i-1].y =  getHauteur(positions[i-1]);
+            positions[i-2].y =  getHauteur(positions[i-2]);
+            positions[i-2].x = positions[i].x  - (NoiseManager::getInstance().getRandomFloat()*1.5);
+        }
+        if(ecartZ < epsilon){
+            positions[i-1].x = positions[i].x ;
+            positions[i-1].y =  getHauteur(positions[i-1]);
+            positions[i-2].y =  getHauteur(positions[i-2]);
+            positions[i-1].z = positions[i].z  - (NoiseManager::getInstance().getRandomFloat()*1.5);
+            positions[i-2].x = positions[i].x  - (NoiseManager::getInstance().getRandomFloat()*1.5);
+        }
+        i+=3;
+    }
+}
+
+/**
+ * Computes a color for the object from the color passed as parameter
+ * @param _color
+ * @return a pointer
+ */
+Color *ProceduralObject::chooseColor(Color *_color) {
+    if(!_color){
+        return new Color;
+    } else {
+        return new Color(_color);
+    }
+}
+/**
+ * Computes a color for the object from the color passed as parameter
+ * @param _color
+ * @return a color
+ */
+Color ProceduralObject::chooseColor(const Color &_c) {
+    return _c;
 }
 /**
  * chooseTextures()
@@ -131,81 +165,10 @@ std::vector<glcustom::Texture *> ProceduralObject::chooseTextures(TextureManager
     return std::vector<glcustom::Texture *>(1, textureManager->getRandomTexture("sand"));
 }
 
-void ProceduralObject::subdivideObject(std::vector<glimac::ShapeVertex> &_vertices, int nbRecurse) {
-    if(nbRecurse == 0){
-        return;
-    }
-    std::vector<glimac::ShapeVertex> subdividedObject;
-    int i = 0;
-    while (i<_vertices.size()){
-        std::vector<glimac::ShapeVertex> face;
-        for(int j = 0; j<3; j++){
-            face.push_back(_vertices[i]);
-            i++;
-        }
-        subdivideFace(face);
-        subdividedObject.insert(subdividedObject.end(), face.begin(), face.end());
-    }
-    _vertices.clear();
-    _vertices = subdividedObject;
-    subdivideObject(_vertices, nbRecurse-1);
-}
-
-void ProceduralObject::subdivideFace(std::vector<glimac::ShapeVertex> &_vertices, int nbRecurse) {
-    //prend un vecteur de 3 vertices
-    glm::vec3 subDiv1, subDiv2, subDiv3;
-    float deux = 2;
-    subDiv1 = (_vertices[1].position - _vertices[0].position) /deux + _vertices[0].position;
-    subDiv2 = (_vertices[2].position - _vertices[1].position) /deux + _vertices[1].position;
-    subDiv3 = (_vertices[0].position - _vertices[2].position) /deux + _vertices[2].position;
-
-    glimac::ShapeVertex v1(glm::vec3(subDiv1),
-                           glm::vec3(glm::normalize(subDiv1)),
-                           glm::vec2(1,1)
-    );
-
-    glimac::ShapeVertex v2(glm::vec3(subDiv2),
-                           glm::vec3(glm::normalize(subDiv2)),
-                           glm::vec2(1,1)
-    );
-
-    glimac::ShapeVertex v3(glm::vec3(subDiv3),
-                           glm::vec3(glm::normalize(subDiv3)),
-                           glm::vec2(1,1)
-    );
-
-    std::vector<glimac::ShapeVertex> __vertices;
-
-    __vertices.emplace_back(_vertices[0]);
-    __vertices.emplace_back(v1);
-    __vertices.emplace_back(v3);
-
-    __vertices.emplace_back(v1);
-    __vertices.emplace_back(v3);
-    __vertices.emplace_back(v2);
-
-    __vertices.emplace_back(v3);
-    __vertices.emplace_back(v2);
-    __vertices.emplace_back(_vertices[2]);
-
-    __vertices.emplace_back(v2);
-    __vertices.emplace_back(v1);
-    __vertices.emplace_back(_vertices[1]);
-
-    _vertices.clear();
-    _vertices = __vertices;
 
 
-}
 
-Color *ProceduralObject::chooseColor(Color *_color) {
-    if(!_color){
-        return new Color;
-    } else {
-        return new Color(_color);
-    }
-}
-
+/********** FINDING THE HEIGHT AND ORIENTATION OF THE GROUND BENEATH AN OBJECT **********/
 
 float ProceduralObject::getHauteur(const glm::vec3 &_position) {
     //Récupérations des coordonnées de la map
@@ -244,6 +207,37 @@ float ProceduralObject::getHauteur(const glm::vec3 &_position) {
             hauteur = v1.y;
         }
     return hauteur;
+}
+
+int ProceduralObject::inTriangle(glm::vec3 O, glm::vec3 A, glm::vec3 B, const glm::vec3 &_position){
+    float detPOPA;
+    float detPAPB;
+    float detPBPO;
+
+    glm::vec2 PO = glm::vec2(O.x - _position.x, O.z - _position.z);
+    glm::vec2 PA = glm::vec2(A.x - _position.x, A.z - _position.z);
+    glm::vec2 PB = glm::vec2(B.x - _position.x, B.z - _position.z);
+
+    detPOPA = PO.x*PA.y - PO.y*PA.x;
+    detPAPB = PA.x*PB.y - PA.y*PB.x;
+    detPBPO = PB.x*PO.y - PB.y*PO.x;
+
+    if((detPOPA >=0 && detPAPB >=0 && detPBPO >= 0) ||
+       (detPOPA <0 && detPAPB <0 && detPBPO < 0)){
+        return 1;
+    }
+    else{
+        return 0;
+    }
+}
+
+float ProceduralObject::determinerY(glm::vec3 O, glm::vec3 A, glm::vec3 B, const glm::vec3 &_position){
+    float a = (A.y - O.y)*(B.z - O.z) - (A.z - O.z)*(B.y - O.y);
+    float b = (B.x - O.x)*(A.z - O.z) - (A.x - O.x)*(B.z - O.z);
+    float c = (A.x - O.x)*(B.y - O.y) - (B.x - O.x)*(A.y - O.y);
+    float d= -O.x*a - O.y*b - O.z*c;
+    //std::cout << "a = " << a << " b = " << b << " c = " << c << " d = " << d << " res = " << (-a*_position.x/Tools::scale - c*_position.z/Tools::scale - d)/b << std::endl;
+    return (-a*_position.x - c*_position.z - d)/b;
 }
 
 glm::vec3 ProceduralObject::getNormale(){
@@ -285,71 +279,175 @@ glm::vec3 ProceduralObject::getNormale(){
 }
 
 
-int ProceduralObject::inTriangle(glm::vec3 O, glm::vec3 A, glm::vec3 B, const glm::vec3 &_position){
-    float detPOPA;
-    float detPAPB;
-    float detPBPO;
 
-    glm::vec2 PO = glm::vec2(O.x - _position.x, O.z - _position.z);
-    glm::vec2 PA = glm::vec2(A.x - _position.x, A.z - _position.z);
-    glm::vec2 PB = glm::vec2(B.x - _position.x, B.z - _position.z);
 
-    detPOPA = PO.x*PA.y - PO.y*PA.x;
-    detPAPB = PA.x*PB.y - PA.y*PB.x;
-    detPBPO = PB.x*PO.y - PB.y*PO.x;
 
-    if((detPOPA >=0 && detPAPB >=0 && detPBPO >= 0) ||
-       (detPOPA <0 && detPAPB <0 && detPBPO < 0)){
-        return 1;
+/********** HANDLING OBJECT GEOMETRY **********/
+
+/**
+ * generateVertices()
+ * Cube
+ */
+void ProceduralObject::generateVertices() {
+    vertices.clear();
+    //FACE AVANT
+    vertices.push_back(glimac::ShapeVertex(glm::vec3(1,1,1), glm::vec3(0,0,1), glm::vec2(0,0)));
+    vertices.push_back(glimac::ShapeVertex(glm::vec3(-1,1,1), glm::vec3(0,0,1), glm::vec2(0,1)));
+    vertices.push_back(glimac::ShapeVertex(glm::vec3(-1,-1,1), glm::vec3(0,0,1), glm::vec2(1,0)));
+    vertices.push_back(glimac::ShapeVertex(glm::vec3(1,-1,1), glm::vec3(0,0,1), glm::vec2(1,1)));
+    //Face ARRIERE
+    vertices.push_back(glimac::ShapeVertex(glm::vec3(1,1,-1), glm::vec3(0,0,-1), glm::vec2(0,0)));
+    vertices.push_back(glimac::ShapeVertex(glm::vec3(-1,1,-1), glm::vec3(0,0,-1), glm::vec2(0,1)));
+    vertices.push_back(glimac::ShapeVertex(glm::vec3(-1,-1,-1), glm::vec3(0,0,-1), glm::vec2(1,0)));
+    vertices.push_back(glimac::ShapeVertex(glm::vec3(1,-1,-1), glm::vec3(0,0,-1), glm::vec2(1,1)));
+    //FACE GAUCHE
+    vertices.push_back(glimac::ShapeVertex(glm::vec3(1,1,1), glm::vec3(-1,0,0), glm::vec2(0,0)));
+    vertices.push_back(glimac::ShapeVertex(glm::vec3(1,1,-1), glm::vec3(-1,0,0), glm::vec2(0,0)));
+    vertices.push_back(glimac::ShapeVertex(glm::vec3(1,-1,-1), glm::vec3(-1,0,0), glm::vec2(0,1)));
+    vertices.push_back(glimac::ShapeVertex(glm::vec3(1,-1,1), glm::vec3(-1,0,0), glm::vec2(1,0)));
+    //FACE DROITE
+    vertices.push_back(glimac::ShapeVertex(glm::vec3(-1,-1,-1), glm::vec3(1,0,0), glm::vec2(0,0)));
+    vertices.push_back(glimac::ShapeVertex(glm::vec3(-1,-1,1), glm::vec3(1,0,0), glm::vec2(0,0)));
+    vertices.push_back(glimac::ShapeVertex(glm::vec3(-1,1,1), glm::vec3(1,0,0), glm::vec2(0,1)));
+    vertices.push_back(glimac::ShapeVertex(glm::vec3(-1,1,-1), glm::vec3(1,0,0), glm::vec2(1,0)));
+    //FACE HAUT
+    vertices.push_back(glimac::ShapeVertex(glm::vec3(1,1,1), glm::vec3(0,1,0), glm::vec2(0,0)));
+    vertices.push_back(glimac::ShapeVertex(glm::vec3(-1,1,1), glm::vec3(0,1,0), glm::vec2(0,0)));
+    vertices.push_back(glimac::ShapeVertex(glm::vec3(-1,1,-1), glm::vec3(0,1,0), glm::vec2(0,1)));
+    vertices.push_back(glimac::ShapeVertex(glm::vec3(1,1,-1), glm::vec3(0,1,0), glm::vec2(1,0)));
+    //FACE BAS
+    vertices.push_back(glimac::ShapeVertex(glm::vec3(-1,-1,-1), glm::vec3(0,-1,0), glm::vec2(0,0)));
+    vertices.push_back(glimac::ShapeVertex(glm::vec3(1,-1,-1), glm::vec3(0,-1,0), glm::vec2(0,0)));
+    vertices.push_back(glimac::ShapeVertex(glm::vec3(1,-1,1), glm::vec3(0,-1,0), glm::vec2(0,1)));
+    vertices.push_back(glimac::ShapeVertex(glm::vec3(-1,-1,1), glm::vec3(0,-1,0), glm::vec2(1,0)));
+}
+/**
+ * generateIndices()
+ *
+ */
+void ProceduralObject::generateIndices() {
+    indices.clear();
+    uint32_t _indices[] =
+            {
+                    0,1,2,
+                    0,2,3,
+                    4,5,6,
+                    4,6,7,
+                    8,9,10,
+                    8,10,11,
+                    12,13,14,
+                    12,14,15,
+                    16,17,18,
+                    16,18,19,
+                    20,21,22,
+                    20,22,23
+            };
+
+    indices = std::vector<uint32_t>(_indices, _indices + sizeof(_indices) / sizeof(uint32_t));
+
+}
+/**
+ * generateNormals()
+ * Empty for the base model
+ */
+void ProceduralObject::generateNormals() {
+
+}
+/**
+ * Subdivides all the faces of an object any number of time
+ * @param _vertices
+ * @param nbRecurse
+ */
+void ProceduralObject::subdivideObject(std::vector<glimac::ShapeVertex> &_vertices, int nbRecurse) {
+    if(nbRecurse <= 0){
+        return;
     }
-    else{
-        return 0;
+    std::vector<glimac::ShapeVertex> subdividedObject;
+    int i = 0;
+    while (i<_vertices.size()){
+        std::vector<glimac::ShapeVertex> face;
+        for(int j = 0; j<3; j++){
+            face.push_back(_vertices[i]);
+            i++;
+        }
+        subdivideFace(face);
+        subdividedObject.insert(subdividedObject.end(), face.begin(), face.end());
     }
+    _vertices.clear();
+    _vertices = subdividedObject;
+    subdivideObject(_vertices, nbRecurse-1);
 }
+/**
+ * Default subdivision algorithm :
+ * one triangle outputs to 4 triangles
+ * New vertices stay on the face and are not pushed toxars the exterior
+ * @param _vertices
+ * @param nbRecurse
+ */
+void ProceduralObject::subdivideFace(std::vector<glimac::ShapeVertex> &_vertices, int nbRecurse) {
+    //prend un vecteur de 3 vertices
+    glm::vec3 subDiv1, subDiv2, subDiv3;
+    float deux = 2;
+    subDiv1 = (_vertices[1].position - _vertices[0].position) /deux + _vertices[0].position;
+    subDiv2 = (_vertices[2].position - _vertices[1].position) /deux + _vertices[1].position;
+    subDiv3 = (_vertices[0].position - _vertices[2].position) /deux + _vertices[2].position;
 
-float ProceduralObject::determinerY(glm::vec3 O, glm::vec3 A, glm::vec3 B, const glm::vec3 &_position){
-    float a = (A.y - O.y)*(B.z - O.z) - (A.z - O.z)*(B.y - O.y);
-    float b = (B.x - O.x)*(A.z - O.z) - (A.x - O.x)*(B.z - O.z);
-    float c = (A.x - O.x)*(B.y - O.y) - (B.x - O.x)*(A.y - O.y);
-    float d= -O.x*a - O.y*b - O.z*c;
-    //std::cout << "a = " << a << " b = " << b << " c = " << c << " d = " << d << " res = " << (-a*_position.x/Tools::scale - c*_position.z/Tools::scale - d)/b << std::endl;
-    return (-a*_position.x - c*_position.z - d)/b;
+    glimac::ShapeVertex v1(glm::vec3(subDiv1),
+                           glm::vec3(glm::normalize(subDiv1)),
+                           glm::vec2(1,1)
+    );
+
+
+    glimac::ShapeVertex v2(glm::vec3(subDiv2),
+                           glm::vec3(glm::normalize(subDiv2)),
+                           glm::vec2(1,1)
+    );
+
+    glimac::ShapeVertex v3(glm::vec3(subDiv3),
+                           glm::vec3(glm::normalize(subDiv3)),
+                           glm::vec2(1,1)
+    );
+
+    std::vector<glimac::ShapeVertex> __vertices;
+
+    __vertices.emplace_back(_vertices[0]);
+    __vertices.emplace_back(v1);
+    __vertices.emplace_back(v3);
+
+    __vertices.emplace_back(v1);
+    __vertices.emplace_back(v3);
+    __vertices.emplace_back(v2);
+
+    __vertices.emplace_back(v3);
+    __vertices.emplace_back(v2);
+    __vertices.emplace_back(_vertices[2]);
+
+    __vertices.emplace_back(v2);
+    __vertices.emplace_back(v1);
+    __vertices.emplace_back(_vertices[1]);
+
+    _vertices.clear();
+    _vertices = __vertices;
+
+
 }
-
-glm::mat4 ProceduralObject::getRandomRotation() {
-    return glm::rotate(glm::mat4(1.f), 0.f, glm::vec3(0,1,0));
-}
-
-glm::mat4 ProceduralObject::getRandomScale() {
-    return glm::scale(glm::mat4(1.f), glm::vec3(1,1,1));
-}
-
-void ProceduralObject::addInstance(const glm::vec3 &position, const Color &biomeColor) {
-    glm::vec3 truePosition = position;
-    float ecart = position.y - getHauteur(position);
-    truePosition.y -= ecart;
-    //std::cout << getHauteur(position) << " et " <<position.y<<  std::endl;
-    positions.push_back(truePosition);
-
-    Color trueColor = chooseColor(biomeColor);
-    colors.push_back(trueColor);
-}
-
-Color ProceduralObject::chooseColor(const Color &_c) {
-    return _c;
-}
-
+/**
+ *  getVertices()
+ * @return all the vertices
+ */
 const std::vector<glimac::ShapeVertex> &ProceduralObject::getVertices() const {
     return vertices;
 }
-
+/**
+ * getIndices()
+ * @return all the indices
+ */
 const std::vector<uint32_t> &ProceduralObject::getIndices() const {
     return indices;
 }
 
-void ProceduralObject::grouping(){
 
-}
+
 
 
 

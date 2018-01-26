@@ -30,30 +30,12 @@ public:
 
     const std::string &getName() const;
 
-    /**
-     * setPosition()
-     *
-     */
-    /*void setPosition(){
-        if(vertices.size() > 20 && elements.size() != 0){
-            std::cout << vertices[20]->position << std::endl;
-            elements[0]->setPosition(vertices[20]->position);
-            std::cout << elements[0]->getPosition() << std::endl;
-        }
-        std::cout << elements.size() << std::endl;
-        std::cout << vertices.size() << std::endl;
-    }*/
-
-    void draw(const glm::mat4 &viewMatrix);
-
-
     Color *getColor() const;
 
     void setColor(Color *color);
 
     const std::vector<ProceduralObject *> &getRocks() const;
 
-    void grouping();
 
 private:
     std::vector<ProceduralObject *> elements;

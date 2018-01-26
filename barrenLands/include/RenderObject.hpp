@@ -26,6 +26,7 @@ public:
     void fillData(std::vector<glimac::ShapeVertex> vertices, std::vector<uint32_t> indices);
     virtual void transform(const glm::vec3 &translate, const float angle, const glm::vec3 &axesRotation,
                    const glm::vec3 &scale);
+    virtual void alterModelMatrix(const glm::mat4 &transfos);
     virtual void render(const glm::mat4 & viewMatrix);
     virtual void sendUniforms(const glm::mat4 &viewMatrix);
     virtual void bindTextures();
