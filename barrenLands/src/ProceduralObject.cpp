@@ -112,7 +112,7 @@ glm::mat4 ProceduralObject::getRandomScale() {
 void ProceduralObject::scatter() {
     //gérer la répartition du vecteur de positions;
     //if three x or z positions ar near each other, then we group them
-    float epsilon = 20,  ecartX = 0, ecartZ = 0, ecartY = 0;
+    float epsilon = 25,  ecartX = 0, ecartZ = 0, ecartY = 0;
     int i = 2;
     while (i<positions.size()){
         ecartX = (positions[i-1].x + positions[i-2].x + positions[i].x)/3;
@@ -121,15 +121,15 @@ void ProceduralObject::scatter() {
             positions[i-1].x = positions[i].x  - (NoiseManager::getInstance().getRandomFloat()*1.5);
             positions[i-1].z = positions[i].z ;
             positions[i-1].y =  getHauteur(positions[i-1]);
-            positions[i-2].y =  getHauteur(positions[i-2]);
             positions[i-2].x = positions[i].x  - (NoiseManager::getInstance().getRandomFloat()*1.5);
+            positions[i-2].y =  getHauteur(positions[i-2]);
         }
         if(ecartZ < epsilon){
             positions[i-1].x = positions[i].x ;
-            positions[i-1].y =  getHauteur(positions[i-1]);
-            positions[i-2].y =  getHauteur(positions[i-2]);
             positions[i-1].z = positions[i].z  - (NoiseManager::getInstance().getRandomFloat()*1.5);
-            positions[i-2].x = positions[i].x  - (NoiseManager::getInstance().getRandomFloat()*1.5);
+            positions[i-1].y =  getHauteur(positions[i-1]);
+            positions[i-2].z = positions[i].z  - (NoiseManager::getInstance().getRandomFloat()*1.5);
+            positions[i-2].y =  getHauteur(positions[i-2]);
         }
         i+=3;
     }

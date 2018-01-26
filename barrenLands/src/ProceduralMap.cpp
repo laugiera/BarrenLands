@@ -159,7 +159,7 @@ void ProceduralMap::createBiomes() {
 
 
     //Affectation des valeurs
-    float rockLevel = 0.6;
+    float rockLevel = 0.5;
     float grassLevel = 0.5;
     float treeLevel = 0.7;
 
@@ -168,7 +168,7 @@ void ProceduralMap::createBiomes() {
             if (vertices[i].position.y < 1) {
                 if (vertices[i].moisture <= 0.1) {
                     //desert
-                    if (objectMap[i / (Tools::nbSub + 1)][i % (Tools::nbSub + 1)] > rockLevel) { //roundrock
+                    if (objectMap[i / (Tools::nbSub + 1)][i % (Tools::nbSub + 1)] > rockLevel+0.2) { //roundrock
                         biomes[0]->createElement(glm::vec3(vertices[i].position.x +
                                                            NoiseManager::getInstance().getRandomFloat() *
                                                            1.5, //big random
