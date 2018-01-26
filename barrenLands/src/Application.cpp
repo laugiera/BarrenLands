@@ -3,6 +3,7 @@
 //
 #define GLEW_STATIC
 #include <RoundRock.hpp>
+#include <ExperienceRock.hpp>
 #include "ProceduralGrass.hpp"
 #include "ProceduralBranche.hpp"
 #include "ProceduralFeuillage.hpp"
@@ -276,8 +277,11 @@ void Application::testInterface() {
     //Color * color = new Color(0,1,0);
     //feuillage->createRenderObject(programManager, textureManager, color);
 
-    ProceduralObject * feuillage = new ProceduralTree();
-    feuillage->createRenderObject(programManager, textureManager);
+    //ProceduralObject * feuillage = new ProceduralTree();
+    //feuillage->createRenderObject(programManager, textureManager);
+
+    //ProceduralObject * experienceRock = new ExperienceRock();
+    //experienceRock->createRenderObject(programManager, textureManager);
 
     bool done = false;
     int rightPressed = 0;
@@ -288,13 +292,13 @@ void Application::testInterface() {
         while(windowManager.pollEvent(e)) {
             if (e.type == SDL_KEYDOWN) {
                 if (e.key.keysym.sym == SDLK_LEFT) {
-                    camera->moveLeft(1.0);
+                    camera->moveLeft(Tools::speed);
                 } else if (e.key.keysym.sym == SDLK_RIGHT) {
-                    camera->moveLeft(-1.0);
+                    camera->moveLeft(-Tools::speed);
                 } else if (e.key.keysym.sym == SDLK_UP) {
-                    camera->moveFront(1.0);
+                    camera->moveFront(Tools::speed);
                 } else if (e.key.keysym.sym == SDLK_DOWN) {
-                    camera->moveFront(-1.0);
+                    camera->moveFront(-Tools::speed);
                 } else if (e.key.keysym.sym == SDLK_v) {
                     if(camera->getChoice() == 0){
                         camera->setChoice(1);
@@ -310,9 +314,9 @@ void Application::testInterface() {
                     rightPressed = 1;
                 }
             } else if (e.wheel.y == 1)
-                camera->zoom(-1);
+                camera->zoom(-Tools::speed);
             else if (e.wheel.y == -1)
-                camera->zoom(1);
+                camera->zoom(Tools::speed);
             else if (e.type == SDL_MOUSEBUTTONUP) {
                 if (e.button.button == SDL_BUTTON_RIGHT) {
                     rightPressed = 0;
@@ -357,7 +361,7 @@ void Application::testInterface() {
 
         //branche->draw(camera->getViewMatrix());
 
-        feuillage->draw(camera->getViewMatrix());
+        //experienceRock->draw(camera->getViewMatrix());
 
         //glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
@@ -385,7 +389,7 @@ void Application::testInterface() {
     delete test;
     //delete grass;
     //delete branche;
-    delete feuillage;
+    //delete experienceRock;
     //delete color;
 
 }
