@@ -154,7 +154,7 @@ Color *RoundRock::chooseColor(Color *_color) {
  * @return
  */
 glm::mat4 RoundRock::getRandomScale() {
-    return glm::scale(glm::mat4(1.f), glm::vec3(0.5 * NoiseManager::getInstance().getRandomFloat()));
+    return glm::scale(glm::mat4(1.f), glm::vec3(0.2 * NoiseManager::getInstance().getRandomFloat()));
 }
 
 

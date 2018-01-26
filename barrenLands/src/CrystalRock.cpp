@@ -155,7 +155,7 @@ Color *CrystalRock::chooseColor(Color *_color) {
  * @return
  */
 glm::mat4 CrystalRock::getRandomScale() {
-    return glm::scale(glm::mat4(1.f), glm::vec3(1.2*NoiseManager::getInstance().getRandomFloat()));
+    return glm::scale(glm::mat4(1.f), glm::vec3(0.9*NoiseManager::getInstance().getRandomFloat()));
 }
 
 

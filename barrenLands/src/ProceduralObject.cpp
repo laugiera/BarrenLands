@@ -19,6 +19,9 @@ ProceduralObject::ProceduralObject() : renderObject(nullptr), position(glm::vec3
  */
 ProceduralObject::~ProceduralObject() {
     delete renderObject;
+    for (int i = 0; i < instances.size() ; ++i) {
+        delete instances[i];
+    }
 }
 
 /**

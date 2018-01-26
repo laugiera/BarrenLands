@@ -169,5 +169,5 @@ void MenirRock::subdivideFace(std::vector<glimac::ShapeVertex> &_vertices, int n
  * @return
  */
 glm::mat4 MenirRock::getRandomScale() {
-    return glm::scale(glm::mat4(1.f), glm::vec3(2* NoiseManager::getInstance().getRandomFloat()));
+    return glm::scale(glm::mat4(1.f), glm::vec3(0.6* NoiseManager::getInstance().getRandomFloat()));
 }

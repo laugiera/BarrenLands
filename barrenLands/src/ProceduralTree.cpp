@@ -66,7 +66,7 @@ void ProceduralTree::scatter() {
     while (i<instances.size()){
         ecartX = (instances[i-1]->position.x + instances[i-2]->position.x + instances[i-3]->position.x + instances[i-4]->position.x +
                 instances[i-5]->position.x+ instances[i]->position.x)/6;
-        ecartX = (instances[i-1]->position.z + instances[i-2]->position.z + instances[i-3]->position.z + instances[i-4]->position.z +
+        ecartZ = (instances[i-1]->position.z + instances[i-2]->position.z + instances[i-3]->position.z + instances[i-4]->position.z +
                 instances[i-5]->position.z+ instances[i]->position.z)/6;
         if(ecartX < epsilon){
             instances[i-1]->position.x = instances[i]->position.x  - (NoiseManager::getInstance().getRandomFloat()*1.5);
@@ -75,11 +75,11 @@ void ProceduralTree::scatter() {
             instances[i-4]->position.x = instances[i]->position.x  - (NoiseManager::getInstance().getRandomFloat()*1.5);
             instances[i-5]->position.x = instances[i]->position.x   - (NoiseManager::getInstance().getRandomFloat()*1.5);
 
-            instances[i-1]->position.y +=  getHauteur(instances[i-1]->position) - (NoiseManager::getInstance().getRandomFloat()*3);
-            instances[i-2]->position.y +=  getHauteur(instances[i-2]->position) - (NoiseManager::getInstance().getRandomFloat()*3);
-            instances[i-3]->position.y +=  getHauteur(instances[i-3]->position) - (NoiseManager::getInstance().getRandomFloat()*3);
-            instances[i-4]->position.y +=  getHauteur(instances[i-4]->position) - (NoiseManager::getInstance().getRandomFloat()*3);
-            instances[i-5]->position.y +=  getHauteur(instances[i-5]->position) - (NoiseManager::getInstance().getRandomFloat()*3);
+            instances[i-1]->position.y =  getHauteur(instances[i-1]->position) - (NoiseManager::getInstance().getRandomFloat()*3);
+            instances[i-2]->position.y =  getHauteur(instances[i-2]->position) - (NoiseManager::getInstance().getRandomFloat()*3);
+            instances[i-3]->position.y =  getHauteur(instances[i-3]->position) - (NoiseManager::getInstance().getRandomFloat()*3);
+            instances[i-4]->position.y =  getHauteur(instances[i-4]->position) - (NoiseManager::getInstance().getRandomFloat()*3);
+            instances[i-5]->position.y =  getHauteur(instances[i-5]->position) - (NoiseManager::getInstance().getRandomFloat()*3);
         }
         if(ecartZ < epsilon){
             instances[i-1]->position.z = instances[i]->position.z  - (NoiseManager::getInstance().getRandomFloat()*1.5);
@@ -88,11 +88,11 @@ void ProceduralTree::scatter() {
             instances[i-4]->position.z = instances[i]->position.z  - (NoiseManager::getInstance().getRandomFloat()*1.5);
             instances[i-5]->position.z = instances[i]->position.z  - (NoiseManager::getInstance().getRandomFloat()*1.5);
 
-            instances[i-1]->position.y +=  getHauteur(instances[i-1]->position) - (NoiseManager::getInstance().getRandomFloat()*3);
-            instances[i-2]->position.y +=  getHauteur(instances[i-2]->position) - (NoiseManager::getInstance().getRandomFloat()*3);
-            instances[i-3]->position.y +=  getHauteur(instances[i-3]->position) - (NoiseManager::getInstance().getRandomFloat()*3);
-            instances[i-4]->position.y +=  getHauteur(instances[i-4]->position) - (NoiseManager::getInstance().getRandomFloat()*3);
-            instances[i-5]->position.y +=  getHauteur(instances[i-5]->position) - (NoiseManager::getInstance().getRandomFloat()*3);
+            instances[i-1]->position.y =  getHauteur(instances[i-1]->position) - (NoiseManager::getInstance().getRandomFloat()*3);
+            instances[i-2]->position.y =  getHauteur(instances[i-2]->position) - (NoiseManager::getInstance().getRandomFloat()*3);
+            instances[i-3]->position.y =  getHauteur(instances[i-3]->position) - (NoiseManager::getInstance().getRandomFloat()*3);
+            instances[i-4]->position.y =  getHauteur(instances[i-4]->position) - (NoiseManager::getInstance().getRandomFloat()*3);
+            instances[i-5]->position.y =  getHauteur(instances[i-5]->position) - (NoiseManager::getInstance().getRandomFloat()*3);
         }
         i+=6;
     }
