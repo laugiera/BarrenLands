@@ -12,7 +12,7 @@
 ProceduralObject::ProceduralObject() : renderObject(nullptr), position(glm::vec3(0.f)) {
     generateVertices();
     generateIndices();
-    std::cout << "procedural object created" << std::endl;
+    //std::cout << "procedural object created" << std::endl;
 }
 /**
  * Destructor
