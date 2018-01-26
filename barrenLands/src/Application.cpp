@@ -286,9 +286,13 @@ void Application::testInterface() {
     //ProceduralObject * experienceRock = new ExperienceRock();
     //experienceRock->createRenderObject(programManager, textureManager);
 
-    ProceduralObject * tree = ElementManager::getInstance().createProceduralTree();
-    tree->addInstance(glm::vec3(0,0,0), Color(1,1,0));
-    tree->createRenderObject(programManager, textureManager);
+    //ProceduralObject * tree = ElementManager::getInstance().createProceduralTree();
+    //tree->addInstance(glm::vec3(0,0,0), Color(1,1,0));
+    //tree->createRenderObject(programManager, textureManager);
+
+    ProceduralObject * rock = ElementManager::getInstance().createProceduralRock("");
+    rock->addInstance(glm::vec3(0,0,0), Color(1,1,0));
+    rock->createRenderObject(programManager, textureManager);
 
 
 

@@ -18,6 +18,7 @@ void ElementManager::createAllElements() {
     rocks.push_back(new RoundRock);
     rocks.push_back(new MenirRock);
     rocks.push_back(new CrystalRock);
+    //rocks.push_back(new ExperienceRock);
     feuillages.push_back(new ProceduralFeuillage);
     branches.push_back(new ProceduralBranche);
     trees.push_back(new ProceduralTree);
@@ -31,6 +32,8 @@ void ElementManager::createAllElements() {
  * @return ProceduralObject*
  */
 ProceduralObject* ElementManager::createProceduralRock(const std::string &name){
+    //std::cout << rocks.size() << std::endl;
+    //return rocks[3];
     if(name == "sand")
         return rocks[0];
     else if(name == "toundra")

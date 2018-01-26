@@ -30,10 +30,10 @@ void ExperienceRock::generateVertices(){
     }
 */
 
-    _vertices.emplace_back(glm::normalize(glm::vec3(0.5,-0.5,0)), glm::normalize(glm::vec3(1,-1,0)), glm::vec2(1,1));
+    _vertices.emplace_back(glm::normalize(glm::vec3(1,-1,0)), glm::normalize(glm::vec3(1,-1,0)), glm::vec2(1,1));
     _vertices.emplace_back(glm::normalize(glm::vec3(0,-1,1)), glm::normalize(glm::vec3(0,-1,1)), glm::vec2(1,1));
-    _vertices.emplace_back(glm::normalize(glm::vec3(0.1,0.1,0)), glm::normalize(glm::vec3(-1,-1,0)), glm::vec2(1,1));
-    _vertices.emplace_back(glm::normalize(glm::vec3(0, 0.3, -1)), glm::normalize(glm::vec3(0, 1, -1)), glm::vec2(1,1));
+    _vertices.emplace_back(glm::normalize(glm::vec3(-1,-1,0)), glm::normalize(glm::vec3(-1,-1,0)), glm::vec2(1,1));
+    _vertices.emplace_back(glm::normalize(glm::vec3(0, 1, -1)), glm::normalize(glm::vec3(0, 1, -1)), glm::vec2(1,1));
 
 
     for(int i = 0; i<_vertices.size(); i++){
@@ -71,7 +71,8 @@ void ExperienceRock::generateVertices(){
     vertices.push_back(glimac::ShapeVertex(_vertices[0]));
     vertices.push_back(glimac::ShapeVertex(_vertices[1]));
 
-    subdivideObject(vertices, 3);
+    //subdivideObject(vertices, 3); //PLANTE QUI PIQUE
+    subdivideObject(vertices, 5); //ANIMAL ETRANGE
 
 }
 void ExperienceRock::generateIndices(){
@@ -96,9 +97,13 @@ void ExperienceRock::subdivideFace(std::vector<glimac::ShapeVertex> &_vertices, 
     normal3 = glm::normalize(subDiv3 - center);
 
     //pousse les nouveaux point le long des vecteurs trouvé précédemment jusqu'à ce qu'ils soint situés à une distance 1 du centre
-    subDiv1 = subDiv1 + (normal1 - (subDiv1-center)) / deux;
-    subDiv2 = subDiv2 + (normal2 - (subDiv2-center)) / deux;
-    subDiv3 = subDiv3 + (normal3 - (subDiv3-center)) / deux;
+    //subDiv1 = subDiv1*2.f + (normal1 - (subDiv1-center)) / deux; <= plante qui pique
+    /*subDiv1 = subDiv1*0.5f + (normal1 - (subDiv1-center)) / deux;
+    subDiv2 = subDiv2*0.5f + (normal2 - (subDiv2-center)) / deux;  ANIMAL ETRANGE
+    subDiv3 = subDiv3*0.5f + (normal3 - (subDiv3-center)) / deux;*/
+    subDiv1 = subDiv1*1.5f + (normal1 - (subDiv1-center)) / deux;
+    subDiv2 = subDiv2*0.5f + (normal2 - (subDiv2-center)) / deux;
+    subDiv3 = subDiv3*0.2f + (normal3 - (subDiv3-center)) / deux;
 
     //crée des vertex à partir des nouveaux points
     glimac::ShapeVertex v1(glm::vec3(subDiv1),
@@ -141,3 +146,16 @@ void ExperienceRock::subdivideFace(std::vector<glimac::ShapeVertex> &_vertices, 
 
 }
 
+Color *ExperienceRock::chooseColor(Color *_color) {
+    Color * alteredColor;
+    if(_color == nullptr){
+        alteredColor = new Color();
+    }
+    else{
+        alteredColor = new Color(_color);
+    }
+    alteredColor->red(0.1);
+    alteredColor->lighten(NoiseManager::getInstance().getRandomFloat()/10.f);
+    //alteredColor->randomSimilarColor(0.1);
+    return alteredColor;
+}

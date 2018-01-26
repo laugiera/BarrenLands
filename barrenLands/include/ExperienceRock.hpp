@@ -12,6 +12,7 @@ public:
     void generateIndices();
     void generateNormals();
     void subdivideFace(std::vector<glimac::ShapeVertex> &_vertices, int nbRecurse);
+    Color * chooseColor(Color * _color);
 private:
     glm::vec3 center;
 };
