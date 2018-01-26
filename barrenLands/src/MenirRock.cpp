@@ -163,3 +163,11 @@ void MenirRock::subdivideFace(std::vector<glimac::ShapeVertex> &_vertices, int n
     _vertices.clear();
     _vertices = __vertices;
 }
+
+/**
+ * Computes a random scale for the object in the world space
+ * @return
+ */
+glm::mat4 MenirRock::getRandomScale() {
+    return glm::scale(glm::mat4(1.f), glm::vec3(2* NoiseManager::getInstance().getRandomFloat()));
+}

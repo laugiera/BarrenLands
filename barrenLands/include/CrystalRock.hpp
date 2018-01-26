@@ -16,6 +16,7 @@ public:
      void generateNormals();
      void subdivideFace( std::vector<glimac::ShapeVertex> & face, int nbRecurse);
     Color * chooseColor(Color * _color);
+    glm::mat4 getRandomScale();
 private :
     glm::vec3 center;
 };

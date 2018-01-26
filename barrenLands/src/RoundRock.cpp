@@ -149,6 +149,13 @@ Color *RoundRock::chooseColor(Color *_color) {
     return alteredColor;
 }
 
+/**
+ * Computes a random scale for the object in the world space
+ * @return
+ */
+glm::mat4 RoundRock::getRandomScale() {
+    return glm::scale(glm::mat4(1.f), glm::vec3(0.5 * NoiseManager::getInstance().getRandomFloat()));
+}
 
 
 

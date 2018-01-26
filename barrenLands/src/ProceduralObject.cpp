@@ -18,7 +18,7 @@ ProceduralObject::ProceduralObject() : renderObject(nullptr), position(glm::vec3
  * Destructor
  */
 ProceduralObject::~ProceduralObject() {
-    //delete renderObject;
+    delete renderObject;
 }
 
 /**
@@ -46,12 +46,10 @@ void ProceduralObject::createRenderObject(ProgramManager *programManager, Textur
 void ProceduralObject::draw(const glm::mat4 &viewMatrix) {
     //transformer selon la position, rotation, scale de l'objet
     if(renderObject) {
-        glm::mat4 transfo(1.f);
-        for (int i = 0; i < positions.size(); i++) {
-            renderObject->setColor(&colors[i]);
-            renderObject->transform(positions[i], 0, glm::vec3(0, 1, 0), glm::vec3(1));
-            transfo = getRandomScale() * getRandomRotation();
-            renderObject->alterModelMatrix(transfo);
+        for (int i = 0; i < instances.size(); i++) {
+            renderObject->setColor(&instances[i]->getColor());
+            renderObject->transform(instances[i]->position, 0, glm::vec3(0, 1, 0), glm::vec3(1));
+            renderObject->alterModelMatrix(instances[i]->getTransfo());
             renderObject->render(viewMatrix);
         }
     }
@@ -67,10 +65,10 @@ void ProceduralObject::draw(const glm::mat4 &viewMatrix) {
 void ProceduralObject::addInstance(const glm::vec3 &position, const Color &biomeColor) {
     glm::vec3 truePosition = getRandomPosition(position);
     truePosition.y += getHauteur(position);
-    positions.push_back(truePosition);
-
     Color trueColor = chooseColor(biomeColor);
-    colors.push_back(trueColor);
+    glm::mat4 transfo(1.f);
+    transfo =  getRandomScale() * getRandomRotation() * transfo;
+    instances.push_back(new Instance(transfo, truePosition,trueColor));
 }
 /********** SETTING RANDOM PARAMETERS OF THE OBJECT **********/
 
@@ -94,7 +92,7 @@ glm::vec3 ProceduralObject::getRandomPosition(const glm::vec3 &position) {
  * @return
  */
 glm::mat4 ProceduralObject::getRandomRotation() {
-    return glm::rotate(glm::mat4(1.f), glm::radians(0.f), glm::vec3(0,1,0));
+    return glm::rotate(glm::mat4(1.f), glm::radians(NoiseManager::getInstance().getRandomFloat()), glm::vec3(0,1,0));
 }
 
 /**
@@ -112,24 +110,22 @@ glm::mat4 ProceduralObject::getRandomScale() {
 void ProceduralObject::scatter() {
     //gérer la répartition du vecteur de positions;
     //if three x or z positions ar near each other, then we group them
-    float epsilon = 25,  ecartX = 0, ecartZ = 0, ecartY = 0;
+    float epsilon = 20,  ecartX = 0, ecartZ = 0;
     int i = 2;
-    while (i<positions.size()){
-        ecartX = (positions[i-1].x + positions[i-2].x + positions[i].x)/3;
-        ecartZ = (positions[i-1].x + positions[i-2].x + positions[i].x)/3;
+    while (i<instances.size()){
+        ecartX = (instances[i-1]->position.x + instances[i-2]->position.x + instances[i]->position.x)/3;
+        ecartZ = (instances[i-1]->position.x + instances[i-2]->position.x + instances[i]->position.x)/3;
         if(ecartX < epsilon){
-            positions[i-1].x = positions[i].x  - (NoiseManager::getInstance().getRandomFloat()*1.5);
-            positions[i-1].z = positions[i].z ;
-            positions[i-1].y =  getHauteur(positions[i-1]);
-            positions[i-2].x = positions[i].x  - (NoiseManager::getInstance().getRandomFloat()*1.5);
-            positions[i-2].y =  getHauteur(positions[i-2]);
+            instances[i-1]->position.x = instances[i]->position.x  - (NoiseManager::getInstance().getRandomFloat()*1.5);
+            instances[i-1]->position.y =  getHauteur(instances[i-1]->position);
+            instances[i-2]->position.x = instances[i]->position.x  - (NoiseManager::getInstance().getRandomFloat());
+            instances[i-2]->position.y =  getHauteur(instances[i-2]->position);
         }
         if(ecartZ < epsilon){
-            positions[i-1].x = positions[i].x ;
-            positions[i-1].z = positions[i].z  - (NoiseManager::getInstance().getRandomFloat()*1.5);
-            positions[i-1].y =  getHauteur(positions[i-1]);
-            positions[i-2].z = positions[i].z  - (NoiseManager::getInstance().getRandomFloat()*1.5);
-            positions[i-2].y =  getHauteur(positions[i-2]);
+            instances[i-1]->position.z = instances[i]->position.z  - (NoiseManager::getInstance().getRandomFloat()*1.5);
+            instances[i-1]->position.y =  getHauteur(instances[i-1]->position);
+            instances[i-2]->position.z = instances[i]->position.z  - (NoiseManager::getInstance().getRandomFloat());
+            instances[i-2]->position.y =  getHauteur(instances[i-2]->position);
         }
         i+=3;
     }

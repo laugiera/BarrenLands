@@ -150,4 +150,12 @@ Color *CrystalRock::chooseColor(Color *_color) {
     return alteredColor;
 }
 
+/**
+ * Computes a random scale for the object in the world space
+ * @return
+ */
+glm::mat4 CrystalRock::getRandomScale() {
+    return glm::scale(glm::mat4(1.f), glm::vec3(1.2*NoiseManager::getInstance().getRandomFloat()));
+}
+
 

@@ -81,6 +81,9 @@ void ElementManager::scatter(){
     for (int i = 0; i < rocks.size(); ++i) {
         rocks[i]->scatter();
     }
+    for (int j = 0; j < trees.size(); ++j) {
+        trees[j]->scatter();
+    }
 }
 
 ProceduralObject *ElementManager::createProceduralTree() {

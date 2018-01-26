@@ -54,4 +54,49 @@ void ProceduralTree::addInstance(const glm::vec3 &position, const Color &biomeCo
     }
 }
 
+/**
+ * Alter the positions vector attribut as a whole to allow custom repartition of the objects
+ * Will affect all the object of this type on the map
+ */
+void ProceduralTree::scatter() {
+    //gérer la répartition du vecteur de positions;
+    //if three x or z positions ar near each other, then we group them
+    float epsilon = 60,  ecartX = 0, ecartZ = 0;
+    int i = 5;
+    while (i<instances.size()){
+        ecartX = (instances[i-1]->position.x + instances[i-2]->position.x + instances[i-3]->position.x + instances[i-4]->position.x +
+                instances[i-5]->position.x+ instances[i]->position.x)/6;
+        ecartX = (instances[i-1]->position.z + instances[i-2]->position.z + instances[i-3]->position.z + instances[i-4]->position.z +
+                instances[i-5]->position.z+ instances[i]->position.z)/6;
+        if(ecartX < epsilon){
+            instances[i-1]->position.x = instances[i]->position.x  - (NoiseManager::getInstance().getRandomFloat()*1.5);
+            instances[i-2]->position.x = instances[i]->position.x   - (NoiseManager::getInstance().getRandomFloat()*1.5);
+            instances[i-3]->position.x = instances[i]->position.x   - (NoiseManager::getInstance().getRandomFloat()*1.5);
+            instances[i-4]->position.x = instances[i]->position.x  - (NoiseManager::getInstance().getRandomFloat()*1.5);
+            instances[i-5]->position.x = instances[i]->position.x   - (NoiseManager::getInstance().getRandomFloat()*1.5);
+
+            instances[i-1]->position.y +=  getHauteur(instances[i-1]->position) - (NoiseManager::getInstance().getRandomFloat()*3);
+            instances[i-2]->position.y +=  getHauteur(instances[i-2]->position) - (NoiseManager::getInstance().getRandomFloat()*3);
+            instances[i-3]->position.y +=  getHauteur(instances[i-3]->position) - (NoiseManager::getInstance().getRandomFloat()*3);
+            instances[i-4]->position.y +=  getHauteur(instances[i-4]->position) - (NoiseManager::getInstance().getRandomFloat()*3);
+            instances[i-5]->position.y +=  getHauteur(instances[i-5]->position) - (NoiseManager::getInstance().getRandomFloat()*3);
+        }
+        if(ecartZ < epsilon){
+            instances[i-1]->position.z = instances[i]->position.z  - (NoiseManager::getInstance().getRandomFloat()*1.5);
+            instances[i-2]->position.z = instances[i]->position.z  - (NoiseManager::getInstance().getRandomFloat()*1.5);
+            instances[i-3]->position.z = instances[i]->position.z  - (NoiseManager::getInstance().getRandomFloat()*1.5);
+            instances[i-4]->position.z = instances[i]->position.z  - (NoiseManager::getInstance().getRandomFloat()*1.5);
+            instances[i-5]->position.z = instances[i]->position.z  - (NoiseManager::getInstance().getRandomFloat()*1.5);
+
+            instances[i-1]->position.y +=  getHauteur(instances[i-1]->position) - (NoiseManager::getInstance().getRandomFloat()*3);
+            instances[i-2]->position.y +=  getHauteur(instances[i-2]->position) - (NoiseManager::getInstance().getRandomFloat()*3);
+            instances[i-3]->position.y +=  getHauteur(instances[i-3]->position) - (NoiseManager::getInstance().getRandomFloat()*3);
+            instances[i-4]->position.y +=  getHauteur(instances[i-4]->position) - (NoiseManager::getInstance().getRandomFloat()*3);
+            instances[i-5]->position.y +=  getHauteur(instances[i-5]->position) - (NoiseManager::getInstance().getRandomFloat()*3);
+        }
+        i+=6;
+    }
+}
+
+
 
