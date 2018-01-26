@@ -21,7 +21,7 @@ class NoiseManager {
 private:
     FastNoise noise;
     static float seed;
-    int counter;
+    float counter;
     NoiseManager();
     ~NoiseManager(){}
 public:

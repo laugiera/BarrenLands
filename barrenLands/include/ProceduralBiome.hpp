@@ -29,15 +29,12 @@ public:
 
     const std::string &getName() const;
 
-    /**
-     * setPosition()
-     *
-     */
-
-
     Color *getColor() const;
 
     void setColor(Color *color);
+
+    const std::vector<ProceduralObject *> &getRocks() const;
+
 
 private:
     std::string name;

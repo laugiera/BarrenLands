@@ -80,6 +80,12 @@ ProceduralObject *ElementManager::createProceduralGrass(const glm::vec3 & positi
     return g;
 }
 
+void ElementManager::scatter(){
+    for (int i = 0; i < rocks.size(); ++i) {
+        rocks[i]->scatter();
+    }
+}
+
 ProceduralObject *ElementManager::createProceduralTree() {
     return trees[0];
 }

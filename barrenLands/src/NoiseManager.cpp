@@ -16,7 +16,7 @@ Améliorations :
 /**
  * static seed default value
  */
-float NoiseManager::seed = 1200;
+float NoiseManager::seed = 67895;
 /**
  * Constructor with default noise parameters
  */
@@ -136,6 +136,7 @@ float** NoiseManager::getRockMap(const int width, const int height,const float f
 float NoiseManager::getRandomFloat() {
     noise.SetFrequency(0.05);
     noise.SetNoiseType(FastNoise::PerlinFractal);
+    //counter += seed / 10000;
     counter += 5;
     float e = noise.GetNoise(counter, counter);
     //std::cout << e <<std::endl;

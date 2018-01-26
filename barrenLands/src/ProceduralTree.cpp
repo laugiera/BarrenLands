@@ -47,7 +47,7 @@ void ProceduralTree::addInstance(const glm::vec3 &position, const Color &biomeCo
         throw std::runtime_error("Il n'y a pas de tronc ou de feuillage défini");
     } else {
         tronc->addInstance(position, biomeColor);
-        Color colorFeuille(0, 1, 0);
+        Color colorFeuille(biomeColor); colorFeuille.green(0.1); colorFeuille.blue(0.1); colorFeuille.randomSimilarColor(0.05);
         glm::vec3 posFeuillage = glm::vec3(position.x, position.y + tronc->getHeight(), position.z);
         posFeuillage = globalScale * posFeuillage;
         feuillage->addInstance(posFeuillage, colorFeuille);

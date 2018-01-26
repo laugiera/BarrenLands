@@ -29,6 +29,7 @@ public:
     ProceduralFeuillage* createProceduralFeuillage();
     ProceduralObject* createProceduralGrass(const glm::vec3 & position);
     std::vector<ProceduralObject *> getAllElements();
+    void scatter();
 
 private:
     static ElementManager * instance;

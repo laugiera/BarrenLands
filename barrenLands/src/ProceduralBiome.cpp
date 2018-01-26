@@ -86,3 +86,8 @@ void ProceduralBiome::createElements() {
     trees.push_back(ElementManager::getInstance().createProceduralTree());
     //grass.push_back(ElementManager::getInstance().createProceduralGrass());
 }
+
+const std::vector<ProceduralObject *> &ProceduralBiome::getRocks() const {
+    return rocks;
+}
+

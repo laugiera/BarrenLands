@@ -12,7 +12,7 @@
 ProceduralObject::ProceduralObject() : renderObject(nullptr), position(glm::vec3(0.f)) {
     generateVertices();
     generateIndices();
-    std::cout << "procedural object created" << std::endl;
+    //std::cout << "procedural object created" << std::endl;
 }
 /**
  * Destructor
@@ -66,16 +66,12 @@ void ProceduralObject::draw(const glm::mat4 &viewMatrix) {
  */
 void ProceduralObject::addInstance(const glm::vec3 &position, const Color &biomeColor) {
     glm::vec3 truePosition = getRandomPosition(position);
-    truePosition.y += getHauteur(position); // if y != 0 there is an offset with the ground
+    truePosition.y += getHauteur(position);
     positions.push_back(truePosition);
 
     Color trueColor = chooseColor(biomeColor);
     colors.push_back(trueColor);
 }
-
-
-
-
 /********** SETTING RANDOM PARAMETERS OF THE OBJECT **********/
 
 /**
@@ -106,7 +102,7 @@ glm::mat4 ProceduralObject::getRandomRotation() {
  * @return
  */
 glm::mat4 ProceduralObject::getRandomScale() {
-    return glm::scale(glm::mat4(1.f), glm::vec3(0.2,0.2,0.2));
+    return glm::scale(glm::mat4(1.f), glm::vec3(0.2));
 }
 
 /**
@@ -115,6 +111,28 @@ glm::mat4 ProceduralObject::getRandomScale() {
  */
 void ProceduralObject::scatter() {
     //gérer la répartition du vecteur de positions;
+    //if three x or z positions ar near each other, then we group them
+    float epsilon = 25,  ecartX = 0, ecartZ = 0, ecartY = 0;
+    int i = 2;
+    while (i<positions.size()){
+        ecartX = (positions[i-1].x + positions[i-2].x + positions[i].x)/3;
+        ecartZ = (positions[i-1].x + positions[i-2].x + positions[i].x)/3;
+        if(ecartX < epsilon){
+            positions[i-1].x = positions[i].x  - (NoiseManager::getInstance().getRandomFloat()*1.5);
+            positions[i-1].z = positions[i].z ;
+            positions[i-1].y =  getHauteur(positions[i-1]);
+            positions[i-2].x = positions[i].x  - (NoiseManager::getInstance().getRandomFloat()*1.5);
+            positions[i-2].y =  getHauteur(positions[i-2]);
+        }
+        if(ecartZ < epsilon){
+            positions[i-1].x = positions[i].x ;
+            positions[i-1].z = positions[i].z  - (NoiseManager::getInstance().getRandomFloat()*1.5);
+            positions[i-1].y =  getHauteur(positions[i-1]);
+            positions[i-2].z = positions[i].z  - (NoiseManager::getInstance().getRandomFloat()*1.5);
+            positions[i-2].y =  getHauteur(positions[i-2]);
+        }
+        i+=3;
+    }
 }
 
 /**
@@ -379,6 +397,7 @@ void ProceduralObject::subdivideFace(std::vector<glimac::ShapeVertex> &_vertices
                            glm::vec2(1,1)
     );
 
+
     glimac::ShapeVertex v2(glm::vec3(subDiv2),
                            glm::vec3(glm::normalize(subDiv2)),
                            glm::vec2(1,1)
@@ -426,6 +445,7 @@ const std::vector<glimac::ShapeVertex> &ProceduralObject::getVertices() const {
 const std::vector<uint32_t> &ProceduralObject::getIndices() const {
     return indices;
 }
+
 
 
 
