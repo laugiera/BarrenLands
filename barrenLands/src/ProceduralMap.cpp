@@ -155,17 +155,19 @@ void ProceduralMap::createBiomes() {
     std::vector <float> objectVec;
     float** rockMap = NoiseManager::getInstance().getRockMap(Tools::nbSub +1, Tools::nbSub +1, 0.5);
     float** objectMap = NoiseManager::getInstance().getRockMap(Tools::nbSub +1, Tools::nbSub +1, 0.5);
+    float** carteAuPifPourTesterArbre = NoiseManager::getInstance().getRockMap(Tools::nbSub +1, Tools::nbSub +1, 0.7);
 
 
     //Affectation des valeurs
     float rockLevel = 0.6;
     float grassLevel = 0.5;
+    float treeLevel = 0.7;
 
     try {
         for (int i = 0; i < vertices.size(); i++) {
             if (vertices[i].position.y < 1) {
                 if (vertices[i].moisture <= 0.1) {
-                    biomes[0]->addVertex(&vertices[i]); // desert
+                    //desert
                     if (objectMap[i / (Tools::nbSub + 1)][i % (Tools::nbSub + 1)] > rockLevel) { //roundrock
                         biomes[0]->createElement(glm::vec3(vertices[i].position.x +
                                                            NoiseManager::getInstance().getRandomFloat() *
@@ -177,16 +179,19 @@ void ProceduralMap::createBiomes() {
 
                     }
                 } else {
-                    biomes[1]->addVertex(&vertices[i]); //herbe
+                    //herbe
 
                     if (objectMap[i / (Tools::nbSub + 1)][i % (Tools::nbSub + 1)] > grassLevel)
                         biomes[1]->createElement(vertices[i].position, "grass");
+
+                    if (carteAuPifPourTesterArbre[i / (Tools::nbSub + 1)][i % (Tools::nbSub + 1)] > treeLevel)
+                        biomes[1]->createElement(vertices[i].position, "tree");
 
                 }
 
             } else if (vertices[i].position.y < 2) {
                 if (vertices[i].moisture < 0.5) {
-                    biomes[2]->addVertex(&vertices[i]); //savane
+                     //savane
                     if (objectMap[i / (Tools::nbSub + 1)][i % (Tools::nbSub + 1)] >
                         rockLevel + 0.1) { //crystal rock - small random
                         biomes[2]->createElement(
@@ -196,7 +201,7 @@ void ProceduralMap::createBiomes() {
                                 "rock");
                     }
                 } else {
-                    biomes[1]->addVertex(&vertices[i]); //herbe - round rocks
+                     //herbe - round rocks
                     if (objectMap[i / (Tools::nbSub + 1)][i % (Tools::nbSub + 1)] >
                         rockLevel) { //roundrock - small random
                         biomes[1]->createElement(
@@ -212,9 +217,9 @@ void ProceduralMap::createBiomes() {
 
             } else if (vertices[i].position.y < 5) {
                 if (vertices[i].moisture < 0.1) {
-                    biomes[3]->addVertex(&vertices[i]); //roche - no rocks
+                     //roche - no rocks
                 } else {
-                    biomes[4]->addVertex(&vertices[i]); //toundra
+                    //toundra
                     if (objectMap[i / (Tools::nbSub + 1)][i % (Tools::nbSub + 1)] >
                         rockLevel + 0.4) { // rare menhir rock - high on the mountains - no random
                         biomes[4]->createElement(glm::vec3(vertices[i].position.x,
@@ -224,7 +229,7 @@ void ProceduralMap::createBiomes() {
                     }
                 }
             } else {
-                biomes[5]->addVertex(&vertices[i]); //toundra neige - no elements
+                //toundra neige - no elements
             }
         }
         ElementManager::getInstance().scatter();
@@ -275,37 +280,39 @@ void ProceduralMap::draw(const glm::mat4 &viewMatrix) {
 }
 
 void ProceduralMap::createBiomeColors() {
-  /*  Color baseColor = Color();
-    baseColor.saturate(-0.3);
+    Color baseColor = Color();
     baseColor.lighten(0.5);
+    baseColor.randomSimilarColor(0.1);
+    baseColor.randomSimilarColor(0.1);
+    baseColor.saturate(-0.2);
     std::cout <<"base Color : "<< baseColor << std::endl;
     Color derivedColor = baseColor;
 
-    derivedColor.lighten(0.1);  derivedColor.red(0.1); derivedColor.green(0.1);
+    derivedColor.lighten(0.3);  derivedColor.red(0.2); derivedColor.green(0.2); derivedColor.saturate(0.2);
     RenderMap::sand = new Color(&derivedColor);
-    std::cout <<"sand Color : "<< derivedColor << std::endl;
+    std::cout <<"sand Color : "<< *RenderMap::sand << std::endl;
 
-    derivedColor = baseColor; derivedColor.lighten(0);  derivedColor.green(0.1); derivedColor.blue(0.05);
+    derivedColor = baseColor; derivedColor.complementaryColor(); derivedColor.lighten(-0.05); derivedColor.green(0.2); derivedColor.blue(0.1);
     RenderMap::grass = new Color(&derivedColor);
-    std::cout <<"grass Color : "<< derivedColor << std::endl;
+    std::cout <<"grass Color : "<< *RenderMap::grass << std::endl;
 
-    derivedColor = baseColor; derivedColor.lighten(0.4); derivedColor.saturate(-0.8);
+    derivedColor = baseColor; derivedColor.lighten(0.3); derivedColor.saturate(-0.7);
     RenderMap::snow = new Color(&derivedColor);
-    std::cout <<"snow Color : "<< derivedColor << std::endl;
+    std::cout <<"snow Color : "<< *RenderMap::snow << std::endl;
 
-    derivedColor = baseColor; derivedColor.lighten(0.2); derivedColor.complementaryColor();
-
+    derivedColor = baseColor; derivedColor.lighten(0.5); /*derivedColor.blue(0.05);*/ derivedColor.complementaryColor();
     RenderMap::rock = new Color(&derivedColor);
-    std::cout <<"rock Color : "<< derivedColor << std::endl;
+    std::cout <<"rock Color : "<< *RenderMap::rock << std::endl;
 
-    derivedColor = baseColor; derivedColor.darken(0.1); derivedColor.red(0.01); //derivedColor.randomSimilarColor(0.1);
+    derivedColor = baseColor; derivedColor.lighten(0.3);  derivedColor.red(0.2); //derivedColor.randomSimilarColor(0.1);
     RenderMap::toundra = new Color(&derivedColor);
-    std::cout <<"toundra Color : "<< derivedColor << std::endl;
+    std::cout <<"toundra Color : "<< *RenderMap::toundra << std::endl;
 
-    derivedColor = baseColor; derivedColor.darken(0.1); derivedColor.red(0.1); //derivedColor.randomSimilarColor(0.1);
+    derivedColor = baseColor; derivedColor.lighten(0.1);/* derivedColor.green(0.2);*/ derivedColor.complementaryColor(); /*derivedColor.saturate(0.2);*/
     RenderMap::savannah = new Color(&derivedColor);
-    std::cout <<"savannah Color : "<< derivedColor << std::endl;
+    std::cout <<"savannah Color : "<< *RenderMap::savannah << std::endl;
 
-*/
+
+
 }
 

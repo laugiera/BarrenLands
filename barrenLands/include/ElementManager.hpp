@@ -4,6 +4,9 @@
 #include "MenirRock.hpp"
 #include "CrystalRock.hpp"
 #include "ProceduralGrass.hpp"
+#include "ProceduralFeuillage.hpp"
+#include "ProceduralTree.hpp"
+#include "ProceduralBranche.hpp"
 
 /**
  * Class ElementManager
@@ -12,22 +15,31 @@
 class ElementManager{
 public:
     static ElementManager & getInstance(){
-        static ElementManager instance;
-        return instance;
+        if(!instance){
+           instance = new ElementManager();
+        }
+        return *instance;
     }
 
-
+    void createAllElements();
     ProceduralObject* createProceduralRock(const std::string &name);
+    ProceduralObject* createProceduralTree();
+    ProceduralBranche* createProceduralBranche();
+    ProceduralFeuillage* createProceduralFeuillage();
     ProceduralObject* createProceduralGrass(const glm::vec3 & position);
     std::vector<ProceduralObject *> getAllElements();
     void scatter();
 
 private:
+    static ElementManager * instance;
     ElementManager();
     ~ElementManager();
-    void createAllElements();
+
     std::vector<ProceduralObject *> rocks;
     std::vector<ProceduralObject *> grass;
+    std::vector<ProceduralFeuillage *> feuillages;
+    std::vector<ProceduralObject *> trees;
+    std::vector<ProceduralBranche *> branches;
 
 };
 

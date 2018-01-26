@@ -2,9 +2,9 @@
 // Created by natshez on 18/01/2018.
 //
 
-#include "ProceduralFeuillage.hpp"
+#include "ExperienceRock.hpp"
 
-ProceduralFeuillage::ProceduralFeuillage() : ProceduralObject(){
+ExperienceRock::ExperienceRock() : ProceduralRock(){
     generateVertices();
     generateIndices();
     //position = glm::vec3(NoiseManager::getInstance().getRandomFloat(), NoiseManager::getInstance().getRandomFloat(), NoiseManager::getInstance().getRandomFloat());
@@ -12,9 +12,8 @@ ProceduralFeuillage::ProceduralFeuillage() : ProceduralObject(){
     generateNormals();
 
 }
-ProceduralFeuillage::~ProceduralFeuillage(){}
-
-void ProceduralFeuillage::generateVertices(){
+ExperienceRock::~ExperienceRock(){}
+void ExperienceRock::generateVertices(){
 
     vertices.clear();
 
@@ -31,10 +30,10 @@ void ProceduralFeuillage::generateVertices(){
     }
 */
 
-    _vertices.emplace_back(glm::normalize(glm::vec3(1,-1,0)), glm::normalize(glm::vec3(1,-1,0)), glm::vec2(1,1));
+    _vertices.emplace_back(glm::normalize(glm::vec3(0.5,-0.5,0)), glm::normalize(glm::vec3(1,-1,0)), glm::vec2(1,1));
     _vertices.emplace_back(glm::normalize(glm::vec3(0,-1,1)), glm::normalize(glm::vec3(0,-1,1)), glm::vec2(1,1));
-    _vertices.emplace_back(glm::normalize(glm::vec3(-1,-1,0)), glm::normalize(glm::vec3(-1,-1,0)), glm::vec2(1,1));
-    _vertices.emplace_back(glm::normalize(glm::vec3(0, 1, -1)), glm::normalize(glm::vec3(0, 1, -1)), glm::vec2(1,1));
+    _vertices.emplace_back(glm::normalize(glm::vec3(0.1,0.1,0)), glm::normalize(glm::vec3(-1,-1,0)), glm::vec2(1,1));
+    _vertices.emplace_back(glm::normalize(glm::vec3(0, 0.3, -1)), glm::normalize(glm::vec3(0, 1, -1)), glm::vec2(1,1));
 
 
     for(int i = 0; i<_vertices.size(); i++){
@@ -75,14 +74,14 @@ void ProceduralFeuillage::generateVertices(){
     subdivideObject(vertices, 3);
 
 }
-void ProceduralFeuillage::generateIndices(){
+void ExperienceRock::generateIndices(){
     indices.clear();
 }
-void ProceduralFeuillage::generateNormals() {
-    //ProceduralRock::generateNormals();
+void ExperienceRock::generateNormals() {
+    ProceduralRock::generateNormals();
 }
 
-void ProceduralFeuillage::subdivideFace(std::vector<glimac::ShapeVertex> &_vertices, int nbRecurse) {
+void ExperienceRock::subdivideFace(std::vector<glimac::ShapeVertex> &_vertices, int nbRecurse) {
     //prend un vecteur de 3 vertices : une face
     glm::vec3 subDiv1, subDiv2, subDiv3, normal1, normal2, normal3;
     float deux = 2;
@@ -141,27 +140,4 @@ void ProceduralFeuillage::subdivideFace(std::vector<glimac::ShapeVertex> &_verti
 
 
 }
-
-/**
- * chooseTextures()
- * Redefined to get a rock texture
- * @param textureManager
- * @return
- */
-std::vector<glcustom::Texture *> ProceduralFeuillage::chooseTextures(TextureManager *textureManager) {
-    return std::vector<glcustom::Texture *>(1, textureManager->getRandomTexture("rock"));
-}
-
-glm::vec3 ProceduralFeuillage::getRandomPosition(const glm::vec3 &position) {
-    return position;
-}
-
-glm::mat4 ProceduralFeuillage::getRandomScale() {
-    return glm::scale(glm::mat4(1.f), glm::vec3(0.3,0.3,0.3));
-}
-
-
-
-
-
 

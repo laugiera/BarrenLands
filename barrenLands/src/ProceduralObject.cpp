@@ -25,6 +25,7 @@ ProceduralObject::~ProceduralObject() {
  * createRenderObject()
  * creates corresponding renderObject and it's GPU Program
  * By default, Element program is used and one random texture from the texture manager is added
+ * The color parameter is usefull only if the rendering for the object is not instanciated
  * @param ProgramManager * programManager
  * @param TextureManager * textureManager
  * @param Color * color, default null
@@ -32,9 +33,8 @@ ProceduralObject::~ProceduralObject() {
 void ProceduralObject::createRenderObject(ProgramManager *programManager, TextureManager *textureManager, Color *color) {
     if(!renderObject){
         std::vector<glcustom::Texture *> textures = chooseTextures(textureManager);
-        renderObject = new RenderObject(programManager->getElementProgram(), textures);
+        renderObject = new RenderObject(programManager->getElementProgram(), textures, color);
         renderObject->fillData(vertices, indices);
-        renderObject->setColor(chooseColor(color));
     }
 }
 /**
@@ -45,13 +45,15 @@ void ProceduralObject::createRenderObject(ProgramManager *programManager, Textur
  */
 void ProceduralObject::draw(const glm::mat4 &viewMatrix) {
     //transformer selon la position, rotation, scale de l'objet
-    glm::mat4 transfo(1.f);
-    for(int i = 0; i<positions.size(); i++){
-        renderObject->setColor(&colors[i]);
-        renderObject->transform(positions[i], 0, glm::vec3(0,1,0), glm::vec3(0.2));
-        //transfo = getRandomScale() * getRandomRotation() * transfo;
-        //renderObject->alterModelMatrix(transfo);
-        renderObject->render(viewMatrix);
+    if(renderObject) {
+        glm::mat4 transfo(1.f);
+        for (int i = 0; i < positions.size(); i++) {
+            renderObject->setColor(&colors[i]);
+            renderObject->transform(positions[i], 0, glm::vec3(0, 1, 0), glm::vec3(1));
+            transfo = getRandomScale() * getRandomRotation();
+            renderObject->alterModelMatrix(transfo);
+            renderObject->render(viewMatrix);
+        }
     }
 
 }
@@ -63,10 +65,8 @@ void ProceduralObject::draw(const glm::mat4 &viewMatrix) {
  * @param biomeColor
  */
 void ProceduralObject::addInstance(const glm::vec3 &position, const Color &biomeColor) {
-    glm::vec3 truePosition = position;
-    //glm::vec3 truePosition = getRandomPosition(position);
-    float ecart = position.y - getHauteur(position);
-    truePosition.y -= ecart;
+    glm::vec3 truePosition = getRandomPosition(position);
+    truePosition.y += getHauteur(position);
     positions.push_back(truePosition);
 
     Color trueColor = chooseColor(biomeColor);
@@ -78,15 +78,15 @@ void ProceduralObject::addInstance(const glm::vec3 &position, const Color &biome
  * Computes a random position from the base position passed to the function
  * Y coordinates must be defaulted to 0 to allow for later modification with the getHauteur function
  * If Y is different than 0 an offset will be created and the object will not be on the ground (but that can be on purpose)
+ *
  * @param position
  * @return
  */
 glm::vec3 ProceduralObject::getRandomPosition(const glm::vec3 &position) {
-/*    //gérer l'alléatoire par rapport aux coordonnées de la vertex;
+    //gérer l'alléatoire par rapport aux coordonnées de la vertex;
     glm::vec3 truePosition = position;
-   // truePosition.y = 0; //default configuration, can be overloaded with different settings;
-    truePosition *= getRandomRotation() * getRandomScale();
-    return truePosition;*/
+    truePosition.y = 0; //default configuration, can be overloaded with different settings;
+    return truePosition;
 }
 
 /**
@@ -94,7 +94,7 @@ glm::vec3 ProceduralObject::getRandomPosition(const glm::vec3 &position) {
  * @return
  */
 glm::mat4 ProceduralObject::getRandomRotation() {
-    return glm::rotate(glm::mat4(1.f), NoiseManager::getInstance().getRandomFloat(), glm::vec3(0,1,0));
+    return glm::rotate(glm::mat4(1.f), glm::radians(0.f), glm::vec3(0,1,0));
 }
 
 /**
@@ -102,7 +102,7 @@ glm::mat4 ProceduralObject::getRandomRotation() {
  * @return
  */
 glm::mat4 ProceduralObject::getRandomScale() {
-    return glm::scale(glm::mat4(1.f), glm::vec3(NoiseManager::getInstance().getRandomFloat()));
+    return glm::scale(glm::mat4(1.f), glm::vec3(0.2));
 }
 
 /**

@@ -66,7 +66,7 @@ void RenderObject::transform(const glm::vec3 &translate, const float angle, cons
 }
 
 void RenderObject::alterModelMatrix(const glm::mat4 &transfos) {
-    modelMatrix = transfos * modelMatrix;
+    modelMatrix =  modelMatrix * transfos;
 }
 
 /**

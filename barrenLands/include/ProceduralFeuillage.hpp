@@ -8,19 +8,20 @@ public:
     ProceduralFeuillage();
     virtual ~ProceduralFeuillage();
 
+    glm::vec3 getRandomPosition(const glm::vec3 & position);
+
+    glm::mat4 getRandomScale();
+
     //à redéfinir pour chaque élement
     void generateVertices();
+
     void generateIndices();
+
     void generateNormals();
 
-    //commun à toutes les branches
-    void createRenderObject(ProgramManager *programManager, TextureManager *textureManager, Color * _color);
+
     std::vector<glcustom::Texture *> chooseTextures(TextureManager *textureManager);
 
-
-    void draw(const glm::mat4 &viewMatrix);
-    //static
-    static void setPositions(std::vector<ProceduralObject *> objects);
     void subdivideFace(std::vector<glimac::ShapeVertex> &_vertices, int nbRecurse);
 
 private:
