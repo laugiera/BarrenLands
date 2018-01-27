@@ -28,6 +28,8 @@ public:
 
     glcustom::GPUProgram *getMapProgram() const;
 
+    glcustom::GPUProgram *getTexture2DProgram() const;
+
     void reloadPrograms();
 private:
     glimac::FilePath appPath;
@@ -35,6 +37,7 @@ private:
     glcustom::GPUProgram * elementProgram;
     glcustom::GPUProgram * skyboxProgram;
     glcustom::GPUProgram * mapProgram;
+    glcustom::GPUProgram * texture2DProgram;
 
 };
 

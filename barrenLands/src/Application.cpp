@@ -183,7 +183,7 @@ void Application::appLoop() {
                 elementVect[i*(Tools::nbSub+1)+j]->draw(glm::scale(glm::translate(camera->getViewMatrix() , elementVect[i*(Tools::nbSub+1)+j]->position) , glm::vec3(0.1,0.1,0.1)));
             }
         }*/
-
+        //addDOF();
         windowManager.swapBuffers();
         printErrors();
 
@@ -412,4 +412,91 @@ void Application::testInterface() {
     //delete feuillage;
     //delete color;
 
+}
+
+void Application::addDOF() {
+    //GLuint fbo1;
+    //glGenBuffers()
+    float * originalFBColor = new float[Tools::windowHeight * Tools::windowWidth *3];
+    float * originalFBDepth = new float[Tools::windowHeight * Tools::windowWidth];
+    float * newFB = new float[Tools::windowHeight * Tools::windowWidth*3];
+    int zNear = 0, zFar = 500;
+    float pixelDepth, CoCDiam, apperture, coefficient, focalLength, screenPos ;
+
+    apperture = 2.0;
+    screenPos = 10.0;
+    focalLength = 5.0;
+    coefficient = 1;
+
+
+    glReadPixels(0, 0, Tools::windowWidth, Tools::windowHeight, GL_RGB, GL_FLOAT, originalFBColor);
+
+    glReadPixels(0, 0, Tools::windowWidth, Tools::windowHeight, GL_DEPTH_COMPONENT, GL_FLOAT, originalFBDepth);
+
+
+    for(int i = 0; i<Tools::windowHeight; i++){
+        for(int j = 0; j<Tools::windowWidth; j++){
+            pixelDepth = zNear*zFar / (zFar - originalFBDepth[i*Tools::windowHeight+j]*(zFar - zNear));
+            CoCDiam = abs(
+                    apperture
+                    - coefficient * (
+                            screenPos * (1.0 / focalLength - 1.0 / pixelDepth)
+                            -1
+                                                        )
+            );
+
+            uniformLightDistribution(CoCDiam, i, j, originalFBColor, newFB);
+
+        }
+    }
+
+
+    for (int i= 0; i< Tools::windowHeight * Tools::windowHeight * 3; i++){
+        newFB[i] = 0.5;
+    }
+
+    glcustom::Texture testBlack(Tools::windowWidth, Tools::windowHeight, newFB ,GL_RED);
+
+    std::vector<glimac::ShapeVertex> vertices = {
+            glimac::ShapeVertex(glm::vec3(-1,1,0), glm::vec3(0), glm::vec2(0,0)),
+            glimac::ShapeVertex(glm::vec3(1,1,0), glm::vec3(0), glm::vec2(1,0)),
+            glimac::ShapeVertex(glm::vec3(-1,-1,0), glm::vec3(0), glm::vec2(0,1)),
+            glimac::ShapeVertex(glm::vec3(1,1,0), glm::vec3(0), glm::vec2(1,0)),
+            glimac::ShapeVertex(glm::vec3(-1,-1,0), glm::vec3(0), glm::vec2(0,1)),
+            glimac::ShapeVertex(glm::vec3(1,-1,0), glm::vec3(0), glm::vec2(1,1))
+    };
+
+    glcustom::VAO vao;
+    glcustom::VBO vbo;
+    vbo.fillBuffer(vertices);
+    vao.fillBuffer(vertices, &vbo);
+
+    glcustom::GPUProgram * p = programManager->getTexture2DProgram();
+    p->use();
+    testBlack.bind(GL_TEXTURE0);
+    p->sendUniformTextureUnit("uTexture0", 0);
+    vao.bind();
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+    vao.debind();
+    testBlack.debind(GL_TEXTURE0);
+
+
+
+    delete[] originalFBColor;
+    delete[] originalFBDepth;
+    delete[] newFB;
+
+}
+
+void Application::uniformLightDistribution(float diam, int x, int y, float * originalColor, float *newColor) {
+    int r = diam/2;
+    float a = glm::pi<float>() * r * r ;
+    float intensity = originalColor[x*Tools::windowHeight+y]/a;
+    for(int i = -r; i< r; i ++){
+        for(int j = -r; j< r; j ++){
+            if( pow(i*i*j*j, 0.5) < r ){
+                newColor[x*Tools::windowHeight+y] += intensity;
+            }
+        }
+    }
 }

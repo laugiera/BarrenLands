@@ -47,6 +47,9 @@ void ProgramManager::createPrograms() {
     mapProgram = new glcustom::GPUProgram(appPath,"light","light");
     mapProgram->addUniforms(uniform_variables);
 
+    //to draw a 2D texture on the screen
+    texture2DProgram = new glcustom::GPUProgram(appPath,"printTexture2D","printTexture2D");
+    texture2DProgram->addUniform("uTexture0");
 
 }
 /**
@@ -70,6 +73,11 @@ void ProgramManager::reloadPrograms() {
     uniform_variables = mapProgram->getUniformList();
     mapProgram->setProgram(appPath, "light",  "light");
     mapProgram->addUniforms(uniform_variables);
+
+    texture2DProgram->setProgram(appPath,"printTexture2D","printTexture2D");
+    texture2DProgram->addUniform("uTexture0");
+
+
 }
 /**Getters and setters for each program**/
 glcustom::GPUProgram *ProgramManager::getTestProgram() const {
@@ -86,6 +94,10 @@ glcustom::GPUProgram *ProgramManager::getSkyboxProgram() const {
 
 glcustom::GPUProgram *ProgramManager::getMapProgram() const {
     return mapProgram;
+}
+
+glcustom::GPUProgram *ProgramManager::getTexture2DProgram() const {
+    return texture2DProgram;
 }
 
 

@@ -37,6 +37,7 @@ public:
     void appLoop();
     void testInterface();
     void printErrors();
+    void addDOF();
 
     const glimac::SDLWindowManager &getWindowManager() const;
 
@@ -47,6 +48,8 @@ private:
     CameraManager * camera;
     TextureManager * textureManager;
     NoiseManager * noiseManager;
+
+    void uniformLightDistribution(float diam, int x, int y, float * originalColor, float *newColor);
 };
 
 
