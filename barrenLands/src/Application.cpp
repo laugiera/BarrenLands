@@ -183,7 +183,7 @@ void Application::appLoop() {
                 elementVect[i*(Tools::nbSub+1)+j]->draw(glm::scale(glm::translate(camera->getViewMatrix() , elementVect[i*(Tools::nbSub+1)+j]->position) , glm::vec3(0.1,0.1,0.1)));
             }
         }*/
-        //addDOF();
+        addDOF();
         windowManager.swapBuffers();
         printErrors();
 
@@ -450,20 +450,21 @@ void Application::addDOF() {
         }
     }
 
-
+    /*
     for (int i= 0; i< Tools::windowHeight * Tools::windowHeight * 3; i++){
         newFB[i] = 0.5;
     }
-
-    glcustom::Texture testBlack(Tools::windowWidth, Tools::windowHeight, newFB ,GL_RED);
+    */
+    glcustom::Texture * testBlack = new glcustom::Texture(Tools::windowWidth, Tools::windowHeight, newFB , GL_RGB);
+    //glcustom::Texture * testBlack = textureManager->getRandomTexture("sand");
 
     std::vector<glimac::ShapeVertex> vertices = {
-            glimac::ShapeVertex(glm::vec3(-1,1,0), glm::vec3(0), glm::vec2(0,0)),
-            glimac::ShapeVertex(glm::vec3(1,1,0), glm::vec3(0), glm::vec2(1,0)),
-            glimac::ShapeVertex(glm::vec3(-1,-1,0), glm::vec3(0), glm::vec2(0,1)),
-            glimac::ShapeVertex(glm::vec3(1,1,0), glm::vec3(0), glm::vec2(1,0)),
-            glimac::ShapeVertex(glm::vec3(-1,-1,0), glm::vec3(0), glm::vec2(0,1)),
-            glimac::ShapeVertex(glm::vec3(1,-1,0), glm::vec3(0), glm::vec2(1,1))
+            glimac::ShapeVertex(glm::vec3(-1,1,0), glm::vec3(0), glm::vec2(0,1)),
+            glimac::ShapeVertex(glm::vec3(1,1,0), glm::vec3(0), glm::vec2(1,1)),
+            glimac::ShapeVertex(glm::vec3(-1,-1,0), glm::vec3(0), glm::vec2(0,0)),
+            glimac::ShapeVertex(glm::vec3(1,1,0), glm::vec3(0), glm::vec2(1,1)),
+            glimac::ShapeVertex(glm::vec3(-1,-1,0), glm::vec3(0), glm::vec2(0,0)),
+            glimac::ShapeVertex(glm::vec3(1,-1,0), glm::vec3(0), glm::vec2(1,0))
     };
 
     glcustom::VAO vao;
@@ -472,13 +473,14 @@ void Application::addDOF() {
     vao.fillBuffer(vertices, &vbo);
 
     glcustom::GPUProgram * p = programManager->getTexture2DProgram();
+
     p->use();
-    testBlack.bind(GL_TEXTURE0);
+    testBlack->bind(GL_TEXTURE_2D);
     p->sendUniformTextureUnit("uTexture0", 0);
     vao.bind();
     glDrawArrays(GL_TRIANGLES, 0, 6);
     vao.debind();
-    testBlack.debind(GL_TEXTURE0);
+    testBlack->debind(GL_TEXTURE_2D);
 
 
 
