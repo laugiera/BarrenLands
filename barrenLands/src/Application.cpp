@@ -183,7 +183,7 @@ void Application::appLoop() {
                 elementVect[i*(Tools::nbSub+1)+j]->draw(glm::scale(glm::translate(camera->getViewMatrix() , elementVect[i*(Tools::nbSub+1)+j]->position) , glm::vec3(0.1,0.1,0.1)));
             }
         }*/
-        addDOF();
+        //addDOF();
         windowManager.swapBuffers();
         printErrors();
 
@@ -292,6 +292,8 @@ void Application::testInterface() {
 
 
 
+
+
     bool done = false;
     int rightPressed = 0;
     camera->moveFront(-5);
@@ -340,6 +342,34 @@ void Application::testInterface() {
         }
         clearGl();
 
+        GLuint frameBuffer;
+        glGenFramebuffers(1, &frameBuffer);
+        glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+
+        glcustom::Texture * originalColor = new glcustom::Texture(Tools::windowWidth, Tools::windowHeight, nullptr , GL_RGB);
+        originalColor->bind(GL_TEXTURE_2D);
+        glFramebufferTexture2D(
+                GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, originalColor->getM_id(), 0
+        );
+
+
+
+        glcustom::Texture * originalDepth = new glcustom::Texture(Tools::windowWidth, Tools::windowHeight, nullptr , GL_DEPTH_COMPONENT);
+        /*
+        originalDepth->bind(GL_TEXTURE_2D);
+
+        glFramebufferTexture2D(
+                GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, originalDepth->getM_id(), 0
+        );
+
+        originalDepth->debind(GL_TEXTURE_2D);
+        */
+        if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE){
+            std::cerr << "framebuffer instancing failed " << std::endl;
+        }
+
+
+        glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
         //configuring and sending light uniforms
         programManager->getMapProgram()->use();
         sun.resetDirection();
@@ -394,6 +424,13 @@ void Application::testInterface() {
         test->draw(camera->getViewMatrix());
         glDepthMask(GL_TRUE);
 
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+
+        addDOF(originalColor, originalDepth);
+
         windowManager.swapBuffers();
         printErrors();
 
@@ -414,8 +451,23 @@ void Application::testInterface() {
 
 }
 
-void Application::addDOF() {
-    //GLuint fbo1;
+void Application::addDOF(glcustom::Texture *text, glcustom::Texture *depth) {
+
+    /*
+    GLuint frameBuffer;
+    glGenFramebuffers(1, &frameBuffer);
+    glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+    float * textureData;
+    glcustom::Texture * testTexture = new glcustom::Texture(Tools::windowWidth, Tools::windowHeight, nullptr , GL_RGB);
+    testTexture->bind(GL_TEXTURE_2D);
+    glFramebufferTexture2D(
+            GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, testTexture->getM_id(), 0
+    );
+
+    if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE){
+        std::cerr << "framebuufer instancing failed " << std::endl;
+    }
+*/    //GLuint fbo1;
     //glGenBuffers()
     float * originalFBColor = new float[Tools::windowHeight * Tools::windowWidth *3];
     float * originalFBDepth = new float[Tools::windowHeight * Tools::windowWidth];
@@ -433,7 +485,7 @@ void Application::addDOF() {
 
     glReadPixels(0, 0, Tools::windowWidth, Tools::windowHeight, GL_DEPTH_COMPONENT, GL_FLOAT, originalFBDepth);
 
-
+    /*
     for(int i = 0; i<Tools::windowHeight; i++){
         for(int j = 0; j<Tools::windowWidth; j++){
             pixelDepth = zNear*zFar / (zFar - originalFBDepth[i*Tools::windowHeight+j]*(zFar - zNear));
@@ -449,14 +501,8 @@ void Application::addDOF() {
 
         }
     }
+     */
 
-    /*
-    for (int i= 0; i< Tools::windowHeight * Tools::windowHeight * 3; i++){
-        newFB[i] = 0.5;
-    }
-    */
-    glcustom::Texture * testBlack = new glcustom::Texture(Tools::windowWidth, Tools::windowHeight, newFB , GL_RGB);
-    //glcustom::Texture * testBlack = textureManager->getRandomTexture("sand");
 
     std::vector<glimac::ShapeVertex> vertices = {
             glimac::ShapeVertex(glm::vec3(-1,1,0), glm::vec3(0), glm::vec2(0,1)),
@@ -472,15 +518,18 @@ void Application::addDOF() {
     vbo.fillBuffer(vertices);
     vao.fillBuffer(vertices, &vbo);
 
-    glcustom::GPUProgram * p = programManager->getTexture2DProgram();
+    glcustom::GPUProgram * p = programManager->getDOFProgram();
 
     p->use();
-    testBlack->bind(GL_TEXTURE_2D);
+    text->bind(GL_TEXTURE_2D);
     p->sendUniformTextureUnit("uTexture0", 0);
+    depth->bind(GL_TEXTURE_2D, GL_TEXTURE1);
+    p->sendUniformTextureUnit("uTexture1", 1);
     vao.bind();
     glDrawArrays(GL_TRIANGLES, 0, 6);
     vao.debind();
-    testBlack->debind(GL_TEXTURE_2D);
+    text->debind(GL_TEXTURE_2D);
+    depth->debind(GL_TEXTURE_2D);
 
 
 

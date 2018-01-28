@@ -51,6 +51,12 @@ void ProgramManager::createPrograms() {
     texture2DProgram = new glcustom::GPUProgram(appPath,"printTexture2D","printTexture2D");
     texture2DProgram->addUniform("uTexture0");
 
+    //add the DOF effect
+    uniform_variables.clear();
+    uniform_variables = {"uTexture0", "uTexture1"};
+    DOFProgram = new glcustom::GPUProgram(appPath,"printTexture2D","DOF");
+    DOFProgram->addUniforms(uniform_variables);
+
 }
 /**
  * reloadPrograms()
@@ -77,6 +83,10 @@ void ProgramManager::reloadPrograms() {
     texture2DProgram->setProgram(appPath,"printTexture2D","printTexture2D");
     texture2DProgram->addUniform("uTexture0");
 
+    uniform_variables = DOFProgram->getUniformList();
+    DOFProgram->setProgram(appPath, "printTexture2D",  "DOF");
+    DOFProgram->addUniforms(uniform_variables);
+
 
 }
 /**Getters and setters for each program**/
@@ -98,6 +108,10 @@ glcustom::GPUProgram *ProgramManager::getMapProgram() const {
 
 glcustom::GPUProgram *ProgramManager::getTexture2DProgram() const {
     return texture2DProgram;
+}
+
+glcustom::GPUProgram *ProgramManager::getDOFProgram() const {
+    return DOFProgram;
 }
 
 
