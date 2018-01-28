@@ -130,7 +130,7 @@ void ProceduralGrass::draw(const glm::mat4 &viewMatrix) {
     for(int i = 0; i< instances.size(); i++){
         //pas besoin de transformer car les vertices sont modélisées par avance à la position fournie dans le constructeur
         renderObject->setColor(&(instances[i]->getColor()));
-        renderObject->render(viewMatrix);
+        renderObject->render(viewMatrix, instances);
 
     }
 }

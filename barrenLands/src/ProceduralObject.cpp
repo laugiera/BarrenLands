@@ -49,14 +49,8 @@ void ProceduralObject::createRenderObject(ProgramManager *programManager, Textur
 void ProceduralObject::draw(const glm::mat4 &viewMatrix) {
     //transformer selon la position, rotation, scale de l'objet
     if(renderObject) {
-        for (int i = 0; i < instances.size(); i++) {
-            renderObject->setColor(&instances[i]->getColor());
-            renderObject->transform(instances[i]->position, 0, glm::vec3(0, 1, 0), glm::vec3(1));
-            renderObject->alterModelMatrix(instances[i]->getTransfo());
-            renderObject->render(viewMatrix);
-        }
+        renderObject->render(viewMatrix,instances);
     }
-
 }
 
 /**

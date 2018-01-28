@@ -10,8 +10,8 @@ float Tools::windowHeight = 1000;
 int Tools::nbSub = 100;
 float Tools::scale = 100;
 float Tools::width = 1;
-float Tools::speed = 15;
-float Tools::seaLevel = -5;
+float Tools::speed = 20;
+float Tools::seaLevel= -5;
 glm::mat4 Tools::projMatrix = glm::perspective(glm::radians(70.f), Tools::windowWidth/Tools::windowHeight, 0.1f, 2000.f);
 
 /**

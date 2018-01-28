@@ -162,73 +162,76 @@ void ProceduralMap::createBiomes() {
 
     try {
         for (int i = 0; i < vertices.size(); i++) {
-            if (vertices[i].position.y < 1) {
-                if (vertices[i].moisture <= 0.1) {
-                    //desert = small roundrocks + rare crystal rocks
-                    if (objectMap[i / (Tools::nbSub + 1)][i % (Tools::nbSub + 1)] > rockLevel-0.2) { //roundrock
-                        biomes[0]->createElement(glm::vec3(vertices[i].position.x +
-                                                           NoiseManager::getInstance().getRandomFloat() *
-                                                           1.5, //big random
-                                                           vertices[i].position.y, //in the ground
-                                                           vertices[i].position.z +
-                                                           NoiseManager::getInstance().getRandomFloat()),
-                                                 "rock");
-                    if (objectMap[i / (Tools::nbSub + 1)][i % (Tools::nbSub + 1)] >
-                        rockLevel+0.3) { //crystal rock - small random
-                        biomes[0]->createElement(
-                                glm::vec3(vertices[i].position.x + NoiseManager::getInstance().getRandomFloat(),
-                                          vertices[i].position.y, //in the ground
-                                          vertices[i].position.z + NoiseManager::getInstance().getRandomFloat()),
-                                "rock");
-                    }
+            if (NoiseManager::getInstance().heightMap[i / (Tools::nbSub + 1)][i % (Tools::nbSub + 1)] > Tools::seaLevel) {
+                if (vertices[i].position.y < 1) {
+                    if (vertices[i].moisture <= 0.1) {
+                        //desert = small roundrocks + rare crystal rocks
+                        if (objectMap[i / (Tools::nbSub + 1)][i % (Tools::nbSub + 1)] > rockLevel - 0.2) { //roundrock
+                            biomes[0]->createElement(glm::vec3(vertices[i].position.x +
+                                                               NoiseManager::getInstance().getRandomFloat() *
+                                                               1.5, //big random
+                                                               vertices[i].position.y, //in the ground
+                                                               vertices[i].position.z +
+                                                               NoiseManager::getInstance().getRandomFloat()),
+                                                     "rock");
+                            if (objectMap[i / (Tools::nbSub + 1)][i % (Tools::nbSub + 1)] >
+                                rockLevel + 0.3) { //crystal rock - small random
+                                biomes[0]->createElement(
+                                        glm::vec3(vertices[i].position.x + NoiseManager::getInstance().getRandomFloat(),
+                                                  vertices[i].position.y, //in the ground
+                                                  vertices[i].position.z +
+                                                  NoiseManager::getInstance().getRandomFloat()),
+                                        "rock");
+                            }
+
+                        }
+                    } else {
+                        //herbe = grass + trees
+
+                        if (objectMap[i / (Tools::nbSub + 1)][i % (Tools::nbSub + 1)] > grassLevel)
+                            biomes[1]->createElement(vertices[i].position, "grass");
+
+                        if (objectMap[i / (Tools::nbSub + 1)][i % (Tools::nbSub + 1)] > grassLevel)
+                            biomes[1]->createElement(vertices[i].position, "tree");
 
                     }
+
+                } else if (vertices[i].position.y < 2) {
+                    if (vertices[i].moisture < 0.5) {
+                        //savane = crystal rocks
+                        if (objectMap[i / (Tools::nbSub + 1)][i % (Tools::nbSub + 1)] >
+                            rockLevel) { //crystal rock - small random
+                            biomes[2]->createElement(
+                                    glm::vec3(vertices[i].position.x + NoiseManager::getInstance().getRandomFloat(),
+                                              vertices[i].position.y, //in the ground
+                                              vertices[i].position.z + NoiseManager::getInstance().getRandomFloat()),
+                                    "rock");
+                        }
+                    } else {
+                        //herbe =  grass + menir
+
+                        if (objectMap[i / (Tools::nbSub + 1)][i % (Tools::nbSub + 1)] > grassLevel)
+                            biomes[1]->createElement(vertices[i].position, "grass");
+
+                        if (objectMap[i / (Tools::nbSub + 1)][i % (Tools::nbSub + 1)] >
+                            rockLevel + 0.3) { // rare menhir rock - high on the mountains - no random
+                            biomes[4]->createElement(glm::vec3(vertices[i].position.x,
+                                                               vertices[i].position.y,
+                                                               vertices[i].position.z),
+                                                     "rock");
+                        }
+                    }
+
+                } else if (vertices[i].position.y < 5) {
+                    /*                //rocks
+                                    if (vertices[i].moisture < 0.1) {
+
+                                    } else {
+                                        //toundra
+                                    }*/
                 } else {
-                    //herbe = grass + trees
-
-                    if (objectMap[i / (Tools::nbSub + 1)][i % (Tools::nbSub + 1)] > grassLevel)
-                        biomes[1]->createElement(vertices[i].position, "grass");
-
-                    if (objectMap[i / (Tools::nbSub + 1)][i % (Tools::nbSub + 1)] > grassLevel)
-                        biomes[1]->createElement(vertices[i].position, "tree");
-
+                    //toundra neige - no elements
                 }
-
-            } else if (vertices[i].position.y < 2) {
-                if (vertices[i].moisture < 0.5) {
-                     //savane = crystal rocks
-                    if (objectMap[i / (Tools::nbSub + 1)][i % (Tools::nbSub + 1)] >
-                        rockLevel) { //crystal rock - small random
-                        biomes[2]->createElement(
-                                glm::vec3(vertices[i].position.x + NoiseManager::getInstance().getRandomFloat(),
-                                          vertices[i].position.y, //in the ground
-                                          vertices[i].position.z + NoiseManager::getInstance().getRandomFloat()),
-                                "rock");
-                    }
-                } else {
-                     //herbe =  grass + menir
-
-                    if (objectMap[i / (Tools::nbSub + 1)][i % (Tools::nbSub + 1)] > grassLevel)
-                        biomes[1]->createElement(vertices[i].position, "grass");
-
-                    if (objectMap[i / (Tools::nbSub + 1)][i % (Tools::nbSub + 1)] >
-                        rockLevel + 0.3) { // rare menhir rock - high on the mountains - no random
-                        biomes[4]->createElement(glm::vec3(vertices[i].position.x,
-                                                           vertices[i].position.y,
-                                                           vertices[i].position.z),
-                                                 "rock");
-                    }
-                }
-
-            } else if (vertices[i].position.y < 5) {
-/*                //rocks
-                if (vertices[i].moisture < 0.1) {
-
-                } else {
-                    //toundra
-                }*/
-            } else {
-                //toundra neige - no elements
             }
         }
         ElementManager::getInstance().scatter();

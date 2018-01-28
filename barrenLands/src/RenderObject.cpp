@@ -114,18 +114,34 @@ void RenderObject::sendUniforms(const glm::mat4 &viewMatrix) {
  * render the object by using it's own GPU Program, sending it's own uniforms and binding it's own textures
  * @param viewMatrix
  */
-void RenderObject::render(const glm::mat4 &viewMatrix) {
+void RenderObject::render(const glm::mat4 &viewMatrix, const  std::vector<Instance*> &instances) {
     program->use();
-    sendUniforms(viewMatrix);
     bindTextures();
     vao.bind();
-    if(indices.empty()){
-        glDrawArrays(GL_TRIANGLES, 0, verticesCount);
-    } else {
-        glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+    if(instances.size()!=0){
+        for (int i = 0; i < instances.size(); ++i) {
+            sendUniforms(viewMatrix);
+            this->setColor(&instances[i]->getColor());
+            this->transform(instances[i]->position, 0, glm::vec3(0, 1, 0), glm::vec3(1));
+            this->alterModelMatrix(instances[i]->getTransfo());
+            if(indices.empty()){
+                glDrawArrays(GL_TRIANGLES, 0, verticesCount);
+            } else {
+                glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+            }
+        }
+    }
+    else {
+        sendUniforms(viewMatrix);
+        if(indices.empty()){
+            glDrawArrays(GL_TRIANGLES, 0, verticesCount);
+        } else {
+            glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+        }
     }
     vao.debind();
     debindTextures();
+
 }
 
 

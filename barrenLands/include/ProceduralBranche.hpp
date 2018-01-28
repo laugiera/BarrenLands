@@ -20,11 +20,6 @@ public:
     float getHeight(){
         return height;
     }
-/*
-    void draw(const glm::mat4 &viewMatrix);
-    */
-    //static
-    static void setPositions(std::vector<ProceduralObject *> objects);
 
 private:
     int nbrSub;

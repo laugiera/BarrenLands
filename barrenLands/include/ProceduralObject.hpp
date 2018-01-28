@@ -81,14 +81,13 @@ public:
 
     const std::vector<uint32_t> &getIndices() const;
 
-
+    std::vector<Instance*> instances;
 protected:
     std::vector<glimac::ShapeVertex> vertices;
     std::vector<uint32_t> indices;
     RenderObject * renderObject;
     glm::vec3 position;
     //std::vector<glm::vec3> positions;
-    std::vector<Instance*> instances;
     //std::vector<Color> colors;
 };
 
