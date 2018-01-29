@@ -341,7 +341,7 @@ void Application::testInterface() {
             }
         }
 
-
+    /*
         GLuint frameBuffer;
         glGenFramebuffers(1, &frameBuffer);
         glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
@@ -372,6 +372,8 @@ void Application::testInterface() {
 
 
         glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+
+        */
         clearGl();
         //configuring and sending light uniforms
         programManager->getMapProgram()->use();
@@ -434,12 +436,12 @@ void Application::testInterface() {
 
 
 
-        addDOF(originalColor, originalDepth);
+        //addDOF(originalColor, originalDepth);
 
         windowManager.swapBuffers();
         printErrors();
 
-        glDeleteFramebuffers(1, &frameBuffer);
+        //glDeleteFramebuffers(1, &frameBuffer);
 
     }
     //delete testObject;
