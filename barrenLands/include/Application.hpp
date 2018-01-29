@@ -20,6 +20,8 @@
 #include "ProceduralMap.hpp"
 #include "ElementManager.hpp"
 #include "ProceduralSea.hpp"
+#include <FBO.hpp>
+#include "RenderScreen.hpp"
 
 /**
  * Class Application
@@ -38,6 +40,7 @@ public:
     void testInterface();
     void printErrors();
     void addDOF(glcustom::Texture *text, glcustom::Texture *depth);
+
 
     const glimac::SDLWindowManager &getWindowManager() const;
 
