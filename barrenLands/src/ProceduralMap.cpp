@@ -208,21 +208,7 @@ void ProceduralMap::createBiomes() {
                                               vertices[i].position.z + NoiseManager::getInstance().getRandomFloat()),
                                     "rock");
                         }
-                    } else {
-                        //herbe =  grass + menir
-
-                        if (objectMap[i / (Tools::nbSub + 1)][i % (Tools::nbSub + 1)] > grassLevel)
-                            biomes[1]->createElement(vertices[i].position, "grass");
-
-                        if (objectMap[i / (Tools::nbSub + 1)][i % (Tools::nbSub + 1)] >
-                            rockLevel) { // rare menhir rock - high on the mountains - no random
-                            biomes[1]->createElement(glm::vec3(vertices[i].position.x,
-                                                               vertices[i].position.y,
-                                                               vertices[i].position.z),
-                                                     "rock");
-                        }
                     }
-
                 } else if (vertices[i].position.y < 5) {
                         //rocks = roundrock
                         if (vertices[i].moisture < 0.1) {
