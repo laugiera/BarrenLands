@@ -89,7 +89,7 @@ glm::vec3 ProceduralObject::getRandomPosition(const glm::vec3 &position) {
  * @return
  */
 glm::mat4 ProceduralObject::getRandomRotation() {
-    return glm::rotate(glm::mat4(1.f), glm::radians(NoiseManager::getInstance().getRandomFloat()), glm::vec3(0,1,0));
+    return glm::rotate(glm::mat4(1.f), glm::radians(2*NoiseManager::getInstance().getRandomFloat()), glm::vec3(0,1,0));
 }
 
 /**

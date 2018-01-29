@@ -21,6 +21,8 @@ public:
         return height;
     }
 
+    void addInstance(const glm::vec3 &position, const Color &biomeColor);
+
 private:
     int nbrSub;
     float height;

@@ -33,7 +33,7 @@ void ElementManager::createAllElements() {
 ProceduralObject* ElementManager::createProceduralRock(const std::string &name){
     if(name == "sand")
         return rocks[0];
-    else if(name == "toundra")
+    else if(name == "savannah")
         return rocks[1];
     else
         return rocks[2];
