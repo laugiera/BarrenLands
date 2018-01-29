@@ -340,7 +340,7 @@ void Application::testInterface() {
                 done = true; // Leave the loop after this iteration
             }
         }
-        clearGl();
+
 
         GLuint frameBuffer;
         glGenFramebuffers(1, &frameBuffer);
@@ -355,21 +355,24 @@ void Application::testInterface() {
 
 
         glcustom::Texture * originalDepth = new glcustom::Texture(Tools::windowWidth, Tools::windowHeight, nullptr , GL_DEPTH_COMPONENT);
-        /*
-        originalDepth->bind(GL_TEXTURE_2D);
+
+        originalDepth->bind(GL_TEXTURE_2D, GL_TEXTURE1);
 
         glFramebufferTexture2D(
                 GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, originalDepth->getM_id(), 0
         );
 
         originalDepth->debind(GL_TEXTURE_2D);
-        */
+
+
+
         if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE){
             std::cerr << "framebuffer instancing failed " << std::endl;
         }
 
 
         glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+        clearGl();
         //configuring and sending light uniforms
         programManager->getMapProgram()->use();
         sun.resetDirection();
@@ -424,15 +427,19 @@ void Application::testInterface() {
         test->draw(camera->getViewMatrix());
         glDepthMask(GL_TRUE);
 
-        glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+
+
+
 
 
         addDOF(originalColor, originalDepth);
 
         windowManager.swapBuffers();
         printErrors();
+
+        glDeleteFramebuffers(1, &frameBuffer);
 
     }
     //delete testObject;
@@ -441,6 +448,7 @@ void Application::testInterface() {
 
     //delete roundRock;
     delete test;
+
     //delete grass;
     //delete branche;
 
@@ -453,26 +461,11 @@ void Application::testInterface() {
 
 void Application::addDOF(glcustom::Texture *text, glcustom::Texture *depth) {
 
-    /*
-    GLuint frameBuffer;
-    glGenFramebuffers(1, &frameBuffer);
-    glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
-    float * textureData;
-    glcustom::Texture * testTexture = new glcustom::Texture(Tools::windowWidth, Tools::windowHeight, nullptr , GL_RGB);
-    testTexture->bind(GL_TEXTURE_2D);
-    glFramebufferTexture2D(
-            GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, testTexture->getM_id(), 0
-    );
 
-    if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE){
-        std::cerr << "framebuufer instancing failed " << std::endl;
-    }
-*/    //GLuint fbo1;
-    //glGenBuffers()
     float * originalFBColor = new float[Tools::windowHeight * Tools::windowWidth *3];
     float * originalFBDepth = new float[Tools::windowHeight * Tools::windowWidth];
     float * newFB = new float[Tools::windowHeight * Tools::windowWidth*3];
-    int zNear = 0, zFar = 500;
+    float zNear = 0.1, zFar = 2000;
     float pixelDepth, CoCDiam, apperture, coefficient, focalLength, screenPos ;
 
     apperture = 2.0;
@@ -485,10 +478,10 @@ void Application::addDOF(glcustom::Texture *text, glcustom::Texture *depth) {
 
     glReadPixels(0, 0, Tools::windowWidth, Tools::windowHeight, GL_DEPTH_COMPONENT, GL_FLOAT, originalFBDepth);
 
-    /*
+
     for(int i = 0; i<Tools::windowHeight; i++){
-        for(int j = 0; j<Tools::windowWidth; j++){
-            pixelDepth = zNear*zFar / (zFar - originalFBDepth[i*Tools::windowHeight+j]*(zFar - zNear));
+        for(int j = 0; j<Tools::windowWidth*3; j += 3){
+            pixelDepth = zNear*zFar / (zFar - originalFBDepth[i*Tools::windowWidth+j/3]*(zFar - zNear));
             CoCDiam = abs(
                     apperture
                     - coefficient * (
@@ -497,11 +490,25 @@ void Application::addDOF(glcustom::Texture *text, glcustom::Texture *depth) {
                                                         )
             );
 
-            uniformLightDistribution(CoCDiam, i, j, originalFBColor, newFB);
+            uniformLightDistribution(CoCDiam, i, j/3, originalFBColor, newFB);
 
         }
     }
+
+    /* //WORKS
+    for (int i = 0; i<Tools::windowHeight * Tools::windowWidth *3; i+=3){
+        if(originalFBDepth[i/3] == 1){
+            newFB[i] = originalFBColor[i] + 0.3;
+            newFB[i+1] = originalFBColor[i+1] + 0.3;
+            newFB[i+2] = originalFBColor[i+2] + 0.3;
+        } else {
+            newFB[i] = originalFBColor[i];
+            newFB[i+1] = originalFBColor[i+1];
+            newFB[i+2] = originalFBColor[i+2];
+        }
+    }
      */
+
 
 
     std::vector<glimac::ShapeVertex> vertices = {
@@ -519,12 +526,20 @@ void Application::addDOF(glcustom::Texture *text, glcustom::Texture *depth) {
     vao.fillBuffer(vertices, &vbo);
 
     glcustom::GPUProgram * p = programManager->getDOFProgram();
+    text = new glcustom::Texture(Tools::windowWidth, Tools::windowHeight, newFB, GL_RGB);
+
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 
     p->use();
     text->bind(GL_TEXTURE_2D);
     p->sendUniformTextureUnit("uTexture0", 0);
     depth->bind(GL_TEXTURE_2D, GL_TEXTURE1);
     p->sendUniformTextureUnit("uTexture1", 1);
+    p->sendUniform1f("uZNear", 0.1f);
+    p->sendUniform1f("uZFar", 2000.f);
     vao.bind();
     glDrawArrays(GL_TRIANGLES, 0, 6);
     vao.debind();
@@ -533,20 +548,24 @@ void Application::addDOF(glcustom::Texture *text, glcustom::Texture *depth) {
 
 
 
-    delete[] originalFBColor;
-    delete[] originalFBDepth;
-    delete[] newFB;
+    //delete[] originalFBColor;
+    //delete[] originalFBDepth;
+    //delete[] newFB;
 
 }
 
 void Application::uniformLightDistribution(float diam, int x, int y, float * originalColor, float *newColor) {
     int r = diam/2;
     float a = glm::pi<float>() * r * r ;
-    float intensity = originalColor[x*Tools::windowHeight+y]/a;
+    float rIntensity = originalColor[x*Tools::windowWidth *3 + y] / a;
+    float gIntensity = originalColor[x*Tools::windowWidth *3 + y+1] / a;
+    float bIntensity = originalColor[x*Tools::windowWidth *3 + y+2] /a;
     for(int i = -r; i< r; i ++){
         for(int j = -r; j< r; j ++){
             if( pow(i*i*j*j, 0.5) < r ){
-                newColor[x*Tools::windowHeight+y] += intensity;
+                newColor[x*Tools::windowWidth*3 +y ] += rIntensity;
+                newColor[x*Tools::windowWidth*3 +y +1] += gIntensity;
+                newColor[x*Tools::windowWidth*3 +y +2] += bIntensity;
             }
         }
     }

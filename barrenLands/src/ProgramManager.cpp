@@ -53,7 +53,7 @@ void ProgramManager::createPrograms() {
 
     //add the DOF effect
     uniform_variables.clear();
-    uniform_variables = {"uTexture0", "uTexture1"};
+    uniform_variables = {"uTexture0", "uTexture1", "uZNear", "uZFar"};
     DOFProgram = new glcustom::GPUProgram(appPath,"printTexture2D","DOF");
     DOFProgram->addUniforms(uniform_variables);
 
