@@ -32,6 +32,10 @@ public:
 
     glcustom::GPUProgram *getDOFProgram() const;
 
+    glcustom::GPUProgram *getBlurProgram() const;
+
+    glcustom::GPUProgram *getGammaProgram() const;
+
     void reloadPrograms();
 private:
     glimac::FilePath appPath;
@@ -41,6 +45,8 @@ private:
     glcustom::GPUProgram * mapProgram;
     glcustom::GPUProgram * texture2DProgram;
     glcustom::GPUProgram * DOFProgram;
+    glcustom::GPUProgram * BlurProgram;
+    glcustom::GPUProgram * GammaProgram;
 
 };
 

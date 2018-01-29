@@ -39,7 +39,7 @@ public:
     void appLoop();
     void testInterface();
     void printErrors();
-    void addDOF(glcustom::Texture *text, glcustom::Texture *depth);
+    void addDOF(glcustom::Texture *text, glcustom::Texture *depth, glcustom::FBO &fbo);
 
 
     const glimac::SDLWindowManager &getWindowManager() const;

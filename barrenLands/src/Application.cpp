@@ -150,6 +150,13 @@ void Application::appLoop() {
             }
         }
 
+        //setting up fbo and linking color and depth buffer
+
+        glcustom::FBO fbo;
+        fbo.bind();
+        glcustom::Texture originalColor = fbo.attachColorTexture(Tools::windowWidth, Tools::windowHeight);
+        glcustom::Texture originalDepth = fbo.attachDepthTexture(Tools::windowWidth, Tools::windowHeight);
+        fbo.checkComplete();
         clearGl();
 
         //configuring and sending light uniforms
@@ -183,7 +190,7 @@ void Application::appLoop() {
                 elementVect[i*(Tools::nbSub+1)+j]->draw(glm::scale(glm::translate(camera->getViewMatrix() , elementVect[i*(Tools::nbSub+1)+j]->position) , glm::vec3(0.1,0.1,0.1)));
             }
         }*/
-        //addDOF();
+        addDOF(&originalColor, &originalDepth, fbo);
         windowManager.swapBuffers();
         printErrors();
 
@@ -290,8 +297,11 @@ void Application::testInterface() {
     tree->addInstance(glm::vec3(0,0,0), Color(1,1,0));
     tree->createRenderObject(programManager, textureManager);
 
-
-
+    glcustom::FBO fbo;
+    fbo.bind();
+    glcustom::Texture originalColor = fbo.attachColorTexture(Tools::windowWidth, Tools::windowHeight);
+    glcustom::Texture originalDepth = fbo.attachDepthTexture(Tools::windowWidth, Tools::windowHeight);
+    fbo.checkComplete();
 
 
     bool done = false;
@@ -342,11 +352,6 @@ void Application::testInterface() {
         }
 
         //setting up fbo and linking color and depth buffer
-        glcustom::FBO fbo;
-        fbo.bind();
-        glcustom::Texture originalColor = fbo.attachColorTexture(Tools::windowWidth, Tools::windowHeight);
-        glcustom::Texture originalDepth = fbo.attachDepthTexture(Tools::windowWidth, Tools::windowHeight);
-        fbo.checkComplete();
         clearGl();
 
         //configuring and sending light uniforms
@@ -383,7 +388,7 @@ void Application::testInterface() {
 
 
         //le rendu final est là dedans pour mes test pour l'instant
-        addDOF(&originalColor, &originalDepth);
+        addDOF(&originalColor, &originalDepth, fbo);
 
         windowManager.swapBuffers();
         printErrors();
@@ -391,102 +396,44 @@ void Application::testInterface() {
         //glDeleteFramebuffers(1, &frameBuffer);
 
     }
-    //delete testObject;
-
-    //delete testRock;
-
-    //delete roundRock;
     delete test;
 
-    //delete grass;
-    //delete branche;
-
-    //delete experienceRock;
-
-    //delete feuillage;
-    //delete color;
 
 }
 
-void Application::addDOF(glcustom::Texture *text, glcustom::Texture *depth) {
+void Application::addDOF(glcustom::Texture *beauty, glcustom::Texture *depth, glcustom::FBO &fbo) {
+
+    //glcustom::Texture initialDepth = *depth;
+    // std::vector<glcustom::Texture *> texts = { beauty, depth};
+
+    glcustom::Texture blur = fbo.attachColorTexture(Tools::windowWidth, Tools::windowHeight);
+    fbo.attachDepthTexture(Tools::windowWidth, Tools::windowHeight);
+
+    std::vector<glcustom::Texture *> texts = { beauty, depth };
+    RenderScreen screenColorCorrec(programManager->getGammaProgram(), texts);
+    screenColorCorrec.render(&fbo);
 
 
-    float * originalFBColor = new float[Tools::windowHeight * Tools::windowWidth *3];
-    float * originalFBDepth = new float[Tools::windowHeight * Tools::windowWidth];
-    float * newFB = new float[Tools::windowHeight * Tools::windowWidth*3];
-    float zNear = 0.1, zFar = 2000;
-    float pixelDepth, CoCDiam, apperture, coefficient, focalLength, screenPos ;
+    texts.clear();
+    texts.push_back(&blur);
 
-    apperture = 2.0;
-    screenPos = 10.0;
-    focalLength = 5.0;
-    coefficient = 1;
+    RenderScreen screenBlur(programManager->getBlurProgram(), texts);
+    programManager->getBlurProgram()->use();
+    programManager->getBlurProgram()->sendUniform1i("uSampleCount", 2);
+    programManager->getBlurProgram()->sendUniformVec3("uDirection", glm::vec3(0,1,0));
+    screenBlur.render(&fbo);
 
 
-    glReadPixels(0, 0, Tools::windowWidth, Tools::windowHeight, GL_RGB, GL_FLOAT, originalFBColor);
-
-    glReadPixels(0, 0, Tools::windowWidth, Tools::windowHeight, GL_DEPTH_COMPONENT, GL_FLOAT, originalFBDepth);
-
-    /*
-    for(int i = 0; i<Tools::windowHeight; i++){
-        for(int j = 0; j<Tools::windowWidth*3; j += 3){
-            pixelDepth = zNear*zFar / (zFar - originalFBDepth[i*Tools::windowWidth+j/3]*(zFar - zNear));
-            CoCDiam = abs(
-                    apperture
-                    - coefficient * (
-                            screenPos * (1.0 / focalLength - 1.0 / pixelDepth)
-                            -1
-                                                        )
-            );
-
-            uniformLightDistribution(CoCDiam, i, j/3, originalFBColor, newFB);
-
-        }
-    }
-     */
-
-    /* //WORKS
-    for (int i = 0; i<Tools::windowHeight * Tools::windowWidth *3; i+=3){
-        if(originalFBDepth[i/3] == 1){
-            newFB[i] = originalFBColor[i] + 0.3;
-            newFB[i+1] = originalFBColor[i+1] + 0.3;
-            newFB[i+2] = originalFBColor[i+2] + 0.3;
-        } else {
-            newFB[i] = originalFBColor[i];
-            newFB[i+1] = originalFBColor[i+1];
-            newFB[i+2] = originalFBColor[i+2];
-        }
-    }
-     */
+    programManager->getBlurProgram()->sendUniformVec3("uDirection", glm::vec3(1,0,0));
+    screenBlur.render(&fbo);
 
 
-    text = new glcustom::Texture(Tools::windowWidth, Tools::windowHeight, newFB, GL_RGB);
-    std::vector<glcustom::Texture *> texts = { text, depth};
-
-    RenderScreen screen(programManager->getDOFProgram(), texts);
-    screen.render();
-
-    delete[] originalFBColor;
-    delete[] originalFBDepth;
-    delete[] newFB;
+    texts.push_back(beauty);
+    texts.push_back(depth);
+    RenderScreen screenDOF(programManager->getDOFProgram(), texts);
+    screenDOF.render();
 
 
-}
 
-void Application::uniformLightDistribution(float diam, int x, int y, float * originalColor, float *newColor) {
-    int r = diam/2;
-    float a = glm::pi<float>() * r * r ;
-    float rIntensity = originalColor[x*Tools::windowWidth *3 + y] / a;
-    float gIntensity = originalColor[x*Tools::windowWidth *3 + y+1] / a;
-    float bIntensity = originalColor[x*Tools::windowWidth *3 + y+2] /a;
-    for(int i = -r; i< r; i ++){
-        for(int j = -r; j< r; j ++){
-            if( pow(i*i*j*j, 0.5) < r ){
-                newColor[x*Tools::windowWidth*3 +y ] += rIntensity;
-                newColor[x*Tools::windowWidth*3 +y +1] += gIntensity;
-                newColor[x*Tools::windowWidth*3 +y +2] += bIntensity;
-            }
-        }
-    }
 }
 

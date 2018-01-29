@@ -104,6 +104,40 @@ std::vector<std::string> glcustom::GPUProgram::getUniformList() {
     }
     return uniformList;
 }
+
+void glcustom::GPUProgram::changeFS(std::string fsFile) {
+    m_fragment_shader = fsFile;
+    fsFile += ".fs.glsl";
+    fsFile = m_app_path.dirPath() + "shaders/" + fsFile;
+    glimac::Shader fs = glimac::loadShader(GL_FRAGMENT_SHADER, fsFile);
+
+    if(!fs.compile()) {
+        throw std::runtime_error("Compilation error for fragment shader (from file " + fsFile + "): " + fs.getInfoLog());
+    }
+    m_program.attachShader(fs);
+
+    if(!m_program.link()) {
+        throw std::runtime_error("Link error (for file " + fsFile + "): " + m_program.getInfoLog());
+    }
+}
+
+void glcustom::GPUProgram::changeVS(std::string vsFile) {
+    m_vertex_shader = vsFile;
+    vsFile += ".vs.glsl";
+    vsFile = m_app_path.dirPath() + "shaders/" + vsFile ;
+    glimac::Shader vs = glimac::loadShader(GL_FRAGMENT_SHADER, vsFile);
+
+    if(!vs.compile()) {
+        throw std::runtime_error("Compilation error for vertex shader (from file " + vsFile + "): " + vs.getInfoLog());
+    }
+    m_program.attachShader(vs);
+
+    if(!m_program.link()) {
+        throw std::runtime_error("Link error (for file " + vsFile + "): " + m_program.getInfoLog());
+    }
+}
+
+
 /*
 void glcustom::GPUProgram::addTexture(std::string name, const glcustom::Texture texture) {
     m_textures.insert(std::pair<std::string, Texture>(name, texture));
