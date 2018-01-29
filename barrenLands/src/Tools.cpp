@@ -5,14 +5,15 @@
 #include "../include/Tools.hpp"
 
 
-float Tools::windowWidth = 1200;
-float Tools::windowHeight = 1000;
+int Tools::windowWidth = 1200;
+int Tools::windowHeight = 1000;
 int Tools::nbSub = 100;
 float Tools::scale = 100;
 float Tools::width = 1;
 float Tools::speed = 20;
 float Tools::seaLevel= -5;
-glm::mat4 Tools::projMatrix = glm::perspective(glm::radians(70.f), Tools::windowWidth/Tools::windowHeight, 0.1f, 2000.f);
+glm::mat4 Tools::projMatrix = glm::perspective(glm::radians(70.f), float(Tools::windowWidth)/float(Tools::windowHeight), 0.1f, 2000.f);
+
 
 /**
  * Take a string representation of a bool and converts it to bool

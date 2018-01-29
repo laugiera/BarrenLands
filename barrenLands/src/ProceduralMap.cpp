@@ -300,9 +300,9 @@ void ProceduralMap::draw(const glm::mat4 &viewMatrix) {
 
 void ProceduralMap::createBiomeColors() {
     Color baseColor = Color();
-    baseColor.lighten(0.5);
+    baseColor.lighten(0.6);
     baseColor.randomSimilarColor(0.1);
-    baseColor.randomSimilarColor(0.1);
+    baseColor.randomSimilarColor(0.15);
     baseColor.saturate(-0.2);
     std::cout <<"base Color : "<< baseColor << std::endl;
     Color derivedColor = baseColor;
@@ -327,7 +327,7 @@ void ProceduralMap::createBiomeColors() {
     RenderMap::toundra = new Color(&derivedColor);
     std::cout <<"toundra Color : "<< *RenderMap::toundra << std::endl;
 
-    derivedColor = baseColor; derivedColor.lighten(0.1);/* derivedColor.green(0.2);*/ derivedColor.complementaryColor(); /*derivedColor.saturate(0.2);*/
+    derivedColor = baseColor; derivedColor.lighten(0.1); derivedColor.blue(0.3); derivedColor.complementaryColor(); /*derivedColor.saturate(0.2);*/
     RenderMap::savannah = new Color(&derivedColor);
     std::cout <<"savannah Color : "<< *RenderMap::savannah << std::endl;
 

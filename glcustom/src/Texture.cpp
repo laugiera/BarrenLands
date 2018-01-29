@@ -21,7 +21,7 @@ glcustom::Texture::Texture(GLsizei width, GLsizei height, const GLvoid *data, GL
 }
 
 glcustom::Texture::~Texture() {
-
+    glDeleteTextures(1, &m_id);
 }
 
 void glcustom::Texture::load2D(const std::string filePath) {
@@ -105,9 +105,13 @@ void glcustom::Texture::setupCubeMap( const GLvoid *xpos, const GLvoid *xneg, co
 }
 
 void glcustom::Texture::create2D(GLsizei width, GLsizei height, const GLvoid * data, GLenum format) {
+    GLenum internalFormat = format;
+    if(format == GL_DEPTH_COMPONENT){
+        internalFormat = GL_DEPTH_COMPONENT24;
+    }
     glGenTextures(1, &m_id);
     bind(GL_TEXTURE_2D);
-    glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_FLOAT, data);
+    glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, format, GL_FLOAT, data);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
