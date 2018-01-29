@@ -36,7 +36,7 @@ ProceduralObject* ElementManager::createProceduralRock(const std::string &name){
     return rocks[3];
     /*if(name == "sand")
         return rocks[0];
-    else if(name == "toundra")
+    else if(name == "savannah")
         return rocks[1];
     else
         return rocks[2];
@@ -84,6 +84,9 @@ ProceduralObject *ElementManager::createProceduralGrass(const glm::vec3 & positi
 void ElementManager::scatter(){
     for (int i = 0; i < rocks.size(); ++i) {
         rocks[i]->scatter();
+    }
+    for (int j = 0; j < trees.size(); ++j) {
+        trees[j]->scatter();
     }
 }
 

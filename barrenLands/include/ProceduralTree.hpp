@@ -23,6 +23,8 @@ public:
 
     std::vector<glcustom::Texture *> chooseTextures(TextureManager *textureManager);
 
+    void scatter();
+
 
 private:
     ProceduralBranche * tronc;

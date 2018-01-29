@@ -183,7 +183,7 @@ void Application::appLoop() {
                 elementVect[i*(Tools::nbSub+1)+j]->draw(glm::scale(glm::translate(camera->getViewMatrix() , elementVect[i*(Tools::nbSub+1)+j]->position) , glm::vec3(0.1,0.1,0.1)));
             }
         }*/
-
+        //addDOF();
         windowManager.swapBuffers();
         printErrors();
 
@@ -296,6 +296,8 @@ void Application::testInterface() {
 
 
 
+
+
     bool done = false;
     int rightPressed = 0;
     camera->moveFront(-5);
@@ -342,8 +344,41 @@ void Application::testInterface() {
                 done = true; // Leave the loop after this iteration
             }
         }
-        clearGl();
 
+    /*
+        GLuint frameBuffer;
+        glGenFramebuffers(1, &frameBuffer);
+        glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+
+        glcustom::Texture * originalColor = new glcustom::Texture(Tools::windowWidth, Tools::windowHeight, nullptr , GL_RGB);
+        originalColor->bind(GL_TEXTURE_2D);
+        glFramebufferTexture2D(
+                GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, originalColor->getM_id(), 0
+        );
+
+
+
+        glcustom::Texture * originalDepth = new glcustom::Texture(Tools::windowWidth, Tools::windowHeight, nullptr , GL_DEPTH_COMPONENT);
+
+        originalDepth->bind(GL_TEXTURE_2D, GL_TEXTURE1);
+
+        glFramebufferTexture2D(
+                GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, originalDepth->getM_id(), 0
+        );
+
+        originalDepth->debind(GL_TEXTURE_2D);
+
+
+
+        if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE){
+            std::cerr << "framebuffer instancing failed " << std::endl;
+        }
+
+
+        glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+
+        */
+        clearGl();
         //configuring and sending light uniforms
         programManager->getMapProgram()->use();
         sun.resetDirection();
@@ -397,8 +432,19 @@ void Application::testInterface() {
         test->draw(camera->getViewMatrix());
         glDepthMask(GL_TRUE);
 
+
+
+
+
+
+
+
+        //addDOF(originalColor, originalDepth);
+
         windowManager.swapBuffers();
         printErrors();
+
+        //glDeleteFramebuffers(1, &frameBuffer);
 
     }
     //delete testObject;
@@ -407,6 +453,7 @@ void Application::testInterface() {
 
     //delete roundRock;
     delete test;
+
     //delete grass;
     //delete branche;
 
@@ -415,4 +462,116 @@ void Application::testInterface() {
     //delete feuillage;
     //delete color;
 
+}
+
+void Application::addDOF(glcustom::Texture *text, glcustom::Texture *depth) {
+
+
+    float * originalFBColor = new float[Tools::windowHeight * Tools::windowWidth *3];
+    float * originalFBDepth = new float[Tools::windowHeight * Tools::windowWidth];
+    float * newFB = new float[Tools::windowHeight * Tools::windowWidth*3];
+    float zNear = 0.1, zFar = 2000;
+    float pixelDepth, CoCDiam, apperture, coefficient, focalLength, screenPos ;
+
+    apperture = 2.0;
+    screenPos = 10.0;
+    focalLength = 5.0;
+    coefficient = 1;
+
+
+    glReadPixels(0, 0, Tools::windowWidth, Tools::windowHeight, GL_RGB, GL_FLOAT, originalFBColor);
+
+    glReadPixels(0, 0, Tools::windowWidth, Tools::windowHeight, GL_DEPTH_COMPONENT, GL_FLOAT, originalFBDepth);
+
+
+    for(int i = 0; i<Tools::windowHeight; i++){
+        for(int j = 0; j<Tools::windowWidth*3; j += 3){
+            pixelDepth = zNear*zFar / (zFar - originalFBDepth[i*Tools::windowWidth+j/3]*(zFar - zNear));
+            CoCDiam = abs(
+                    apperture
+                    - coefficient * (
+                            screenPos * (1.0 / focalLength - 1.0 / pixelDepth)
+                            -1
+                                                        )
+            );
+
+            uniformLightDistribution(CoCDiam, i, j/3, originalFBColor, newFB);
+
+        }
+    }
+
+    /* //WORKS
+    for (int i = 0; i<Tools::windowHeight * Tools::windowWidth *3; i+=3){
+        if(originalFBDepth[i/3] == 1){
+            newFB[i] = originalFBColor[i] + 0.3;
+            newFB[i+1] = originalFBColor[i+1] + 0.3;
+            newFB[i+2] = originalFBColor[i+2] + 0.3;
+        } else {
+            newFB[i] = originalFBColor[i];
+            newFB[i+1] = originalFBColor[i+1];
+            newFB[i+2] = originalFBColor[i+2];
+        }
+    }
+     */
+
+
+
+    std::vector<glimac::ShapeVertex> vertices = {
+            glimac::ShapeVertex(glm::vec3(-1,1,0), glm::vec3(0), glm::vec2(0,1)),
+            glimac::ShapeVertex(glm::vec3(1,1,0), glm::vec3(0), glm::vec2(1,1)),
+            glimac::ShapeVertex(glm::vec3(-1,-1,0), glm::vec3(0), glm::vec2(0,0)),
+            glimac::ShapeVertex(glm::vec3(1,1,0), glm::vec3(0), glm::vec2(1,1)),
+            glimac::ShapeVertex(glm::vec3(-1,-1,0), glm::vec3(0), glm::vec2(0,0)),
+            glimac::ShapeVertex(glm::vec3(1,-1,0), glm::vec3(0), glm::vec2(1,0))
+    };
+
+    glcustom::VAO vao;
+    glcustom::VBO vbo;
+    vbo.fillBuffer(vertices);
+    vao.fillBuffer(vertices, &vbo);
+
+    glcustom::GPUProgram * p = programManager->getDOFProgram();
+    text = new glcustom::Texture(Tools::windowWidth, Tools::windowHeight, newFB, GL_RGB);
+
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+
+    p->use();
+    text->bind(GL_TEXTURE_2D);
+    p->sendUniformTextureUnit("uTexture0", 0);
+    depth->bind(GL_TEXTURE_2D, GL_TEXTURE1);
+    p->sendUniformTextureUnit("uTexture1", 1);
+    p->sendUniform1f("uZNear", 0.1f);
+    p->sendUniform1f("uZFar", 2000.f);
+    vao.bind();
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+    vao.debind();
+    text->debind(GL_TEXTURE_2D);
+    depth->debind(GL_TEXTURE_2D);
+
+
+
+    //delete[] originalFBColor;
+    //delete[] originalFBDepth;
+    //delete[] newFB;
+
+}
+
+void Application::uniformLightDistribution(float diam, int x, int y, float * originalColor, float *newColor) {
+    int r = diam/2;
+    float a = glm::pi<float>() * r * r ;
+    float rIntensity = originalColor[x*Tools::windowWidth *3 + y] / a;
+    float gIntensity = originalColor[x*Tools::windowWidth *3 + y+1] / a;
+    float bIntensity = originalColor[x*Tools::windowWidth *3 + y+2] /a;
+    for(int i = -r; i< r; i ++){
+        for(int j = -r; j< r; j ++){
+            if( pow(i*i*j*j, 0.5) < r ){
+                newColor[x*Tools::windowWidth*3 +y ] += rIntensity;
+                newColor[x*Tools::windowWidth*3 +y +1] += gIntensity;
+                newColor[x*Tools::windowWidth*3 +y +2] += bIntensity;
+            }
+        }
+    }
 }

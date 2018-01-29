@@ -21,8 +21,8 @@
 class Tools {
 public:
 
-    static float windowWidth;
-    static float windowHeight;
+    static int windowWidth;
+    static int windowHeight;
     static int nbSub; //map subdivisions
     static float scale;
     static float width;

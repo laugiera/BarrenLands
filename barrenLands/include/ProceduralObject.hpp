@@ -11,6 +11,7 @@
 #include "glimac/Sphere.hpp"
 #include "ProgramManager.hpp"
 #include "TextureManager.hpp"
+#include "Instance.hpp"
 /**
  * Class ProceduralObject
  * By default, it's a cube
@@ -80,24 +81,14 @@ public:
 
     const std::vector<uint32_t> &getIndices() const;
 
-
-
-    /***** Getter and setter for postion ******/ // À ENELEVER
-
-    glm::vec3 & getPosition(){
-        return position;
-    }
-    void setPosition(glm::vec3 &_position){
-        position = _position;
-    }
-
+    std::vector<Instance*> instances;
 protected:
     std::vector<glimac::ShapeVertex> vertices;
     std::vector<uint32_t> indices;
     RenderObject * renderObject;
     glm::vec3 position;
-    std::vector<glm::vec3> positions;
-    std::vector<Color> colors;
+    //std::vector<glm::vec3> positions;
+    //std::vector<Color> colors;
 };
 
 

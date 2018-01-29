@@ -96,3 +96,16 @@ std::vector<glcustom::Texture *> ProceduralBranche::chooseTextures(TextureManage
 glm::mat4 ProceduralBranche::getRandomScale() {
     return glm::scale(glm::mat4(1.f), glm::vec3(0.3,0.3,0.3));
 }
+
+/**
+ * Adds a instance of an object
+ * Adds its position and color to the positions and colors attributs after having modified them
+ * @param position
+ * @param biomeColor
+ */
+void ProceduralBranche::addInstance(const glm::vec3 &position, const Color &biomeColor) {
+    Color trueColor = chooseColor(biomeColor);
+    glm::mat4 transfo(1.f);
+    transfo =  getRandomScale() * getRandomRotation() * transfo;
+    instances.push_back(new Instance(transfo, position,trueColor));
+}

@@ -20,11 +20,8 @@ public:
     float getHeight(){
         return height;
     }
-/*
-    void draw(const glm::mat4 &viewMatrix);
-    */
-    //static
-    static void setPositions(std::vector<ProceduralObject *> objects);
+
+    void addInstance(const glm::vec3 &position, const Color &biomeColor);
 
 private:
     int nbrSub;
