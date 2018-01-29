@@ -30,6 +30,7 @@ void ProceduralBiome::createElement(glm::vec3 position, const std::string &type)
     }
     else if (type == "grass"){
         grass.push_back(ElementManager::getInstance().createProceduralGrass(position));
+        //grass[grass.size()-1]->addInstance(glm::vec3(0,0,0), *color);
     }
     else if (type == "tree"){
         if(trees.empty()) throw std::runtime_error("Biome " + name + " : an the tree category is empty");
