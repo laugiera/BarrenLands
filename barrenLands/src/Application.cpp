@@ -382,11 +382,7 @@ void Application::testInterface() {
 
 
 
-
-
-
-
-
+        //le rendu final est là dedans pour mes test pour l'instant
         addDOF(&originalColor, &originalDepth);
 
         windowManager.swapBuffers();
@@ -465,11 +461,9 @@ void Application::addDOF(glcustom::Texture *text, glcustom::Texture *depth) {
 
 
     text = new glcustom::Texture(Tools::windowWidth, Tools::windowHeight, newFB, GL_RGB);
-
     std::vector<glcustom::Texture *> texts = { text, depth};
 
     RenderScreen screen(programManager->getDOFProgram(), texts);
-
     screen.render();
 
     delete[] originalFBColor;
