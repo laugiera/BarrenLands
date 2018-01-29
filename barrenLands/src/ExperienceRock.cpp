@@ -3,6 +3,7 @@
 //
 
 #include "ExperienceRock.hpp"
+#include <algorithm>
 
 ExperienceRock::ExperienceRock() : ProceduralRock(){
     generateVertices();
@@ -30,10 +31,10 @@ void ExperienceRock::generateVertices(){
     }
 */
 
-    _vertices.emplace_back(glm::normalize(glm::vec3(1,-1,0)), glm::normalize(glm::vec3(1,-1,0)), glm::vec2(1,1));
-    _vertices.emplace_back(glm::normalize(glm::vec3(0,-1,1)), glm::normalize(glm::vec3(0,-1,1)), glm::vec2(1,1));
-    _vertices.emplace_back(glm::normalize(glm::vec3(-1,-1,0)), glm::normalize(glm::vec3(-1,-1,0)), glm::vec2(1,1));
-    _vertices.emplace_back(glm::normalize(glm::vec3(0, 1, -1)), glm::normalize(glm::vec3(0, 1, -1)), glm::vec2(1,1));
+    _vertices.emplace_back(glm::vec3(1,-3,0), glm::vec3(1,-1,0), glm::vec2(1,1));
+    _vertices.emplace_back(glm::vec3(cos(2*3.14/3),-3,sin(2*3.14/3)),glm::vec3(cos(2*3.14/3),-1,sin(2*3.14/3)), glm::vec2(1,1));
+    _vertices.emplace_back(glm::vec3(cos(-2*3.14/3),-3,sin(-2*3.14/3)), glm::vec3(cos(-2*3.14/3),-1,sin(-2*3.14/3)), glm::vec2(1,1));
+    _vertices.emplace_back(glm::vec3(0, 3, 0), glm::vec3(0, 1, 0), glm::vec2(1,1));
 
 
     for(int i = 0; i<_vertices.size(); i++){
@@ -42,11 +43,11 @@ void ExperienceRock::generateVertices(){
         center.z += _vertices[i].position.z /_vertices.size();
     }
 
-    for(int i = 0; i<_vertices.size(); i++){
+    /*for(int i = 0; i<_vertices.size(); i++){
         glm::vec3 pos = glm::normalize(_vertices[i].position - center);
         _vertices[i].position = center + pos;
         //std::cout << "vertex : " << i << " : " << _vertices[i].position << std::endl;
-    }
+    }*/
 
     //std::cout << std::endl;
 
@@ -72,7 +73,7 @@ void ExperienceRock::generateVertices(){
     vertices.push_back(glimac::ShapeVertex(_vertices[1]));
 
     //subdivideObject(vertices, 3); //PLANTE QUI PIQUE
-    subdivideObject(vertices, 5); //ANIMAL ETRANGE
+    subdivideObject(vertices, 2); //ANIMAL ETRANGE
 
 }
 void ExperienceRock::generateIndices(){
@@ -82,68 +83,90 @@ void ExperienceRock::generateNormals() {
     ProceduralRock::generateNormals();
 }
 
-void ExperienceRock::subdivideFace(std::vector<glimac::ShapeVertex> &_vertices, int nbRecurse) {
-    //prend un vecteur de 3 vertices : une face
-    glm::vec3 subDiv1, subDiv2, subDiv3, normal1, normal2, normal3;
-    float deux = 2;
-    //prend les milieux de chaques cotés
-    subDiv1 = (_vertices[1].position - _vertices[0].position) /deux + _vertices[0].position;
-    subDiv2 = (_vertices[2].position - _vertices[1].position) /deux + _vertices[1].position;
-    subDiv3 = (_vertices[0].position - _vertices[2].position) /deux + _vertices[2].position;
 
-    //calcule les vecteurs allant du centre de l'object à ces nouveaux points
-    normal1 = glm::normalize(subDiv1 - center);
-    normal2 = glm::normalize(subDiv2 - center);
-    normal3 = glm::normalize(subDiv3 - center);
+void ExperienceRock::subdivideObject(std::vector<glimac::ShapeVertex> &_vertices, int nbRecurse) {
+    if(nbRecurse <= 0){
+        return;
+    }
 
-    //pousse les nouveaux point le long des vecteurs trouvé précédemment jusqu'à ce qu'ils soint situés à une distance 1 du centre
-    //subDiv1 = subDiv1*2.f + (normal1 - (subDiv1-center)) / deux; <= plante qui pique
-    /*subDiv1 = subDiv1*0.5f + (normal1 - (subDiv1-center)) / deux;
-    subDiv2 = subDiv2*0.5f + (normal2 - (subDiv2-center)) / deux;  ANIMAL ETRANGE
-    subDiv3 = subDiv3*0.5f + (normal3 - (subDiv3-center)) / deux;*/
-    subDiv1 = subDiv1*1.5f + (normal1 - (subDiv1-center)) / deux;
-    subDiv2 = subDiv2*0.5f + (normal2 - (subDiv2-center)) / deux;
-    subDiv3 = subDiv3*0.2f + (normal3 - (subDiv3-center)) / deux;
+    int i = 0;
 
-    //crée des vertex à partir des nouveaux points
-    glimac::ShapeVertex v1(glm::vec3(subDiv1),
-                           glm::vec3(normal1),
-                           glm::vec2(1,1)
-    );
+    /*RECUPERATION DES SUBDIVS + des indices des triangles*/
+    i = 0;
+    std::vector<glm::vec3> subdivs;
+    std::vector<int> indice;
+    glm::vec3 subDiv1, subDiv2, subDiv3;
+    int nbrSub = 0;
+    while(i<_vertices.size()){
+        float deux = 2;
+        subDiv1 = (_vertices[i+1].position + _vertices[i].position) /deux ;
+        subDiv2 = (_vertices[i+2].position + _vertices[i+1].position) /deux ;
+        subDiv3 = (_vertices[i].position + _vertices[i+2].position) /deux ;
 
-    glimac::ShapeVertex v2(glm::vec3(subDiv2),
-                           glm::vec3(normal2),
-                           glm::vec2(1,1)
-    );
+        int pos1, pos2, pos3;
 
-    glimac::ShapeVertex v3(glm::vec3(subDiv3),
-                           glm::vec3(normal3),
-                           glm::vec2(1,1)
-    );
+        pos1 = find(subdivs, subDiv1);
+        pos2 = find(subdivs, subDiv2);
+        pos3 = find(subdivs, subDiv3);
 
-    //crée 4 faces pour remplacer le face d'origine
+        if(pos1 == -1){
+            subdivs.push_back(subDiv1);
+            pos1 = nbrSub;
+            ++nbrSub;
+        }
+        if(pos2 == -1){
+            subdivs.push_back(subDiv2);
+            pos2 = nbrSub;
+            ++nbrSub;
+        }
+        if(pos3 == -1){
+            subdivs.push_back(subDiv3);
+            pos3 = nbrSub;
+            ++nbrSub;
+        }
+        indice.push_back(pos1);
+        indice.push_back(pos2);
+        indice.push_back(pos3);
+
+        i += 3;
+    }
+
+    //On déplace les subdivisions et on fait les ShapeVertex
+    std::vector<glimac::ShapeVertex> subFinal;
+    for(i=0; i< subdivs.size(); ++i){
+        glm::vec3 normal = subdivs[i] - center;
+        subdivs[i] = subdivs[i] + (normal)*float(NoiseManager::getInstance().getRandomFloat()+0.7) ;
+        glimac::ShapeVertex v1(glm::vec3(subdivs[i]),
+                               glm::vec3(normal),
+                               glm::vec2(1,1)
+        );
+        subFinal.emplace_back(v1);
+    }
     std::vector<glimac::ShapeVertex> __vertices;
+    //On refait tous les triangles proprement
+    for(i=0; i<indice.size(); i+=3){
+        __vertices.emplace_back(_vertices[i]);
+        __vertices.emplace_back(subFinal[indice[i]]);
+        __vertices.emplace_back(subFinal[indice[i+2]]);
 
-    __vertices.emplace_back(_vertices[0]);
-    __vertices.emplace_back(v1);
-    __vertices.emplace_back(v3);
+        __vertices.emplace_back(subFinal[indice[i]]);
+        __vertices.emplace_back(subFinal[indice[i+1]]);
+        __vertices.emplace_back(subFinal[indice[i+2]]);
 
-    __vertices.emplace_back(v1);
-    __vertices.emplace_back(v2);
-    __vertices.emplace_back(v3);
+        __vertices.emplace_back(subFinal[indice[i]]);
+        __vertices.emplace_back(_vertices[i+1]);
+        __vertices.emplace_back(subFinal[indice[i+1]]);
 
-    __vertices.emplace_back(v3);
-    __vertices.emplace_back(v2);
-    __vertices.emplace_back(_vertices[2]);
-
-    __vertices.emplace_back(v2);
-    __vertices.emplace_back(v1);
-    __vertices.emplace_back(_vertices[1]);
-
+        __vertices.emplace_back(subFinal[indice[i+1]]);
+        __vertices.emplace_back(_vertices[i+2]);
+        __vertices.emplace_back(subFinal[indice[i+2]]);
+    }
+    //std::cout << subdivs.size() << std::endl;
+    //std::cout << indice.size() << std::endl;
     _vertices.clear();
     _vertices = __vertices;
-
-
+    //_vertices = subdividedObject;
+    subdivideObject(_vertices, nbRecurse-1);
 }
 
 Color *ExperienceRock::chooseColor(Color *_color) {
@@ -159,3 +182,20 @@ Color *ExperienceRock::chooseColor(Color *_color) {
     //alteredColor->randomSimilarColor(0.1);
     return alteredColor;
 }
+
+
+
+
+
+
+int ExperienceRock::find(std::vector<glm::vec3> &tab, glm::vec3 object){
+    //Chercher un objet
+    int i;
+    for(i=0; i<tab.size(); ++i){
+        if(tab[i] == object){
+            return i;
+        }
+    }
+    return -1;
+}
+

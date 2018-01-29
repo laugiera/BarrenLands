@@ -11,8 +11,10 @@ public:
     void generateVertices();
     void generateIndices();
     void generateNormals();
-    void subdivideFace(std::vector<glimac::ShapeVertex> &_vertices, int nbRecurse);
+    //void subdivideFace(std::vector<glimac::ShapeVertex> &_vertices, int nbRecurse =1);
+    void subdivideObject(std::vector<glimac::ShapeVertex> &_vertices, int nbRecurse = 1);
     Color * chooseColor(Color * _color);
+    int find(std::vector<glm::vec3> &tab, glm::vec3 object);
 private:
     glm::vec3 center;
 };

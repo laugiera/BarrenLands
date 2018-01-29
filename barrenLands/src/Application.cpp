@@ -364,10 +364,6 @@ void Application::testInterface() {
         Example : testObject->draw(camera->getViewMatrix());
          ******/
 
-        std::vector<ProceduralObject *> elements = ElementManager::getInstance().getAllElements();
-        for (ProceduralObject * el : elements){
-            el->draw(camera->getViewMatrix());
-        }
 
 
         //round rock
@@ -379,7 +375,10 @@ void Application::testInterface() {
 
         //branche->draw(camera->getViewMatrix());
 
-
+        std::vector<ProceduralObject *> elements = ElementManager::getInstance().getAllElements();
+        for (ProceduralObject * el : elements){
+            el->draw(camera->getViewMatrix());
+        }
         //experienceRock->draw(camera->getViewMatrix());
 
         //feuillage->draw(camera->getViewMatrix());
