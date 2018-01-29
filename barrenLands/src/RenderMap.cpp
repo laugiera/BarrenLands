@@ -50,3 +50,5 @@ void RenderMap::sendUniforms(const glm::mat4 &viewMatrix) {
     program->sendUniformMat4("uMV", modelViewMatrix);
     program->sendUniformMat4("uNormal", normals);
 }
+
+

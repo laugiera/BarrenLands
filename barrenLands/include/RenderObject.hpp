@@ -12,6 +12,7 @@
 #include "Tools.hpp"
 #include <Texture.hpp>
 #include <Color.hpp>
+#include <Instance.hpp>
 /**
  * Class RenderObject
  * Corresponding to ProceduralObject Class
@@ -27,7 +28,7 @@ public:
     virtual void transform(const glm::vec3 &translate, const float angle, const glm::vec3 &axesRotation,
                    const glm::vec3 &scale);
     virtual void alterModelMatrix(const glm::mat4 &transfos);
-    virtual void render(const glm::mat4 & viewMatrix);
+    virtual void render(const glm::mat4 & viewMatrix, const  std::vector<Instance*> &instances = std::vector<Instance*>());
     virtual void sendUniforms(const glm::mat4 &viewMatrix);
     virtual void bindTextures();
     virtual void debindTextures();

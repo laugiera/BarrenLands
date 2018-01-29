@@ -24,6 +24,7 @@ public:
 
     void subdivideFace(std::vector<glimac::ShapeVertex> &_vertices, int nbRecurse);
 
+
 private:
     glm::vec3 center;
 };
