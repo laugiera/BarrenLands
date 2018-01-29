@@ -24,6 +24,8 @@ public:
 
     void subdivideFace(std::vector<glimac::ShapeVertex> &_vertices, int nbRecurse);
 
+    void addInstance(const glm::vec3 &position, const Color &biomeColor);
+
 
 private:
     glm::vec3 center;

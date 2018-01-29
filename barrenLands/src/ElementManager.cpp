@@ -33,7 +33,7 @@ void ElementManager::createAllElements() {
 ProceduralObject* ElementManager::createProceduralRock(const std::string &name){
     if(name == "sand")
         return rocks[0];
-    else if(name == "toundra")
+    else if(name == "savannah")
         return rocks[1];
     else
         return rocks[2];
@@ -55,11 +55,11 @@ ElementManager::~ElementManager() {
  */
 std::vector<ProceduralObject *> ElementManager::getAllElements() {
     std::vector<ProceduralObject *> elements;
-    elements.insert( elements.end(), rocks.begin(), rocks.end());
+    //elements.insert( elements.end(), rocks.begin(), rocks.end());
     elements.insert( elements.end(), grass.begin(), grass.end());
-    elements.insert( elements.end(), branches.begin(), branches.end());
-    elements.insert( elements.end(), feuillages.begin(), feuillages.end());
-    elements.insert( elements.end(), trees.begin(), trees.end());
+    //elements.insert( elements.end(), branches.begin(), branches.end());
+    //elements.insert( elements.end(), feuillages.begin(), feuillages.end());
+    //elements.insert( elements.end(), trees.begin(), trees.end());
 
     return elements;
 }
