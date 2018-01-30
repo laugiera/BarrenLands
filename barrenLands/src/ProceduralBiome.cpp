@@ -26,7 +26,14 @@ void ProceduralBiome::createElement(glm::vec3 position, const std::string &type)
     //Use factory to fill elements attribute
     if(type == "rock"){
         if(rocks.empty()) throw std::runtime_error("Biome " + name + " : an the rock category is empty");
-        rocks[0]->addInstance(position, *color);
+        if(name != "savannah"){
+            rocks[0]->addInstance(position, *color);
+        }
+        if(name == "savannah"){
+            int vit = int(NoiseManager::getInstance().getRandomFloat()*4);
+            if(vit < 0) vit = 0;
+            rocks[vit]->addInstance(position, *color);
+        }
     }
     else if (type == "grass"){
         grass.push_back(ElementManager::getInstance().createProceduralGrass(position));
@@ -83,6 +90,11 @@ const std::string &ProceduralBiome::getName() const {
 
 void ProceduralBiome::createElements() {
     rocks.push_back(ElementManager::getInstance().createProceduralRock(name));
+    if(name == "savannah"){
+        rocks.push_back(ElementManager::getInstance().createProceduralRock(name, 1));
+        rocks.push_back(ElementManager::getInstance().createProceduralRock(name, 2));
+        rocks.push_back(ElementManager::getInstance().createProceduralRock(name, 3));
+    }
     trees.push_back(ElementManager::getInstance().createProceduralTree());
     //grass.push_back(ElementManager::getInstance().createProceduralGrass());
 }

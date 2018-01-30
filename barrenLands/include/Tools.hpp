@@ -28,7 +28,10 @@ public:
     static float width;
     static float speed; //camera speed
     static float seaLevel;
+    static float zNear;
+    static float zFar;
     static glm::mat4 projMatrix;
+
 
 //transforms a string bool (ex "true") into a bool, throws std::invalid_argument
 static bool boolFromString(std::string s);

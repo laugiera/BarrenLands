@@ -136,7 +136,7 @@ void ExperienceRock::subdivideObject(std::vector<glimac::ShapeVertex> &_vertices
     std::vector<glimac::ShapeVertex> subFinal;
     for(i=0; i< subdivs.size(); ++i){
         glm::vec3 normal = subdivs[i] - center;
-        subdivs[i] = subdivs[i] + (normal)*float(NoiseManager::getInstance().getRandomFloat()*2+0.7) ;
+        subdivs[i] = subdivs[i] + (normal)*float(NoiseManager::getInstance().getRandomFloat()*5+0.7) ;
 
         glimac::ShapeVertex v1(glm::vec3(subdivs[i]),
                                glm::vec3(normal),

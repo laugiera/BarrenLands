@@ -23,7 +23,7 @@ public:
     }
 
     void createAllElements();
-    ProceduralObject* createProceduralRock(const std::string &name);
+    ProceduralObject* createProceduralRock(const std::string &name, int elmt = 0);
     ProceduralObject* createProceduralTree();
     ProceduralBranche* createProceduralBranche();
     ProceduralFeuillage* createProceduralFeuillage();

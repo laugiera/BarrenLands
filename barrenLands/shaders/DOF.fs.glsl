@@ -30,8 +30,8 @@ float linearizeDepth()
 
 void main() {
 
-        //fFragColor = vec3(linearizeDepth()); // print depth
-        fFragColor = texture(uTexture0, vTexCoords).xyz;
+        fFragColor = vec3(linearizeDepth()); // print depth
+        //fFragColor = texture(uTexture0, vTexCoords).xyz;
 
 
 }

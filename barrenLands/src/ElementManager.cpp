@@ -19,6 +19,9 @@ void ElementManager::createAllElements() {
     rocks.push_back(new MenirRock);
     rocks.push_back(new CrystalRock);
     rocks.push_back(new ExperienceRock);
+    rocks.push_back(new ExperienceRock);
+    rocks.push_back(new ExperienceRock);
+    rocks.push_back(new ExperienceRock);
     feuillages.push_back(new ProceduralFeuillage);
     branches.push_back(new ProceduralBranche);
     trees.push_back(new ProceduralTree);
@@ -31,16 +34,28 @@ void ElementManager::createAllElements() {
  * renvoie un pointer vers un des models de rock créé par le manager précédemment (dans createAllElements() )
  * @return ProceduralObject*
  */
-ProceduralObject* ElementManager::createProceduralRock(const std::string &name){
+ProceduralObject* ElementManager::createProceduralRock(const std::string &name, int elmt){
     //std::cout << rocks.size() << std::endl;
-    return rocks[3];
-    /*if(name == "sand")
+    //return rocks[6];
+    if(name == "sand")
         return rocks[0];
-    else if(name == "savannah")
-        return rocks[1];
-    else
+    else if(name == "savannah") {
+        if(elmt == 0){
+            return rocks[3];
+        }
+        else if(elmt == 1){
+            return rocks[4];
+        }
+        else if(elmt == 2){
+            return rocks[5];
+        }
+        else {
+            return rocks[6];
+        }
+    }
+    else{
         return rocks[2];
-        */
+    }
 }
 
 /**

@@ -16,7 +16,7 @@ Améliorations :
 /**
  * static seed default value
  */
-float NoiseManager::seed = 127;
+float NoiseManager::seed = 4042;
 /**
  * Constructor with default noise parameters
  */
