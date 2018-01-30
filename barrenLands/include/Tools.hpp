@@ -15,6 +15,7 @@
 #include <iostream>
 #include "glm/vec2.hpp"
 #include <glimac/glm.hpp>
+#include <glimac/FilePath.hpp>
 /**
  * Variables and functions used in the app
  */
@@ -31,6 +32,7 @@ public:
     static float zNear;
     static float zFar;
     static glm::mat4 projMatrix;
+    static glimac::FilePath appPath;
 
 
 //transforms a string bool (ex "true") into a bool, throws std::invalid_argument

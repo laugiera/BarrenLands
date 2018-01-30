@@ -135,7 +135,7 @@
 //
 // iPhone PNG support:
 //
-// By default we convert iphone-formatted PNGs back to RGB; nominally they
+// By default.txt we convert iphone-formatted PNGs back to RGB; nominally they
 // would silently load as BGR, except the existing code should have just
 // failed on such iPhone PNGs. But you can disable this conversion by
 // by calling stbi_convert_iphone_png_to_rgb(0), in which case
@@ -987,7 +987,7 @@ static stbi_uc *stbi__hdr_to_ldr(float   *data, int x, int y, int comp)
 //      - fast huffman; reasonable integer IDCT
 //      - uses a lot of intermediate memory, could cache poorly
 //      - load http://nothings.org/remote/anemones.jpg 3 times on 2.8Ghz P4
-//          stb_jpeg:   1.34 seconds (MSVC6, default release build)
+//          stb_jpeg:   1.34 seconds (MSVC6, default.txt release build)
 //          stb_jpeg:   1.06 seconds (MSVC6, processor = Pentium Pro)
 //          IJL11.dll:  1.08 seconds (compiled by intel)
 //          IJG 1998:   0.98 seconds (MSVC6, makefile provided by IJG)
@@ -3550,7 +3550,7 @@ static stbi_uc *stbi__psd_load(stbi__context *s, int *x, int *y, int *comp, int 
          
          p = out+channel;
          if (channel >= channelCount) {
-            // Fill this channel with default data.
+            // Fill this channel with default.txt data.
             for (i = 0; i < pixelCount; i++) *p = (channel == 3 ? 255 : 0), p += 4;
          } else {
             // Read the RLE data.
@@ -3596,7 +3596,7 @@ static stbi_uc *stbi__psd_load(stbi__context *s, int *x, int *y, int *comp, int 
          
          p = out + channel;
          if (channel > channelCount) {
-            // Fill this channel with default data.
+            // Fill this channel with default.txt data.
             for (i = 0; i < pixelCount; i++) *p = channel == 3 ? 255 : 0, p += 4;
          } else {
             // Read the data.
@@ -4655,7 +4655,7 @@ STBIDEF int stbi_info_from_callbacks(stbi_io_callbacks const *c, void *user, int
       1.07   attempt to fix C++ warning/errors again
       1.06   attempt to fix C++ warning/errors again
       1.05   fix TGA loading to return correct *comp and use good luminance calc
-      1.04   default float alpha is 1, not 255; use 'void *' for stbi_image_free
+      1.04   default.txt float alpha is 1, not 255; use 'void *' for stbi_image_free
       1.03   bugfixes to STBI_NO_STDIO, STBI_NO_HDR
       1.02   support for (subset of) HDR files, float interface for preferred access to them
       1.01   fix bug: possible bug in handling right-side up bmps... not sure

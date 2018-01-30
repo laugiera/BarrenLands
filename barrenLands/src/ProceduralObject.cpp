@@ -80,7 +80,7 @@ void ProceduralObject::addInstance(const glm::vec3 &position, const Color &biome
 glm::vec3 ProceduralObject::getRandomPosition(const glm::vec3 &position) {
     //gérer l'alléatoire par rapport aux coordonnées de la vertex;
     glm::vec3 truePosition = position;
-    truePosition.y = 0; //default configuration, can be overloaded with different settings;
+    truePosition.y = 0; //default.txt configuration, can be overloaded with different settings;
     return truePosition;
 }
 

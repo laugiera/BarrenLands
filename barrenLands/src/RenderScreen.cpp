@@ -25,6 +25,11 @@ void RenderScreen::createScreenVAO() {
     vao.fillBuffer(vertices, &vbo);
 }
 
+void RenderScreen::setTexture(glcustom::Texture * t){
+    textures.clear();
+    textures.push_back(t);
+}
+
 void RenderScreen::render(glcustom::FBO *fbo) {
     if(fbo){
         fbo->bind();

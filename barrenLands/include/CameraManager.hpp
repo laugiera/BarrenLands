@@ -47,6 +47,7 @@ public :
         _choice = choice;
     }
 
+
 private:
     //METHOD
     int inTriangle(glimac::ShapeVertex O, glimac::ShapeVertex A, glimac::ShapeVertex B);

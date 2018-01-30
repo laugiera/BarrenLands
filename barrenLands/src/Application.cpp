@@ -27,6 +27,59 @@ Application::Application(const glimac::FilePath &appPath) : windowManager(Tools:
     camera = new CameraManager();
     noiseManager = &NoiseManager::getInstance();
 }
+/**
+ *
+ * @param fileName
+ * @return
+ */
+void Application::load(const std::string & fileName){
+    try{
+        std::vector<std::string> content = FileHelper::getContent(fileName);
+        if(content.size() != 7)
+           throw std::runtime_error("Bad init file");
+        glm::vec3 cameraPos = glm::vec3(
+                std::stof(content[0]),
+                std::stof(content[1]),
+                std::stof(content[2])
+        );
+        camera->setPosition(cameraPos);
+        float phi = std::stof(content[3]);
+        float theta = std::stof(content[4]);
+        camera->rotateLeft(phi);
+        camera->rotateUp(theta);
+        lightRotation = std::stof(content[5]);
+
+        float seed = std::stof(content[6]);
+        NoiseManager::getInstance().setSeed(seed);
+    }catch(std::runtime_error e){
+        throw e;
+    }
+
+}
+/**
+ * save
+ * @param fileName
+ * @return
+ */
+void Application::save(){
+    try{
+        std::vector<std::string> content;
+        glm::vec3 cameraPos = camera->getPosition();
+        content.push_back(std::to_string(cameraPos.x));
+        content.push_back(std::to_string(cameraPos.y));
+        content.push_back(std::to_string(cameraPos.z));
+        content.push_back("0"); //phi
+        content.push_back("0"); //theta
+        content.push_back(std::to_string(lightRotation));
+        content.push_back(std::to_string(NoiseManager::getInstance().getSeed()));
+
+        //FileHelper::updateFile()
+
+    }catch(std::runtime_error e){
+        throw e;
+    }
+
+}
 
 Application::~Application() {
     delete programManager;
@@ -68,14 +121,160 @@ void Application::clearGl() {
 }
 
 /**
+ * MainMenu()
+ *
+ * @return
+ */
+int Application::mainMenu(){
+
+    int i;
+    int srfIdx=0;
+    int loop1 = 1;
+    int menuIdx = 0;
+
+    /*//SOUND
+    SDL_Init(SDL_INIT_AUDIO);
+    // load WAV file
+
+    SDL_AudioSpec wavSpec;
+    Uint32 wavLength;
+    Uint8 *wavBuffer;
+
+    SDL_LoadWAV("sounds/menu.wav", &wavSpec, &wavBuffer, &wavLength);
+
+    // open audio device
+    SDL_AudioDeviceID deviceId = SDL_OpenAudioDevice(NULL, 0, &wavSpec, NULL, 0);
+    // play audio
+    int success = SDL_QueueAudio(deviceId, wavBuffer, wavLength);
+    SDL_PauseAudioDevice(deviceId, 0);*/
+
+    //show the image cube with initial image
+    std::vector<glcustom::Texture *> textures;
+    RenderScreen screen = RenderScreen(programManager->getTexture2DProgram(), textures);
+
+    std::string qualifier = "menuSeed";
+    screen.setTexture(textureManager->getRandomTexture(qualifier+std::to_string(1)));
+
+    bool stateChanged=false;
+    while (loop1)
+    {
+
+        //Update Screen
+        //update texture from table
+        if(stateChanged){
+            screen.setTexture(textureManager->getRandomTexture(qualifier+std::to_string(menuIdx+1)));
+            stateChanged= false;
+        }
+
+        SDL_Event e;
+        while (SDL_PollEvent(&e))
+        {
+            if (e.type == SDL_QUIT)
+            {
+                // SDL_CloseAudioDevice(deviceId);
+                // SDL_FreeWAV(wavBuffer);
+                return -1;
+            }
+
+            switch (e.type)
+            {
+                case SDL_KEYDOWN:
+                    switch (e.key.keysym.sym)
+                    {
+                        case SDLK_RIGHT:
+                        {
+                            menuIdx = (menuIdx + 1) % 3;
+                            std::cout << "up " << menuIdx << std::endl;
+                            stateChanged=true;
+                            break;
+                        }
+                        case SDLK_LEFT:
+                        {
+                            menuIdx = (3 + menuIdx - 1) % 3;
+                            std::cout << "down " << menuIdx << std::endl;
+                            stateChanged=true;
+                            break;
+                        }
+                        case SDLK_ESCAPE:
+                        {
+                           // SDL_CloseAudioDevice(deviceId);
+                           // SDL_FreeWAV(wavBuffer);
+                            return -1;
+                        }
+                        case SDLK_RETURN:
+                        {
+                            return menuIdx;
+                        }
+
+                        default:
+                            break;
+                    }
+            }
+            clearGl();
+            screen.render();
+            windowManager.swapBuffers();
+            printErrors();
+
+        }
+
+    }
+    return  menuIdx;
+
+}
+/**
+ * start()
+ * Ask the user to input something to generate a seed, and set it in the noiseManager
+ */
+int Application::start(){
+    int choice = mainMenu(); //plus tard ça renverra le nom entré par l'user
+    //pour les besoins de la soutenance, on charge une save. Plus tard, il suffira de set la seed avec un setSeed(name)
+
+
+    /**a supprimer plus tard**/
+    std::string initFileName;
+    if (choice == 0) {
+       initFileName = "712.txt";
+    }
+    else if (choice == 1){
+       initFileName = "304.txt";
+    }
+    else if (choice == 2){
+        initFileName = "771.txt";
+    }
+    else if (choice == -1)
+        return choice;
+
+    try {
+        load(Tools::appPath+"data/"+initFileName);
+    }catch (std::runtime_error e){
+        throw e;
+    }
+    /***********************/
+
+    return EXIT_SUCCESS;
+}
+
+/**
  * Final Application Loop
  * Handles initialization, SDL event loop and Rendering loop
  */
 void Application::appLoop() {
-    //creation of GPU Programs
-    programManager->createPrograms();
+    /**GPU PROGRAM**/
+    programManager->createPrograms(); //must come before because menus uses gpu program to render
 
-    //fbo
+    /**
+     * MAIN MENU
+     */
+    if(start() == -1) //quit
+        exit(EXIT_SUCCESS);
+
+    std::cout << "seed : " << NoiseManager::getInstance().getSeed() << std::endl;
+
+    /**
+     * APP INITIALISATION
+     */
+
+    /**FBO**/
     glm::mat4 biasMatrix(
             0.5, 0.0, 0.0, 0.0,
             0.0, 0.5, 0.0, 0.0,
@@ -88,7 +287,7 @@ void Application::appLoop() {
     glm::mat4 depthModelMatrix = glm::mat4(1.0);
     glm::mat4 depthViewMatrix;
     glm::mat4 depthMVP;
-    
+
     glcustom::FBO fboShadow;
     fboShadow.bind();
     glcustom::Texture lightDepth = fboShadow.attachDepthTexture(Tools::windowWidth, Tools::windowHeight);
@@ -96,10 +295,10 @@ void Application::appLoop() {
     fboShadow.checkComplete();
     fboShadow.debind();
 
-
+    /**ELEMENTS**/
     ElementManager::getInstance().createAllElements();
 
-    //initialization of lights
+    /**LIGHTS**/
     Light sun = Light(1,"Sun",glm::vec3(0.5,0.1,0));
     sun.addLightUniforms(programManager->getMapProgram());
     sun.addLightUniforms(programManager->getElementProgram());
@@ -107,14 +306,17 @@ void Application::appLoop() {
     moon.addLightUniforms(programManager->getMapProgram());
     moon.addLightUniforms(programManager->getElementProgram());
 
-    //intialization of map
+    /**MAP**/
     ProceduralMap * Map = new ProceduralMap();
     Map->createRenderObject(programManager, textureManager);
 
-    //initilization of skybox
+    /**SKYBOX**/
     SkyboxObject * sky = new SkyboxObject();
     sky -> createRenderObject(programManager, textureManager);
 
+    /**
+     * APP LOOP
+     */
 
     bool done = false;
     int rightPressed = 0;
@@ -176,7 +378,7 @@ void Application::appLoop() {
 
         clearGl();
         /**************LIGHT DETH BUFFER***********/
-        fboShadow.bind();
+       // fboShadow.bind();
         depthViewMatrix = glm::lookAt(glm::vec3(sun.getDirection().x,sun.getDirection().y,sun.getDirection().z),
                                                 glm::vec3(0,0,0),
                                                 glm::vec3(0,1,0));
@@ -188,11 +390,11 @@ void Application::appLoop() {
         programManager->getMapProgram()->sendUniformMat4("uDepthMVP",depthBiasMVP);
 
         sun.resetDirection();
-        sun.rotate(windowManager.getTime(), camera->getViewMatrix());
+        sun.rotate(windowManager.getTime()+lightRotation, camera->getViewMatrix());
         sun.sendLightUniforms(programManager->getMapProgram());
 
         moon.resetDirection();
-        moon.rotate(-windowManager.getTime(), camera->getViewMatrix());
+        moon.rotate(-windowManager.getTime()+lightRotation, camera->getViewMatrix());
         moon.sendLightUniforms(programManager->getMapProgram());
 
         programManager->getElementProgram()->use();
@@ -201,9 +403,8 @@ void Application::appLoop() {
         moon.sendLightUniforms(programManager->getElementProgram());
 
         //render the map with light point of view
-        Map->draw(depthBiasMVP);
-        fboShadow.debind();
-        //fboShadow.attachDepthTexture(Tools::windowWidth, Tools::windowHeight);
+        //Map->draw(depthBiasMVP);
+        //fboShadow.debind();
 
         /***************MAP FRAME BUFFER****************/
         //draw skybox
@@ -214,9 +415,12 @@ void Application::appLoop() {
         //draw map
         Map->draw(camera->getViewMatrix());
 
-        /********************************************/
+        /**************BLUR****************************/
 
         //addDOF(&originalColor, &originalDepth, fbo);
+
+
+        /*********************************************/
         windowManager.swapBuffers();
         printErrors();
 
@@ -240,7 +444,7 @@ void Application::printErrors() {
  * Get a pointer on the SDL2 WindowManager
  * @return
  */
-const glimac::SDLWindowManager &Application::getWindowManager() const {
+ const glimac::SDLWindowManager &Application::getWindowManager() const  {
     return windowManager;
 }
 

@@ -778,7 +778,7 @@ namespace detail
 			Result.z = biggestVal;
 			break;
 			
-		default:					// Silence a -Wswitch-default warning in GCC. Should never actually get here. Assert is just for sanity.
+		default:					// Silence a -Wswitch-default.txt warning in GCC. Should never actually get here. Assert is just for sanity.
 			assert(false);
 			break;
 		}

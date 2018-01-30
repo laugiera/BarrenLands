@@ -20,6 +20,7 @@ public:
     void bindTextures();
     void debindTextures();
     void sendUniforms();
+    void setTexture(glcustom::Texture * t);
 
 private:
     glcustom::VAO vao;
