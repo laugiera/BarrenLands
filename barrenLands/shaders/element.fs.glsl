@@ -43,8 +43,8 @@ vec3 getLightColor(vec3 lightColor, float lightPower, vec3 direction){
    	vec3 materialAmbientColor = vec3(0.1,0.1,0.1) * materialDiffuseColor;
    	vec3 materialSpecularColor = vec3(0.3,0.3,0.3);
 
-   	float visibility = getVisibility();
-    //float visibility = 1;
+   	float visibility = 1;
+    //float visibility = getVisibility();
 
    	// Normal of the computed fragment, in camera space
    	vec3 n = normalize( normal_cameraspace );
@@ -78,7 +78,7 @@ vec3 getLightColor(vec3 lightColor, float lightPower, vec3 direction){
 }
 
 void main() {
-      color = //getLightColor(uLightColorMoon,uLightIntensityMoon,uLightDirMoon.xyz) +
+      color = getLightColor(uLightColorMoon,uLightIntensityMoon,uLightDirMoon.xyz) +
        getLightColor(uLightColorSun,uLightIntensitySun,uLightDirSun.xyz);
 
 }

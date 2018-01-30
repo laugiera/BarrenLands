@@ -83,6 +83,12 @@ void Application::appLoop() {
             0.5, 0.5, 0.5, 1.0
     );
     glm::mat4 depthBiasMVP;
+    // Compute the MVP matrix from the light's point of view
+    glm::mat4 depthProjectionMatrix = glm::ortho<float>(-10,10,-10,10,-10,20);
+    glm::mat4 depthModelMatrix = glm::mat4(1.0);
+    glm::mat4 depthViewMatrix;
+    glm::mat4 depthMVP;
+    
     glcustom::FBO fboShadow;
     fboShadow.bind();
     glcustom::Texture lightDepth = fboShadow.attachDepthTexture(Tools::windowWidth, Tools::windowHeight);
@@ -109,12 +115,6 @@ void Application::appLoop() {
     SkyboxObject * sky = new SkyboxObject();
     sky -> createRenderObject(programManager, textureManager);
 
-
-    // Compute the MVP matrix from the light's point of view
-    glm::mat4 depthProjectionMatrix = glm::ortho<float>(-10,10,-10,10,-10,20);
-    glm::mat4 depthModelMatrix = glm::mat4(1.0);
-    glm::mat4 depthViewMatrix;
-    glm::mat4 depthMVP;
 
     bool done = false;
     int rightPressed = 0;
@@ -174,13 +174,6 @@ void Application::appLoop() {
             }
         }
 
-        //setting up fbo and linking color and depth buffer
-
-        glcustom::FBO fbo;
-        fbo.bind();
-        glcustom::Texture originalColor = fbo.attachColorTexture(Tools::windowWidth, Tools::windowHeight);
-        glcustom::Texture originalDepth = fbo.attachDepthTexture(Tools::windowWidth, Tools::windowHeight);
-        fbo.checkComplete();
         clearGl();
         /**************LIGHT DETH BUFFER***********/
         fboShadow.bind();
@@ -199,7 +192,7 @@ void Application::appLoop() {
         sun.sendLightUniforms(programManager->getMapProgram());
 
         moon.resetDirection();
-        moon.rotate(-windowManager.getTime()*0.5, camera->getViewMatrix());
+        moon.rotate(-windowManager.getTime(), camera->getViewMatrix());
         moon.sendLightUniforms(programManager->getMapProgram());
 
         programManager->getElementProgram()->use();

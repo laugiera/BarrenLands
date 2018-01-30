@@ -28,6 +28,14 @@ uniform vec3 uLightColorMoon;
 
 uniform vec3 uColors[6];
 
+float linearizeDepth()
+{   float uZNear = 0.1;
+    float uZFar = 2000.f;
+    float depth = texture(uTexture2, shadowCoord.xy).z;
+    return (2.0 * uZNear) / (uZFar + uZNear - depth * (uZFar - uZNear));
+}
+
+
 float getVisibility(){
     float visibility = 1.0;
     if ( texture( uTexture2, shadowCoord.xy ).z  <  shadowCoord.z){
@@ -127,7 +135,8 @@ vec3 getLightColor(vec3 lightColor, float lightPower, vec3 direction){
    	vec3 materialAmbientColor = vec3(0.1,0.1,0.1) * materialDiffuseColor;
    	vec3 materialSpecularColor = vec3(0.3,0.3,0.3);
 
-   	float visibility = getVisibility();
+   	float visibility = 1;
+   	//float visibility = getVisibility();
 
    	// Normal of the computed fragment, in camera space
    	vec3 n = normalize( normal_cameraspace );
@@ -160,15 +169,9 @@ vec3 getLightColor(vec3 lightColor, float lightPower, vec3 direction){
    	return color;
 
 }
-float linearizeDepth()
-{   float uZNear = 0.1;
-    float uZFar = 2000.f;
-    float depth = texture(uTexture2, gl_FragCoord.xy.xy).z;
-    return (2.0 * uZNear) / (uZFar + uZNear - depth * (uZFar - uZNear));
-}
 
 void main() {
-     color = //getLightColor(uLightColorMoon,uLightIntensityMoon,uLightDirMoon.xyz) +
+     color = getLightColor(uLightColorMoon,uLightIntensityMoon,uLightDirMoon.xyz) +
        getLightColor(uLightColorSun,uLightIntensitySun,uLightDirSun.xyz);
  //      color = vec3(linearizeDepth());
 }
