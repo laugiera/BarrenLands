@@ -72,9 +72,9 @@ glcustom::Texture * TextureManager::getRandomTexture(const std::string &qualifie
             _textures.push_back(it->first);
         }
     }
-    if(_textures.empty()){
+    if(!_textures.empty()){
         int randomIndex = 0; //use noise to choose random int
         return _textures[randomIndex];
     }
-    return _textures[0];
+    return nullptr;
 }
