@@ -23,7 +23,9 @@
 #include "Application.hpp"
 #include "TextureManager.hpp"
 
+
 int main(int argc, char** argv) {
+
 
     Application app(argv[0]);
     app.appLoop();

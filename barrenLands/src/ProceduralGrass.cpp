@@ -116,15 +116,7 @@ void ProceduralGrass::createRenderObject(ProgramManager *programManager, Texture
     renderObject = new RenderObject(programManager->getElementProgram(), textures, color);
     renderObject->fillData(vertices, indices);
 }
-/**
- * chooseTextures()
- * Redefined to get a rock texture
- * @param textureManager
- * @return
- */
-std::vector<glcustom::Texture *> ProceduralGrass::chooseTextures(TextureManager *textureManager) {
-    return std::vector<glcustom::Texture *>();
-}
+
 
 void ProceduralGrass::draw(const glm::mat4 &viewMatrix) {
         //pas besoin de transformer car les vertices sont modélisées par avance à la position fournie dans le constructeur

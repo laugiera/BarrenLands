@@ -74,6 +74,29 @@ void Application::clearGl() {
 void Application::appLoop() {
     //creation of GPU Programs
     programManager->createPrograms();
+
+    //fbo
+    glm::mat4 biasMatrix(
+            0.5, 0.0, 0.0, 0.0,
+            0.0, 0.5, 0.0, 0.0,
+            0.0, 0.0, 0.5, 0.0,
+            0.5, 0.5, 0.5, 1.0
+    );
+    glm::mat4 depthBiasMVP;
+    // Compute the MVP matrix from the light's point of view
+    glm::mat4 depthProjectionMatrix = glm::ortho<float>(-10,10,-10,10,-10,20);
+    glm::mat4 depthModelMatrix = glm::mat4(1.0);
+    glm::mat4 depthViewMatrix;
+    glm::mat4 depthMVP;
+    
+    glcustom::FBO fboShadow;
+    fboShadow.bind();
+    glcustom::Texture lightDepth = fboShadow.attachDepthTexture(Tools::windowWidth, Tools::windowHeight);
+    textureManager->addTexture(&lightDepth,"shadowMap");
+    fboShadow.checkComplete();
+    fboShadow.debind();
+
+
     ElementManager::getInstance().createAllElements();
 
     //initialization of lights
@@ -91,6 +114,7 @@ void Application::appLoop() {
     //initilization of skybox
     SkyboxObject * sky = new SkyboxObject();
     sky -> createRenderObject(programManager, textureManager);
+
 
     bool done = false;
     int rightPressed = 0;
@@ -150,55 +174,55 @@ void Application::appLoop() {
             }
         }
 
-        //setting up fbo and linking color and depth buffer
-
-        glcustom::FBO fbo;
-        fbo.bind();
-        glcustom::Texture originalColor = fbo.attachColorTexture(Tools::windowWidth, Tools::windowHeight);
-        glcustom::Texture originalDepth = fbo.attachDepthTexture(Tools::windowWidth, Tools::windowHeight);
-        fbo.checkComplete();
         clearGl();
+        /**************LIGHT DETH BUFFER***********/
+        fboShadow.bind();
+        depthViewMatrix = glm::lookAt(glm::vec3(sun.getDirection().x,sun.getDirection().y,sun.getDirection().z),
+                                                glm::vec3(0,0,0),
+                                                glm::vec3(0,1,0));
+        depthMVP = depthProjectionMatrix * depthViewMatrix * depthModelMatrix;
+        depthBiasMVP = biasMatrix*depthMVP;
 
         //configuring and sending light uniforms
         programManager->getMapProgram()->use();
+        programManager->getMapProgram()->sendUniformMat4("uDepthMVP",depthBiasMVP);
+
         sun.resetDirection();
-        sun.rotate(windowManager.getTime()*0.5, camera->getViewMatrix());
+        sun.rotate(windowManager.getTime(), camera->getViewMatrix());
         sun.sendLightUniforms(programManager->getMapProgram());
 
         moon.resetDirection();
-        moon.rotate(-windowManager.getTime()*0.5, camera->getViewMatrix());
+        moon.rotate(-windowManager.getTime(), camera->getViewMatrix());
         moon.sendLightUniforms(programManager->getMapProgram());
 
         programManager->getElementProgram()->use();
+        programManager->getElementProgram()->sendUniformMat4("uDepthMVP",depthBiasMVP);
         sun.sendLightUniforms(programManager->getElementProgram());
         moon.sendLightUniforms(programManager->getElementProgram());
 
+        //render the map with light point of view
+        Map->draw(depthBiasMVP);
+        fboShadow.debind();
+        //fboShadow.attachDepthTexture(Tools::windowWidth, Tools::windowHeight);
+
+        /***************MAP FRAME BUFFER****************/
         //draw skybox
         glDepthMask(GL_FALSE);
         sky->draw(camera->getViewMatrix());
         glDepthMask(GL_TRUE);
-        //grass->draw(camera->getViewMatrix());
-        //draw map
 
+        //draw map
         Map->draw(camera->getViewMatrix());
 
-        //sky draw element -> will be called by draw map later
-        //elementVect[0]->draw(camera->getViewMatrix());
-        /*for(int i =0; i<Tools::nbSub+1; ++i){
-            for(int j =0; j<Tools::nbSub+1; ++j){
+        /********************************************/
 
-                elementVect[i*(Tools::nbSub+1)+j]->draw(glm::scale(glm::translate(camera->getViewMatrix() , elementVect[i*(Tools::nbSub+1)+j]->position) , glm::vec3(0.1,0.1,0.1)));
-            }
-        }*/
-        addDOF(&originalColor, &originalDepth, fbo);
+        //addDOF(&originalColor, &originalDepth, fbo);
         windowManager.swapBuffers();
         printErrors();
 
     }
     delete sky;
     delete Map;
-    //delete factory;
-   // delete grass;
 }
 
 /**

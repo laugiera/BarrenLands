@@ -21,8 +21,6 @@ public:
     //commun à toutes les Tree
     void createRenderObject(ProgramManager *programManager, TextureManager *textureManager, Color * _color);
 
-    std::vector<glcustom::Texture *> chooseTextures(TextureManager *textureManager);
-
     void scatter();
 
 

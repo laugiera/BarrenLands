@@ -7,14 +7,16 @@ in vec3 vPosition;
 in vec3 normal_cameraspace;
 in vec3 eyeDirection_cameraspace;
 in float uMoisture;
+in vec3 shadowCoord;
+in vec4 gl_FragCoord;
 
 // Ouput data
 out vec3 color;
 
 // Values that stay constant for the whole mesh.
-uniform sampler2D uTexture0;
-uniform sampler2D uTexture1;
-uniform sampler2D uTexture2;
+uniform sampler2D uTexture0;  //sable
+uniform sampler2D uTexture1; //neige
+uniform sampler2D uTexture2; //shadowMap
 uniform float uSubDiv;
 
 uniform vec4 uLightDirSun;
@@ -25,6 +27,22 @@ uniform float uLightIntensityMoon;
 uniform vec3 uLightColorMoon;
 
 uniform vec3 uColors[6];
+
+float linearizeDepth()
+{   float uZNear = 0.1;
+    float uZFar = 2000.f;
+    float depth = texture(uTexture2, shadowCoord.xy).z;
+    return (2.0 * uZNear) / (uZFar + uZNear - depth * (uZFar - uZNear));
+}
+
+
+float getVisibility(){
+    float visibility = 1.0;
+    if ( texture( uTexture2, shadowCoord.xy ).z  <  shadowCoord.z){
+        visibility = 0.2;
+    }
+    return visibility;
+}
 
 vec3 multiplyTexture(vec3 color, vec4 textureAlpha) {
     textureAlpha = textureAlpha * 0.3;
@@ -37,8 +55,8 @@ float primaryCoef( float variable, float intervalLength){
     return coef ;
 }
 
-vec3 sableTexture = multiplyTexture(uColors[0], texture(uTexture1, uV));
-vec3 toundraNeigeTexture = multiplyTexture(uColors[3], texture(uTexture2, uV));
+vec3 sableTexture = multiplyTexture(uColors[0], texture(uTexture0, uV));
+vec3 toundraNeigeTexture = multiplyTexture(uColors[3], texture(uTexture1, uV));
 
 float height = vPosition.y;
 //float uMoisture = (texture(uTexture0, uV/uSubDiv)).x;
@@ -117,6 +135,9 @@ vec3 getLightColor(vec3 lightColor, float lightPower, vec3 direction){
    	vec3 materialAmbientColor = vec3(0.1,0.1,0.1) * materialDiffuseColor;
    	vec3 materialSpecularColor = vec3(0.3,0.3,0.3);
 
+   	float visibility = 1;
+   	//float visibility = getVisibility();
+
    	// Normal of the computed fragment, in camera space
    	vec3 n = normalize( normal_cameraspace );
    	// Direction of the light (from the fragment to the light)
@@ -141,17 +162,18 @@ vec3 getLightColor(vec3 lightColor, float lightPower, vec3 direction){
    		// Ambient : simulates indirect lighting
    		materialAmbientColor +
    		// Diffuse : "color" of the object
-   		materialDiffuseColor * lightColor * lightPower * cosTheta +
+   		visibility * materialDiffuseColor * lightColor * lightPower * cosTheta +
    		// Specular : reflective highlight, like a mirror
-   		materialSpecularColor * lightColor * lightPower * pow(cosAlpha,5);
+   		visibility * materialSpecularColor * lightColor * lightPower * pow(cosAlpha,5);
 
    	return color;
 
 }
 
 void main() {
-    color = getLightColor(uLightColorMoon,uLightIntensityMoon,uLightDirMoon.xyz)
-    + getLightColor(uLightColorSun,uLightIntensitySun,uLightDirSun.xyz);
+     color = getLightColor(uLightColorMoon,uLightIntensityMoon,uLightDirMoon.xyz) +
+       getLightColor(uLightColorSun,uLightIntensitySun,uLightDirSun.xyz);
+ //      color = vec3(linearizeDepth());
 }
 
 

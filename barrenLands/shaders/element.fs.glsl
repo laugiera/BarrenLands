@@ -6,12 +6,14 @@ in vec2 uV;
 in vec3 vPosition;
 in vec3 normal_cameraspace;
 in vec3 eyeDirection_cameraspace;
+in vec3 shadowCoord;
 
 // Ouput data
 out vec3 color;
 
 // Values that stay constant for the whole mesh.
 uniform sampler2D uTexture0;
+uniform sampler2D uTexture1; //shadowMap
 uniform vec3 uColor;
 
 uniform vec4 uLightDirSun;
@@ -21,6 +23,14 @@ uniform vec4 uLightDirMoon;
 uniform float uLightIntensityMoon;
 uniform vec3 uLightColorMoon;
 
+float getVisibility(){
+    float visibility = 1.0;
+    if ( texture( uTexture1, shadowCoord.xy ).z  <  shadowCoord.z){
+        visibility = 0.2;
+    }
+    return visibility;
+}
+
 vec3 multiplyTexture(vec3 color, vec4 textureAlpha) {
     textureAlpha = textureAlpha * 0.3;
     return color - textureAlpha.xyz;
@@ -29,9 +39,12 @@ vec3 multiplyTexture(vec3 color, vec4 textureAlpha) {
 vec3 getLightColor(vec3 lightColor, float lightPower, vec3 direction){
 
    	// Material properties
-   	vec3 materialDiffuseColor = multiplyTexture(uColor,texture(uTexture0,uV));
+   	vec3 materialDiffuseColor = uColor;
    	vec3 materialAmbientColor = vec3(0.1,0.1,0.1) * materialDiffuseColor;
    	vec3 materialSpecularColor = vec3(0.3,0.3,0.3);
+
+   	float visibility = 1;
+    //float visibility = getVisibility();
 
    	// Normal of the computed fragment, in camera space
    	vec3 n = normalize( normal_cameraspace );
@@ -57,17 +70,16 @@ vec3 getLightColor(vec3 lightColor, float lightPower, vec3 direction){
    		// Ambient : simulates indirect lighting
    		materialAmbientColor +
    		// Diffuse : "color" of the object
-   		materialDiffuseColor * lightColor * lightPower * cosTheta +
+   		visibility * materialDiffuseColor * lightColor * lightPower * cosTheta +
    		// Specular : reflective highlight, like a mirror
-   		materialSpecularColor * lightColor * lightPower * pow(cosAlpha,5);
+   		visibility * materialSpecularColor * lightColor * lightPower * pow(cosAlpha,5);
 
    	return color;
-
 }
 
 void main() {
-      color = getLightColor(uLightColorMoon,uLightIntensityMoon,uLightDirMoon.xyz)
-      + getLightColor(uLightColorSun,uLightIntensitySun,uLightDirSun.xyz);
-      //color = normal_cameraspace;
+      color = getLightColor(uLightColorMoon,uLightIntensityMoon,uLightDirMoon.xyz) +
+       getLightColor(uLightColorSun,uLightIntensitySun,uLightDirSun.xyz);
+
 }
 

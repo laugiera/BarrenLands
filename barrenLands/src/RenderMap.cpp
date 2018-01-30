@@ -26,7 +26,7 @@ RenderMap::RenderMap(glcustom::GPUProgram *program, std::vector<glcustom::Textur
 
 }
 /**
- * sendUniforms
+ * Uniforms
  * Redefined with map uniforms
  * @param viewMatrix
  */

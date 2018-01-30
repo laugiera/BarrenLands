@@ -36,6 +36,7 @@ public:
 
     glcustom::GPUProgram *getGammaProgram() const;
 
+
     void reloadPrograms();
 private:
     glimac::FilePath appPath;
