@@ -5,8 +5,8 @@
 #include "../include/Tools.hpp"
 
 
-int Tools::windowWidth = 1080;
-int Tools::windowHeight = 720;
+int Tools::windowWidth = 1536;
+int Tools::windowHeight = 864;
 int Tools::nbSub = 100;
 float Tools::scale = 100;
 float Tools::width = 1;

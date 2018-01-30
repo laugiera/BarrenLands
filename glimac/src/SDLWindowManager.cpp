@@ -4,6 +4,9 @@
 namespace glimac {
 
 SDLWindowManager::SDLWindowManager(uint32_t width, uint32_t height, const char* title) {
+    SDL_putenv("SDL_VIDEO_CENTERED=center");
+    SDL_putenv("SDL_VIDEO_WINDOW_POS=-1,-1");
+
     if(0 != SDL_Init(SDL_INIT_VIDEO)) {
         std::cerr << SDL_GetError() << std::endl;
         return;
@@ -12,6 +15,7 @@ SDLWindowManager::SDLWindowManager(uint32_t width, uint32_t height, const char* 
         std::cerr << SDL_GetError() << std::endl;
         return;
     }
+    SDL_ShowCursor(SDL_DISABLE);
     SDL_WM_SetCaption(title, nullptr);
 }
 

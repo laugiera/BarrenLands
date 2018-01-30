@@ -4,6 +4,7 @@
 #define GLEW_STATIC
 #include <RoundRock.hpp>
 #include <ExperienceRock.hpp>
+#include <SDL_mixer.h>
 #include "ProceduralGrass.hpp"
 #include "ProceduralBranche.hpp"
 #include "ProceduralFeuillage.hpp"
@@ -22,6 +23,7 @@ Application::Application(const glimac::FilePath &appPath) : windowManager(Tools:
                                                             noiseManager(nullptr)
 {
     initOpenGl();
+    SDL_Init(SDL_INIT_AUDIO);
     textureManager = new TextureManager(appPath);
     programManager = new ProgramManager(appPath);
     camera = new CameraManager();
@@ -132,9 +134,7 @@ int Application::mainMenu(){
     int loop1 = 1;
     int menuIdx = 0;
 
-    /*//SOUND
-    SDL_Init(SDL_INIT_AUDIO);
-    // load WAV file
+    //SOUND
 
     SDL_AudioSpec wavSpec;
     Uint32 wavLength;
@@ -146,7 +146,8 @@ int Application::mainMenu(){
     SDL_AudioDeviceID deviceId = SDL_OpenAudioDevice(NULL, 0, &wavSpec, NULL, 0);
     // play audio
     int success = SDL_QueueAudio(deviceId, wavBuffer, wavLength);
-    SDL_PauseAudioDevice(deviceId, 0);*/
+    SDL_PauseAudioDevice(deviceId, 0);
+
 
     //show the image cube with initial image
     std::vector<glcustom::Texture *> textures;
@@ -171,8 +172,8 @@ int Application::mainMenu(){
         {
             if (e.type == SDL_QUIT)
             {
-                // SDL_CloseAudioDevice(deviceId);
-                // SDL_FreeWAV(wavBuffer);
+                 SDL_CloseAudioDevice(deviceId);
+                 SDL_FreeWAV(wavBuffer);
                 return -1;
             }
 
@@ -197,12 +198,14 @@ int Application::mainMenu(){
                         }
                         case SDLK_ESCAPE:
                         {
-                           // SDL_CloseAudioDevice(deviceId);
-                           // SDL_FreeWAV(wavBuffer);
+                            SDL_CloseAudioDevice(deviceId);
+                            SDL_FreeWAV(wavBuffer);
                             return -1;
                         }
                         case SDLK_RETURN:
                         {
+                         /*   SDL_CloseAudioDevice(deviceId);
+                            SDL_FreeWAV(wavBuffer);*/
                             return menuIdx;
                         }
 
@@ -218,7 +221,6 @@ int Application::mainMenu(){
         }
 
     }
-    return  menuIdx;
 
 }
 /**
@@ -310,10 +312,29 @@ void Application::appLoop() {
     sky -> createRenderObject(programManager, textureManager);
 
     /**
-     * APP LOOP
+     * SOUND
      */
 
+    int soundRandom = (unsigned int)(NoiseManager::getInstance().getRandomFloat()*50)%6;
+    std::string soundFile = "sounds/"+std::to_string(soundRandom)+".wav";
+    std::cout << soundFile << std::endl;
+    // load WAV file
 
+    SDL_AudioSpec wavSpec;
+    Uint32 wavLength;
+    Uint8 *wavBuffer;
+
+    SDL_LoadWAV(soundFile.c_str (), &wavSpec, &wavBuffer, &wavLength);
+
+    // open audio device
+    SDL_AudioDeviceID deviceId = SDL_OpenAudioDevice(NULL, 0, &wavSpec, NULL, 0);
+    // play audio
+    int success = SDL_QueueAudio(deviceId, wavBuffer, wavLength);
+    SDL_PauseAudioDevice(deviceId, 0);
+
+    /**
+     * APP LOOP
+     */
 
     bool done = false;
     int rightPressed = 0;
@@ -432,6 +453,8 @@ void Application::appLoop() {
     }
     delete sky;
     delete Map;
+    SDL_CloseAudioDevice(deviceId);
+    SDL_FreeWAV(wavBuffer);
 }
 
 /**
