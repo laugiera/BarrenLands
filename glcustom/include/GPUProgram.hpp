@@ -24,13 +24,13 @@ namespace glcustom {
         std::string m_vertex_shader; //just the name
         std::string m_fragment_shader; //just the name
         std::map<std::string, GLint> m_u_variables;
-        //std::map<std::string, Texture> m_textures;
-        //std::map<std::string, const GLuint> m_activated_attributes;
     public:
         GPUProgram(glimac::FilePath app_path, std::string m_vertex_shader, std::string m_fragment_shader);
         void addUniform(std::string name);
         void addUniforms(std::vector<std::string> names);
         std::vector<std::string> getUniformList();
+        void changeFS(std::string fsFile);
+        void changeVS(std::string vsFile);
 
         void setProgram(glimac::FilePath app_path, std::string m_vertex_shader, std::string m_fragment_shader);
 
