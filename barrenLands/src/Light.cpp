@@ -69,7 +69,7 @@ void Light::sendLightUniforms(glcustom::GPUProgram *program){
  * @param viewMatrix
  */
 void Light::rotate(float angle, const glm::mat4  &viewMatrix){
-    glm::mat4 rotation = glm::rotate(glm::mat4(1),angle,glm::vec3(0,0,1));
+    glm::mat4 rotation = glm::rotate(glm::mat4(1),angle,glm::vec3(1,0,0));
     direction = rotation * viewMatrix * direction;
 }
 /**
