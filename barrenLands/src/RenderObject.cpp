@@ -78,9 +78,11 @@ void RenderObject::bindTextures() {
     int textureUnit = GL_TEXTURE0;
     int i = 0;
     for(glcustom::Texture * texture : textures){
-        texture->bind(GL_TEXTURE_2D, textureUnit+i);
-        program->sendUniformTextureUnit("uTexture" + std::to_string(i), i);
-        i++;
+        if(texture) {
+            texture->bind(GL_TEXTURE_2D, textureUnit + i);
+            program->sendUniformTextureUnit("uTexture" + std::to_string(i), i);
+            i++;
+        }
     }
 }
 /**
@@ -88,7 +90,9 @@ void RenderObject::bindTextures() {
  */
 void RenderObject::debindTextures() {
     for(glcustom::Texture * texture : textures){
-        texture->debind(GL_TEXTURE_2D);
+        if(texture){
+            texture->debind(GL_TEXTURE_2D);
+        }
     }
 }
 /**

@@ -288,12 +288,7 @@ void Application::appLoop() {
     glm::mat4 depthViewMatrix;
     glm::mat4 depthMVP;
 
-    glcustom::FBO fboShadow;
-    fboShadow.bind();
-    glcustom::Texture lightDepth = fboShadow.attachDepthTexture(Tools::windowWidth, Tools::windowHeight);
-    textureManager->addTexture(&lightDepth,"shadowMap");
-    fboShadow.checkComplete();
-    fboShadow.debind();
+    glcustom::FBO fbo;
 
     /**ELEMENTS**/
     ElementManager::getInstance().createAllElements();
@@ -317,6 +312,8 @@ void Application::appLoop() {
     /**
      * APP LOOP
      */
+
+
 
     bool done = false;
     int rightPressed = 0;
@@ -376,15 +373,23 @@ void Application::appLoop() {
             }
         }
 
+
+        fbo.bind();
+        //glcustom::Texture lightDepth = fbo.attachDepthTexture(Tools::windowWidth, Tools::windowHeight);
+        //textureManager->addTexture(&lightDepth,"shadowMap");
+        glcustom::Texture beauty = fbo.attachColorTexture(Tools::windowWidth, Tools::windowHeight);
+        glcustom::Texture depth = fbo.attachDepthTexture(Tools::windowWidth, Tools::windowHeight);
+        fbo.checkComplete();
         clearGl();
-        /**************LIGHT DETH BUFFER***********/
-       // fboShadow.bind();
+
+        /**************LIGHT DEPTH BUFFER***********/
+        /*
         depthViewMatrix = glm::lookAt(glm::vec3(sun.getDirection().x,sun.getDirection().y,sun.getDirection().z),
                                                 glm::vec3(0,0,0),
                                                 glm::vec3(0,1,0));
         depthMVP = depthProjectionMatrix * depthViewMatrix * depthModelMatrix;
         depthBiasMVP = biasMatrix*depthMVP;
-
+        */
         //configuring and sending light uniforms
         programManager->getMapProgram()->use();
         programManager->getMapProgram()->sendUniformMat4("uDepthMVP",depthBiasMVP);
@@ -404,7 +409,9 @@ void Application::appLoop() {
 
         //render the map with light point of view
         //Map->draw(depthBiasMVP);
-        //fboShadow.debind();
+        //fbo.debind();
+
+        //fbo.attachDepthTexture(Tools::windowWidth, Tools::windowHeight);
 
         /***************MAP FRAME BUFFER****************/
         //draw skybox
@@ -415,12 +422,10 @@ void Application::appLoop() {
         //draw map
         Map->draw(camera->getViewMatrix());
 
+
         /**************BLUR****************************/
-
-        //addDOF(&originalColor, &originalDepth, fbo);
-
-
-        /*********************************************/
+        addDOF(&beauty, &depth, fbo);
+        /********************************************/
         windowManager.swapBuffers();
         printErrors();
 
@@ -631,12 +636,14 @@ void Application::testInterface() {
 
 void Application::addDOF(glcustom::Texture *beauty, glcustom::Texture *depth, glcustom::FBO &fbo) {
 
+
     //glcustom::Texture initialDepth = *depth;
     // std::vector<glcustom::Texture *> texts = { beauty, depth};
 
     glcustom::Texture blur = fbo.attachColorTexture(Tools::windowWidth, Tools::windowHeight);
     fbo.attachDepthTexture(Tools::windowWidth, Tools::windowHeight);
 
+    //pass couleur
     std::vector<glcustom::Texture *> texts = { beauty, depth };
     RenderScreen screenColorCorrec(programManager->getGammaProgram(), texts);
     screenColorCorrec.render(&fbo);
@@ -644,22 +651,23 @@ void Application::addDOF(glcustom::Texture *beauty, glcustom::Texture *depth, gl
 
     texts.clear();
     texts.push_back(&blur);
-
+//blur horizontal
     RenderScreen screenBlur(programManager->getBlurProgram(), texts);
     programManager->getBlurProgram()->use();
     programManager->getBlurProgram()->sendUniform1i("uSampleCount", 2);
     programManager->getBlurProgram()->sendUniformVec3("uDirection", glm::vec3(0,1,0));
     screenBlur.render(&fbo);
 
-
+//blur vertical
     programManager->getBlurProgram()->sendUniformVec3("uDirection", glm::vec3(1,0,0));
     screenBlur.render(&fbo);
 
-
+//rend avec DOF
     texts.push_back(beauty);
     texts.push_back(depth);
     RenderScreen screenDOF(programManager->getDOFProgram(), texts);
     screenDOF.render();
+
 
 
 
