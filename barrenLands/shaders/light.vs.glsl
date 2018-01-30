@@ -12,11 +12,13 @@ out vec3 vPosition;
 out vec3 normal_cameraspace;
 out vec3 eyeDirection_cameraspace;
 out float uMoisture;
+out vec3 shadowCoord;
 
 // Values that stay constant for the whole mesh.
 uniform mat4 uMVP;
 uniform mat4 uMV;
 uniform mat4 uNormal;
+uniform mat4 uDepthMVP;
 
 void main(){
 
@@ -35,5 +37,6 @@ void main(){
 	uV = aVertexTexCoords;
 	uMoisture = moisture;
 
+    shadowCoord = (uDepthMVP * vec4(vertexNormal_modelspace,0)).xyz;
 }
 

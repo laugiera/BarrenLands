@@ -29,15 +29,7 @@ void ProceduralTree::createRenderObject(ProgramManager *programManager, TextureM
     tronc->createRenderObject(programManager, textureManager, color);
     feuillage->createRenderObject(programManager, textureManager, color);
 }
-/**
- * chooseTextures()
- * Redefined to get a rock texture
- * @param textureManager
- * @return
- */
-std::vector<glcustom::Texture *> ProceduralTree::chooseTextures(TextureManager *textureManager) {
-    return std::vector<glcustom::Texture *>(1, textureManager->getRandomTexture("rock")); //A CHANGER ?
-}
+
 
 void ProceduralTree::addInstance(const glm::vec3 &position, const Color &biomeColor) {
 

@@ -21,16 +21,12 @@ void TextureManager::createTextures() {
     glcustom::Texture *  skybox = new glcustom::Texture( appPath.dirPath() + "textures",GL_TEXTURE_CUBE_MAP );
     textures[skybox]="skybox";
 
-    //moisture map
-    float** humidite = NoiseManager::getInstance().getElevationMap(Tools::nbSub +1, Tools::nbSub +1);
-    std::vector<float> moistureVector;
-    for(int i = 0; i < Tools::nbSub +1; i++){
-        for(int j = 0 ; j < Tools::nbSub +1; j++){
-            moistureVector.push_back(humidite[i][j]);
-        }
-    }
-    glcustom::Texture * moisture = new glcustom::Texture(Tools::nbSub +1, Tools::nbSub +1, moistureVector.data(), GL_RED);
-    textures[moisture] = "moisture";
+}
+/**
+ * addTextures
+ */
+void TextureManager::addTexture(glcustom::Texture * t, const std::string name){
+    textures[t] = name;
 }
 /**
  * getTextures

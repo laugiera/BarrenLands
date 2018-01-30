@@ -23,12 +23,14 @@
 #include "Application.hpp"
 #include "TextureManager.hpp"
 
+
 int main(int argc, char** argv) {
 
-    Application app(argv[0]);
-    //app.appLoop();
 
-    app.testInterface();
+    Application app(argv[0]);
+    app.appLoop();
+
+    //app.testInterface();
 
     return EXIT_SUCCESS;
 }

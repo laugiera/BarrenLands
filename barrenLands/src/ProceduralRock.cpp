@@ -23,15 +23,7 @@ void ProceduralRock::createRenderObject(ProgramManager *programManager, TextureM
     renderObject = new RenderObject(programManager->getElementProgram(), textures, chooseColor(color));
     renderObject->fillData(vertices, indices);
 }
-/**
- * chooseTextures()
- * Redefined to get a rock texture
- * @param textureManager
- * @return
- */
-std::vector<glcustom::Texture *> ProceduralRock::chooseTextures(TextureManager *textureManager) {
-    return std::vector<glcustom::Texture *>();
-}
+
 
 void ProceduralRock::generateNormals() {
     for(int i = 0; i< vertices.size(); i += 3){

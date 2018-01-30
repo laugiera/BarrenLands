@@ -9,7 +9,7 @@ Lou :
 - [ ] PowerPoint Présentation
 
 Anne : 
-- [ ] fin répartition des premiers éléments
+- [X] fin répartition des premiers éléments
 - [ ] interface - Ecran pour rentrer la seed
 - [ ] Shadow Mapping
 

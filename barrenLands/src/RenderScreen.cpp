@@ -59,6 +59,6 @@ void RenderScreen::debindTextures() {
 }
 
 void RenderScreen::sendUniforms() {
-    program->sendUniform1f("uZNear", Tools::zNear);
-    program->sendUniform1f("uZFar", Tools::zFar);
+/*    program->sendUniform1f("uZNear", Tools::zNear);
+    program->sendUniform1f("uZFar", Tools::zFar);*/
 }

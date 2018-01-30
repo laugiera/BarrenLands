@@ -83,15 +83,6 @@ void ProceduralBranche::generateNormals() {
     }
 }
 
-/**
- * chooseTextures()
- * Redefined to get a rock texture
- * @param textureManager
- * @return
- */
-std::vector<glcustom::Texture *> ProceduralBranche::chooseTextures(TextureManager *textureManager) {
-    return std::vector<glcustom::Texture *>(1, textureManager->getRandomTexture("rock"));
-}
 
 glm::mat4 ProceduralBranche::getRandomScale() {
     return glm::scale(glm::mat4(1.f), glm::vec3(0.3,0.3,0.3));

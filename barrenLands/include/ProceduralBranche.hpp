@@ -15,7 +15,6 @@ public:
     void generateIndices(){};
     void generateNormals();
 
-    std::vector<glcustom::Texture *> chooseTextures(TextureManager *textureManager);
 
     float getHeight(){
         return height;

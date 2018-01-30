@@ -8,7 +8,7 @@
  * @param appPath
  */
 ProgramManager::ProgramManager(const std::string &appPath) : testProgram(nullptr), elementProgram(nullptr), skyboxProgram(
-        nullptr), mapProgram(nullptr), appPath(appPath) {
+        nullptr), mapProgram(nullptr), shadowProgram(nullptr), appPath(appPath) {
     createPrograms();
 }
 /**
@@ -19,6 +19,9 @@ ProgramManager::~ProgramManager() {
     delete elementProgram;
     delete skyboxProgram;
     delete mapProgram;
+    delete shadowProgram;
+    delete DOFProgram;
+    delete texture2DProgram;
 }
 /**
  * createPrograms()
@@ -31,7 +34,7 @@ void ProgramManager::createPrograms() {
 
     //to draw elements
     uniform_variables.clear();
-    uniform_variables = {"uMV", "uMVP","uTexture0" ,"uNormal", "uColor"};
+    uniform_variables = {"uMV", "uMVP","uTexture0", "uTexture1" ,"uNormal", "uColor","uDepthMVP"};
     elementProgram = new glcustom::GPUProgram(appPath,"element","element");
     elementProgram->addUniforms(uniform_variables);
 
@@ -43,7 +46,7 @@ void ProgramManager::createPrograms() {
 
     //to draw the map
     uniform_variables.clear();
-    uniform_variables = {"uMV", "uMVP","uTexture0", "uTexture1", "uTexture2" ,"uNormal", "uSubDiv", "uColors"};
+    uniform_variables = {"uMV", "uMVP","uTexture0", "uTexture1", "uTexture2" , "uNormal", "uSubDiv", "uColors", "uDepthMVP"};
     mapProgram = new glcustom::GPUProgram(appPath,"light","light");
     mapProgram->addUniforms(uniform_variables);
 
@@ -56,6 +59,12 @@ void ProgramManager::createPrograms() {
     uniform_variables = {"uTexture0", "uTexture1", "uZNear", "uZFar"};
     DOFProgram = new glcustom::GPUProgram(appPath,"printTexture2D","DOF");
     DOFProgram->addUniforms(uniform_variables);
+
+    //shadow map
+    uniform_variables.clear();
+    uniform_variables = {"uTexture0", "uTexture1", "uTexture2"};
+    shadowProgram = new glcustom::GPUProgram(appPath,"shadow","shadow");
+    shadowProgram->addUniforms(uniform_variables);
 
 }
 /**
@@ -112,6 +121,10 @@ glcustom::GPUProgram *ProgramManager::getTexture2DProgram() const {
 
 glcustom::GPUProgram *ProgramManager::getDOFProgram() const {
     return DOFProgram;
+}
+
+glcustom::GPUProgram *ProgramManager::getShadowProgram() const {
+    return shadowProgram;
 }
 
 
