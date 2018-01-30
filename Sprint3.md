@@ -2,10 +2,11 @@
 
 Lou : 
 
-- [ ] Depth Of Field
+- [x] Depth Of Field
+- [ ] AntiAliasing
 - [ ] Textures  (chargé d'abord puis voir procédurale)
 - [ ] Couleurs des élements
-- [ ] Cell Shading
+- [ ] ((Cell Shading))
 - [ ] PowerPoint Présentation
 
 Anne : 

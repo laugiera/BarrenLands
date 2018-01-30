@@ -409,6 +409,7 @@ void Application::addDOF(glcustom::Texture *beauty, glcustom::Texture *depth, gl
     glcustom::Texture blur = fbo.attachColorTexture(Tools::windowWidth, Tools::windowHeight);
     fbo.attachDepthTexture(Tools::windowWidth, Tools::windowHeight);
 
+    //pass couleur
     std::vector<glcustom::Texture *> texts = { beauty, depth };
     RenderScreen screenColorCorrec(programManager->getGammaProgram(), texts);
     screenColorCorrec.render(&fbo);
@@ -416,18 +417,18 @@ void Application::addDOF(glcustom::Texture *beauty, glcustom::Texture *depth, gl
 
     texts.clear();
     texts.push_back(&blur);
-
+//blur horizontal
     RenderScreen screenBlur(programManager->getBlurProgram(), texts);
     programManager->getBlurProgram()->use();
     programManager->getBlurProgram()->sendUniform1i("uSampleCount", 2);
     programManager->getBlurProgram()->sendUniformVec3("uDirection", glm::vec3(0,1,0));
     screenBlur.render(&fbo);
 
-
+//blur vertical
     programManager->getBlurProgram()->sendUniformVec3("uDirection", glm::vec3(1,0,0));
     screenBlur.render(&fbo);
 
-
+//rend avec DOF
     texts.push_back(beauty);
     texts.push_back(depth);
     RenderScreen screenDOF(programManager->getDOFProgram(), texts);
