@@ -19,9 +19,6 @@ public:
 
     void generateNormals();
 
-
-    std::vector<glcustom::Texture *> chooseTextures(TextureManager *textureManager);
-
     void subdivideFace(std::vector<glimac::ShapeVertex> &_vertices, int nbRecurse);
 
     void addInstance(const glm::vec3 &position, const Color &biomeColor);

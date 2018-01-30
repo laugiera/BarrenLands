@@ -10,11 +10,13 @@ out vec2 uV;
 out vec3 vPosition;
 out vec3 normal_cameraspace;
 out vec3 eyeDirection_cameraspace;
+out vec3 shadowCoord;
 
 // Values that stay constant for the whole mesh.
 uniform mat4 uMVP;
 uniform mat4 uMV;
 uniform mat4 uNormal;
+uniform mat4 uDepthMVP;
 
 void main(){
 
@@ -31,6 +33,8 @@ void main(){
 	normal_cameraspace = ( uMV * vec4(vertexNormal_modelspace,0)).xyz; // Only correct if ModelMatrix does not scale the model ! Use its inverse transpose if not.
 
 	uV = aVertexTexCoords;
+
+	shadowCoord = (uDepthMVP * vec4(vertexNormal_modelspace,0)).xyz;
 
 }
 

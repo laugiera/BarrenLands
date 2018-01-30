@@ -8,7 +8,7 @@
  * @param appPath
  */
 ProgramManager::ProgramManager(const std::string &appPath) : testProgram(nullptr), elementProgram(nullptr), skyboxProgram(
-        nullptr), mapProgram(nullptr), appPath(appPath) {
+        nullptr), mapProgram(nullptr),  appPath(appPath) {
     createPrograms();
 }
 /**
@@ -19,6 +19,8 @@ ProgramManager::~ProgramManager() {
     delete elementProgram;
     delete skyboxProgram;
     delete mapProgram;
+    delete DOFProgram;
+    delete texture2DProgram;
 }
 /**
  * createPrograms()
@@ -31,7 +33,7 @@ void ProgramManager::createPrograms() {
 
     //to draw elements
     uniform_variables.clear();
-    uniform_variables = {"uMV", "uMVP","uTexture0" ,"uNormal", "uColor"};
+    uniform_variables = {"uMV", "uMVP","uTexture0", "uTexture1" ,"uNormal", "uColor","uDepthMVP"};
     elementProgram = new glcustom::GPUProgram(appPath,"element","element");
     elementProgram->addUniforms(uniform_variables);
 
@@ -43,7 +45,7 @@ void ProgramManager::createPrograms() {
 
     //to draw the map
     uniform_variables.clear();
-    uniform_variables = {"uMV", "uMVP","uTexture0", "uTexture1", "uTexture2" ,"uNormal", "uSubDiv", "uColors"};
+    uniform_variables = {"uMV", "uMVP","uTexture0", "uTexture1", "uTexture2" , "uNormal", "uSubDiv", "uColors", "uDepthMVP"};
     mapProgram = new glcustom::GPUProgram(appPath,"light","light");
     mapProgram->addUniforms(uniform_variables);
 
@@ -53,9 +55,21 @@ void ProgramManager::createPrograms() {
 
     //add the DOF effect
     uniform_variables.clear();
-    uniform_variables = {"uTexture0", "uTexture1", "uZNear", "uZFar"};
+    uniform_variables = {"uTexture0", "uTexture1", "uTexture2", "uZNear", "uZFar"};
     DOFProgram = new glcustom::GPUProgram(appPath,"printTexture2D","DOF");
     DOFProgram->addUniforms(uniform_variables);
+
+    //blur
+    uniform_variables.clear();
+    uniform_variables = {"uTexture0", "uSampleCount", "uDirection", "uZNear", "uZFar"};
+    BlurProgram = new glcustom::GPUProgram(appPath,"printTexture2D","Blur");
+    BlurProgram->addUniforms(uniform_variables);
+
+    //gamma
+    uniform_variables.clear();
+    uniform_variables = {"uTexture0", "uTexture1", "uZNear", "uZFar"};
+    GammaProgram = new glcustom::GPUProgram(appPath,"printTexture2D","Gamma");
+    GammaProgram->addUniforms(uniform_variables);
 
 }
 /**
@@ -87,6 +101,14 @@ void ProgramManager::reloadPrograms() {
     DOFProgram->setProgram(appPath, "printTexture2D",  "DOF");
     DOFProgram->addUniforms(uniform_variables);
 
+    uniform_variables = BlurProgram->getUniformList();
+    BlurProgram->setProgram(appPath, "printTexture2D",  "Blur");
+    BlurProgram->addUniforms(uniform_variables);
+
+    uniform_variables = GammaProgram->getUniformList();
+    GammaProgram->setProgram(appPath, "printTexture2D",  "Gamma");
+    GammaProgram->addUniforms(uniform_variables);
+
 
 }
 /**Getters and setters for each program**/
@@ -112,6 +134,14 @@ glcustom::GPUProgram *ProgramManager::getTexture2DProgram() const {
 
 glcustom::GPUProgram *ProgramManager::getDOFProgram() const {
     return DOFProgram;
+}
+
+glcustom::GPUProgram *ProgramManager::getBlurProgram() const {
+    return BlurProgram;
+}
+
+glcustom::GPUProgram *ProgramManager::getGammaProgram() const {
+    return GammaProgram;
 }
 
 

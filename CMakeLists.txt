@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 2.8)
 
+cmake_policy(SET CMP0020 NEW) # CMake 3.0
+
+
 project(BarrenLands)
 
 add_definitions(-std=c++11)
@@ -12,14 +15,19 @@ find_package(GLEW REQUIRED)
 find_package(GLUT REQUIRED)
 find_package(GLU REQUIRED)
 
+# Find includes in corresponding build directories
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(CMAKE_AUTOMOC ON)
+
+
 include_directories(${SDL2_INCLUDE_DIR} ${OPENGL_INCLUDE_DIR} ${GLEW_INCLUDE_DIR} ${GLUT_INCLUDE_DIR} ${GLU_INCLUDE_DIR} glimac/include third-party/include glcustom/include)
 
 if(UNIX)
-    set(ALL_LIBRARIES glcustom glimac fastnoise ${SDL2_LIBRARY} ${OPENGL_LIBRARIES} ${GLEW_LIBRARY} ${GLUT_LIBRARY} ${GLU_LIBRARY} )
+    set(ALL_LIBRARIES glcustom glimac fastnoise ${SDL2_LIBRARY} ${OPENGL_LIBRARIES} ${GLEW_LIBRARY} ${GLUT_LIBRARY} ${GLU_LIBRARY})
 endif(UNIX)
 
 if(WIN32)
-    set(ALL_LIBRARIES mingw32 glcustom glimac fastnoise SDL2main SDL2 glew32s opengl32 freeglut glu32)
+    set(ALL_LIBRARIES mingw32 glcustom glimac fastnoise SDL2main SDL2 glew32s opengl32 freeglut glu32 )
 endif(WIN32)
 
 add_subdirectory(glimac)

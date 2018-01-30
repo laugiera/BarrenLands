@@ -252,11 +252,10 @@ void ProceduralMap::createBiomes() {
  * @return
  */
 std::vector<glcustom::Texture *> ProceduralMap::chooseTextures(TextureManager *textureManager) {
-    glcustom::Texture * moistureTexture = new glcustom::Texture(Tools::nbSub +1, Tools::nbSub +1, moistureMap.data(), GL_RED);
     std::vector<glcustom::Texture *> textures;
-    textures.push_back(moistureTexture);
     textures.push_back(textureManager->getRandomTexture("sand"));
     textures.push_back(textureManager->getRandomTexture("rock"));
+    textures.push_back(textureManager->getRandomTexture("shadowMap"));
     return textures;
 }
 

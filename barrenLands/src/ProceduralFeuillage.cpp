@@ -142,15 +142,6 @@ void ProceduralFeuillage::subdivideFace(std::vector<glimac::ShapeVertex> &_verti
 
 }
 
-/**
- * chooseTextures()
- * Redefined to get a rock texture
- * @param textureManager
- * @return
- */
-std::vector<glcustom::Texture *> ProceduralFeuillage::chooseTextures(TextureManager *textureManager) {
-    return std::vector<glcustom::Texture *>(1, textureManager->getRandomTexture("rock"));
-}
 
 glm::vec3 ProceduralFeuillage::getRandomPosition(const glm::vec3 &position) {
     return position;

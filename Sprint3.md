@@ -9,15 +9,19 @@ Lou :
 - [ ] PowerPoint Présentation
 
 Anne : 
-- [ ] fin répartition des premiers éléments
+- [X] fin répartition des premiers éléments
 - [ ] interface - Ecran pour rentrer la seed
 - [ ] Shadow Mapping
+- [ ] Son
 
 Etienne : 
 
 cycler : 
 - [ ] création nouvel object
 - [ ] integration sur la carte et répartition
+
+
+- [ ] rotation skyBox
 
 
 fin du sprint mercredi soir. 

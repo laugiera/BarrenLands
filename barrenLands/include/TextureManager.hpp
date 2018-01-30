@@ -26,6 +26,8 @@ public:
 
     glcustom::Texture * getRandomTexture(const std::string &qualifier);
 
+    void addTexture(glcustom::Texture * t, const std::string name);
+
 private:
     glimac::FilePath appPath;
 
