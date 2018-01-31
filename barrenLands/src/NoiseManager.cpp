@@ -27,6 +27,7 @@ void NoiseManager::setSeed(const float _seed){
     noise.SetSeed(_seed);
     heightMap = getElevationMap(Tools::nbSub+1, Tools::nbSub+1);
     moistureMap = getMoistureMap(Tools::nbSub+1, Tools::nbSub+1);
+    srand(seed);
 }
 
 /**
@@ -152,6 +153,12 @@ float NoiseManager::getRandomFloat() {
     counter += 5;
     float e = noise.GetNoise(counter, counter);
     //std::cout << e <<std::endl;
+    /*
+    float low = -1.0;
+    float high = 1.0;
+    float random = low + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(high-low)));
+    */
+    //return random;
     return e;
 };
 

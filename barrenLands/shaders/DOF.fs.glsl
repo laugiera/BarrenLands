@@ -46,6 +46,9 @@ void main() {
         else
             COC = 0;
 
+        if(depth >= 1) {
+           // COC = 0;
+        }
 
         vec3 initialColor = texture(uTexture1, vTexCoords).xyz; /*+ (vec3(linearizeDepth()))*0.6*/ // print depth
         vec3 blurredColor = texture(uTexture0, vTexCoords).xyz;
