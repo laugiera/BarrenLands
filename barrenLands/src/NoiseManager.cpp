@@ -17,7 +17,17 @@ Améliorations :
  * static seed default value
  */
 
-float NoiseManager::seed = 4042;
+
+//float NoiseManager::seed = 4042;
+
+float NoiseManager::seed = 1200;
+
+void NoiseManager::setSeed(const float _seed){
+    NoiseManager::seed = _seed;
+    noise.SetSeed(_seed);
+    heightMap = getElevationMap(Tools::nbSub+1, Tools::nbSub+1);
+    moistureMap = getMoistureMap(Tools::nbSub+1, Tools::nbSub+1);
+}
 
 /**
  * Constructor with default noise parameters

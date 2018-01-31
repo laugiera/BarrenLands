@@ -37,14 +37,17 @@ public:
         static NoiseManager instance;
         return instance;
     }
-    /**
-     * static functions to manage the static seed
-     */
-    static void setSeed(const float _seed){
-        NoiseManager::seed = _seed;
+
+    void setSeed(const float _seed);
+     float getSeed(){
+        return noise.GetSeed();
     }
-    static float getSeed(){
-        return NoiseManager::seed;
+    void setSeed(const std::string name){
+        float seed = 0;
+        for (int i = 0; i < name.size(); ++i) {
+            seed += name[i];
+        }
+        setSeed(seed);
     }
     /**
      * functions to get noise maps

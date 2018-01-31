@@ -50,8 +50,10 @@ void ProgramManager::createPrograms() {
     mapProgram->addUniforms(uniform_variables);
 
     //to draw a 2D texture on the screen
+    uniform_variables.clear();
+    uniform_variables = {"uTexture0", "uZNear", "uZFar"};
     texture2DProgram = new glcustom::GPUProgram(appPath,"printTexture2D","printTexture2D");
-    texture2DProgram->addUniform("uTexture0");
+    texture2DProgram->addUniforms(uniform_variables);
 
     //add the DOF effect
     uniform_variables.clear();

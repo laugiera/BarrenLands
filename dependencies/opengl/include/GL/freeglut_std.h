@@ -44,7 +44,7 @@
 
 /* Define FREEGLUT_LIB_PRAGMAS to 1 to include library
  * pragmas or to 0 to exclude library pragmas.
- * The default behavior depends on the compiler/platform.
+ * The default.txt behavior depends on the compiler/platform.
  */
 #   ifndef FREEGLUT_LIB_PRAGMAS
 #       if ( defined(_MSC_VER) || defined(__WATCOMC__) ) && !defined(_WIN32_WCE)
@@ -608,7 +608,7 @@ FGAPI void    FGAPIENTRY glutReportErrors( void );
    in the executable will not be called if GLUT calls its (different)
    exit routine).  GLUT is typically built with the
    "/MD" option (the CRT with multithreading DLL support), but the Visual
-   C++ linker default is "/ML" (the single threaded CRT).
+   C++ linker default.txt is "/ML" (the single threaded CRT).
 
    One workaround to this issue is requiring users to always link with
    the same CRT as GLUT is compiled with.  That requires users supply a

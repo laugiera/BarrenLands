@@ -240,7 +240,7 @@ typedef _W64 int ptrdiff_t;
 #  define GLEWAPI extern
 #else
 #  if defined(__GNUC__) && __GNUC__>=4
-#   define GLEWAPI extern __attribute__ ((visibility("default")))
+#   define GLEWAPI extern __attribute__ ((visibility("default.txt")))
 #  elif defined(__SUNPRO_C) || defined(__SUNPRO_CC)
 #   define GLEWAPI extern __global
 #  else

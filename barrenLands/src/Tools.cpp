@@ -5,8 +5,8 @@
 #include "../include/Tools.hpp"
 
 
-int Tools::windowWidth = 1200;
-int Tools::windowHeight = 1000;
+int Tools::windowWidth = 1536;
+int Tools::windowHeight = 864;
 int Tools::nbSub = 100;
 float Tools::scale = 100;
 float Tools::width = 1;
@@ -15,7 +15,7 @@ float Tools::seaLevel= -5;
 float Tools::zNear = 0.1;
 float Tools::zFar= 2000.f;
 glm::mat4 Tools::projMatrix = glm::perspective(glm::radians(70.f), float(Tools::windowWidth)/float(Tools::windowHeight), Tools::zNear, Tools::zFar);
-
+glimac::FilePath Tools::appPath = "";
 
 /**
  * Take a string representation of a bool and converts it to bool
@@ -155,6 +155,8 @@ std::vector<std::string> Tools::load(std::string filePath) {
     }
     return fileContent;
 }
+
+
 
 
 

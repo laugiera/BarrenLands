@@ -21,6 +21,14 @@ void TextureManager::createTextures() {
     glcustom::Texture *  skybox = new glcustom::Texture( appPath.dirPath() + "textures",GL_TEXTURE_CUBE_MAP );
     textures[skybox]="skybox";
 
+    glcustom::Texture *  menuSeed1 = new glcustom::Texture( appPath.dirPath() + "textures/menu/seed1.png",GL_TEXTURE_2D );
+    glcustom::Texture *  menuSeed2 = new glcustom::Texture( appPath.dirPath() + "textures/menu/seed2.png",GL_TEXTURE_2D );
+    glcustom::Texture *  menuSeed3 = new glcustom::Texture( appPath.dirPath() + "textures/menu/seed3.png",GL_TEXTURE_2D );
+
+    textures[menuSeed1]="menuSeed1";
+    textures[menuSeed2]="menuSeed2";
+    textures[menuSeed3]="menuSeed3";
+
 }
 /**
  * addTextures
@@ -72,9 +80,9 @@ glcustom::Texture * TextureManager::getRandomTexture(const std::string &qualifie
             _textures.push_back(it->first);
         }
     }
-    if(_textures.empty()){
+    if(!_textures.empty()){
         int randomIndex = 0; //use noise to choose random int
         return _textures[randomIndex];
     }
-    return _textures[0];
+    return nullptr;
 }
