@@ -550,7 +550,7 @@ void Application::appLoop() {
 
 
         /**************BLUR****************************/
-        glm::vec4 dir = lightState==-1?moon.getDirection():sun.getDirection();
+        glm::vec4 dir = sun.getDirection();
         glm::vec3 color = lightState==-1?moon.getColor():sun.getColor();
         addDOF(&beauty, &depth, fbo, color, dir);
         /********************************************/

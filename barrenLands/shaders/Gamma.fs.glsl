@@ -36,8 +36,12 @@ void main() {
         if (depth > endFocus && depth < 1)
             COC = clamp( abs((depth - endFocus)/ (1 - endFocus)), 0.0, 1.0);
         else if( depth >= 1){
-            COC = 0.5;
-            beautyColor *= uLightColor;
+            if(uLightDir.y <=0)
+                COC = 0;
+            else
+                COC = 0.9*(uLightDir.y/90.);
+
+            //beautyColor *= uLightColor;
         }
         else
             COC = 0;
