@@ -169,31 +169,24 @@ std::vector<glcustom::Texture *> ProceduralObject::chooseTextures(TextureManager
 float ProceduralObject::getHauteur(const glm::vec3 &_position) {
     //Récupérations des coordonnées de la map
     float** terrain = NoiseManager::getInstance().heightMap;
-    std::vector<glm::vec3> tab;
-    int i;
-    int j;
-    for(i=0; i<Tools::nbSub+1; ++i){
-        for(j=0; j<Tools::nbSub+1; j++){
-            tab.push_back(glm::vec3(-Tools::width*Tools::nbSub/2.0+j*Tools::width, terrain[i][j], -Tools::width*Tools::nbSub/2.0+i*Tools::width));
-        }
-    }
 
-    int caseI =0;
-    int caseJ =0;
+    int caseCamI =0;
+    int caseCamJ =0;
     float hauteur = 0;
     glm::vec3 v1;
     glm::vec3 v2;
     glm::vec3 v3;
     glm::vec3 v4;
-        caseI = int((_position.z) + Tools::width*Tools::nbSub/2);
-        caseJ = int((_position.x) + Tools::width*Tools::nbSub/2);
+    caseCamI = int((_position.z) + Tools::width*Tools::nbSub/2);
+    caseCamJ = int((_position.x) + Tools::width*Tools::nbSub/2);
 
-        v1 = tab[caseI*(Tools::nbSub+1) + caseJ];
-        v2 = tab[caseI*(Tools::nbSub+1) + caseJ + 1];
-        v3 = tab[(caseI+1)*(Tools::nbSub+1) + caseJ];
-        v4 = tab[(caseI+1)*(Tools::nbSub+1) + caseJ + 1];
+    v1 = glm::vec3(-Tools::width*Tools::nbSub/2.0+caseCamJ*Tools::width, terrain[caseCamI][caseCamJ], -Tools::width*Tools::nbSub/2.0+caseCamI*Tools::width);
+    v2 = glm::vec3(-Tools::width*Tools::nbSub/2.0+(caseCamJ+1)*Tools::width, terrain[caseCamI][caseCamJ+1], -Tools::width*Tools::nbSub/2.0+caseCamI*Tools::width);
+    v3 = glm::vec3(-Tools::width*Tools::nbSub/2.0+caseCamJ*Tools::width, terrain[caseCamI+1][caseCamJ], -Tools::width*Tools::nbSub/2.0+(caseCamI+1)*Tools::width);
+    v4 = glm::vec3(-Tools::width*Tools::nbSub/2.0+(caseCamJ+1)*Tools::width, terrain[caseCamI+1][caseCamJ+1], -Tools::width*Tools::nbSub/2.0+(caseCamI+1)*Tools::width);
 
-        if(inTriangle(v1, v2, v3, glm::vec3(_position.x, 0, _position.z)) == 1){
+
+    if(inTriangle(v1, v2, v3, glm::vec3(_position.x, 0, _position.z)) == 1){
             hauteur = determinerY(v1, v2, v3, glm::vec3(_position.x, 0, _position.z));
         }
         else if(inTriangle(v2, v3, v4, glm::vec3(_position.x, 0, _position.z)) == 1){

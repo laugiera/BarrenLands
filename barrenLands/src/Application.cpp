@@ -340,31 +340,58 @@ void Application::appLoop() {
 
     bool done = false;
     int rightPressed = 0;
-    camera->moveFront(Tools::speed, Map->getVertices());
+    camera->moveFront(Tools::speed);
+
+    bool rotatebutton = false;
+    bool moveLeft = false;
+    bool moveRight = false;
+    bool moveUp = false;
+    bool moveDown = false;
+
+    bool rotateLeft = false;
+    bool rotateRight = false;
+    bool rotateUp = false;
+    bool rotateDown = false;
+
+
+    // Application loop:
+    //bool done = false;
     while(!done) {
         // Event loop:
-        SDL_Event e{};
+        SDL_Event e;
         while(windowManager.pollEvent(e)) {
-            if (e.type == SDL_KEYDOWN) {
-                if (e.key.keysym.sym == SDLK_z) { // Z
-                    camera->moveFront(Tools::speed, Map->getVertices());
-                } else if (e.key.keysym.sym == SDLK_s) { // S
-                    camera->moveFront(-Tools::speed, Map->getVertices());
-                }
-                if (e.key.keysym.sym == SDLK_q) { // Q
-                    camera->moveLeft(Tools::speed, Map->getVertices());
-                } else if (e.key.keysym.sym == SDLK_d) { // D
-                    camera->moveLeft(-Tools::speed, Map->getVertices());
-                }
-                if (e.key.keysym.sym == SDLK_UP) {
-                    camera->moveFront(Tools::speed, Map->getVertices());
-                } else if (e.key.keysym.sym == SDLK_DOWN) {
-                    camera->moveFront(-Tools::speed, Map->getVertices());
-                }
-                if (e.key.keysym.sym == SDLK_LEFT) {
+            if(e.type == SDL_KEYDOWN){
+                /*f(e.key.keysym.sym == SDLK_LEFT){
                     camera->rotateLeft(-Tools::speed);
-                } else if (e.key.keysym.sym == SDLK_RIGHT) {
+                }
+                else if(e.key.keysym.sym == SDLK_RIGHT){
                     camera->rotateLeft(Tools::speed);
+                }
+                else if(e.key.keysym.sym == SDLK_UP){
+                    camera->moveFront(Tools::speed, Map->getVertices());
+                }
+                else if(e.key.keysym.sym == SDLK_DOWN){
+                    camera->moveFront(-Tools::speed, Map->getVertices());
+                }*/
+                if (e.key.keysym.sym == SDLK_z  && e.key.state == SDL_PRESSED) { // Z
+                    moveUp = true;
+                } else if (e.key.keysym.sym == SDLK_s  && e.key.state == SDL_PRESSED) { // S
+                    moveDown = true;
+                }
+                if (e.key.keysym.sym == SDLK_q && e.key.state == SDL_PRESSED) { // Q
+                    moveLeft = true;
+                } else if (e.key.keysym.sym == SDLK_d  && e.key.state == SDL_PRESSED) { // D
+                    moveRight = true;
+                }
+                if (e.key.keysym.sym == SDLK_UP  && e.key.state == SDL_PRESSED) {
+                    rotateUp = true;
+                } else if (e.key.keysym.sym == SDLK_DOWN  && e.key.state == SDL_PRESSED) {
+                    rotateDown = true;
+                }
+                if (e.key.keysym.sym == SDLK_RIGHT && e.key.state == SDL_PRESSED) {
+                    rotateLeft = true;
+                } else if (e.key.keysym.sym == SDLK_LEFT  && e.key.state == SDL_PRESSED) {
+                    rotateRight = true;
                 }
                 if (e.key.keysym.sym == SDLK_v) {
                     if (camera->getChoice() == 0) {
@@ -375,14 +402,34 @@ void Application::appLoop() {
                 } else if (e.key.keysym.sym == SDLK_b) {
                     programManager->reloadPrograms();
                 }
-            } else if (e.type == SDL_MOUSEBUTTONDOWN) {
+            }
+            if(e.type == SDL_KEYUP){
+                if (e.key.keysym.sym == SDLK_z  && e.key.state == SDL_RELEASED) { // Z
+                    moveUp = false;
+                } else if (e.key.keysym.sym == SDLK_s  && e.key.state == SDL_RELEASED) { // S
+                    moveDown = false;
+                }
+                if (e.key.keysym.sym == SDLK_q && e.key.state == SDL_RELEASED) { // Q
+                    moveLeft = false;
+                } else if (e.key.keysym.sym == SDLK_d  && e.key.state == SDL_RELEASED) { // D
+                    moveRight = false;
+                }
+                if (e.key.keysym.sym == SDLK_UP  && e.key.state == SDL_RELEASED) { // Z
+                    rotateUp = false;
+                } else if (e.key.keysym.sym == SDLK_DOWN  && e.key.state == SDL_RELEASED) { // S
+                    rotateDown = false;
+                }
+                if (e.key.keysym.sym == SDLK_RIGHT && e.key.state == SDL_RELEASED) { // Q
+                    rotateLeft = false;
+                } else if (e.key.keysym.sym == SDLK_LEFT  && e.key.state == SDL_RELEASED) { // D
+                    rotateRight = false;
+                }
+            }
+            if (e.type == SDL_MOUSEBUTTONDOWN) {
                 if (e.button.button == SDL_BUTTON_RIGHT) {
                     rightPressed = 1;
                 }
-            } else if (e.wheel.y == 1)
-                camera->zoom(-Tools::speed);
-            else if (e.wheel.y == -1)
-                camera->zoom(Tools::speed);
+            }
             else if (e.type == SDL_MOUSEBUTTONUP) {
                 if (e.button.button == SDL_BUTTON_RIGHT) {
                     rightPressed = 0;
@@ -394,7 +441,49 @@ void Application::appLoop() {
             if(e.type == SDL_QUIT) {
                 done = true; // Leave the loop after this iteration
             }
+            if(e.type == SDL_MOUSEBUTTONDOWN && e.wheel.y == 1){
+                camera->zoom(-Tools::speed);
+            }
+            if(e.type == SDL_MOUSEBUTTONDOWN && e.wheel.y == -1){
+                camera->zoom(Tools::speed);
+            }
+            if(e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_RIGHT){
+                rotatebutton = true;
+            }
+            if(e.type == SDL_MOUSEBUTTONUP && e.button.button == SDL_BUTTON_RIGHT){
+                rotatebutton = false;
+            }
+            if(e.type == SDL_MOUSEMOTION && rotatebutton){
+
+            }
         }
+
+        if(moveLeft == true){
+            camera->moveLeft(Tools::speed);
+        }
+        if(moveRight == true){
+            camera->moveLeft(-Tools::speed);
+        }
+        if(moveUp == true){
+            camera->moveFront(Tools::speed);
+        }
+        if(moveDown == true){
+            camera->moveFront(-Tools::speed);
+        }
+        if(rotateLeft == true){
+            camera->rotateLeft(Tools::speed/4);
+        }
+        if(rotateRight == true){
+            camera->rotateLeft(-Tools::speed/4);
+        }
+        if(rotateUp == true){
+            camera->rotateUp(-Tools::speed/4);
+        }
+        if(rotateDown == true){
+            camera->rotateUp(Tools::speed/4);
+        }
+
+
 
 
         fbo.bind();

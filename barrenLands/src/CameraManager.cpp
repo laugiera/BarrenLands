@@ -1,3 +1,4 @@
+#include <include/NoiseManager.hpp>
 #include "../include/CameraManager.hpp"
 
 
@@ -42,26 +43,8 @@ glm::mat4 CameraManager::getViewMatrix(){
         return _camera2.getViewMatrix()*MobelMatrix;
     }
 }
-/**
- * moveLeft()
- * @param float t
- */
-void CameraManager::moveLeft(float t){
-    if(_choice == 1){
-        _camera2.moveLeft(t);
-        _position = _camera2.getPosition();
-    }
-}
-/**
- * moveFront()
- * @param t
- */
-void CameraManager::moveFront(float t){
-    if(_choice == 1){
-        _camera2.moveFront(t);
-        _position = _camera2.getPosition();
-    }
-}
+
+
 /**
  * rotateLeft()
  * @param degrees
@@ -126,21 +109,36 @@ void CameraManager::moveFront(float t, int nbrSub, float width, float scale, flo
     }
 }
 
-
+/**
+ * moveLeft()
+ * @param float t
+ */
 //Déplacement ++++
-void CameraManager::moveLeft(float t, std::vector<glimac::ShapeVertex> tab){
+void CameraManager::moveLeft(float t){
+    float** terrain = NoiseManager::getInstance().heightMap;
+    int i;
+    int j;
+
     if(_choice == 1){
         int caseCamI = _position.z/Tools::scale + Tools::width*Tools::nbSub/2;
         int caseCamJ = _position.x/Tools::scale + Tools::width*Tools::nbSub/2;
+
+        glm::vec3 v1 = glm::vec3(-Tools::width*Tools::nbSub/2.0+caseCamJ*Tools::width, terrain[caseCamI][caseCamJ], -Tools::width*Tools::nbSub/2.0+caseCamI*Tools::width);
+        glm::vec3 v2 = glm::vec3(-Tools::width*Tools::nbSub/2.0+(caseCamJ+1)*Tools::width, terrain[caseCamI][caseCamJ+1], -Tools::width*Tools::nbSub/2.0+caseCamI*Tools::width);
+        glm::vec3 v3 = glm::vec3(-Tools::width*Tools::nbSub/2.0+caseCamJ*Tools::width, terrain[caseCamI+1][caseCamJ], -Tools::width*Tools::nbSub/2.0+(caseCamI+1)*Tools::width);
+        glm::vec3 v4 = glm::vec3(-Tools::width*Tools::nbSub/2.0+(caseCamJ+1)*Tools::width, terrain[caseCamI+1][caseCamJ+1], -Tools::width*Tools::nbSub/2.0+(caseCamI+1)*Tools::width);
+
         _camera2.moveLeft(t);
-        if(inTriangle(tab[caseCamI*(Tools::nbSub+1)+caseCamJ], tab[caseCamI*(Tools::nbSub+1)+caseCamJ+1], tab[(caseCamI+1)*(Tools::nbSub+1)+caseCamJ]) == 1){
-            _camera2.setPositionY((determinerHauteur(tab[caseCamI*(Tools::nbSub+1)+caseCamJ], tab[caseCamI*(Tools::nbSub+1)+caseCamJ+1], tab[(caseCamI+1)*(Tools::nbSub+1)+caseCamJ])+0.5)*Tools::scale);
+        if(inTriangle(v1, v2, v3) == 1){
+            _camera2.setPositionY((determinerHauteur(v1, v2, v3)+0.5)*Tools::scale);
         }
-        if(inTriangle(tab[caseCamI*(Tools::nbSub+1)+caseCamJ+1], tab[(caseCamI+1)*(Tools::nbSub+1)+caseCamJ], tab[(caseCamI+1)*(Tools::nbSub+1)+caseCamJ+1]) == 1){
-            _camera2.setPositionY((determinerHauteur(tab[caseCamI*(Tools::nbSub+1)+caseCamJ+1], tab[(caseCamI+1)*(Tools::nbSub+1)+caseCamJ], tab[(caseCamI+1)*(Tools::nbSub+1)+caseCamJ+1])+0.5)*Tools::scale);
+        if(inTriangle(v2, v3, v4) == 1){
+            _camera2.setPositionY((determinerHauteur(v2, v3, v4)+0.5)*Tools::scale);
         }
         _position = _camera2.getPosition();
     }
+
+
     if(_position.x < -Tools::width*Tools::nbSub*Tools::scale/2.0 ||
        _position.x > Tools::width*Tools::nbSub*Tools::scale/2.0 ||
        _position.z + 10 < -Tools::width*Tools::nbSub*Tools::scale/2.0 ||
@@ -150,22 +148,29 @@ void CameraManager::moveLeft(float t, std::vector<glimac::ShapeVertex> tab){
     }
 }
 
-void CameraManager::moveFront(float t, std::vector<glimac::ShapeVertex> tab){
+void CameraManager::moveFront(float t){
+    float** terrain = NoiseManager::getInstance().heightMap;
+
     if(_choice == 1){
         int caseCamI = _position.z/Tools::scale + Tools::width*Tools::nbSub/2;
         int caseCamJ = _position.x/Tools::scale + Tools::width*Tools::nbSub/2;
+
+        glm::vec3 v1 = glm::vec3(-Tools::width*Tools::nbSub/2.0+caseCamJ*Tools::width, terrain[caseCamI][caseCamJ], -Tools::width*Tools::nbSub/2.0+caseCamI*Tools::width);
+        glm::vec3 v2 = glm::vec3(-Tools::width*Tools::nbSub/2.0+(caseCamJ+1)*Tools::width, terrain[caseCamI][caseCamJ+1], -Tools::width*Tools::nbSub/2.0+caseCamI*Tools::width);
+        glm::vec3 v3 = glm::vec3(-Tools::width*Tools::nbSub/2.0+caseCamJ*Tools::width, terrain[caseCamI+1][caseCamJ], -Tools::width*Tools::nbSub/2.0+(caseCamI+1)*Tools::width);
+        glm::vec3 v4 = glm::vec3(-Tools::width*Tools::nbSub/2.0+(caseCamJ+1)*Tools::width, terrain[caseCamI+1][caseCamJ+1], -Tools::width*Tools::nbSub/2.0+(caseCamI+1)*Tools::width);
+
         _camera2.moveFront(t);
-        if(inTriangle(tab[caseCamI*(Tools::nbSub+1)+caseCamJ], tab[caseCamI*(Tools::nbSub+1)+caseCamJ+1], tab[(caseCamI+1)*(Tools::nbSub+1)+caseCamJ]) == 1){
-            _camera2.setPositionY((determinerHauteur(tab[caseCamI*(Tools::nbSub+1)+caseCamJ], tab[caseCamI*(Tools::nbSub+1)+caseCamJ+1], tab[(caseCamI+1)*(Tools::nbSub+1)+caseCamJ])+0.5)*Tools::scale);
+        if(inTriangle(v1, v2, v3) == 1){
+            _camera2.setPositionY((determinerHauteur(v1, v2, v3)+0.5)*Tools::scale);
         }
-        else if(inTriangle(tab[caseCamI*(Tools::nbSub+1)+caseCamJ+1], tab[(caseCamI+1)*(Tools::nbSub+1)+caseCamJ], tab[(caseCamI+1)*(Tools::nbSub+1)+caseCamJ+1]) == 1){
-            _camera2.setPositionY((determinerHauteur(tab[caseCamI*(Tools::nbSub+1)+caseCamJ+1], tab[(caseCamI+1)*(Tools::nbSub+1)+caseCamJ], tab[(caseCamI+1)*(Tools::nbSub+1)+caseCamJ+1])+0.5)*Tools::scale);
-        }
-        else{
-            _camera2.setPositionY((tab[caseCamI*(Tools::nbSub+1)+caseCamJ].position.y+2)*Tools::scale);
+        if(inTriangle(v2, v3, v4) == 1){
+            _camera2.setPositionY((determinerHauteur(v2, v3, v4)+0.5)*Tools::scale);
         }
         _position = _camera2.getPosition();
     }
+
+
     if(_position.x < -Tools::width*Tools::nbSub*Tools::scale/2.0 ||
        _position.x > Tools::width*Tools::nbSub*Tools::scale/2.0 ||
        _position.z + 10 < -Tools::width*Tools::nbSub*Tools::scale/2.0 ||
@@ -176,14 +181,14 @@ void CameraManager::moveFront(float t, std::vector<glimac::ShapeVertex> tab){
 }
 
 
-int CameraManager::inTriangle(glimac::ShapeVertex O, glimac::ShapeVertex A, glimac::ShapeVertex B){
+int CameraManager::inTriangle(glm::vec3 O, glm::vec3 A, glm::vec3 B){
     float detPOPA;
     float detPAPB;
     float detPBPO;
 
-    glm::vec2 PO = glm::vec2(O.position.x - _position.x/Tools::scale, O.position.z - _position.z/Tools::scale);
-    glm::vec2 PA = glm::vec2(A.position.x - _position.x/Tools::scale, A.position.z - _position.z/Tools::scale);
-    glm::vec2 PB = glm::vec2(B.position.x - _position.x/Tools::scale, B.position.z - _position.z/Tools::scale);
+    glm::vec2 PO = glm::vec2(O.x - _position.x/Tools::scale, O.z - _position.z/Tools::scale);
+    glm::vec2 PA = glm::vec2(A.x - _position.x/Tools::scale, A.z - _position.z/Tools::scale);
+    glm::vec2 PB = glm::vec2(B.x - _position.x/Tools::scale, B.z - _position.z/Tools::scale);
 
     detPOPA = PO.x*PA.y - PO.y*PA.x;
     detPAPB = PA.x*PB.y - PA.y*PB.x;
@@ -198,11 +203,11 @@ int CameraManager::inTriangle(glimac::ShapeVertex O, glimac::ShapeVertex A, glim
     }
 }
 
-float CameraManager::determinerHauteur(glimac::ShapeVertex O, glimac::ShapeVertex A, glimac::ShapeVertex B){
-    float a = (A.position.y - O.position.y)*(B.position.z - O.position.z) - (A.position.z - O.position.z)*(B.position.y - O.position.y);
-    float b = (B.position.x - O.position.x)*(A.position.z - O.position.z) - (A.position.x - O.position.x)*(B.position.z - O.position.z);
-    float c = (A.position.x - O.position.x)*(B.position.y - O.position.y) - (B.position.x - O.position.x)*(A.position.y - O.position.y);
-    float d= -O.position.x*a - O.position.y*b - O.position.z*c;
+float CameraManager::determinerHauteur(glm::vec3 O, glm::vec3 A, glm::vec3 B){
+    float a = (A.y - O.y)*(B.z - O.z) - (A.z - O.z)*(B.y - O.y);
+    float b = (B.x - O.x)*(A.z - O.z) - (A.x - O.x)*(B.z - O.z);
+    float c = (A.x - O.x)*(B.y - O.y) - (B.x - O.x)*(A.y - O.y);
+    float d= -O.x*a - O.y*b - O.z*c;
     //std::cout << "a = " << a << " b = " << b << " c = " << c << " d = " << d << " res = " << (-a*_position.x/Tools::scale - c*_position.z/Tools::scale - d)/b << std::endl;
     return (-a*_position.x/Tools::scale - c*_position.z/Tools::scale - d)/b;
 }

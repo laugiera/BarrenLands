@@ -18,6 +18,9 @@ public :
     CameraManager();
     CameraManager(glm::vec3 position);
     glm::mat4 getViewMatrix();
+
+
+    //Déplacement ++
     void moveLeft(float t);
     void moveFront(float t);
     void rotateLeft(float degrees);
@@ -28,9 +31,7 @@ public :
     void moveLeft(float t, int nbrSub, float width, float scale, float posy);
     void moveFront(float t, int nbrSub, float width, float scale, float posy);
 
-    //Déplacement ++
-    void moveLeft(float t, std::vector<glimac::ShapeVertex> tab);
-    void moveFront(float t, std::vector<glimac::ShapeVertex> tab);
+
 
     //GETTER AND SETTER
     glm::vec3 getPosition(){
@@ -50,8 +51,8 @@ public :
 
 private:
     //METHOD
-    int inTriangle(glimac::ShapeVertex O, glimac::ShapeVertex A, glimac::ShapeVertex B);
-    float determinerHauteur(glimac::ShapeVertex O, glimac::ShapeVertex A, glimac::ShapeVertex B);
+    int inTriangle(glm::vec3 O, glm::vec3 A, glm::vec3 B);
+    float determinerHauteur(glm::vec3 O, glm::vec3 A, glm::vec3 B);
 
     //ATTRIBUTS
 
