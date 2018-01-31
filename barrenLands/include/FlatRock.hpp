@@ -1,13 +1,13 @@
-#ifndef BARRENLANDS_EXPERIENCEROCK_HPP
-#define BARRENLANDS_EXPERIENCEROCK_HPP
+#ifndef BARRENLANDS_FLATROCK_HPP
+#define BARRENLANDS_FLATROCK_HPP
 
 #include <ProceduralRock.hpp>
 #include "NoiseManager.hpp"
 
-class ExperienceRock : public ProceduralRock {
+class FlatRock : public ProceduralRock {
 public:
-    ExperienceRock();
-    ~ExperienceRock();
+    FlatRock();
+    ~FlatRock();
     void generateVertices();
     void generateIndices();
     void generateNormals();
@@ -16,9 +16,12 @@ public:
     Color * chooseColor(Color * _color);
     int find(std::vector<glm::vec3> &tab, glm::vec3 object);
     void smooth(std::vector<glimac::ShapeVertex> &_vertices, int nbRecurse);
+
+    glm::mat4 getRandomRotation();
+    glm::mat4 getRandomScale();
+
 private:
     glm::vec3 center;
 };
 
-
-#endif //BARRENLANDS_EXPERIENCEROCK_HPP
+#endif //BARRENLANDS_FLATROCK_HPP

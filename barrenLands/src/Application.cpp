@@ -4,7 +4,7 @@
 #define GLEW_STATIC
 #include <RoundRock.hpp>
 #include <ExperienceRock.hpp>
-#include <SDL_mixer.h>
+//#include <SDL_mixer.h>
 #include "ProceduralGrass.hpp"
 #include "ProceduralBranche.hpp"
 #include "ProceduralFeuillage.hpp"
@@ -564,15 +564,19 @@ void Application::testInterface() {
     //ProceduralObject * experienceRock = new ExperienceRock();
     //experienceRock->createRenderObject(programManager, textureManager);
 
-    ProceduralObject * tree = ElementManager::getInstance().createProceduralTree();
-    tree->addInstance(glm::vec3(0,0,0), Color(1,1,0));
-    tree->createRenderObject(programManager, textureManager);
+    //ProceduralObject * tree = ElementManager::getInstance().createProceduralTree();
+    //tree->addInstance(glm::vec3(0,0,0), Color(1,1,0));
+    //tree->createRenderObject(programManager, textureManager);
 
-    glcustom::FBO fbo;
+    ProceduralObject * rock = ElementManager::getInstance().createProceduralRock("");
+    rock->addInstance(glm::vec3(0,0,0), Color(1,1,0));
+    rock->createRenderObject(programManager, textureManager);
+
+    /*glcustom::FBO fbo;
     fbo.bind();
     glcustom::Texture originalColor = fbo.attachColorTexture(Tools::windowWidth, Tools::windowHeight);
     glcustom::Texture originalDepth = fbo.attachDepthTexture(Tools::windowWidth, Tools::windowHeight);
-    fbo.checkComplete();
+    fbo.checkComplete();*/
 
 
     bool done = false;
@@ -640,13 +644,25 @@ void Application::testInterface() {
         moon.sendLightUniforms(programManager->getElementProgram());
 
 
+        /******
+        Example : testObject->draw(camera->getViewMatrix());
+         ******/
+
+
+        //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
         std::vector<ProceduralObject *> elements = ElementManager::getInstance().getAllElements();
         for (ProceduralObject * el : elements){
             el->draw(camera->getViewMatrix());
         }
+        //roundRock->draw(camera->getViewMatrix());
 
 
-        //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        //branche->draw(camera->getViewMatrix());
+
+        //experienceRock->draw(camera->getViewMatrix());
+
+        //feuillage->draw(camera->getViewMatrix());
 
         //glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
@@ -659,7 +675,7 @@ void Application::testInterface() {
 
 
         //le rendu final est là dedans pour mes test pour l'instant
-        addDOF(&originalColor, &originalDepth, fbo);
+        //addDOF(&originalColor, &originalDepth, fbo);
 
         windowManager.swapBuffers();
         printErrors();
