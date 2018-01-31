@@ -11,7 +11,7 @@
  */
 Light::Light(const float &_intensity, const std::string & _name,  const glm::vec3 &_color) : intensity(_intensity), name(_name), color(_color)
 {
-    resetDirection();
+    resetDirection(1);
 }
 /**
  * setDirection()
@@ -76,8 +76,8 @@ void Light::rotate(float angle, const glm::mat4  &viewMatrix){
  * resetDirection()
  * with default value
  */
-void Light::resetDirection(){
-    direction = glm::vec4(-0.5,-0.5,-0.5,0);
+void Light::resetDirection(const float negative){
+    direction = negative*glm::vec4(-0.5,-0.5,-0.5,0);
 }
 /**
  * getDirection()

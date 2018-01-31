@@ -24,7 +24,7 @@ public:
     void rotate(float angle, const glm::mat4 &viewMatrix);
 
     void setDirection(glm::vec4 dir);
-    void resetDirection();
+    void resetDirection(const float negative);
     const glm::vec4 &getDirection() const;
 
 private:
