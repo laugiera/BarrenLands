@@ -153,13 +153,13 @@ float NoiseManager::getRandomFloat() {
     counter += 5;
     float e = noise.GetNoise(counter, counter);
     //std::cout << e <<std::endl;
-
+    /*
     float low = -1.0;
     float high = 1.0;
     float random = low + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(high-low)));
-
-    return random;
-    //return e;
+    */
+    //return random;
+    return e;
 };
 
 float NoiseManager::getVerticesDisturbation(const int x, const int y, const int z){
