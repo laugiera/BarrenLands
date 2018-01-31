@@ -46,7 +46,9 @@ void main() {
         else
             COC = 0;
 
-        fFragColor = beautyColor + COC * vec3(depth + 0.1, depth, depth + 0.1)*0.2;
+        depth = 1 - depth;
+        //fFragColor = beautyColor * 1/COC * vec3(depth + 0.1, depth, depth + 0.1)*0.2; => effet trop stylé
+        fFragColor = (1-COC) * beautyColor + COC * vec3(depth + 0.1, depth, depth + 0.1)*0.3;
 
 
 
