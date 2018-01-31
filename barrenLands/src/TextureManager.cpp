@@ -29,6 +29,16 @@ void TextureManager::createTextures() {
     textures[menuSeed2]="menuSeed2";
     textures[menuSeed3]="menuSeed3";
 
+    glcustom::Texture *  menuPause1 = new glcustom::Texture( appPath.dirPath() + "textures/menu/menuPause1.png",GL_TEXTURE_2D );
+    glcustom::Texture *  menuPause2 = new glcustom::Texture( appPath.dirPath() + "textures/menu/menuPause2.png",GL_TEXTURE_2D );
+    glcustom::Texture *  menuPause3 = new glcustom::Texture( appPath.dirPath() + "textures/menu/menuPause3.png",GL_TEXTURE_2D );
+    glcustom::Texture *  menuPause4 = new glcustom::Texture( appPath.dirPath() + "textures/menu/menuPause4.png",GL_TEXTURE_2D );
+
+    textures[menuPause1]="menuPause1";
+    textures[menuPause2]="menuPause2";
+    textures[menuPause3]="menuPause3";
+    textures[menuPause4]="menuPause4";
+
 }
 /**
  * addTextures

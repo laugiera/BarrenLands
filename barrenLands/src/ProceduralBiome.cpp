@@ -10,13 +10,14 @@
 ProceduralBiome::ProceduralBiome(Color *_color,const std::string &_name) : color(new Color(_color)), name(_name) {
     indices.clear();
     createElements();
-    std::cout << "this was a biome object not a real one " <<std::endl;
+    //std::cout << "this was a biome object not a real one " <<std::endl;
 }
 /**
  * Destructor
  */
 ProceduralBiome::~ProceduralBiome(){
     delete color;
+    //std::cout << "delete biome ok" << std::endl;
 }
 /**
  * Create the procedural objects for all the element the biome contains

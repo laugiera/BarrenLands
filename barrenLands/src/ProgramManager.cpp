@@ -8,7 +8,8 @@
  * @param appPath
  */
 ProgramManager::ProgramManager(const std::string &appPath) : testProgram(nullptr), elementProgram(nullptr), skyboxProgram(
-        nullptr), mapProgram(nullptr),  appPath(appPath) {
+        nullptr), mapProgram(nullptr), DOFProgram(nullptr), texture2DProgram(nullptr), BlurProgram(nullptr),
+                                                             GammaProgram(nullptr), appPath(appPath) {
     createPrograms();
 }
 /**
@@ -21,6 +22,9 @@ ProgramManager::~ProgramManager() {
     delete mapProgram;
     delete DOFProgram;
     delete texture2DProgram;
+    delete BlurProgram;
+    delete GammaProgram;
+    std::cout << "delete program manager ok" << std::endl;
 }
 /**
  * createPrograms()

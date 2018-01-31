@@ -18,6 +18,12 @@ class TextureManager {
 public:
     TextureManager(const glimac::FilePath &appPath);
 
+    ~TextureManager(){
+/*        for (std::map<glcustom::Texture *, std::string>::iterator i = textures.begin(); i != textures.end(); ++i) {
+            delete (i);
+        }*/
+    }
+
     void createTextures();
 
     void loadTextures(const std::string &folderPath);

@@ -31,6 +31,12 @@ public:
         }
         return *instance;
     }
+    static void ResetInstance()
+    {
+        delete instance; // REM : it works even if the pointer is NULL (does nothing then)
+        std::cout << "delete element manager ok"<<std::endl;
+        instance = NULL; // so GetInstance will still work.
+    }
 
     void createAllElements();
     ProceduralObject* createProceduralRock(const std::string &name, int elmt = 0);

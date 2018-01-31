@@ -103,19 +103,6 @@ void ProceduralGrass::addGrass(float theta1, float theta2, float theta3, float x
     indices.push_back(indsize + 6);
 }
 
-/**
- * createRenderObject()
- * Redefined to uses it's own renderObject and GPU Program
- * Will be common to all rocks
- * @param ProgramManager * programManager
- * @param TextureManager * textureManager
- * @param Color * color, default null
- */
-void ProceduralGrass::createRenderObject(ProgramManager *programManager, TextureManager *textureManager,  Color * color){
-    std::vector<glcustom::Texture *> textures = chooseTextures(textureManager);
-    renderObject = new RenderObject(programManager->getElementProgram(), textures, color);
-    renderObject->fillData(vertices, indices);
-}
 
 
 void ProceduralGrass::draw(const glm::mat4 &viewMatrix) {

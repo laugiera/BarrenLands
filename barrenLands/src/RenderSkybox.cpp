@@ -8,9 +8,9 @@
  * Destructor
  */
 RenderSkybox::~RenderSkybox() {
-    for(glcustom::Texture * texture : textures){
+/*    for(glcustom::Texture * texture : textures){
         delete texture;
-    }
+    }*/ //already done in super class !!!!!
 }
 /**
  * Constructor

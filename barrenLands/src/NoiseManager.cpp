@@ -17,7 +17,7 @@ Améliorations :
  * static seed default value
  */
 
-
+NoiseManager * NoiseManager::instance = nullptr;
 //float NoiseManager::seed = 4042;
 
 float NoiseManager::seed = 1200;
