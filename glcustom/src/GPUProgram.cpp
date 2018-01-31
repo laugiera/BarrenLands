@@ -9,8 +9,8 @@ glcustom::GPUProgram::GPUProgram(glimac::FilePath app_path, std::string m_vertex
         : m_app_path(app_path), m_vertex_shader(m_vertex_shader), m_fragment_shader(m_fragment_shader), m_u_variables() {
     m_vertex_shader += ".vs.glsl";
     m_fragment_shader += ".fs.glsl";
-    m_program = glimac::loadProgram(m_app_path.dirPath() + "shaders/" + m_vertex_shader,
-                                    m_app_path.dirPath() + "shaders/" + m_fragment_shader);
+    m_program = glimac::loadProgram(m_app_path + "shaders/" + m_vertex_shader,
+                                    m_app_path + "shaders/" + m_fragment_shader);
 }
 
 void glcustom::GPUProgram::addUniform(std::string name) {
@@ -26,8 +26,8 @@ void glcustom::GPUProgram::setProgram(glimac::FilePath app_path, std::string m_v
 
     m_vertex_shader = m_vertex_shader + ".vs.glsl";
     m_fragment_shader = m_fragment_shader + ".fs.glsl";
-    m_program = glimac::loadProgram(m_app_path.dirPath() + "shaders/" + m_vertex_shader,
-                                    m_app_path.dirPath() + "shaders/" + m_fragment_shader);
+    m_program = glimac::loadProgram(m_app_path + "shaders/" + m_vertex_shader,
+                                    m_app_path + "shaders/" + m_fragment_shader);
 }
 
 
@@ -108,7 +108,7 @@ std::vector<std::string> glcustom::GPUProgram::getUniformList() {
 void glcustom::GPUProgram::changeFS(std::string fsFile) {
     m_fragment_shader = fsFile;
     fsFile += ".fs.glsl";
-    fsFile = m_app_path.dirPath() + "shaders/" + fsFile;
+    fsFile = m_app_path + "shaders/" + fsFile;
     glimac::Shader fs = glimac::loadShader(GL_FRAGMENT_SHADER, fsFile);
 
     if(!fs.compile()) {
@@ -124,7 +124,7 @@ void glcustom::GPUProgram::changeFS(std::string fsFile) {
 void glcustom::GPUProgram::changeVS(std::string vsFile) {
     m_vertex_shader = vsFile;
     vsFile += ".vs.glsl";
-    vsFile = m_app_path.dirPath() + "shaders/" + vsFile ;
+    vsFile = m_app_path + "shaders/" + vsFile ;
     glimac::Shader vs = glimac::loadShader(GL_FRAGMENT_SHADER, vsFile);
 
     if(!vs.compile()) {

@@ -15,7 +15,13 @@ enum {
     CONTINUE, LOAD, SAVE, MAINMENU, QUIT
 };
 
+int Application::init_thread( void *data ) {
 
+    textureManager = new TextureManager();
+    programManager = new ProgramManager();
+    camera = new CameraManager();
+    return 0;
+}
 /**
  * Constructs the App with the SDL2 WindowManager
  * @param appPath
@@ -23,13 +29,24 @@ enum {
 Application::Application(const glimac::FilePath &appPath) : windowManager(Tools::windowWidth, Tools::windowHeight, "BarrenLands"),
                                                             programManager(nullptr),
                                                             camera(nullptr),
-                                                            textureManager(nullptr)
-{
+                                                            textureManager(nullptr) {
     initOpenGl();
     SDL_Init(SDL_INIT_AUDIO);
-    textureManager = new TextureManager(appPath);
-    programManager = new ProgramManager(appPath);
-    camera = new CameraManager();
+    /*SDL_Thread *thread;
+    int threadReturnValue;
+    printf("\nSimple SDL_CreateThread test:");
+
+     //Simply create a thread
+    thread = SDL_CreateThread(&init_thread, "init_thread", (void *) NULL);
+
+    if (NULL == thread) {
+        printf("\nSDL_CreateThread failed: %s\n", SDL_GetError());
+    } else {
+        SDL_WaitThread(thread, &threadReturnValue);
+        printf("\nThread returned value: %d", threadReturnValue);
+    }
+*/
+    init_thread((void *) NULL);
 }
 /**
  *
