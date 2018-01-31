@@ -40,7 +40,7 @@ public:
     void appLoop();
     void testInterface();
     void printErrors();
-    void addDOF(glcustom::Texture *text, glcustom::Texture *depth, glcustom::FBO &fbo);
+    void addDOF(glcustom::Texture *text, glcustom::Texture *depth, glcustom::FBO &fbo, glm::vec3 &lightColor);
     int start();
     void load(const std::string & fileName);
     void save();

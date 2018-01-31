@@ -69,7 +69,7 @@ void ProgramManager::createPrograms() {
 
     //gamma
     uniform_variables.clear();
-    uniform_variables = {"uTexture0", "uTexture1", "uZNear", "uZFar"};
+    uniform_variables = {"uTexture0", "uTexture1", "uZNear", "uZFar", "uLightColor"};
     GammaProgram = new glcustom::GPUProgram(appPath,"printTexture2D","Gamma");
     GammaProgram->addUniforms(uniform_variables);
 

@@ -87,4 +87,8 @@ const glm::vec4 &Light::getDirection() const {
     return direction;
 }
 
+const glm::vec3 &Light::getColor() const {
+    return color;
+}
+
 

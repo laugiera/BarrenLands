@@ -27,6 +27,8 @@ public:
     void resetDirection(const float negative);
     const glm::vec4 &getDirection() const;
 
+    const glm::vec3 &getColor() const;
+
 private:
     glm::vec4 direction;
     float intensity;
