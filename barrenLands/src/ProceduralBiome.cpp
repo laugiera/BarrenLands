@@ -113,7 +113,12 @@ void ProceduralBiome::createElements() {
     else{
         rocks.push_back(ElementManager::getInstance().createProceduralRock(name));
     }
-    trees.push_back(ElementManager::getInstance().createProceduralTree());
+    if(name!="toundra"){
+        trees.push_back(ElementManager::getInstance().createProceduralSapinTree());
+    }
+    else{
+        trees.push_back(ElementManager::getInstance().createProceduralTree());
+    }
     //grass.push_back(ElementManager::getInstance().createProceduralGrass());
 }
 

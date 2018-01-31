@@ -100,9 +100,10 @@ void ElementManager::createAllElements() {
     }
     //NATURE
     feuillages.push_back(new ProceduralFeuillage);
+    feuillages.push_back(new Sapin);
     branches.push_back(new ProceduralBranche);
     trees.push_back(new ProceduralTree);
-
+    trees.push_back(new SapinTree);
     //cas spécial pour l'herbe qui n'est pas en rendu instancié
 }
 
@@ -255,10 +256,17 @@ void ElementManager::scatter(){
     for (int j = 0; j < trees.size(); ++j) {
         trees[j]->scatter();
     }
+    for (int j = 0; j < sapinTree.size(); ++j) {
+        sapinTree[j]->scatter();
+    }
 }
 
 ProceduralObject *ElementManager::createProceduralTree() {
     return trees[0];
+}
+
+ProceduralObject *ElementManager::createProceduralSapinTree() {
+    return trees[1];
 }
 
 ProceduralBranche *ElementManager::createProceduralBranche() {
@@ -269,3 +277,6 @@ ProceduralFeuillage *ElementManager::createProceduralFeuillage() {
     return feuillages[0];
 }
 
+ProceduralFeuillage *ElementManager::createProceduralSapin() {
+    return feuillages[1];
+}

@@ -17,6 +17,8 @@
 #include "TriangularRock.hpp"
 #include "CurvedRock.hpp"
 #include "LitchiRock.hpp"
+#include "Sapin.hpp"
+#include "SapinTree.hpp"
 
 
 /**
@@ -37,7 +39,9 @@ public:
     ProceduralObject* createProceduralTree();
     ProceduralBranche* createProceduralBranche();
     ProceduralFeuillage* createProceduralFeuillage();
+    ProceduralFeuillage* createProceduralSapin();
     ProceduralObject* createProceduralGrass(const glm::vec3 & position);
+    ProceduralObject* createProceduralSapinTree();
     std::vector<ProceduralObject *> getAllElements();
     void scatter();
 
