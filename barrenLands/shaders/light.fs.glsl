@@ -135,10 +135,11 @@ vec3 assignColor() {
         } else  {
             colorHigh = uColors[2]; //toundra
         }
-            coef1 = primaryCoef(height, 0.3);
-            //coef1 = clamp(coef1*3, 0, 1);
+            coef1 = primaryCoef(height/50, 0.1);
+            coef1 = clamp(coef1*2.3, 0, 1);
             coef2 = 1.f - coef1;
-            colorVeryHigh = coef1 * toundraNeigeTexture + coef2 * uColors[2]; //snow
+            colorVeryHigh = coef1 * toundraNeigeTexture + coef2 * colorHigh; //snow
+            color = vec3(coef1);
             color = colorVeryHigh;
     }
     //color = vec3(coef1);
