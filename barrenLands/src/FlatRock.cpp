@@ -2,10 +2,10 @@
 // Created by natshez on 18/01/2018.
 //
 
-#include "ExperienceRock.hpp"
+#include "FlatRock.hpp"
 #include <algorithm>
 
-ExperienceRock::ExperienceRock() : ProceduralRock(){
+FlatRock::FlatRock() : ProceduralRock(){
     generateVertices();
     generateIndices();
     //position = glm::vec3(NoiseManager::getInstance().getRandomFloat(), NoiseManager::getInstance().getRandomFloat(), NoiseManager::getInstance().getRandomFloat());
@@ -13,8 +13,8 @@ ExperienceRock::ExperienceRock() : ProceduralRock(){
     generateNormals();
 
 }
-ExperienceRock::~ExperienceRock(){}
-void ExperienceRock::generateVertices(){
+FlatRock::~FlatRock(){}
+void FlatRock::generateVertices(){
 
     vertices.clear();
 
@@ -108,15 +108,15 @@ void ExperienceRock::generateVertices(){
     subdivideObject(vertices, 1);
     smooth(vertices, 2);
 }
-void ExperienceRock::generateIndices(){
+void FlatRock::generateIndices(){
     indices.clear();
 }
-void ExperienceRock::generateNormals() {
+void FlatRock::generateNormals() {
     ProceduralRock::generateNormals();
 }
 
 
-void ExperienceRock::subdivideObject(std::vector<glimac::ShapeVertex> &_vertices, int nbRecurse) {
+void FlatRock::subdivideObject(std::vector<glimac::ShapeVertex> &_vertices, int nbRecurse) {
     if(nbRecurse <= 0){
         return;
     }
@@ -168,7 +168,7 @@ void ExperienceRock::subdivideObject(std::vector<glimac::ShapeVertex> &_vertices
     for(i=0; i< subdivs.size(); ++i){
         glm::vec3 normal = subdivs[i] - center;
         subdivs[i] = subdivs[i] + (normal)*float(NoiseManager::getInstance().getRandomFloat()/4+0.3) ; //FLOWER
-       // subdivs[i] = subdivs[i] + (normal)*float(NoiseManager::getInstance().getRandomFloat()/4) ;
+        // subdivs[i] = subdivs[i] + (normal)*float(NoiseManager::getInstance().getRandomFloat()/4) ;
         glimac::ShapeVertex v1(glm::vec3(subdivs[i]),
                                glm::vec3(normal),
                                glm::vec2(1,1)
@@ -202,7 +202,7 @@ void ExperienceRock::subdivideObject(std::vector<glimac::ShapeVertex> &_vertices
     subdivideObject(_vertices, nbRecurse-1);
 }
 
-Color *ExperienceRock::chooseColor(Color *_color) {
+Color *FlatRock::chooseColor(Color *_color) {
     Color * alteredColor;
     if(_color == nullptr){
         alteredColor = new Color();
@@ -221,7 +221,7 @@ Color *ExperienceRock::chooseColor(Color *_color) {
 
 
 
-int ExperienceRock::find(std::vector<glm::vec3> &tab, glm::vec3 object){
+int FlatRock::find(std::vector<glm::vec3> &tab, glm::vec3 object){
     //Chercher un objet
     int i;
     for(i=0; i<tab.size(); ++i){
@@ -235,7 +235,7 @@ int ExperienceRock::find(std::vector<glm::vec3> &tab, glm::vec3 object){
 
 
 
-void ExperienceRock::smooth(std::vector<glimac::ShapeVertex> &_vertices, int nbRecurse) {
+void FlatRock::smooth(std::vector<glimac::ShapeVertex> &_vertices, int nbRecurse) {
     if(nbRecurse <= 0){
         return;
     }
@@ -323,4 +323,13 @@ void ExperienceRock::smooth(std::vector<glimac::ShapeVertex> &_vertices, int nbR
     _vertices = __vertices;
     //_vertices = subdividedObject;
     smooth(_vertices, nbRecurse-1);
+}
+
+
+glm::mat4 FlatRock::getRandomRotation() {
+    return glm::rotate(glm::mat4(1.f), glm::radians(50*NoiseManager::getInstance().getRandomFloat()), glm::vec3(0,1,0));
+}
+
+glm::mat4 FlatRock::getRandomScale() {
+    return glm::scale(glm::mat4(1.f), glm::vec3(NoiseManager::getInstance().getRandomFloat()/5));
 }

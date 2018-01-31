@@ -8,6 +8,16 @@
 #include "ProceduralFeuillage.hpp"
 #include "ProceduralTree.hpp"
 #include "ProceduralBranche.hpp"
+#include "FlatRock.hpp"
+#include "PickRock.hpp"
+#include "PreciousRock.hpp"
+#include "RoundFlatRock.hpp"
+#include "SharpedRock.hpp"
+#include "SphereRock.hpp"
+#include "TriangularRock.hpp"
+#include "CurvedRock.hpp"
+#include "LitchiRock.hpp"
+
 
 /**
  * Class ElementManager

@@ -2,10 +2,10 @@
 // Created by natshez on 18/01/2018.
 //
 
-#include "ExperienceRock.hpp"
+#include "SphereRock.hpp"
 #include <algorithm>
 
-ExperienceRock::ExperienceRock() : ProceduralRock(){
+SphereRock::SphereRock() : ProceduralRock(){
     generateVertices();
     generateIndices();
     //position = glm::vec3(NoiseManager::getInstance().getRandomFloat(), NoiseManager::getInstance().getRandomFloat(), NoiseManager::getInstance().getRandomFloat());
@@ -13,8 +13,8 @@ ExperienceRock::ExperienceRock() : ProceduralRock(){
     generateNormals();
 
 }
-ExperienceRock::~ExperienceRock(){}
-void ExperienceRock::generateVertices(){
+SphereRock::~SphereRock(){}
+void SphereRock::generateVertices(){
 
     vertices.clear();
 
@@ -31,14 +31,22 @@ void ExperienceRock::generateVertices(){
     }
 */
 
-    _vertices.emplace_back(glm::vec3(1,-0.5,1), glm::vec3(1,-0.5,1), glm::vec2(1,1));
-    _vertices.emplace_back(glm::vec3(1,-0.5,-1), glm::vec3(1,-0.5,-1), glm::vec2(1,1));
-    _vertices.emplace_back(glm::vec3(-1,-0.5,-1), glm::vec3(-1,-0.5,-1), glm::vec2(1,1));
-    _vertices.emplace_back(glm::vec3(-1,-0.5,1), glm::vec3(-1,-0.5,1), glm::vec2(1,1));
-    _vertices.emplace_back(glm::vec3(1, 0.5, 1), glm::vec3(1, 0.5, 1), glm::vec2(1,1));
-    _vertices.emplace_back(glm::vec3(1, 0.5, -1), glm::vec3(1, 0.5, -1), glm::vec2(1,1));
-    _vertices.emplace_back(glm::vec3(-1, 0, -1), glm::vec3(-1, 0, -1), glm::vec2(1,1));
-    _vertices.emplace_back(glm::vec3(-1, 0, 1), glm::vec3(-1, 0, 1), glm::vec2(1,1));
+    _vertices.emplace_back(glm::vec3(0,-1,0), glm::vec3(0,-1,0), glm::vec2(1,1));
+    //_vertices.emplace_back(glm::vec3(cos(2*3.14/3),-1,sin(2*3.14/3)),glm::vec3(cos(2*3.14/3),-1,sin(2*3.14/3)), glm::vec2(1,1));
+    //_vertices.emplace_back(glm::vec3(cos(-2*3.14/3),-1,sin(-2*3.14/3)), glm::vec3(cos(-2*3.14/3),-1,sin(-2*3.14/3)), glm::vec2(1,1));
+    _vertices.emplace_back(glm::vec3(cos(0 + 2*3.14/10),-0.5,sin(0 + 2*3.14/10)), glm::vec3(cos(0 + 2*3.14/10),-0.5,sin(0 + 2*3.14/10)), glm::vec2(1,1));
+    _vertices.emplace_back(glm::vec3(cos(2*3.14/5 + 2*3.14/10),-0.5,sin(2*3.14/5 + 2*3.14/10)), glm::vec3(cos(2*3.14/5 + 2*3.14/10),-0.5,sin(2*3.14/5 + 2*3.14/10)), glm::vec2(1,1));
+    _vertices.emplace_back(glm::vec3(cos(4*3.14/5 + 2*3.14/10),-0.5,sin(4*3.14/5 + 2*3.14/10)), glm::vec3(cos(4*3.14/5 + 2*3.14/10),-0.5,sin(4*3.14/5 + 2*3.14/10)), glm::vec2(1,1));
+    _vertices.emplace_back(glm::vec3(cos(6*3.14/5 + 2*3.14/10),-0.5,sin(6*3.14/5 + 2*3.14/10)), glm::vec3(cos(6*3.14/5 + 2*3.14/10),-0.5,sin(6*3.14/5 + 2*3.14/10)), glm::vec2(1,1));
+    _vertices.emplace_back(glm::vec3(cos(8*3.14/5 + 2*3.14/10),-0.5,sin(8*3.14/5 + 2*3.14/10)), glm::vec3(cos(8*3.14/5 + 2*3.14/10),-0.5,sin(8*3.14/5 + 2*3.14/10)), glm::vec2(1,1));
+
+    _vertices.emplace_back(glm::vec3(cos(0),0.5,sin(0)), glm::vec3(cos(0),0.5,sin(0)), glm::vec2(1,1));
+    _vertices.emplace_back(glm::vec3(cos(2*3.14/5),0.5,sin(2*3.14/5)), glm::vec3(cos(2*3.14/5),0.5,sin(2*3.14/5)), glm::vec2(1,1));
+    _vertices.emplace_back(glm::vec3(cos(4*3.14/5),0.5,sin(4*3.14/5)), glm::vec3(cos(4*3.14/5),0.5,sin(4*3.14/5)), glm::vec2(1,1));
+    _vertices.emplace_back(glm::vec3(cos(6*3.14/5),0.5,sin(6*3.14/5)), glm::vec3(cos(6*3.14/5),0.5,sin(6*3.14/5)), glm::vec2(1,1));
+    _vertices.emplace_back(glm::vec3(cos(8*3.14/5),0.5,sin(8*3.14/5)), glm::vec3(cos(8*3.14/5),0.5,sin(8*3.14/5)), glm::vec2(1,1));
+
+    _vertices.emplace_back(glm::vec3(0, 1, 0), glm::vec3(0, 1, 0), glm::vec2(1,1));
 
     center = glm::vec3(0);
     /*for(int i = 0; i<_vertices.size(); i++){
@@ -55,68 +63,124 @@ void ExperienceRock::generateVertices(){
 
     //std::cout << std::endl;
 
-    //bas
+    /////BAS
+    //face1
     vertices.push_back(glimac::ShapeVertex(_vertices[0]));
     vertices.push_back(glimac::ShapeVertex(_vertices[1]));
     vertices.push_back(glimac::ShapeVertex(_vertices[2]));
+
+    //face2
     vertices.push_back(glimac::ShapeVertex(_vertices[0]));
     vertices.push_back(glimac::ShapeVertex(_vertices[2]));
     vertices.push_back(glimac::ShapeVertex(_vertices[3]));
 
-
-    //haut
-    vertices.push_back(glimac::ShapeVertex(_vertices[4]));
-    vertices.push_back(glimac::ShapeVertex(_vertices[5]));
-    vertices.push_back(glimac::ShapeVertex(_vertices[6]));
-    vertices.push_back(glimac::ShapeVertex(_vertices[7]));
-    vertices.push_back(glimac::ShapeVertex(_vertices[4]));
-    vertices.push_back(glimac::ShapeVertex(_vertices[6]));
-
-    //gauche
-    vertices.push_back(glimac::ShapeVertex(_vertices[7]));
+    //face3
+    vertices.push_back(glimac::ShapeVertex(_vertices[0]));
     vertices.push_back(glimac::ShapeVertex(_vertices[3]));
-    vertices.push_back(glimac::ShapeVertex(_vertices[2]));
-    vertices.push_back(glimac::ShapeVertex(_vertices[2]));
+    vertices.push_back(glimac::ShapeVertex(_vertices[4]));
+
+    //face4
+    vertices.push_back(glimac::ShapeVertex(_vertices[0]));
+    vertices.push_back(glimac::ShapeVertex(_vertices[4]));
+    vertices.push_back(glimac::ShapeVertex(_vertices[5]));
+
+    //face5
+    vertices.push_back(glimac::ShapeVertex(_vertices[0]));
+    vertices.push_back(glimac::ShapeVertex(_vertices[5]));
+    vertices.push_back(glimac::ShapeVertex(_vertices[1]));
+
+    /////HAUT
+    //face1
     vertices.push_back(glimac::ShapeVertex(_vertices[6]));
+    vertices.push_back(glimac::ShapeVertex(_vertices[11]));
     vertices.push_back(glimac::ShapeVertex(_vertices[7]));
 
-    //droite
-    vertices.push_back(glimac::ShapeVertex(_vertices[0]));
-    vertices.push_back(glimac::ShapeVertex(_vertices[1]));
-    vertices.push_back(glimac::ShapeVertex(_vertices[4]));
-    vertices.push_back(glimac::ShapeVertex(_vertices[1]));
-    vertices.push_back(glimac::ShapeVertex(_vertices[5]));
-    vertices.push_back(glimac::ShapeVertex(_vertices[4]));
+    //face2
+    vertices.push_back(glimac::ShapeVertex(_vertices[7]));
+    vertices.push_back(glimac::ShapeVertex(_vertices[11]));
+    vertices.push_back(glimac::ShapeVertex(_vertices[8]));
 
-    //front
+    //face3
+    vertices.push_back(glimac::ShapeVertex(_vertices[8]));
+    vertices.push_back(glimac::ShapeVertex(_vertices[11]));
+    vertices.push_back(glimac::ShapeVertex(_vertices[9]));
+
+    //face4
+    vertices.push_back(glimac::ShapeVertex(_vertices[9]));
+    vertices.push_back(glimac::ShapeVertex(_vertices[11]));
+    vertices.push_back(glimac::ShapeVertex(_vertices[10]));
+
+    //face5
+    vertices.push_back(glimac::ShapeVertex(_vertices[10]));
+    vertices.push_back(glimac::ShapeVertex(_vertices[11]));
+    vertices.push_back(glimac::ShapeVertex(_vertices[6]));
+
+
+    /////CONTOURHAUT
+    //face1
+    vertices.push_back(glimac::ShapeVertex(_vertices[1]));
+    vertices.push_back(glimac::ShapeVertex(_vertices[7]));
+    vertices.push_back(glimac::ShapeVertex(_vertices[2]));
+
+    //face2
+    vertices.push_back(glimac::ShapeVertex(_vertices[2]));
+    vertices.push_back(glimac::ShapeVertex(_vertices[8]));
     vertices.push_back(glimac::ShapeVertex(_vertices[3]));
-    vertices.push_back(glimac::ShapeVertex(_vertices[0]));
-    vertices.push_back(glimac::ShapeVertex(_vertices[7]));
-    vertices.push_back(glimac::ShapeVertex(_vertices[7]));
-    vertices.push_back(glimac::ShapeVertex(_vertices[0]));
+
+    //face3
+    vertices.push_back(glimac::ShapeVertex(_vertices[3]));
+    vertices.push_back(glimac::ShapeVertex(_vertices[9]));
     vertices.push_back(glimac::ShapeVertex(_vertices[4]));
 
-    //back
-    vertices.push_back(glimac::ShapeVertex(_vertices[2]));
-    vertices.push_back(glimac::ShapeVertex(_vertices[6]));
-    vertices.push_back(glimac::ShapeVertex(_vertices[1]));
-    vertices.push_back(glimac::ShapeVertex(_vertices[1]));
-    vertices.push_back(glimac::ShapeVertex(_vertices[6]));
+    //face4
+    vertices.push_back(glimac::ShapeVertex(_vertices[4]));
+    vertices.push_back(glimac::ShapeVertex(_vertices[10]));
     vertices.push_back(glimac::ShapeVertex(_vertices[5]));
 
+    //face5
+    vertices.push_back(glimac::ShapeVertex(_vertices[5]));
+    vertices.push_back(glimac::ShapeVertex(_vertices[6]));
+    vertices.push_back(glimac::ShapeVertex(_vertices[1]));
 
-    subdivideObject(vertices, 1);
+
+    /////CONTOURBAS
+    //face1
+    vertices.push_back(glimac::ShapeVertex(_vertices[1]));
+    vertices.push_back(glimac::ShapeVertex(_vertices[6]));
+    vertices.push_back(glimac::ShapeVertex(_vertices[7]));
+
+    //face2
+    vertices.push_back(glimac::ShapeVertex(_vertices[2]));
+    vertices.push_back(glimac::ShapeVertex(_vertices[7]));
+    vertices.push_back(glimac::ShapeVertex(_vertices[8]));
+
+    //face3
+    vertices.push_back(glimac::ShapeVertex(_vertices[3]));
+    vertices.push_back(glimac::ShapeVertex(_vertices[8]));
+    vertices.push_back(glimac::ShapeVertex(_vertices[9]));
+
+    //face4
+    vertices.push_back(glimac::ShapeVertex(_vertices[4]));
+    vertices.push_back(glimac::ShapeVertex(_vertices[9]));
+    vertices.push_back(glimac::ShapeVertex(_vertices[10]));
+
+    //face5
+    vertices.push_back(glimac::ShapeVertex(_vertices[5]));
+    vertices.push_back(glimac::ShapeVertex(_vertices[10]));
+    vertices.push_back(glimac::ShapeVertex(_vertices[6]));
+
+    //subdivideObject(vertices, 1);
     smooth(vertices, 2);
 }
-void ExperienceRock::generateIndices(){
+void SphereRock::generateIndices(){
     indices.clear();
 }
-void ExperienceRock::generateNormals() {
+void SphereRock::generateNormals() {
     ProceduralRock::generateNormals();
 }
 
 
-void ExperienceRock::subdivideObject(std::vector<glimac::ShapeVertex> &_vertices, int nbRecurse) {
+void SphereRock::subdivideObject(std::vector<glimac::ShapeVertex> &_vertices, int nbRecurse) {
     if(nbRecurse <= 0){
         return;
     }
@@ -167,8 +231,8 @@ void ExperienceRock::subdivideObject(std::vector<glimac::ShapeVertex> &_vertices
     std::vector<glimac::ShapeVertex> subFinal;
     for(i=0; i< subdivs.size(); ++i){
         glm::vec3 normal = subdivs[i] - center;
-        subdivs[i] = subdivs[i] + (normal)*float(NoiseManager::getInstance().getRandomFloat()/4+0.3) ; //FLOWER
-       // subdivs[i] = subdivs[i] + (normal)*float(NoiseManager::getInstance().getRandomFloat()/4) ;
+        subdivs[i] = subdivs[i] + (normal)*float(NoiseManager::getInstance().getRandomFloat()/4+0.1) ; //FLOWER
+        // subdivs[i] = subdivs[i] + (normal)*float(NoiseManager::getInstance().getRandomFloat()/4) ;
         glimac::ShapeVertex v1(glm::vec3(subdivs[i]),
                                glm::vec3(normal),
                                glm::vec2(1,1)
@@ -202,7 +266,7 @@ void ExperienceRock::subdivideObject(std::vector<glimac::ShapeVertex> &_vertices
     subdivideObject(_vertices, nbRecurse-1);
 }
 
-Color *ExperienceRock::chooseColor(Color *_color) {
+Color *SphereRock::chooseColor(Color *_color) {
     Color * alteredColor;
     if(_color == nullptr){
         alteredColor = new Color();
@@ -221,7 +285,7 @@ Color *ExperienceRock::chooseColor(Color *_color) {
 
 
 
-int ExperienceRock::find(std::vector<glm::vec3> &tab, glm::vec3 object){
+int SphereRock::find(std::vector<glm::vec3> &tab, glm::vec3 object){
     //Chercher un objet
     int i;
     for(i=0; i<tab.size(); ++i){
@@ -235,7 +299,7 @@ int ExperienceRock::find(std::vector<glm::vec3> &tab, glm::vec3 object){
 
 
 
-void ExperienceRock::smooth(std::vector<glimac::ShapeVertex> &_vertices, int nbRecurse) {
+void SphereRock::smooth(std::vector<glimac::ShapeVertex> &_vertices, int nbRecurse) {
     if(nbRecurse <= 0){
         return;
     }
@@ -287,7 +351,7 @@ void ExperienceRock::smooth(std::vector<glimac::ShapeVertex> &_vertices, int nbR
     for(i=0; i< subdivs.size(); ++i){
         glm::vec3 normal = subdivs[i] - center;
         //subdivs[i] = subdivs[i] + (normal)*float(NoiseManager::getInstance().getRandomFloat()*0.001) ;
-        subdivs[i] = subdivs[i] + (normal)*0.05f;    //0.1f*float(1/10*(3-nbRecurse)) ;
+        subdivs[i] = subdivs[i] + (normal)*0.1f;    //0.1f*float(1/10*(3-nbRecurse)) ;
         glimac::ShapeVertex v1(glm::vec3(subdivs[i]),
                                glm::vec3(normal),
                                glm::vec2(1,1)
@@ -297,10 +361,6 @@ void ExperienceRock::smooth(std::vector<glimac::ShapeVertex> &_vertices, int nbR
     std::vector<glimac::ShapeVertex> __vertices;
     //On refait tous les triangles proprement
     for(i=0; i<indice.size(); i+=3){
-        _vertices[i].position = _vertices[i].position + _vertices[i].normal*0.05f;
-        _vertices[i+1].position = _vertices[i+1].position + _vertices[i+1].normal*0.05f;
-        _vertices[i+2].position = _vertices[i+2].position + _vertices[i+2].normal*0.05f;
-
         __vertices.emplace_back(_vertices[i]);
         __vertices.emplace_back(subFinal[indice[i]]);
         __vertices.emplace_back(subFinal[indice[i+2]]);
@@ -322,5 +382,14 @@ void ExperienceRock::smooth(std::vector<glimac::ShapeVertex> &_vertices, int nbR
     _vertices.clear();
     _vertices = __vertices;
     //_vertices = subdividedObject;
-    smooth(_vertices, nbRecurse-1);
+    subdivideObject(_vertices, nbRecurse-1);
+}
+
+
+glm::mat4 SphereRock::getRandomRotation() {
+    return glm::rotate(glm::mat4(1.f), glm::radians(50*NoiseManager::getInstance().getRandomFloat()), glm::vec3(0,1,0));
+}
+
+glm::mat4 SphereRock::getRandomScale() {
+    return glm::scale(glm::mat4(1.f), glm::vec3(NoiseManager::getInstance().getRandomFloat()/5));
 }

@@ -2,10 +2,10 @@
 // Created by natshez on 18/01/2018.
 //
 
-#include "ExperienceRock.hpp"
+#include "SharpedRock.hpp"
 #include <algorithm>
 
-ExperienceRock::ExperienceRock() : ProceduralRock(){
+SharpedRock::SharpedRock() : ProceduralRock(){
     generateVertices();
     generateIndices();
     //position = glm::vec3(NoiseManager::getInstance().getRandomFloat(), NoiseManager::getInstance().getRandomFloat(), NoiseManager::getInstance().getRandomFloat());
@@ -13,8 +13,8 @@ ExperienceRock::ExperienceRock() : ProceduralRock(){
     generateNormals();
 
 }
-ExperienceRock::~ExperienceRock(){}
-void ExperienceRock::generateVertices(){
+SharpedRock::~SharpedRock(){}
+void SharpedRock::generateVertices(){
 
     vertices.clear();
 
@@ -31,21 +31,19 @@ void ExperienceRock::generateVertices(){
     }
 */
 
-    _vertices.emplace_back(glm::vec3(1,-0.5,1), glm::vec3(1,-0.5,1), glm::vec2(1,1));
-    _vertices.emplace_back(glm::vec3(1,-0.5,-1), glm::vec3(1,-0.5,-1), glm::vec2(1,1));
-    _vertices.emplace_back(glm::vec3(-1,-0.5,-1), glm::vec3(-1,-0.5,-1), glm::vec2(1,1));
-    _vertices.emplace_back(glm::vec3(-1,-0.5,1), glm::vec3(-1,-0.5,1), glm::vec2(1,1));
-    _vertices.emplace_back(glm::vec3(1, 0.5, 1), glm::vec3(1, 0.5, 1), glm::vec2(1,1));
-    _vertices.emplace_back(glm::vec3(1, 0.5, -1), glm::vec3(1, 0.5, -1), glm::vec2(1,1));
-    _vertices.emplace_back(glm::vec3(-1, 0, -1), glm::vec3(-1, 0, -1), glm::vec2(1,1));
-    _vertices.emplace_back(glm::vec3(-1, 0, 1), glm::vec3(-1, 0, 1), glm::vec2(1,1));
+    _vertices.emplace_back(glm::vec3(2,-3,0), glm::vec3(1,-1,0), glm::vec2(1,1));
+    _vertices.emplace_back(glm::vec3(2*cos(2*3.14/3),-3,2*sin(2*3.14/3)),glm::vec3(cos(2*3.14/3),-1,sin(2*3.14/3)), glm::vec2(1,1));
+    _vertices.emplace_back(glm::vec3(2*cos(-2*3.14/3),-3,2*sin(-2*3.14/3)), glm::vec3(cos(-2*3.14/3),-1,sin(-2*3.14/3)), glm::vec2(1,1));
+    _vertices.emplace_back(glm::vec3(5*cos(2*3.14/3), 3, 5*sin(2*3.14/3)), glm::vec3(cos(2*3.14/3), 1, sin(2*3.14/3)), glm::vec2(1,1));
 
-    center = glm::vec3(0);
+
     /*for(int i = 0; i<_vertices.size(); i++){
         center.x += _vertices[i].position.x / _vertices.size();
         center.y += _vertices[i].position.y / _vertices.size();
         center.z += _vertices[i].position.z /_vertices.size();
     }*/
+
+    center = glm::vec3(0);
 
     /*for(int i = 0; i<_vertices.size(); i++){
         glm::vec3 pos = glm::normalize(_vertices[i].position - center);
@@ -55,68 +53,41 @@ void ExperienceRock::generateVertices(){
 
     //std::cout << std::endl;
 
-    //bas
+
+    //face1
     vertices.push_back(glimac::ShapeVertex(_vertices[0]));
+    vertices.push_back(glimac::ShapeVertex(_vertices[2]));
+    vertices.push_back(glimac::ShapeVertex(_vertices[1]));
+
+    //face2
+    vertices.push_back(glimac::ShapeVertex(_vertices[3]));
     vertices.push_back(glimac::ShapeVertex(_vertices[1]));
     vertices.push_back(glimac::ShapeVertex(_vertices[2]));
-    vertices.push_back(glimac::ShapeVertex(_vertices[0]));
-    vertices.push_back(glimac::ShapeVertex(_vertices[2]));
-    vertices.push_back(glimac::ShapeVertex(_vertices[3]));
 
-
-    //haut
-    vertices.push_back(glimac::ShapeVertex(_vertices[4]));
-    vertices.push_back(glimac::ShapeVertex(_vertices[5]));
-    vertices.push_back(glimac::ShapeVertex(_vertices[6]));
-    vertices.push_back(glimac::ShapeVertex(_vertices[7]));
-    vertices.push_back(glimac::ShapeVertex(_vertices[4]));
-    vertices.push_back(glimac::ShapeVertex(_vertices[6]));
-
-    //gauche
-    vertices.push_back(glimac::ShapeVertex(_vertices[7]));
+    //face3
     vertices.push_back(glimac::ShapeVertex(_vertices[3]));
     vertices.push_back(glimac::ShapeVertex(_vertices[2]));
-    vertices.push_back(glimac::ShapeVertex(_vertices[2]));
-    vertices.push_back(glimac::ShapeVertex(_vertices[6]));
-    vertices.push_back(glimac::ShapeVertex(_vertices[7]));
-
-    //droite
     vertices.push_back(glimac::ShapeVertex(_vertices[0]));
-    vertices.push_back(glimac::ShapeVertex(_vertices[1]));
-    vertices.push_back(glimac::ShapeVertex(_vertices[4]));
-    vertices.push_back(glimac::ShapeVertex(_vertices[1]));
-    vertices.push_back(glimac::ShapeVertex(_vertices[5]));
-    vertices.push_back(glimac::ShapeVertex(_vertices[4]));
 
-    //front
+    //face4
     vertices.push_back(glimac::ShapeVertex(_vertices[3]));
     vertices.push_back(glimac::ShapeVertex(_vertices[0]));
-    vertices.push_back(glimac::ShapeVertex(_vertices[7]));
-    vertices.push_back(glimac::ShapeVertex(_vertices[7]));
-    vertices.push_back(glimac::ShapeVertex(_vertices[0]));
-    vertices.push_back(glimac::ShapeVertex(_vertices[4]));
-
-    //back
-    vertices.push_back(glimac::ShapeVertex(_vertices[2]));
-    vertices.push_back(glimac::ShapeVertex(_vertices[6]));
     vertices.push_back(glimac::ShapeVertex(_vertices[1]));
-    vertices.push_back(glimac::ShapeVertex(_vertices[1]));
-    vertices.push_back(glimac::ShapeVertex(_vertices[6]));
-    vertices.push_back(glimac::ShapeVertex(_vertices[5]));
 
+    //subdivideObject(vertices, 3); //PLANTE QUI PIQUE
+    subdivideObject(vertices, 3); //ANIMAL ETRANGE
+    smooth(vertices, 1);
 
-    subdivideObject(vertices, 1);
-    smooth(vertices, 2);
 }
-void ExperienceRock::generateIndices(){
+void SharpedRock::generateIndices(){
     indices.clear();
 }
-void ExperienceRock::generateNormals() {
+void SharpedRock::generateNormals() {
     ProceduralRock::generateNormals();
 }
 
 
-void ExperienceRock::subdivideObject(std::vector<glimac::ShapeVertex> &_vertices, int nbRecurse) {
+void SharpedRock::subdivideObject(std::vector<glimac::ShapeVertex> &_vertices, int nbRecurse) {
     if(nbRecurse <= 0){
         return;
     }
@@ -167,8 +138,8 @@ void ExperienceRock::subdivideObject(std::vector<glimac::ShapeVertex> &_vertices
     std::vector<glimac::ShapeVertex> subFinal;
     for(i=0; i< subdivs.size(); ++i){
         glm::vec3 normal = subdivs[i] - center;
-        subdivs[i] = subdivs[i] + (normal)*float(NoiseManager::getInstance().getRandomFloat()/4+0.3) ; //FLOWER
-       // subdivs[i] = subdivs[i] + (normal)*float(NoiseManager::getInstance().getRandomFloat()/4) ;
+        subdivs[i] = subdivs[i] + (normal)*float(NoiseManager::getInstance().getRandomFloat()/4+0.1) ; //FLOWER
+        // subdivs[i] = subdivs[i] + (normal)*float(NoiseManager::getInstance().getRandomFloat()/4) ;
         glimac::ShapeVertex v1(glm::vec3(subdivs[i]),
                                glm::vec3(normal),
                                glm::vec2(1,1)
@@ -202,7 +173,7 @@ void ExperienceRock::subdivideObject(std::vector<glimac::ShapeVertex> &_vertices
     subdivideObject(_vertices, nbRecurse-1);
 }
 
-Color *ExperienceRock::chooseColor(Color *_color) {
+Color *SharpedRock::chooseColor(Color *_color) {
     Color * alteredColor;
     if(_color == nullptr){
         alteredColor = new Color();
@@ -221,7 +192,7 @@ Color *ExperienceRock::chooseColor(Color *_color) {
 
 
 
-int ExperienceRock::find(std::vector<glm::vec3> &tab, glm::vec3 object){
+int SharpedRock::find(std::vector<glm::vec3> &tab, glm::vec3 object){
     //Chercher un objet
     int i;
     for(i=0; i<tab.size(); ++i){
@@ -235,7 +206,7 @@ int ExperienceRock::find(std::vector<glm::vec3> &tab, glm::vec3 object){
 
 
 
-void ExperienceRock::smooth(std::vector<glimac::ShapeVertex> &_vertices, int nbRecurse) {
+void SharpedRock::smooth(std::vector<glimac::ShapeVertex> &_vertices, int nbRecurse) {
     if(nbRecurse <= 0){
         return;
     }
@@ -287,7 +258,7 @@ void ExperienceRock::smooth(std::vector<glimac::ShapeVertex> &_vertices, int nbR
     for(i=0; i< subdivs.size(); ++i){
         glm::vec3 normal = subdivs[i] - center;
         //subdivs[i] = subdivs[i] + (normal)*float(NoiseManager::getInstance().getRandomFloat()*0.001) ;
-        subdivs[i] = subdivs[i] + (normal)*0.05f;    //0.1f*float(1/10*(3-nbRecurse)) ;
+        subdivs[i] = subdivs[i] + (normal)*0.1f;    //0.1f*float(1/10*(3-nbRecurse)) ;
         glimac::ShapeVertex v1(glm::vec3(subdivs[i]),
                                glm::vec3(normal),
                                glm::vec2(1,1)
@@ -322,5 +293,14 @@ void ExperienceRock::smooth(std::vector<glimac::ShapeVertex> &_vertices, int nbR
     _vertices.clear();
     _vertices = __vertices;
     //_vertices = subdividedObject;
-    smooth(_vertices, nbRecurse-1);
+    subdivideObject(_vertices, nbRecurse-1);
+}
+
+
+glm::mat4 SharpedRock::getRandomRotation() {
+    return glm::rotate(glm::mat4(1.f), glm::radians(50*NoiseManager::getInstance().getRandomFloat()), glm::vec3(0,1,0));
+}
+
+glm::mat4 SharpedRock::getRandomScale() {
+    return glm::scale(glm::mat4(1.f), glm::vec3(NoiseManager::getInstance().getRandomFloat()/5));
 }

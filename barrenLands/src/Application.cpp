@@ -325,11 +325,11 @@ void Application::testInterface() {
     rock->addInstance(glm::vec3(0,0,0), Color(1,1,0));
     rock->createRenderObject(programManager, textureManager);
 
-    glcustom::FBO fbo;
+    /*glcustom::FBO fbo;
     fbo.bind();
     glcustom::Texture originalColor = fbo.attachColorTexture(Tools::windowWidth, Tools::windowHeight);
     glcustom::Texture originalDepth = fbo.attachDepthTexture(Tools::windowWidth, Tools::windowHeight);
-    fbo.checkComplete();
+    fbo.checkComplete();*/
 
 
     bool done = false;
@@ -402,14 +402,12 @@ void Application::testInterface() {
          ******/
 
 
+        //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
         std::vector<ProceduralObject *> elements = ElementManager::getInstance().getAllElements();
         for (ProceduralObject * el : elements){
             el->draw(camera->getViewMatrix());
         }
-
-        //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
-
         //roundRock->draw(camera->getViewMatrix());
 
 
@@ -430,7 +428,7 @@ void Application::testInterface() {
 
 
         //le rendu final est là dedans pour mes test pour l'instant
-        addDOF(&originalColor, &originalDepth, fbo);
+        //addDOF(&originalColor, &originalDepth, fbo);
 
         windowManager.swapBuffers();
         printErrors();

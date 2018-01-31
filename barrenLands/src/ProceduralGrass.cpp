@@ -24,7 +24,7 @@ ProceduralGrass::ProceduralGrass(glm::vec3 pos): ProceduralObject(){
     //On prépare la répartition des herbes
     std::vector<glm::vec2> rayons;
     for(i=0; i < 30; ++i){
-        rayons.push_back(glm::vec2(NoiseManager::getInstance().getRandomFloat(), NoiseManager::getInstance().getRandomFloat()));
+        rayons.push_back(glm::vec2(NoiseManager::getInstance().getRandomFloat()/10, NoiseManager::getInstance().getRandomFloat()/10));
     }
     int caseI =0;
     int caseJ =0;
