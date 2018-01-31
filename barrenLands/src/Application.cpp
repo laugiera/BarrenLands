@@ -340,7 +340,7 @@ void Application::appLoop() {
 
     bool done = false;
     int rightPressed = 0;
-    camera->moveFront(Tools::speed, Map->getVertices());
+    camera->moveFront(Tools::speed);
 
     bool rotatebutton = false;
     bool moveLeft = false;
@@ -459,28 +459,28 @@ void Application::appLoop() {
         }
 
         if(moveLeft == true){
-            camera->moveLeft(Tools::speed, Map->getVertices());
+            camera->moveLeft(Tools::speed);
         }
         if(moveRight == true){
-            camera->moveLeft(-Tools::speed, Map->getVertices());
+            camera->moveLeft(-Tools::speed);
         }
         if(moveUp == true){
-            camera->moveFront(Tools::speed, Map->getVertices());
+            camera->moveFront(Tools::speed);
         }
         if(moveDown == true){
-            camera->moveFront(-Tools::speed, Map->getVertices());
+            camera->moveFront(-Tools::speed);
         }
         if(rotateLeft == true){
-            camera->rotateLeft(Tools::speed/5);
+            camera->rotateLeft(Tools::speed/4);
         }
         if(rotateRight == true){
-            camera->rotateLeft(-Tools::speed/5);
+            camera->rotateLeft(-Tools::speed/4);
         }
         if(rotateUp == true){
-            camera->rotateUp(-Tools::speed/5);
+            camera->rotateUp(-Tools::speed/4);
         }
         if(rotateDown == true){
-            camera->rotateUp(Tools::speed/5);
+            camera->rotateUp(Tools::speed/4);
         }
 
 
