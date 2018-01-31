@@ -288,7 +288,7 @@ void ProceduralMap::draw(const glm::mat4 &viewMatrix) {
 void ProceduralMap::createBiomeColors() {
     Color baseColor = Color();
     baseColor.lighten(0.5);
-    baseColor.randomSimilarColor(0.15);
+    baseColor.randomSimilarColor(0.1);
     baseColor.randomSimilarColor(0.15);
     baseColor.saturate(-0.2);
     std::cout <<"base Color : "<< baseColor << std::endl;

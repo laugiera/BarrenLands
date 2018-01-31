@@ -50,7 +50,8 @@ float getVisibility(){
 }
 
 vec3 multiplyTexture(vec3 color, vec4 textureAlpha) {
-    textureAlpha = textureAlpha * 0.3;
+    textureAlpha = textureAlpha * 0.7;
+
     return color - textureAlpha.xyz;
 }
 
