@@ -296,10 +296,12 @@ void Application::appLoop() {
     ElementManager::getInstance().createAllElements();
 
     /**LIGHTS**/
-    Light sun = Light(1,"Sun",glm::vec3(0.5,0.1,0));
+    int NIGHT = -1, DAY = 1, lightState =0;
+    float lightAngle = 0;
+    Light sun = Light(1.2,"Sun",glm::vec3(0.5,0.1,0));
     sun.addLightUniforms(programManager->getMapProgram());
     sun.addLightUniforms(programManager->getElementProgram());
-    Light moon = Light(1,"Moon",glm::vec3(0,0.1,0.5));
+    Light moon = Light(1.2,"Moon",glm::vec3(0,0.1,0.5));
     moon.addLightUniforms(programManager->getMapProgram());
     moon.addLightUniforms(programManager->getElementProgram());
 
@@ -504,12 +506,25 @@ void Application::appLoop() {
         programManager->getMapProgram()->use();
         programManager->getMapProgram()->sendUniformMat4("uDepthMVP",depthBiasMVP);
 
-        sun.resetDirection();
-        sun.rotate(windowManager.getTime()+lightRotation, camera->getViewMatrix());
+
+        lightAngle = (windowManager.getTime()+lightRotation)*0.4;
+
+        sun.resetDirection(DAY);
+        sun.rotate(lightAngle, camera->getViewMatrix());
         sun.sendLightUniforms(programManager->getMapProgram());
 
-        moon.resetDirection();
-        moon.rotate(-windowManager.getTime()+lightRotation, camera->getViewMatrix());
+        if(sun.getDirection().y < 0) {
+            lightState = NIGHT;
+            std::cout <<"night"<<std::endl;
+        }
+        else{
+            lightState = DAY;
+            std::cout <<"day"<<std::endl;
+
+        }
+
+        moon.resetDirection(NIGHT);
+        moon.rotate(lightAngle, camera->getViewMatrix());
         moon.sendLightUniforms(programManager->getMapProgram());
 
         programManager->getElementProgram()->use();
@@ -705,12 +720,12 @@ void Application::testInterface() {
 
         //configuring and sending light uniforms
         programManager->getMapProgram()->use();
-        sun.resetDirection();
+        sun.resetDirection(1);
         sun.rotate(windowManager.getTime(), camera->getViewMatrix());
         sun.sendLightUniforms(programManager->getMapProgram());
 
-        moon.resetDirection();
-        moon.rotate(-windowManager.getTime(), camera->getViewMatrix());
+        moon.resetDirection(-1);
+        moon.rotate(windowManager.getTime(), camera->getViewMatrix());
         moon.sendLightUniforms(programManager->getMapProgram());
 
         programManager->getElementProgram()->use();

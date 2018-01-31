@@ -30,7 +30,8 @@ void main(){
 	eyeDirection_cameraspace = vec3(0,0,0) - vertexPosition_cameraspace;
 
 	// Normal of the the vertex, in camera space
-	normal_cameraspace = ( uMV * vec4(vertexNormal_modelspace,0)).xyz; // Only correct if ModelMatrix does not scale the model ! Use its inverse transpose if not.
+	//normal_cameraspace = ( uMV * vec4(vertexNormal_modelspace,0)).xyz; // Only correct if ModelMatrix does not scale the model ! Use its inverse transpose if not.
+    normal_cameraspace = vec3(uNormal * vec4(vertexNormal_modelspace,0));
 
 	uV = aVertexTexCoords;
 

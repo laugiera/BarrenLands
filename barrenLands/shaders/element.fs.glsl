@@ -66,8 +66,16 @@ vec3 getLightColor(vec3 lightColor, float lightPower, vec3 direction){
 }
 
 void main() {
-      color = getLightColor(uLightColorMoon,uLightIntensityMoon,uLightDirMoon.xyz)
-      + getLightColor(uLightColorSun,uLightIntensitySun,uLightDirSun.xyz);
-      //color = normal_cameraspace;
+    float coeffSun=1, coeffMoon=1;
+    if(normal_cameraspace.y <= 0) {
+        coeffMoon = 1.-dot(normalize(normal_cameraspace),vec3(0,-1.,0));
+        coeffSun = 1.-dot(normalize(normal_cameraspace),vec3(0,-1.,0));
+    }
+
+    float intensityMoon = uLightIntensityMoon*coeffMoon, intensitySun = uLightIntensitySun*coeffSun;
+
+    color = getLightColor(uLightColorMoon,intensityMoon,uLightDirMoon.xyz)
+          + getLightColor(uLightColorSun,intensitySun,uLightDirSun.xyz);
+
 }
 

@@ -31,8 +31,10 @@ void main() {
         float depth = linearizeDepth(uTexture1);
         float COC;
         float endFocus = 0.6;
-        if (depth > endFocus)
+        if (depth > endFocus && depth < 1)
             COC = clamp( abs((depth - endFocus)/ (1 - endFocus)), 0.0, 1.0);
+        else if( depth >= 1)
+            COC = 0.5;
         else
             COC = 0;
 
