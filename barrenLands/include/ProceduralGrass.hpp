@@ -13,9 +13,6 @@ public:
     void generateIndices(){};
     void addGrass(float theta1, float theta2, float theta3, float x, float z, float y = 0);
 
-    //commun à tous les grass
-    void createRenderObject(ProgramManager *programManager, TextureManager *textureManager, Color * _color);
-
 
     void draw(const glm::mat4 &viewMatrix);
 

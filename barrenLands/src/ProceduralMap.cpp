@@ -25,6 +25,7 @@ ProceduralMap::~ProceduralMap() {
     for( ProceduralObject * b : biomes){
         delete b;
     }
+    //std::cout << "delete map ok" << std::endl;
 }
 
 /**
