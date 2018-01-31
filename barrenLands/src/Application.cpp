@@ -549,8 +549,9 @@ void Application::appLoop() {
 
 
         /**************BLUR****************************/
+        glm::vec4 dir = lightState==-1?moon.getDirection():sun.getDirection();
         glm::vec3 color = lightState==-1?moon.getColor():sun.getColor();
-        addDOF(&beauty, &depth, fbo, color);
+        addDOF(&beauty, &depth, fbo, color, dir);
         /********************************************/
         windowManager.swapBuffers();
         printErrors();
@@ -778,7 +779,7 @@ void Application::testInterface() {
 
 }
 
-void Application::addDOF(glcustom::Texture *beauty, glcustom::Texture *depth, glcustom::FBO &fbo, glm::vec3 &lightColor) {
+void Application::addDOF(glcustom::Texture *beauty, glcustom::Texture *depth, glcustom::FBO &fbo, glm::vec3 &lightColor, glm::vec4 &lightDir) {
 
 
     //glcustom::Texture initialDepth = *depth;
@@ -792,7 +793,7 @@ void Application::addDOF(glcustom::Texture *beauty, glcustom::Texture *depth, gl
     RenderScreen screenColorCorrec(programManager->getGammaProgram(), texts);
     programManager->getGammaProgram()->use();
     programManager->getGammaProgram()->sendUniformVec3("uLightColor",lightColor);
-    //programManager->getGammaProgram()->sendUniform1f("uLightDir",sunDirection);
+    programManager->getGammaProgram()->sendUniformVec4("uLightDir",lightDir);
     screenColorCorrec.render(&fbo);
 
 

@@ -9,8 +9,8 @@ uniform sampler2D uTexture0;
 uniform sampler2D uTexture1;
 uniform float uZNear;
 uniform float uZFar;
-uniform float uLightState;
-uniform float uLightColor;
+uniform vec3 uLightColor;
+uniform vec4 uLightDir;
 
 
 
