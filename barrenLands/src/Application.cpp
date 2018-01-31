@@ -11,6 +11,10 @@
 #include "ProceduralTree.hpp"
 #include "Application.hpp"
 
+enum {
+    CONTINUE, LOAD, SAVE, MAINMENU, QUIT
+};
+
 
 /**
  * Constructs the App with the SDL2 WindowManager
@@ -19,15 +23,13 @@
 Application::Application(const glimac::FilePath &appPath) : windowManager(Tools::windowWidth, Tools::windowHeight, "BarrenLands"),
                                                             programManager(nullptr),
                                                             camera(nullptr),
-                                                            textureManager(nullptr),
-                                                            noiseManager(nullptr)
+                                                            textureManager(nullptr)
 {
     initOpenGl();
     SDL_Init(SDL_INIT_AUDIO);
     textureManager = new TextureManager(appPath);
     programManager = new ProgramManager(appPath);
     camera = new CameraManager();
-    noiseManager = &NoiseManager::getInstance();
 }
 /**
  *
@@ -52,6 +54,7 @@ void Application::load(const std::string & fileName){
         lightRotation = std::stof(content[5]);
 
         float seed = std::stof(content[6]);
+        //float seed = 127;
         NoiseManager::getInstance().setSeed(seed);
     }catch(std::runtime_error e){
         throw e;
@@ -84,6 +87,8 @@ void Application::save(){
 }
 
 Application::~Application() {
+    ElementManager::ResetInstance();
+    NoiseManager::ResetInstance();
     delete programManager;
     delete textureManager;
     //delete windowManager; ->compiler says cannot delete type glimac::SDLWindowManager
@@ -185,14 +190,14 @@ int Application::mainMenu(){
                         case SDLK_RIGHT:
                         {
                             menuIdx = (menuIdx + 1) % 3;
-                            std::cout << "up " << menuIdx << std::endl;
+                            //std::cout << "up " << menuIdx << std::endl;
                             stateChanged=true;
                             break;
                         }
                         case SDLK_LEFT:
                         {
                             menuIdx = (3 + menuIdx - 1) % 3;
-                            std::cout << "down " << menuIdx << std::endl;
+                            //std::cout << "down " << menuIdx << std::endl;
                             stateChanged=true;
                             break;
                         }
@@ -204,9 +209,107 @@ int Application::mainMenu(){
                         }
                         case SDLK_RETURN:
                         {
-                         /*   SDL_CloseAudioDevice(deviceId);
-                            SDL_FreeWAV(wavBuffer);*/
+                            SDL_CloseAudioDevice(deviceId);
+                            SDL_FreeWAV(wavBuffer);
                             return menuIdx;
+                        }
+
+                        default:
+                            break;
+                    }
+            }
+            clearGl();
+            screen.render();
+            windowManager.swapBuffers();
+            printErrors();
+
+        }
+
+    }
+
+}
+/**
+ * pauseMenu()
+ *
+ * @return
+ */
+int Application::pauseMenu(){
+
+    int i;
+    int srfIdx=0;
+    int loop1 = 1;
+    int menuIdx = 0;
+
+
+    //show the image cube with initial image
+    std::vector<glcustom::Texture *> textures;
+    RenderScreen screen = RenderScreen(programManager->getTexture2DProgram(), textures);
+
+    std::string qualifier = "menuPause";
+    screen.setTexture(textureManager->getRandomTexture(qualifier+std::to_string(1)));
+
+    bool stateChanged=false;
+    while (loop1)
+    {
+
+        //Update Screen
+        //update texture from table
+        if(stateChanged){
+            screen.setTexture(textureManager->getRandomTexture(qualifier+std::to_string(menuIdx+1)));
+            stateChanged= false;
+        }
+
+        SDL_Event e;
+        while (SDL_PollEvent(&e))
+        {
+            if (e.type == SDL_QUIT)
+            {
+                return QUIT;
+            }
+
+            switch (e.type)
+            {
+                case SDL_KEYDOWN:
+                    switch (e.key.keysym.sym)
+                    {
+                        case SDLK_DOWN:
+                        {
+                            menuIdx = (menuIdx + 1) % 4;
+                            //std::cout << "up " << menuIdx << std::endl;
+                            stateChanged=true;
+                            break;
+                        }
+                        case SDLK_UP:
+                        {
+                            menuIdx = (4 + menuIdx - 1) % 4;
+                            //std::cout << "down " << menuIdx << std::endl;
+                            stateChanged=true;
+                            break;
+                        }
+                        case SDLK_ESCAPE:
+                        {
+                            return CONTINUE;
+                        }
+                        case SDLK_SPACE:
+                        {
+                            return CONTINUE;
+                        }
+                        case SDLK_RETURN:
+                        {
+                           if(menuIdx == 0) //continue
+                               return CONTINUE;
+                            else if (menuIdx == 1) //load
+                           {
+                               return CONTINUE;
+                           }
+                            else if(menuIdx == 2)  //save
+                           {
+                               return CONTINUE;
+                           }
+                            else if(menuIdx == 3) //mainMenu
+                           {
+                               return MAINMENU;
+                           }
                         }
 
                         default:
@@ -260,7 +363,7 @@ int Application::start(){
  * Final Application Loop
  * Handles initialization, SDL event loop and Rendering loop
  */
-void Application::appLoop() {
+int Application::appLoop() {
     /**GPU PROGRAM**/
     programManager->createPrograms(); //must come before because menus uses gpu program to render
 
@@ -268,7 +371,7 @@ void Application::appLoop() {
      * MAIN MENU
      */
     if(start() == -1) //quit
-        exit(EXIT_SUCCESS);
+       return QUIT;
 
     std::cout << "seed : " << NoiseManager::getInstance().getSeed() << std::endl;
 
@@ -390,6 +493,22 @@ void Application::appLoop() {
                 } else if (e.key.keysym.sym == SDLK_b) {
                     programManager->reloadPrograms();
                 }
+                if(e.key.keysym.sym == SDLK_SPACE){ //pause
+                    //stop sound
+                    SDL_PauseAudioDevice(deviceId, 1);
+                    //pauseMenu
+                    int choice = pauseMenu();
+                    if(choice == QUIT || choice == MAINMENU) {//quit
+                        delete sky;
+                        delete Map;
+                        SDL_CloseAudioDevice(deviceId);
+                        SDL_FreeWAV(wavBuffer);
+                        return choice;
+                    }
+                    //continue game
+                    SDL_PauseAudioDevice(deviceId, 0);
+
+                }
             }
             if(e.type == SDL_KEYUP){
                 if (e.key.keysym.sym == SDLK_z  && e.key.state == SDL_RELEASED) { // Z
@@ -427,7 +546,11 @@ void Application::appLoop() {
                 camera->rotateUp(e.motion.yrel);
             }
             if(e.type == SDL_QUIT) {
-                done = true; // Leave the loop after this iteration
+                delete sky;
+                delete Map;
+                SDL_CloseAudioDevice(deviceId);
+                SDL_FreeWAV(wavBuffer);
+                return QUIT;
             }
             if(e.type == SDL_MOUSEBUTTONDOWN && e.wheel.y == 1){
                 camera->zoom(-Tools::speed);
@@ -482,6 +605,7 @@ void Application::appLoop() {
         fbo.checkComplete();
         clearGl();
 
+
         /**************LIGHT DEPTH BUFFER***********/
         /*
         depthViewMatrix = glm::lookAt(glm::vec3(sun.getDirection().x,sun.getDirection().y,sun.getDirection().z),
@@ -531,22 +655,21 @@ void Application::appLoop() {
         glDepthMask(GL_FALSE);
         sky->draw(camera->getViewMatrix());
         glDepthMask(GL_TRUE);
-
         //draw map
         Map->draw(camera->getViewMatrix());
 
 
         /**************BLUR****************************/
-        addDOF(&beauty, &depth, fbo);
+        glm::vec4 dir = sun.getDirection();
+        glm::vec3 color = lightState==-1?moon.getColor():sun.getColor();
+        addDOF(&beauty, &depth, fbo, color, dir);
+
         /********************************************/
         windowManager.swapBuffers();
         printErrors();
 
     }
-    delete sky;
-    delete Map;
-    SDL_CloseAudioDevice(deviceId);
-    SDL_FreeWAV(wavBuffer);
+
 }
 
 /**
@@ -765,7 +888,7 @@ void Application::testInterface() {
 
 }
 
-void Application::addDOF(glcustom::Texture *beauty, glcustom::Texture *depth, glcustom::FBO &fbo) {
+void Application::addDOF(glcustom::Texture *beauty, glcustom::Texture *depth, glcustom::FBO &fbo, glm::vec3 &lightColor, glm::vec4 &lightDir) {
 
 
     //glcustom::Texture initialDepth = *depth;
@@ -777,6 +900,9 @@ void Application::addDOF(glcustom::Texture *beauty, glcustom::Texture *depth, gl
     //pass couleur
     std::vector<glcustom::Texture *> texts = { beauty, depth };
     RenderScreen screenColorCorrec(programManager->getGammaProgram(), texts);
+    programManager->getGammaProgram()->use();
+    programManager->getGammaProgram()->sendUniformVec3("uLightColor",lightColor);
+    programManager->getGammaProgram()->sendUniformVec4("uLightDir",lightDir);
     screenColorCorrec.render(&fbo);
 
 
@@ -804,3 +930,13 @@ void Application::addDOF(glcustom::Texture *beauty, glcustom::Texture *depth, gl
 
 }
 
+void Application::play(glimac::FilePath f){
+    int done = CONTINUE;
+    Application *app = nullptr;
+    while(done != QUIT){
+        app = new Application(f);
+        done = app->appLoop();
+        delete app;
+        app = nullptr;
+    }
+}

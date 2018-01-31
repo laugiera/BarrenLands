@@ -18,10 +18,16 @@ ProceduralObject::ProceduralObject() : renderObject(nullptr), position(glm::vec3
  * Destructor
  */
 ProceduralObject::~ProceduralObject() {
-    delete renderObject;
+    if(renderObject)
+
+
+
+
+        delete renderObject;
     for (int i = 0; i < instances.size() ; ++i) {
         delete instances[i];
     }
+   // std::cout << "delete procedural ok" << std::endl;
 }
 
 /**

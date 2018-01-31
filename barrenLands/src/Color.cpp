@@ -9,9 +9,9 @@
  */
 Color::Color() {
     //remplacer par des nb générés par la classe noise
-    r = trunk01(NoiseManager::getInstance().getRandomFloat()*2);
-    g = trunk01(NoiseManager::getInstance().getRandomFloat()*2);
-    b = trunk01(NoiseManager::getInstance().getRandomFloat()*2);
+    r = trunk01(NoiseManager::getInstance().getRandomFloat());
+    g = trunk01(NoiseManager::getInstance().getRandomFloat());
+    b = trunk01(NoiseManager::getInstance().getRandomFloat());
     a = 1;
 }
 

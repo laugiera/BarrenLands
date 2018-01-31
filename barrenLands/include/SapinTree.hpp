@@ -1,10 +1,11 @@
 #ifndef BARRENLANDS_SAPINTREE_HPP
 #define BARRENLANDS_SAPINTREE_HPP
 
-#include "ProceduralTree.hpp"
+
 #include "ProceduralBranche.hpp"
 #include "Sapin.hpp"
-#include "ElementManager.hpp"
+#include "ProceduralTree.hpp"
+
 
 class SapinTree : public ProceduralTree {
 public:

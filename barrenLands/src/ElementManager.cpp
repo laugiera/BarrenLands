@@ -219,6 +219,7 @@ ElementManager::~ElementManager() {
     for(ProceduralObject * el : elements){
         delete el;
     }
+   // std::cout << "delete element manager ok" << std::endl;
 }
 
 /**

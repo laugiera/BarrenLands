@@ -20,7 +20,8 @@ SkyboxObject::SkyboxObject() : ProceduralObject() {
  * Destructor
  */
 SkyboxObject::~SkyboxObject() {
-    delete renderObject;
+    //delete renderObject; //already done in superclasse !
+    std::cout << "delete skybox ok" << std::endl;
 }
 /**
  * createRenderObject()

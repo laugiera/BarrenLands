@@ -23,20 +23,29 @@ private:
     static float seed;
     float counter;
     NoiseManager();
-    ~NoiseManager(){}
+    ~NoiseManager(){
+        std::cout << "delete noise manager ok" << std::endl;
+    }
+    static NoiseManager * instance;
 public:
     float** heightMap;
     float** moistureMap;
 
 
-    /**
-     * getInstance()
-     * @return NoiseManager & unique instance
-     */
     static NoiseManager & getInstance(){
-        static NoiseManager instance;
-        return instance;
+        if(!instance){
+            instance = new NoiseManager();
+        }
+        return *instance;
     }
+
+    static void ResetInstance()
+    {
+        delete instance; // REM : it works even if the pointer is NULL (does nothing then)
+        std::cout << "delete noise manager ok"<<std::endl;
+        instance = NULL; // so GetInstance will still work.
+    }
+
 
     void setSeed(const float _seed);
      float getSeed(){

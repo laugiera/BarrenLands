@@ -8,7 +8,8 @@
  * @param appPath
  */
 ProgramManager::ProgramManager(const std::string &appPath) : testProgram(nullptr), elementProgram(nullptr), skyboxProgram(
-        nullptr), mapProgram(nullptr),  appPath(appPath) {
+        nullptr), mapProgram(nullptr), DOFProgram(nullptr), texture2DProgram(nullptr), BlurProgram(nullptr),
+                                                             GammaProgram(nullptr), appPath(appPath) {
     createPrograms();
 }
 /**
@@ -21,6 +22,9 @@ ProgramManager::~ProgramManager() {
     delete mapProgram;
     delete DOFProgram;
     delete texture2DProgram;
+    delete BlurProgram;
+    delete GammaProgram;
+    std::cout << "delete program manager ok" << std::endl;
 }
 /**
  * createPrograms()
@@ -45,7 +49,7 @@ void ProgramManager::createPrograms() {
 
     //to draw the map
     uniform_variables.clear();
-    uniform_variables = {"uMV", "uMVP","uTexture0", "uTexture1", "uTexture2" , "uNormal", "uSubDiv", "uColors", "uDepthMVP"};
+    uniform_variables = {"uMV", "uMVP","uTexture0", "uTexture1", "uTexture2" , "uTexture3", "uNormal", "uSubDiv", "uColors", "uDepthMVP"};
     mapProgram = new glcustom::GPUProgram(appPath,"light","light");
     mapProgram->addUniforms(uniform_variables);
 
@@ -69,7 +73,7 @@ void ProgramManager::createPrograms() {
 
     //gamma
     uniform_variables.clear();
-    uniform_variables = {"uTexture0", "uTexture1", "uZNear", "uZFar"};
+    uniform_variables = {"uTexture0", "uTexture1", "uZNear", "uZFar", "uLightColor", "uLightDir"};
     GammaProgram = new glcustom::GPUProgram(appPath,"printTexture2D","Gamma");
     GammaProgram->addUniforms(uniform_variables);
 

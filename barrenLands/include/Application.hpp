@@ -37,17 +37,19 @@ public:
 
     void initOpenGl();
     void clearGl();
-    void appLoop();
+    int appLoop();
     void testInterface();
     void printErrors();
-    void addDOF(glcustom::Texture *text, glcustom::Texture *depth, glcustom::FBO &fbo);
+    void addDOF(glcustom::Texture *text, glcustom::Texture *depth, glcustom::FBO &fbo, glm::vec3 &lightColor,  glm::vec4 &lightDir);
     int start();
     void load(const std::string & fileName);
     void save();
 
 
     const glimac::SDLWindowManager &getWindowManager() const;
-   int  mainMenu();
+    int  mainMenu();
+    int pauseMenu();
+    static void play(glimac::FilePath f);
 
 private:
     glimac::SDLWindowManager windowManager;
@@ -55,7 +57,6 @@ private:
     ProgramManager * programManager;
     CameraManager * camera;
     TextureManager * textureManager;
-    NoiseManager * noiseManager;
     float lightRotation;
 
     void uniformLightDistribution(float diam, int x, int y, float * originalColor, float *newColor);

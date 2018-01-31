@@ -1,5 +1,12 @@
 comb-161383_960_720.png;default;
-653306852.jpg;sand;
-HatchPattern-final.png;rock;
 sea.jpg;sea;
-
+texture-desert1.jpg;sand;
+texture-herbe.jpg;grass;
+texture-herbe2.jpg;grass;
+texture-herbe3.jpg;grass;
+texture-neige1.jpg;snow;
+texture-neige2.jpg;snow;
+texture-neige3.jpg;snow;
+texture-sand2.jpg;sand;
+texture-sand3.jpg;sand;
+texture-sand4.jpg;sand;

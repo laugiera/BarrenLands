@@ -9,6 +9,8 @@ uniform sampler2D uTexture0;
 uniform sampler2D uTexture1;
 uniform float uZNear;
 uniform float uZFar;
+uniform vec3 uLightColor;
+uniform vec4 uLightDir;
 
 
 
@@ -33,8 +35,14 @@ void main() {
         float endFocus = 0.6;
         if (depth > endFocus && depth < 1)
             COC = clamp( abs((depth - endFocus)/ (1 - endFocus)), 0.0, 1.0);
-        else if( depth >= 1)
-            COC = 0.5;
+        else if( depth >= 1){
+            if(uLightDir.y <=0)
+                COC = 0;
+            else
+                COC = 0.9*(uLightDir.y/90.);
+
+            //beautyColor *= uLightColor;
+        }
         else
             COC = 0;
 

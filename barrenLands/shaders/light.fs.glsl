@@ -16,7 +16,10 @@ out vec3 color;
 // Values that stay constant for the whole mesh.
 uniform sampler2D uTexture0;  //sable
 uniform sampler2D uTexture1; //neige
-uniform sampler2D uTexture2; //shadowMap
+uniform sampler2D uTexture2; //herbe
+uniform sampler2D uTexture3;    //savane
+uniform sampler2D uTexture4; //shadow map -> !!!!!! penser à remetre bien les var avant de push
+
 uniform float uSubDiv;
 
 uniform vec4 uLightDirSun;
@@ -27,6 +30,8 @@ uniform float uLightIntensityMoon;
 uniform vec3 uLightColorMoon;
 
 uniform vec3 uColors[6];
+
+
 
 float linearizeDepth()
 {   float uZNear = 0.1;
@@ -46,7 +51,19 @@ float getVisibility(){
 
 vec3 multiplyTexture(vec3 color, vec4 textureAlpha) {
     textureAlpha = textureAlpha * 0.3;
+
     return color - textureAlpha.xyz;
+}
+
+vec3 multiplyTexture2(vec3 color, vec4 textureAlpha) {
+    if(textureAlpha.x > 0.5){
+        textureAlpha = textureAlpha * 0.4;
+        color = 1 - textureAlpha.xyz;
+    } else {
+     color = color - textureAlpha.xyz;
+    }
+
+    return color;
 }
 
 float primaryCoef( float variable, float intervalLength){
@@ -55,14 +72,20 @@ float primaryCoef( float variable, float intervalLength){
     return coef ;
 }
 
-vec3 sableTexture = multiplyTexture(uColors[0], texture(uTexture0, uV));
-vec3 toundraNeigeTexture = multiplyTexture(uColors[3], texture(uTexture1, uV));
-
 float height = vPosition.y;
 //float uMoisture = (texture(uTexture0, uV/uSubDiv)).x;
 
+vec3 sableTexture = multiplyTexture(uColors[0], texture(uTexture0, uV));
+vec3 toundraNeigeTexture = multiplyTexture(uColors[3], texture(uTexture1, uV));
+vec3 grassTexture = multiplyTexture(uColors[1], texture(uTexture2, uV));
+vec3 savannahTexture = multiplyTexture2(uColors[5], texture(uTexture0, uV));
 
 vec3 assignColor() {
+
+    sableTexture = uColors[0];
+    //toundraNeigeTexture = uColors[3];
+    //grassTexture = uColors[1];
+    //savannahTexture = uColors[5];
     vec3 color, colorLow, colorMiddle, colorHigh, colorVeryHigh;
     float coef1;
     float coef2;
@@ -72,16 +95,16 @@ vec3 assignColor() {
         if (uMoisture < 0.1){
         coef1 = primaryCoef(uMoisture, 0.1);
         coef2 = 1.f - coef1;
-        colorLow = coef1 * sableTexture + coef2 * uColors[1];
+        colorLow = coef1 * sableTexture + coef2 * grassTexture;
         //return sableTexture; //sable
         } else {
-         colorLow= uColors[1]; //grass
+         colorLow= grassTexture; //grass
         }
 
         coef1 = primaryCoef(height/10, 0.1);
         //coef1 = clamp(coef1*10, 0, 1);
         coef2 = 1.f - coef1;
-        color = coef1 * colorLow + coef2 * uColors[5];
+        color = coef1 * colorLow + coef2 * savannahTexture;
         //color = colorLow;
         //color = vec3(coef1);
 
@@ -90,16 +113,16 @@ vec3 assignColor() {
         if (uMoisture < 1){
             coef1 = primaryCoef(uMoisture, 0.25);
             coef2 = 1.f - coef1;
-            colorMiddle = coef1 * uColors[5] + coef2 * uColors[1];
+            colorMiddle = coef1 * savannahTexture + coef2 * grassTexture;
             //color = vec3(coef1);
 
-            colorMiddle =  uColors[5]; //savana
+            colorMiddle =  savannahTexture; //savana
         } else {
             coef1 = primaryCoef(uMoisture, 0.25);
             coef2 = 1.f - coef1;
-            colorMiddle = coef1 * uColors[5] + coef2 * uColors[1];
+            colorMiddle = coef1 * savannahTexture + coef2 * grassTexture;
             //color = vec3(coef1);
-            //return uColors[1]; //grass
+            //return grassTexture; //grass
         }
 
         color = colorMiddle;
@@ -117,11 +140,23 @@ vec3 assignColor() {
         coef1 = primaryCoef(height/20, 0.1);
         coef1 = clamp(coef1*3, 0, 1);
         coef2 = 1.f - coef1;
-        color = coef1 * colorHigh + coef2 * uColors[5];
+        color = coef1 * colorHigh + coef2 * savannahTexture;
         //color = vec3(coef1);
         //color = colorHigh;
     } else {
-            colorVeryHigh = toundraNeigeTexture; //snow
+        if (uMoisture < 0.1){
+            coef1 = primaryCoef(uMoisture, 0.1);
+            coef2 = 1.f - coef1;
+            colorHigh = coef1 * uColors[4] + coef2 * uColors[2];
+            //return uColors[4]; //rock
+        } else  {
+            colorHigh = uColors[2]; //toundra
+        }
+            coef1 = primaryCoef(height/50, 0.1);
+            coef1 = clamp(coef1*2.3, 0, 1);
+            coef2 = 1.f - coef1;
+            colorVeryHigh = coef1 * toundraNeigeTexture + coef2 * colorHigh; //snow
+            color = vec3(coef1);
             color = colorVeryHigh;
     }
     //color = vec3(coef1);
