@@ -52,6 +52,7 @@ void Application::load(const std::string & fileName){
         lightRotation = std::stof(content[5]);
 
         float seed = std::stof(content[6]);
+        //float seed = 127;
         NoiseManager::getInstance().setSeed(seed);
     }catch(std::runtime_error e){
         throw e;

@@ -45,7 +45,7 @@ void ProgramManager::createPrograms() {
 
     //to draw the map
     uniform_variables.clear();
-    uniform_variables = {"uMV", "uMVP","uTexture0", "uTexture1", "uTexture2" , "uNormal", "uSubDiv", "uColors", "uDepthMVP"};
+    uniform_variables = {"uMV", "uMVP","uTexture0", "uTexture1", "uTexture2" , "uTexture3", "uNormal", "uSubDiv", "uColors", "uDepthMVP"};
     mapProgram = new glcustom::GPUProgram(appPath,"light","light");
     mapProgram->addUniforms(uniform_variables);
 

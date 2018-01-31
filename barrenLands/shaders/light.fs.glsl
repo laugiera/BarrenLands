@@ -69,6 +69,11 @@ vec3 grassTexture = multiplyTexture(uColors[1], texture(uTexture2, uV));
 vec3 savannahTexture = multiplyTexture(uColors[5], texture(uTexture3, uV));
 
 vec3 assignColor() {
+
+    //sableTexture = uColors[0];
+    //toundraNeigeTexture = uColors[3];
+    //grassTexture = uColors[1];
+    //savannahTexture = uColors[5];
     vec3 color, colorLow, colorMiddle, colorHigh, colorVeryHigh;
     float coef1;
     float coef2;
