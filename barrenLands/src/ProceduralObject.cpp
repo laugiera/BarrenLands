@@ -186,6 +186,11 @@ float ProceduralObject::getHauteur(const glm::vec3 &_position) {
     caseCamI = int((_position.z) + Tools::width*Tools::nbSub/2);
     caseCamJ = int((_position.x) + Tools::width*Tools::nbSub/2);
 
+    if(caseCamI < 0) caseCamI = 0;
+    if(caseCamI+1 >= Tools::nbSub+1) caseCamI = 0;
+    if(caseCamJ < 0) caseCamJ = 0;
+    if(caseCamJ+1 >= Tools::nbSub+1) caseCamJ = 0;
+
     v1 = glm::vec3(-Tools::width*Tools::nbSub/2.0+caseCamJ*Tools::width, terrain[caseCamI][caseCamJ], -Tools::width*Tools::nbSub/2.0+caseCamI*Tools::width);
     v2 = glm::vec3(-Tools::width*Tools::nbSub/2.0+(caseCamJ+1)*Tools::width, terrain[caseCamI][caseCamJ+1], -Tools::width*Tools::nbSub/2.0+caseCamI*Tools::width);
     v3 = glm::vec3(-Tools::width*Tools::nbSub/2.0+caseCamJ*Tools::width, terrain[caseCamI+1][caseCamJ], -Tools::width*Tools::nbSub/2.0+(caseCamI+1)*Tools::width);

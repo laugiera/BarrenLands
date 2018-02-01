@@ -138,14 +138,18 @@ void CameraManager::moveLeft(float t){
         _position = _camera2.getPosition();
     }
 
+    int maxX = Tools::width*Tools::nbSub*Tools::scale/2.0;
+    //int maxZ = Tools::width*Tools::nbSub*Tools::scale/2.0;
 
-    if(_position.x < -Tools::width*Tools::nbSub*Tools::scale/2.0 ||
-       _position.x > Tools::width*Tools::nbSub*Tools::scale/2.0 ||
-       _position.z + 10 < -Tools::width*Tools::nbSub*Tools::scale/2.0 ||
-       _position.z + 10 > Tools::width*Tools::nbSub*Tools::scale/2.0){
+    if(_position.x*_position.x + _position.z*_position.z > (maxX-3*Tools::scale)*(maxX-3*Tools::scale)){
         _camera2.moveLeft(-t);
         _position = _camera2.getPosition();
     }
+
+    /*if(_position.y < -5){
+        _camera2.moveLeft(-t*3);
+        _position = _camera2.getPosition();
+    }*/
 }
 
 void CameraManager::moveFront(float t){
@@ -171,10 +175,10 @@ void CameraManager::moveFront(float t){
     }
 
 
-    if(_position.x < -Tools::width*Tools::nbSub*Tools::scale/2.0 ||
-       _position.x > Tools::width*Tools::nbSub*Tools::scale/2.0 ||
-       _position.z + 10 < -Tools::width*Tools::nbSub*Tools::scale/2.0 ||
-       _position.z + 10 > Tools::width*Tools::nbSub*Tools::scale/2.0){
+    int maxX = Tools::width*Tools::nbSub*Tools::scale/2.0;
+    //int maxZ = Tools::width*Tools::nbSub*Tools::scale/2.0;
+
+    if(_position.x*_position.x + _position.z*_position.z > (maxX-3*Tools::scale)*(maxX-3*Tools::scale)){
         _camera2.moveFront(-t);
         _position = _camera2.getPosition();
     }

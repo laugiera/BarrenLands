@@ -768,7 +768,7 @@ void Application::testInterface() {
     //tree->addInstance(glm::vec3(0,0,0), Color(1,1,0));
     //tree->createRenderObject(programManager, textureManager);
 
-    ProceduralObject * rock = ElementManager::getInstance().createProceduralSapinTree();
+    ProceduralObject * rock = ElementManager::getInstance().createProceduralTree();
     rock->addInstance(glm::vec3(0,0,0), Color(1,1,0));
     rock->createRenderObject(programManager, textureManager);
 

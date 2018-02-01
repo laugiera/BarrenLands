@@ -20,7 +20,7 @@ public:
     void generateNormals();
 
     void subdivideFace(std::vector<glimac::ShapeVertex> &_vertices, int nbRecurse);
-
+    //void subdivideObject(std::vector<glimac::ShapeVertex> &_vertices, int nbRecurse);
     virtual void addInstance(const glm::vec3 &position, const Color &biomeColor);
 
 
