@@ -31,9 +31,9 @@ int main(int argc, char** argv) {
         Application::play(f);
 
 
-        // Application app = Application(f);
-        //app.appLoop();
-
+       // Application app = Application(f);
+       // app.appLoop();
+        //app.testInterface();
 
     }catch (std::runtime_error e) {
         std::cerr << e.what() <<std::endl;

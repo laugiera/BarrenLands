@@ -8,6 +8,7 @@ public:
     ProceduralBranche();
     virtual ~ProceduralBranche();
 
+    glm::mat4 getRandomRotation();
     glm::mat4 getRandomScale();
 
     //à redéfinir pour chaque élement
@@ -20,7 +21,7 @@ public:
         return height;
     }
 
-    void addInstance(const glm::vec3 &position, const Color &biomeColor);
+    void addInstance(const glm::vec3 &position, const Color &biomeColor, glm::mat4 scale);
 
 private:
     int nbrSub;

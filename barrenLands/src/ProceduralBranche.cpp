@@ -83,9 +83,12 @@ void ProceduralBranche::generateNormals() {
     }
 }
 
+glm::mat4 ProceduralBranche::getRandomRotation() {
+    return glm::rotate(glm::mat4(1.f), glm::radians(180*NoiseManager::getInstance().getRandomFloat()), glm::vec3(0,1,0));
+}
 
 glm::mat4 ProceduralBranche::getRandomScale() {
-    return glm::scale(glm::mat4(1.f), glm::vec3(0.3,0.3,0.3));
+    return glm::scale(glm::mat4(1.f), glm::vec3(0.3 + 0.1*NoiseManager::getInstance().getRandomFloat(),0.3 ,0.3+ 0.1*NoiseManager::getInstance().getRandomFloat()));
 }
 
 /**
@@ -94,9 +97,9 @@ glm::mat4 ProceduralBranche::getRandomScale() {
  * @param position
  * @param biomeColor
  */
-void ProceduralBranche::addInstance(const glm::vec3 &position, const Color &biomeColor) {
+void ProceduralBranche::addInstance(const glm::vec3 &position, const Color &biomeColor, glm::mat4 scale) {
     Color trueColor = chooseColor(biomeColor);
     glm::mat4 transfo(1.f);
-    transfo =  getRandomScale() * getRandomRotation() * transfo;
+    transfo =  scale * getRandomRotation() * transfo;
     instances.push_back(new Instance(transfo, position,trueColor));
 }

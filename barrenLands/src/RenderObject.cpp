@@ -23,9 +23,9 @@ RenderObject::RenderObject(glcustom::GPUProgram *program, std::vector<glcustom::
  */
 RenderObject::~RenderObject() {
     //delete color;
-    for (int i = 0; i < textures.size(); ++i) {
+/*    for (int i = 0; i < textures.size(); ++i) {
         delete textures[i];
-    }
+    }*/
     //delete program;
    // std::cout << "delete render object ok" << std::endl;
 }
