@@ -296,9 +296,9 @@ void PickRock::smooth(std::vector<glimac::ShapeVertex> &_vertices, int nbRecurse
 
 
 glm::mat4 PickRock::getRandomRotation() {
-    return glm::rotate(glm::mat4(1.f), glm::radians(50*NoiseManager::getInstance().getRandomFloat()), glm::vec3(0,1,0));
+    return glm::rotate(glm::mat4(1.f), glm::radians(95*NoiseManager::getInstance().getRandomFloat()), glm::vec3(1,0,1));
 }
 
 glm::mat4 PickRock::getRandomScale() {
-    return glm::scale(glm::mat4(1.f), glm::vec3(NoiseManager::getInstance().getRandomFloat()/5));
+    return glm::scale(glm::mat4(1.f), glm::vec3(NoiseManager::getInstance().getRandomFloat()/3));
 }

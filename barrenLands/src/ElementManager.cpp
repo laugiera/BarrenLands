@@ -21,22 +21,23 @@ void ElementManager::createAllElements() {
     rocks.push_back(new MenirRock);
     rocks.push_back(new CrystalRock);
     //DESERT   rocks[3] à rocks[10]
-    float random = NoiseManager::getInstance().getRandomFloat();
+    float random = NoiseManager::getInstance().getRandomFloat()*2;
+    std::cout << "RANDOM : " << random << std::endl;
     if(random > 0.6){
         rocks.push_back(new FlatRock);
         rocks.push_back(new FlatRock);
         rocks.push_back(new FlatRock);
         rocks.push_back(new FlatRock);
-        rocks.push_back(new PreciousRock);
-        rocks.push_back(new PreciousRock);
+        rocks.push_back(new FlatRock);
+        rocks.push_back(new FlatRock);
         rocks.push_back(new PreciousRock);
         rocks.push_back(new PreciousRock);
     }
     else if(random > 0.3){
         rocks.push_back(new FlatRock);
         rocks.push_back(new FlatRock);
-        rocks.push_back(new FlatRock);
-        rocks.push_back(new FlatRock);
+        rocks.push_back(new SphereRock);
+        rocks.push_back(new SphereRock);
         rocks.push_back(new SphereRock);
         rocks.push_back(new SphereRock);
         rocks.push_back(new SphereRock);
@@ -47,8 +48,8 @@ void ElementManager::createAllElements() {
         rocks.push_back(new PreciousRock);
         rocks.push_back(new PreciousRock);
         rocks.push_back(new PreciousRock);
-        rocks.push_back(new SphereRock);
-        rocks.push_back(new SphereRock);
+        rocks.push_back(new PreciousRock);
+        rocks.push_back(new PreciousRock);
         rocks.push_back(new SphereRock);
         rocks.push_back(new SphereRock);
     }
@@ -66,33 +67,33 @@ void ElementManager::createAllElements() {
     rocks.push_back(new TriangularRock);
     rocks.push_back(new TriangularRock);
     rocks.push_back(new TriangularRock);
-    //DESERT de rocks[23] à rocks[30]
+    //GRASS de rocks[23] à rocks[30]
     random = NoiseManager::getInstance().getRandomFloat();
     if(random > 0.6){
         rocks.push_back(new RoundFlatRock);
         rocks.push_back(new RoundFlatRock);
         rocks.push_back(new RoundFlatRock);
         rocks.push_back(new RoundFlatRock);
-        rocks.push_back(new SharpedRock);
-        rocks.push_back(new SharpedRock);
+        rocks.push_back(new RoundFlatRock);
+        rocks.push_back(new RoundFlatRock);
         rocks.push_back(new SharpedRock);
         rocks.push_back(new SharpedRock);
     }
     else if(random > 0.3){
         rocks.push_back(new RoundFlatRock);
         rocks.push_back(new RoundFlatRock);
-        rocks.push_back(new RoundFlatRock);
-        rocks.push_back(new RoundFlatRock);
-        rocks.push_back(new LitchiRock);
-        rocks.push_back(new LitchiRock);
-        rocks.push_back(new LitchiRock);
-        rocks.push_back(new LitchiRock);
+        rocks.push_back(new RoundRock);
+        rocks.push_back(new RoundRock);
+        rocks.push_back(new RoundRock);
+        rocks.push_back(new RoundRock);
+        rocks.push_back(new RoundRock);
+        rocks.push_back(new RoundRock);
     }
     else{
         rocks.push_back(new SharpedRock);
         rocks.push_back(new SharpedRock);
-        rocks.push_back(new SharpedRock);
-        rocks.push_back(new SharpedRock);
+        rocks.push_back(new LitchiRock);
+        rocks.push_back(new LitchiRock);
         rocks.push_back(new LitchiRock);
         rocks.push_back(new LitchiRock);
         rocks.push_back(new LitchiRock);
@@ -228,7 +229,7 @@ ElementManager::~ElementManager() {
 std::vector<ProceduralObject *> ElementManager::getAllElements() {
     std::vector<ProceduralObject *> elements;
     elements.insert( elements.end(), rocks.begin(), rocks.end());
-    elements.insert( elements.end(), grass.begin(), grass.end());
+    //elements.insert( elements.end(), grass.begin(), grass.end());
     elements.insert( elements.end(), branches.begin(), branches.end());
     elements.insert( elements.end(), feuillages.begin(), feuillages.end());
     elements.insert( elements.end(), trees.begin(), trees.end());

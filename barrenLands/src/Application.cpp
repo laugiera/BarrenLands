@@ -418,10 +418,10 @@ int Application::appLoop() {
     /**LIGHTS**/
     int NIGHT = -1, DAY = 1, lightState =0;
     float lightAngle = 0;
-    Light sun = Light(1.2,"Sun",glm::vec3(0.5,0.1,0));
+    Light sun = Light(1,"Sun",glm::vec3(0.5,0.1,0));
     sun.addLightUniforms(programManager->getMapProgram());
     sun.addLightUniforms(programManager->getElementProgram());
-    Light moon = Light(1.2,"Moon",glm::vec3(0,0.1,0.5));
+    Light moon = Light(1,"Moon",glm::vec3(0,0.1,0.5));
     moon.addLightUniforms(programManager->getMapProgram());
     moon.addLightUniforms(programManager->getElementProgram());
 
