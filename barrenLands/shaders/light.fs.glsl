@@ -55,6 +55,12 @@ vec3 multiplyTexture(vec3 color, vec4 textureAlpha) {
     return color - textureAlpha.xyz;
 }
 
+vec3 multiplyTexture3(vec3 color, vec4 textureAlpha) {
+    textureAlpha = textureAlpha * 0.3;
+
+    return color + textureAlpha.xyz;
+}
+
 vec3 multiplyTexture2(vec3 color, vec4 textureAlpha) {
     if(textureAlpha.x > 0.5){
         textureAlpha = textureAlpha * 0.4;
@@ -77,7 +83,7 @@ float height = vPosition.y;
 
 vec3 sableTexture = multiplyTexture(uColors[0], texture(uTexture0, uV));
 vec3 toundraNeigeTexture = multiplyTexture(uColors[3], texture(uTexture1, uV));
-vec3 grassTexture = multiplyTexture(uColors[1], texture(uTexture2, uV));
+vec3 grassTexture = multiplyTexture3(uColors[1], texture(uTexture2, uV));
 vec3 savannahTexture = multiplyTexture2(uColors[5], texture(uTexture0, uV));
 
 vec3 assignColor() {
