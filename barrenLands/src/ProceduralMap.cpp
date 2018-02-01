@@ -290,34 +290,57 @@ void ProceduralMap::draw(const glm::mat4 &viewMatrix) {
 
 void ProceduralMap::createBiomeColors() {
     Color baseColor = Color();
-    baseColor.lighten(0.1);
-    baseColor.randomSimilarColor(0.1);
-    baseColor.randomSimilarColor(0.15);
-    baseColor.saturate(-0.2);
+    baseColor.lighten(0.3);
+    baseColor.randomSimilarColor(NoiseManager::getInstance().getRandomFloat()*4);
+    baseColor.saturate(-0.3);
     std::cout <<"base Color : "<< baseColor << std::endl;
     Color derivedColor = baseColor;
 
-    derivedColor.lighten(0.3);  derivedColor.red(0.2); derivedColor.green(0.2); derivedColor.saturate(0.3);
+    //derivedColor.lighten(0.3);  derivedColor.red(0.2); derivedColor.green(0.2); derivedColor.saturate(0.3);
+    //derivedColor.complementaryColor();
+    derivedColor.randomSimilarColor(0.6);
+    derivedColor.randomSimilarColor(0.2);
+    derivedColor.lighten(NoiseManager::getInstance().getRandomFloat()*2);
+    derivedColor.randomSimilarColor(0.1);
+    derivedColor.saturate(-0.4);
     RenderMap::sand = new Color(&derivedColor);
     std::cout <<"sand Color : "<< *RenderMap::sand << std::endl;
 
-    derivedColor = baseColor; derivedColor.complementaryColor(); derivedColor.lighten(-0.05); derivedColor.blue(0.1);
+    //derivedColor = baseColor; derivedColor.complementaryColor(); derivedColor.lighten(-0.05); derivedColor.blue(0.1);
+    derivedColor = baseColor;
+    derivedColor.randomSimilarColor(0.3);
     RenderMap::grass = new Color(&derivedColor);
     std::cout <<"grass Color : "<< *RenderMap::grass << std::endl;
 
-    derivedColor = baseColor; derivedColor.lighten(0.3); derivedColor.saturate(-0.7);
+    derivedColor = baseColor;
+    derivedColor.lighten(0.4);
+    derivedColor.saturate(-0.5);
     RenderMap::snow = new Color(&derivedColor);
     std::cout <<"snow Color : "<< *RenderMap::snow << std::endl;
 
-    derivedColor = baseColor; derivedColor.lighten(0.1); /*derivedColor.blue(0.05);*/ derivedColor.complementaryColor();
+    //derivedColor = baseColor; derivedColor.lighten(0.1); /*derivedColor.blue(0.05);*/ derivedColor.complementaryColor();
+    derivedColor = baseColor;
+    derivedColor.lighten(NoiseManager::getInstance().getRandomFloat()*3);
+    derivedColor.randomSimilarColor(0.3);
     RenderMap::rock = new Color(&derivedColor);
     std::cout <<"rock Color : "<< *RenderMap::rock << std::endl;
 
-    derivedColor = baseColor; derivedColor.lighten(0.2);  derivedColor.red(0.2); //derivedColor.randomSimilarColor(0.1);
+    //derivedColor = baseColor; derivedColor.lighten(0.2);  derivedColor.red(0.2); //derivedColor.randomSimilarColor(0.1);
+    derivedColor = baseColor;
+    //derivedColor.complementaryColor();
+    derivedColor.randomSimilarColor(0.6);
+    derivedColor.randomSimilarColor(0.3);
+    derivedColor.randomSimilarColor(NoiseManager::getInstance().getRandomFloat());
+    derivedColor.saturate(-0.3);
+    derivedColor.lighten(0.1);
     RenderMap::toundra = new Color(&derivedColor);
     std::cout <<"toundra Color : "<< *RenderMap::toundra << std::endl;
 
-    derivedColor = baseColor; derivedColor.lighten(0.1); derivedColor.blue(0.3); derivedColor.complementaryColor(); /*derivedColor.saturate(0.2);*/
+    //derivedColor = baseColor; derivedColor.lighten(0.1); derivedColor.blue(0.3); derivedColor.complementaryColor(); /*derivedColor.saturate(0.2);*/
+    derivedColor = baseColor;
+    derivedColor.lighten(NoiseManager::getInstance().getRandomFloat());
+    derivedColor.randomSimilarColor(0.1);
+    derivedColor.saturate(-0.4);
     RenderMap::savannah = new Color(&derivedColor);
     std::cout <<"savannah Color : "<< *RenderMap::savannah << std::endl;
 

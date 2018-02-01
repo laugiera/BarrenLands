@@ -99,19 +99,56 @@ void Color::blue(float intensity) {
 }
 
 void Color::randomSimilarColor(float intensity) {
+    int component = int((NoiseManager::getInstance().getRandomFloat() + 1) * 10 ) % 3;
     float random = NoiseManager::getInstance().getRandomFloat(); //number beetween -1 and 1
-    float step = 10;
+    float step = 10 * intensity * random;
+    switch(component){
+        case 0 :
+            r+=step;
+            break;
+        case 1:
+            g += step;
+            break;
+        case 2 :
+            b += step;
+            break;
+        default:
+            break;
+    }
+    /*
     r += random * step *intensity;
     random = NoiseManager::getInstance().getRandomFloat();
     g += random * step *intensity;
     random = NoiseManager::getInstance().getRandomFloat();
     b += random * step *intensity;
+     */
 }
 
 void Color::complementaryColor() {
+    /*
+    int component = int((NoiseManager::getInstance().getRandomFloat() + 1) * 10 ) % 3;
+    switch(component) {
+        case 0 :
+            r = 1 - r;
+            g = 1 - g;;
+            break;
+        case 1:
+            g = 1 - g;
+            b = 1 - b;
+            break;
+        case 2 :
+            r = 1 - r;
+            b = 1 - b;
+            break;
+        default:
+            break;
+    }
+     */
+
     r = 1 - r;
     g = 1 - g;
     b = 1 - b;
+
 
 
 }

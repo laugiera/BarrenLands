@@ -23,7 +23,7 @@
 #include <FBO.hpp>
 #include "RenderScreen.hpp"
 #include <FileHelper.hpp>
-#include <SDL2/SDL_thread.h>
+//#include <SDL2/SDL_thread.h>
 
 /**
  * Class Application

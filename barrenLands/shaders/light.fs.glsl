@@ -203,17 +203,17 @@ vec3 getLightColor(vec3 lightColor, float lightPower, vec3 direction){
    		// Ambient : simulates indirect lighting
    		materialAmbientColor +
    		// Diffuse : "color" of the object
-   		visibility * materialDiffuseColor * lightColor * lightPower * cosTheta +
+   		visibility * materialDiffuseColor * lightColor *  lightPower * cosTheta +
    		// Specular : reflective highlight, like a mirror
-   		visibility * materialSpecularColor * lightColor * lightPower * pow(cosAlpha,5);
+   		visibility * materialSpecularColor *  lightColor *  lightPower * pow(cosAlpha,5);
 
    	return color;
 
 }
 
 void main() {
-     color = getLightColor(uLightColorMoon,uLightIntensityMoon,uLightDirMoon.xyz) +
-       getLightColor(uLightColorSun,uLightIntensitySun,uLightDirSun.xyz);
+     color = getLightColor(uLightColorMoon *0.7,uLightIntensityMoon,uLightDirMoon.xyz) +
+       getLightColor(uLightColorSun * 0.7,uLightIntensitySun,uLightDirSun.xyz);
  //      color = vec3(linearizeDepth());
 }
 

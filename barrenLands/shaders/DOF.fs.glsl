@@ -54,7 +54,7 @@ void main() {
         vec3 blurredColor = texture(uTexture0, vTexCoords).xyz;
 
         fFragColor = (1-COC) * initialColor + COC * blurredColor /*+ COC * vec3(linearizeDepth(uTexture2))*0.4*/;
-        //fFragColor = blurredColor;
+        //fFragColor = initialColor;
         //fFragColor = vec3(COC);
 
 
