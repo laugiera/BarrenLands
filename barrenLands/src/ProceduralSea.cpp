@@ -52,7 +52,7 @@ void ProceduralSea::generateIndices() {
  */
 void ProceduralSea::createRenderObject(ProgramManager *programManager, TextureManager *textureManager, Color *color) {
     std::vector<glcustom::Texture *> texture(1,textureManager->getRandomTexture("sea"));
-    renderObject = new RenderObject(programManager->getTestProgram(), texture, new Color(0.25,0.55, 0.7));
+    renderObject = new RenderSea(programManager->getTestProgram(), texture, new Color(0.25,0.55, 0.7));
     renderObject->fillData(vertices, indices);
 }
 /**

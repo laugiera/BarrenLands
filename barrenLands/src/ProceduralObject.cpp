@@ -55,6 +55,7 @@ void ProceduralObject::createRenderObject(ProgramManager *programManager, Textur
 void ProceduralObject::draw(const glm::mat4 &viewMatrix) {
     //transformer selon la position, rotation, scale de l'objet
     if(renderObject) {
+        //std::cout << "instances:" << instances.size() << std::endl;
         renderObject->render(viewMatrix,instances);
     }
 }
@@ -71,6 +72,7 @@ void ProceduralObject::addInstance(const glm::vec3 &position, const Color &biome
     Color trueColor = chooseColor(biomeColor);
     glm::mat4 transfo(1.f);
     transfo =  getRandomScale() * getRandomRotation() * transfo;
+    //std::cout << transfo << std::endl;
     instances.push_back(new Instance(transfo, truePosition,trueColor));
 }
 /********** SETTING RANDOM PARAMETERS OF THE OBJECT **********/

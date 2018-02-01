@@ -17,6 +17,8 @@
 #include "TriangularRock.hpp"
 #include "CurvedRock.hpp"
 #include "LitchiRock.hpp"
+#include "SapinFeuillage.hpp"
+#include "SapinTree.hpp"
 
 
 /**
