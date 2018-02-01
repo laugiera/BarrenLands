@@ -15,7 +15,8 @@ SDLWindowManager::SDLWindowManager(uint32_t width, uint32_t height, const char* 
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
     SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
 
-    window = SDL_CreateWindow(title, 0, 0, width, height, SDL_WINDOW_OPENGL | SDL_WINDOW_FULLSCREEN_DESKTOP);
+    //window = SDL_CreateWindow(title, 0, 0, width, height, SDL_WINDOW_OPENGL | SDL_WINDOW_FULLSCREEN_DESKTOP);
+    window = SDL_CreateWindow(title, 0, 0, width, height, SDL_WINDOW_OPENGL);
     if(!window){
       std::cerr << SDL_GetError() << std::endl;
       return;

@@ -232,7 +232,9 @@ void ProceduralMap::createBiomes() {
                                                   vertices[i].position.z + NoiseManager::getInstance().getRandomFloat()),
                                         "rock");
                             }
-                        }
+                            if (objectMap[i / (Tools::nbSub + 1)][i % (Tools::nbSub + 1)] > grassLevel)
+                                biomes[4]->createElement(vertices[i].position, "tree");
+                            }
                 } else {
                     //toundra neige - no elements
                 }

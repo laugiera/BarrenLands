@@ -47,7 +47,14 @@ void ProceduralBiome::createElement(glm::vec3 position, const std::string &type)
     }
     else if (type == "tree"){
         if(trees.empty()) throw std::runtime_error("Biome " + name + " : an the tree category is empty");
-        trees[0]->addInstance(position, *color);
+        if(name == "toundra"){
+            trees[0]->addInstance(position, *color);
+        }
+        else{
+            int rand3 = int(NoiseManager::getInstance().getRandomFloat()*4);
+            if(rand3 < 0) rand3 = -rand3;
+            trees[rand3]->addInstance(position, *color);
+        }
     }
 
 }
@@ -114,15 +121,15 @@ void ProceduralBiome::createElements() {
     else{
         rocks.push_back(ElementManager::getInstance().createProceduralRock(name));
     }
-    //if(name!="toundra"){
-        //trees.push_back(ElementManager::getInstance().createProceduralSapinTree());
-    //}
-    //else{
-    int rand = NoiseManager::getInstance().getRandomFloat()*4;
-    if(rand < 0) rand = -rand;
-    std::cout << "RAND TREE !!!!!!!! " << rand << std::endl;
-        trees.push_back(ElementManager::getInstance().createProceduralTree(rand));
-    //}
+    if(name=="toundra"){
+        trees.push_back(ElementManager::getInstance().createProceduralTree(4));
+    }
+    else{
+        trees.push_back(ElementManager::getInstance().createProceduralTree(0));
+        trees.push_back(ElementManager::getInstance().createProceduralTree(1));
+        trees.push_back(ElementManager::getInstance().createProceduralTree(2));
+        trees.push_back(ElementManager::getInstance().createProceduralTree(3));
+    }
     //grass.push_back(ElementManager::getInstance().createProceduralGrass());
 }
 

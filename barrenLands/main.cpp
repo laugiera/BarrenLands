@@ -28,11 +28,11 @@ int main(int argc, char** argv) {
     try {
         glimac::FilePath f = argv[0];
         Tools::appPath = f.dirPath();
-        //Application::play(f);
+        Application::play(f);
 
 
-        Application app = Application(f);
-        app.appLoop();
+        //Application app = Application(f);
+        //app.appLoop();
         //app.testInterface();
 
     }catch (std::runtime_error e) {
