@@ -10,7 +10,6 @@
 TextureManager::TextureManager()  {
     createTextures();
     loadTextures(Tools::appPath + "textures/");
-    sort();
 
 
 }
@@ -47,7 +46,6 @@ void TextureManager::createTextures() {
  */
 void TextureManager::addTexture(glcustom::Texture * t, const std::string name){
     textures[t] = name;
-    sort();
 }
 /**
  * getTextures
