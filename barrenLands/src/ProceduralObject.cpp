@@ -164,8 +164,8 @@ Color ProceduralObject::chooseColor(const Color &_c) {
  */
 std::vector<glcustom::Texture *> ProceduralObject::chooseTextures(TextureManager *textureManager) {
     std::vector<glcustom::Texture *> textures;
-    textures.push_back( textureManager->getRandomTexture("sand"));
-    textures.push_back(textureManager->getRandomTexture("shadowMap"));
+    //textures.push_back( textureManager->getRandomTexture("sand"));
+    //textures.push_back(textureManager->getRandomTexture("shadowMap"));
     return textures;
 }
 

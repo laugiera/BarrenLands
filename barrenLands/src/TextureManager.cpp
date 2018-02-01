@@ -10,6 +10,8 @@
 TextureManager::TextureManager()  {
     createTextures();
     loadTextures(Tools::appPath + "textures/");
+    sort();
+
 
 }
 /**
@@ -45,6 +47,7 @@ void TextureManager::createTextures() {
  */
 void TextureManager::addTexture(glcustom::Texture * t, const std::string name){
     textures[t] = name;
+    sort();
 }
 /**
  * getTextures
@@ -90,6 +93,15 @@ glcustom::Texture * TextureManager::getRandomTexture(const std::string &qualifie
             _textures.push_back(it->first);
         }
     }
+
+    auto cmp = [](glcustom::Texture * a, glcustom::Texture * b)
+    {
+        return a->getM_id() < b->getM_id();
+    };
+    std::sort(_textures.begin(), _textures.end(), cmp);
+
+
+
     if(!_textures.empty()){
         int randomIndex = 0; //use noise to choose random int
         randomIndex = int (abs(NoiseManager::getInstance().getRandomFloat()*10)) % _textures.size();
@@ -97,3 +109,4 @@ glcustom::Texture * TextureManager::getRandomTexture(const std::string &qualifie
     }
     return nullptr;
 }
+

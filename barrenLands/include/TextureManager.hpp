@@ -33,6 +33,7 @@ public:
     glcustom::Texture * getRandomTexture(const std::string &qualifier);
 
     void addTexture(glcustom::Texture * t, const std::string name);
+    
 
 private:
     std::map<glcustom::Texture *, std::string> textures;
