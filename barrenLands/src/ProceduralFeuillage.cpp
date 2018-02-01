@@ -169,7 +169,7 @@ void ProceduralFeuillage::generateVertices(){
     vertices.push_back(glimac::ShapeVertex(_vertices[10]));
     vertices.push_back(glimac::ShapeVertex(_vertices[6]));
 
-    subdivideObject(vertices, 1);
+    subdivideObject(vertices, 2);
     smooth(vertices, 3);
 }
 void ProceduralFeuillage::generateIndices(){

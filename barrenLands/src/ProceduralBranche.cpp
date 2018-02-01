@@ -88,7 +88,7 @@ glm::mat4 ProceduralBranche::getRandomRotation() {
 }
 
 glm::mat4 ProceduralBranche::getRandomScale() {
-    return glm::scale(glm::mat4(1.f), glm::vec3(0.3 + 0.1*NoiseManager::getInstance().getRandomFloat(),0.3 + 0.3*abs(NoiseManager::getInstance().getRandomFloat()),0.3+ 0.1*NoiseManager::getInstance().getRandomFloat()));
+    return glm::scale(glm::mat4(1.f), glm::vec3(0.3 + 0.1*NoiseManager::getInstance().getRandomFloat(),0.3 ,0.3+ 0.1*NoiseManager::getInstance().getRandomFloat()));
 }
 
 /**
