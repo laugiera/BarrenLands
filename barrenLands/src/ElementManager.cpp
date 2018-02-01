@@ -15,33 +15,25 @@ ElementManager::ElementManager() {
  * crée tous les models utilisés pour le rendu instancié et les ajoute dans les différents attributs du manager par famille
  */
 
-
 void ElementManager::createAllElements() {
     rocks.push_back(new RoundRock);
     rocks.push_back(new MenirRock);
     rocks.push_back(new CrystalRock);
     //DESERT   rocks[3] à rocks[10]
     float random = NoiseManager::getInstance().getRandomFloat()*3;
-/*    int done = 0;
-    while (done !=5){
-        float random = NoiseManager::getInstance().getRandomFloat()*2;
-        std::cout << "RANDOM : " << random << std::endl;
-        done ++;
-    }*/
-    std::cout << "RANDOM : " << random << std::endl;
-    if(random <0){
+    if(random < 0){
         rocks.push_back(new FlatRock);
         rocks.push_back(new FlatRock);
         rocks.push_back(new FlatRock);
         rocks.push_back(new FlatRock);
         rocks.push_back(new FlatRock);
         rocks.push_back(new FlatRock);
-        rocks.push_back(new PreciousRock);
+        rocks.push_back(new FlatRock);
         rocks.push_back(new PreciousRock);
     }
     else if(random < 0.2){
         rocks.push_back(new FlatRock);
-        rocks.push_back(new FlatRock);
+        rocks.push_back(new SphereRock);
         rocks.push_back(new SphereRock);
         rocks.push_back(new SphereRock);
         rocks.push_back(new SphereRock);
@@ -66,7 +58,7 @@ void ElementManager::createAllElements() {
     rocks.push_back(new CurvedRock);
     //TOUNDRA de rocks[15] à rocks[22]
     random = NoiseManager::getInstance().getRandomFloat()*3;
-    if(random < 0) {
+    if(random <0.3) {
         rocks.push_back(new PickRock);
         rocks.push_back(new PickRock);
         rocks.push_back(new TriangularRock);
@@ -75,45 +67,44 @@ void ElementManager::createAllElements() {
         rocks.push_back(new TriangularRock);
         rocks.push_back(new TriangularRock);
         rocks.push_back(new TriangularRock);
+    } else {
+        rocks.push_back(new PickRock);
+        rocks.push_back(new PickRock);
+        rocks.push_back(new PickRock);
+        rocks.push_back(new PickRock);
+        rocks.push_back(new PickRock);
+        rocks.push_back(new PickRock);
+        rocks.push_back(new TriangularRock);
+        rocks.push_back(new TriangularRock);
+
     }
-    else
-    {
-        rocks.push_back(new PickRock);
-        rocks.push_back(new PickRock);
-        rocks.push_back(new PickRock);
-        rocks.push_back(new PickRock);
-        rocks.push_back(new PickRock);
-        rocks.push_back(new PickRock);
-        rocks.push_back(new TriangularRock);
-        rocks.push_back(new TriangularRock);
-    }
-    //GRASS de rocks[23] à rocks[30]
+    //DESERT de rocks[23] à rocks[30]
     random = NoiseManager::getInstance().getRandomFloat()*3;
-    if(random < 0){
+    if(random <0){
         rocks.push_back(new RoundFlatRock);
         rocks.push_back(new RoundFlatRock);
         rocks.push_back(new RoundFlatRock);
         rocks.push_back(new RoundFlatRock);
         rocks.push_back(new RoundFlatRock);
         rocks.push_back(new RoundFlatRock);
-        rocks.push_back(new SharpedRock);
+        rocks.push_back(new RoundFlatRock);
         rocks.push_back(new SharpedRock);
     }
     else if(random < 0.2){
         rocks.push_back(new RoundFlatRock);
-        rocks.push_back(new RoundFlatRock);
-        rocks.push_back(new RoundRock);
-        rocks.push_back(new RoundRock);
-        rocks.push_back(new RoundRock);
-        rocks.push_back(new RoundRock);
-        rocks.push_back(new RoundRock);
-        rocks.push_back(new RoundRock);
+        rocks.push_back(new LitchiRock);
+        rocks.push_back(new LitchiRock);
+        rocks.push_back(new LitchiRock);
+        rocks.push_back(new LitchiRock);
+        rocks.push_back(new LitchiRock);
+        rocks.push_back(new LitchiRock);
+        rocks.push_back(new LitchiRock);
     }
     else{
+        rocks.push_back(new RoundRock);
+        rocks.push_back(new RoundRock);
         rocks.push_back(new SharpedRock);
         rocks.push_back(new SharpedRock);
-        rocks.push_back(new LitchiRock);
-        rocks.push_back(new LitchiRock);
         rocks.push_back(new LitchiRock);
         rocks.push_back(new LitchiRock);
         rocks.push_back(new LitchiRock);
@@ -123,6 +114,7 @@ void ElementManager::createAllElements() {
     feuillages.push_back(new ProceduralFeuillage);
     branches.push_back(new ProceduralBranche);
     trees.push_back(new ProceduralTree);
+
     //cas spécial pour l'herbe qui n'est pas en rendu instancié
 }
 

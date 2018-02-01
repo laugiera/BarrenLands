@@ -302,5 +302,5 @@ glm::mat4 SharpedRock::getRandomRotation() {
 }
 
 glm::mat4 SharpedRock::getRandomScale() {
-    return glm::scale(glm::mat4(1.f), glm::vec3(NoiseManager::getInstance().getRandomFloat()/3));
+    return glm::scale(glm::mat4(1.f), glm::vec3(NoiseManager::getInstance().getRandomFloat()/4));
 }
