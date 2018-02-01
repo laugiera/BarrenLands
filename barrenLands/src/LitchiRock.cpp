@@ -392,5 +392,5 @@ glm::mat4 LitchiRock::getRandomRotation() {
 }
 
 glm::mat4 LitchiRock::getRandomScale() {
-    return glm::scale(glm::mat4(1.f), glm::vec3(NoiseManager::getInstance().getRandomFloat()/2));
+    return glm::scale(glm::mat4(1.f), glm::vec3(NoiseManager::getInstance().getRandomFloat()/3));
 }

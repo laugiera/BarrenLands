@@ -644,11 +644,11 @@ int Application::appLoop() {
 
         if(sun.getDirection().y < 0) {
             lightState = NIGHT;
-            std::cout <<"night"<<std::endl;
+            //std::cout <<"night"<<std::endl;
         }
         else{
             lightState = DAY;
-            std::cout <<"day"<<std::endl;
+            //std::cout <<"day"<<std::endl;
 
         }
 
