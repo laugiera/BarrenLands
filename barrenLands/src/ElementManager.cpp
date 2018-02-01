@@ -65,16 +65,30 @@ void ElementManager::createAllElements() {
     rocks.push_back(new CurvedRock);
     rocks.push_back(new CurvedRock);
     //TOUNDRA de rocks[15] à rocks[22]
-    rocks.push_back(new PickRock);
-    rocks.push_back(new PickRock);
-    rocks.push_back(new PickRock);
-    rocks.push_back(new PickRock);
-    rocks.push_back(new TriangularRock);
-    rocks.push_back(new TriangularRock);
-    rocks.push_back(new TriangularRock);
-    rocks.push_back(new TriangularRock);
+    random = NoiseManager::getInstance().getRandomFloat()*3;
+    if(random < 0) {
+        rocks.push_back(new PickRock);
+        rocks.push_back(new PickRock);
+        rocks.push_back(new TriangularRock);
+        rocks.push_back(new TriangularRock);
+        rocks.push_back(new TriangularRock);
+        rocks.push_back(new TriangularRock);
+        rocks.push_back(new TriangularRock);
+        rocks.push_back(new TriangularRock);
+    }
+    else
+    {
+        rocks.push_back(new PickRock);
+        rocks.push_back(new PickRock);
+        rocks.push_back(new PickRock);
+        rocks.push_back(new PickRock);
+        rocks.push_back(new PickRock);
+        rocks.push_back(new PickRock);
+        rocks.push_back(new TriangularRock);
+        rocks.push_back(new TriangularRock);
+    }
     //GRASS de rocks[23] à rocks[30]
-    random = NoiseManager::getInstance().getRandomFloat();
+    random = NoiseManager::getInstance().getRandomFloat()*3;
     if(random < 0){
         rocks.push_back(new RoundFlatRock);
         rocks.push_back(new RoundFlatRock);

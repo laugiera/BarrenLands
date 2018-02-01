@@ -158,7 +158,7 @@ void ProceduralMap::createBiomes() {
 
 
     //Affectation des valeurs
-    float rockLevel = -0.5;
+    float rockLevel = -0.7;
     float grassLevel = 0.3;
 
     try {

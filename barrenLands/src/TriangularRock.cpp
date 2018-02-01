@@ -293,7 +293,7 @@ void TriangularRock::smooth(std::vector<glimac::ShapeVertex> &_vertices, int nbR
 
 
 glm::mat4 TriangularRock::getRandomRotation() {
-    return glm::rotate(glm::mat4(1.f), glm::radians(95*NoiseManager::getInstance().getRandomFloat()), glm::vec3(1,0,0));
+    return glm::rotate(glm::mat4(1.f), glm::radians(95*NoiseManager::getInstance().getRandomFloat()), glm::vec3(1,0,1));
 }
 
 glm::mat4 TriangularRock::getRandomScale() {

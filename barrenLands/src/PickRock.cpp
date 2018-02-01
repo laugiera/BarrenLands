@@ -300,5 +300,5 @@ glm::mat4 PickRock::getRandomRotation() {
 }
 
 glm::mat4 PickRock::getRandomScale() {
-    return glm::scale(glm::mat4(1.f), glm::vec3(NoiseManager::getInstance().getRandomFloat()/3));
+    return glm::scale(glm::mat4(1.f), glm::vec3(NoiseManager::getInstance().getRandomFloat()/4));
 }
