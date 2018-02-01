@@ -251,7 +251,7 @@ glm::mat4 SapinFeuillage::getRandomRotation() {
 
 
 glm::mat4 SapinFeuillage::getRandomScale() {
-    return glm::scale(glm::mat4(1.f), glm::vec3(0.3+0.3*NoiseManager::getInstance().getRandomFloat(),0.4+0.3*NoiseManager::getInstance().getRandomFloat(),0.3+0.3*NoiseManager::getInstance().getRandomFloat()));
+    return glm::scale(glm::mat4(1.f), glm::vec3(0.7+0.5*NoiseManager::getInstance().getRandomFloat(),0.4+0.3*NoiseManager::getInstance().getRandomFloat(),0.7+0.5*NoiseManager::getInstance().getRandomFloat()));
 }
 
 /**

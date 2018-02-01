@@ -335,7 +335,7 @@ glm::mat4 ProceduralFeuillage::getRandomRotation() {
 
 
 glm::mat4 ProceduralFeuillage::getRandomScale() {
-    return glm::scale(glm::mat4(1.f), glm::vec3(0.3+0.3*NoiseManager::getInstance().getRandomFloat(),0.2+0.3*NoiseManager::getInstance().getRandomFloat(),0.3+0.3*NoiseManager::getInstance().getRandomFloat()));
+    return glm::scale(glm::mat4(1.f), glm::vec3(0.7+0.3*NoiseManager::getInstance().getRandomFloat(),0.7+0.3*NoiseManager::getInstance().getRandomFloat(),0.7+0.3*NoiseManager::getInstance().getRandomFloat()));
 }
 
 /**
