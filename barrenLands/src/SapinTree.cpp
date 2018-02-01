@@ -5,8 +5,10 @@
 SapinTree::SapinTree(): ProceduralObject(), tronc(nullptr), feuillage(nullptr){
     vertices.clear();
     indices.clear();
-    tronc = ElementManager::getInstance().createProceduralBranche(4);
-    feuillage = ElementManager::getInstance().createProceduralFeuillage(4);
+    int rand = NoiseManager::getInstance().getRandomFloat()*4;
+    if(rand < 0) rand = -rand;
+    tronc = ElementManager::getInstance().createProceduralBranche(4+rand);
+    feuillage = ElementManager::getInstance().createProceduralFeuillage(4+rand);
 
 }
 
@@ -41,6 +43,8 @@ void SapinTree::addInstance(const glm::vec3 &position, const Color &biomeColor) 
         truePosition.y += getHauteur(position);
         Color colorTronc(0.5,0.5,0.5); colorTronc.randomSimilarColor(0.05);
         glm::mat4 scalemat = tronc->getRandomScale();
+        scalemat[0][0] *= 0.4;
+        scalemat[2][2] *= 0.4;
         tronc->addInstance(truePosition, colorTronc, scalemat);
         Color colorFeuille(biomeColor); colorFeuille.green(0.1); colorFeuille.blue(0.1); colorFeuille.randomSimilarColor(0.05);
         float heightScale = scale * (tronc->getHeight()*scalemat[1][1]);
@@ -56,10 +60,10 @@ void SapinTree::addInstance(const glm::vec3 &position, const Color &biomeColor) 
 void SapinTree::scatter() {
     //gérer la répartition du vecteur de positions;
     //if three x or z positions ar near each other, then we group them
-    float epsilon = 30,  ecartX = 0, ecartZ = 0, decalage = 10;
+    float epsilon = 20,  ecartX = 0, ecartZ = 0, decalage = 10;
     int i = 5;
     glm::vec3 posFeuillage;
-    float heightScale = 0.25 *  tronc->getHeight();
+    float heightScale = tronc->getHeight();
     while (i<tronc->instances.size()){
         ecartX = (tronc->instances[i-1]->position.x + tronc->instances[i-2]->position.x + tronc->instances[i-3]->position.x + tronc->instances[i-4]->position.x +
                   tronc->instances[i-5]->position.x+ tronc->instances[i]->position.x)/6;
@@ -94,7 +98,7 @@ void SapinTree::scatter() {
 
         i+=6;
         for (int j = 0; j < tronc->instances.size(); ++j) {
-            posFeuillage = glm::vec3(tronc->instances[j]->position.x, tronc->instances[j]->position.y  + heightScale,  tronc->instances[j]->position.z);
+            posFeuillage = glm::vec3(tronc->instances[j]->position.x, tronc->instances[j]->position.y  + heightScale*1.3+ 0.3*NoiseManager::getInstance().getRandomFloat(),  tronc->instances[j]->position.z);
             //posFeuillage = globalScale * posFeuillage;
             feuillage->instances[j]->position = posFeuillage;
         }

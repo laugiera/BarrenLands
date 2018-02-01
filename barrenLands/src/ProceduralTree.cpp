@@ -7,7 +7,7 @@ ProceduralTree::ProceduralTree(): ProceduralObject(), tronc(nullptr), feuillage(
     indices.clear();
     int rand = NoiseManager::getInstance().getRandomFloat()*4;
     if(rand < 0) rand = -rand;
-    std::cout << "RAND FEUILLE !!!!!!!! " << rand << std::endl;
+    //std::cout << "RAND FEUILLE !!!!!!!! " << rand << std::endl;
     tronc = ElementManager::getInstance().createProceduralBranche(rand);
     feuillage = ElementManager::getInstance().createProceduralFeuillage(rand);
 
@@ -36,7 +36,7 @@ void ProceduralTree::createRenderObject(ProgramManager *programManager, TextureM
 
 void ProceduralTree::addInstance(const glm::vec3 &position, const Color &biomeColor) {
 
-    float scale = 0.25;
+    float scale = 10;
     if(!tronc || !feuillage){
         throw std::runtime_error("Il n'y a pas de tronc ou de feuillage défini");
     } else {
@@ -44,9 +44,11 @@ void ProceduralTree::addInstance(const glm::vec3 &position, const Color &biomeCo
         truePosition.y += getHauteur(position);
         Color colorTronc(0.5,0.5,0.5); colorTronc.randomSimilarColor(0.05);
         glm::mat4 scalemat = tronc->getRandomScale();
+        scalemat[0][0] *= 0.5;
+        scalemat[2][2] *= 0.5;
         tronc->addInstance(truePosition, colorTronc, scalemat);
         Color colorFeuille(biomeColor); colorFeuille.green(0.1); colorFeuille.blue(0.1); colorFeuille.randomSimilarColor(0.05);
-        float heightScale = scale * (tronc->getHeight()*scalemat[1][1]);
+        float heightScale = scale * (tronc->getHeight());
         glm::vec3 posFeuillage = glm::vec3(position.x, truePosition.y + heightScale, position.z);
         feuillage->addInstance(posFeuillage, colorFeuille);
     }
@@ -59,10 +61,10 @@ void ProceduralTree::addInstance(const glm::vec3 &position, const Color &biomeCo
 void ProceduralTree::scatter() {
         //gérer la répartition du vecteur de positions;
         //if three x or z positions ar near each other, then we group them
-        float epsilon = 30,  ecartX = 0, ecartZ = 0, decalage = 10;
+        float epsilon = 20,  ecartX = 0, ecartZ = 0, decalage = 10;
         int i = 5;
         glm::vec3 posFeuillage;
-        float heightScale = 0.25 *  tronc->getHeight();
+        float heightScale = tronc->getHeight();
     while (i<tronc->instances.size()){
             ecartX = (tronc->instances[i-1]->position.x + tronc->instances[i-2]->position.x + tronc->instances[i-3]->position.x + tronc->instances[i-4]->position.x +
                       tronc->instances[i-5]->position.x+ tronc->instances[i]->position.x)/6;
@@ -97,8 +99,9 @@ void ProceduralTree::scatter() {
 
             i+=6;
             for (int j = 0; j < tronc->instances.size(); ++j) {
-                posFeuillage = glm::vec3(tronc->instances[j]->position.x, tronc->instances[j]->position.y  + heightScale,  tronc->instances[j]->position.z);
+                posFeuillage = glm::vec3(tronc->instances[j]->position.x, tronc->instances[j]->position.y  + heightScale*1.3+ 0.3*NoiseManager::getInstance().getRandomFloat(),  tronc->instances[j]->position.z);
                 //posFeuillage = globalScale * posFeuillage;
+                //std::cout << "HAUTEUR " << scale[1][1] << std::endl;
                 feuillage->instances[j]->position = posFeuillage;
             }
         }

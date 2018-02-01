@@ -8,9 +8,9 @@ ProceduralBranche::ProceduralBranche(): ProceduralObject(){
 
     //Initialisation
     height = 3*NoiseManager::getInstance().getRandomFloat() +3;
-    radius1 = 0.2*NoiseManager::getInstance().getRandomFloat()+0.1;
-    radius2 = 0.1*NoiseManager::getInstance().getRandomFloat()+0.05;
-    nbrSub = 6*NoiseManager::getInstance().getRandomFloat()+4;
+    radius1 = 0.2*abs(NoiseManager::getInstance().getRandomFloat())+0.2;
+    radius2 = 0.1*abs(NoiseManager::getInstance().getRandomFloat())+0.1;
+    nbrSub = 6*abs(NoiseManager::getInstance().getRandomFloat())+5;
     generateVertices();
     generateNormals();
 }
@@ -88,7 +88,7 @@ glm::mat4 ProceduralBranche::getRandomRotation() {
 }
 
 glm::mat4 ProceduralBranche::getRandomScale() {
-    return glm::scale(glm::mat4(1.f), glm::vec3(0.3 + 0.1*NoiseManager::getInstance().getRandomFloat(),0.7 ,0.3+ 0.1*NoiseManager::getInstance().getRandomFloat()));
+    return glm::scale(glm::mat4(1.f), glm::vec3(1.7 + 0.5*NoiseManager::getInstance().getRandomFloat(),1.3 ,1.7+ 0.5*NoiseManager::getInstance().getRandomFloat()));
 }
 
 /**

@@ -24,7 +24,6 @@ public:
      Color &getColor();
 
     glm::vec3 position;
-
 private:
     glm::mat4 transfo;
     Color color;
