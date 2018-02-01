@@ -72,7 +72,7 @@ void main() {
         coeffSun = 1.-dot(normalize(normal_cameraspace),vec3(0,-1.,0));
     }
 
-    float intensityMoon = uLightIntensityMoon*coeffMoon, intensitySun = uLightIntensitySun*coeffSun;
+    float intensityMoon = (uLightIntensityMoon-0.5)*coeffMoon, intensitySun = (uLightIntensitySun-0.5)*coeffSun;
 
     color = getLightColor(uLightColorMoon,intensityMoon,uLightDirMoon.xyz)
           + getLightColor(uLightColorSun,intensitySun,uLightDirSun.xyz);

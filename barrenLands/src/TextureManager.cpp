@@ -7,9 +7,9 @@
  * Construtor
  * @param appPath
  */
-TextureManager::TextureManager(const glimac::FilePath &appPath) : appPath(appPath) {
+TextureManager::TextureManager()  {
     createTextures();
-    loadTextures(appPath.dirPath() + "textures/");
+    loadTextures(Tools::appPath + "textures/");
 
 }
 /**
@@ -18,21 +18,21 @@ TextureManager::TextureManager(const glimac::FilePath &appPath) : appPath(appPat
 void TextureManager::createTextures() {
 
     //skybox
-    glcustom::Texture *  skybox = new glcustom::Texture( appPath.dirPath() + "textures",GL_TEXTURE_CUBE_MAP );
+    glcustom::Texture *  skybox = new glcustom::Texture( Tools::appPath + "textures",GL_TEXTURE_CUBE_MAP );
     textures[skybox]="skybox";
 
-    glcustom::Texture *  menuSeed1 = new glcustom::Texture( appPath.dirPath() + "textures/menu/seed1.png",GL_TEXTURE_2D );
-    glcustom::Texture *  menuSeed2 = new glcustom::Texture( appPath.dirPath() + "textures/menu/seed2.png",GL_TEXTURE_2D );
-    glcustom::Texture *  menuSeed3 = new glcustom::Texture( appPath.dirPath() + "textures/menu/seed3.png",GL_TEXTURE_2D );
+    glcustom::Texture *  menuSeed1 = new glcustom::Texture( Tools::appPath + "textures/menu/seed1.png",GL_TEXTURE_2D );
+    glcustom::Texture *  menuSeed2 = new glcustom::Texture( Tools::appPath + "textures/menu/seed2.png",GL_TEXTURE_2D );
+    glcustom::Texture *  menuSeed3 = new glcustom::Texture( Tools::appPath + "textures/menu/seed3.png",GL_TEXTURE_2D );
 
     textures[menuSeed1]="menuSeed1";
     textures[menuSeed2]="menuSeed2";
     textures[menuSeed3]="menuSeed3";
 
-    glcustom::Texture *  menuPause1 = new glcustom::Texture( appPath.dirPath() + "textures/menu/menuPause1.png",GL_TEXTURE_2D );
-    glcustom::Texture *  menuPause2 = new glcustom::Texture( appPath.dirPath() + "textures/menu/menuPause2.png",GL_TEXTURE_2D );
-    glcustom::Texture *  menuPause3 = new glcustom::Texture( appPath.dirPath() + "textures/menu/menuPause3.png",GL_TEXTURE_2D );
-    glcustom::Texture *  menuPause4 = new glcustom::Texture( appPath.dirPath() + "textures/menu/menuPause4.png",GL_TEXTURE_2D );
+    glcustom::Texture *  menuPause1 = new glcustom::Texture( Tools::appPath + "textures/menu/menuPause1.png",GL_TEXTURE_2D );
+    glcustom::Texture *  menuPause2 = new glcustom::Texture( Tools::appPath + "textures/menu/menuPause2.png",GL_TEXTURE_2D );
+    glcustom::Texture *  menuPause3 = new glcustom::Texture( Tools::appPath + "textures/menu/menuPause3.png",GL_TEXTURE_2D );
+    glcustom::Texture *  menuPause4 = new glcustom::Texture( Tools::appPath + "textures/menu/menuPause4.png",GL_TEXTURE_2D );
 
     textures[menuPause1]="menuPause1";
     textures[menuPause2]="menuPause2";

@@ -388,9 +388,9 @@ void LitchiRock::smooth(std::vector<glimac::ShapeVertex> &_vertices, int nbRecur
 
 
 glm::mat4 LitchiRock::getRandomRotation() {
-    return glm::rotate(glm::mat4(1.f), glm::radians(50*NoiseManager::getInstance().getRandomFloat()), glm::vec3(0,1,0));
+    return glm::rotate(glm::mat4(1.f), glm::radians(80*NoiseManager::getInstance().getRandomFloat()), glm::vec3(1,1,0));
 }
 
 glm::mat4 LitchiRock::getRandomScale() {
-    return glm::scale(glm::mat4(1.f), glm::vec3(NoiseManager::getInstance().getRandomFloat()/5));
+    return glm::scale(glm::mat4(1.f), glm::vec3(NoiseManager::getInstance().getRandomFloat()/3));
 }

@@ -8,13 +8,14 @@
 
 #include <GPUProgram.hpp>
 #include <Light.hpp>
+#include "Tools.hpp"
 /**
  * Class ProgramManager
  * Initialise and manage all GPU Program of the app with their uniforms variables
  */
 class ProgramManager {
 public:
-    ProgramManager(const std::string &appPath);
+    ProgramManager();
 
     virtual ~ProgramManager();
 
@@ -39,7 +40,6 @@ public:
 
     void reloadPrograms();
 private:
-    glimac::FilePath appPath;
     glcustom::GPUProgram * testProgram;
     glcustom::GPUProgram * elementProgram;
     glcustom::GPUProgram * skyboxProgram;

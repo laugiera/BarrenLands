@@ -23,6 +23,7 @@
 #include <FBO.hpp>
 #include "RenderScreen.hpp"
 #include <FileHelper.hpp>
+#include <SDL2/SDL_thread.h>
 
 /**
  * Class Application
@@ -50,6 +51,7 @@ public:
     int  mainMenu();
     int pauseMenu();
     static void play(glimac::FilePath f);
+    int init_thread( void *data );
 
 private:
     glimac::SDLWindowManager windowManager;

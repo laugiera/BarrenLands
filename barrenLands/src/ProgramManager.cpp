@@ -7,9 +7,9 @@
  * Constructor
  * @param appPath
  */
-ProgramManager::ProgramManager(const std::string &appPath) : testProgram(nullptr), elementProgram(nullptr), skyboxProgram(
+ProgramManager::ProgramManager() : testProgram(nullptr), elementProgram(nullptr), skyboxProgram(
         nullptr), mapProgram(nullptr), DOFProgram(nullptr), texture2DProgram(nullptr), BlurProgram(nullptr),
-                                                             GammaProgram(nullptr), appPath(appPath) {
+                                                             GammaProgram(nullptr) {
     createPrograms();
 }
 /**
@@ -31,50 +31,50 @@ ProgramManager::~ProgramManager() {
  */
 void ProgramManager::createPrograms() {
     //test Program
-    testProgram = new glcustom::GPUProgram(appPath, "testShader",  "testShader");
+    testProgram = new glcustom::GPUProgram(Tools::appPath, "testShader",  "testShader");
     std::vector<std::string> uniform_variables = {"uMV", "uMVP","uNormal","uColor", "uTexture0"};
     testProgram->addUniforms(uniform_variables);
 
     //to draw elements
     uniform_variables.clear();
     uniform_variables = {"uMV", "uMVP","uTexture0", "uTexture1" ,"uNormal", "uColor","uDepthMVP"};
-    elementProgram = new glcustom::GPUProgram(appPath,"element","element");
+    elementProgram = new glcustom::GPUProgram(Tools::appPath,"element","element");
     elementProgram->addUniforms(uniform_variables);
 
     //to draw skybox
     uniform_variables.clear();
     uniform_variables = {"uMV", "uMVP","uTexture0"};
-    skyboxProgram = new glcustom::GPUProgram(appPath,"skybox","skybox");
+    skyboxProgram = new glcustom::GPUProgram(Tools::appPath,"skybox","skybox");
     skyboxProgram->addUniforms(uniform_variables);
 
     //to draw the map
     uniform_variables.clear();
     uniform_variables = {"uMV", "uMVP","uTexture0", "uTexture1", "uTexture2" , "uTexture3", "uNormal", "uSubDiv", "uColors", "uDepthMVP"};
-    mapProgram = new glcustom::GPUProgram(appPath,"light","light");
+    mapProgram = new glcustom::GPUProgram(Tools::appPath,"light","light");
     mapProgram->addUniforms(uniform_variables);
 
     //to draw a 2D texture on the screen
     uniform_variables.clear();
     uniform_variables = {"uTexture0", "uZNear", "uZFar"};
-    texture2DProgram = new glcustom::GPUProgram(appPath,"printTexture2D","printTexture2D");
+    texture2DProgram = new glcustom::GPUProgram(Tools::appPath,"printTexture2D","printTexture2D");
     texture2DProgram->addUniforms(uniform_variables);
 
     //add the DOF effect
     uniform_variables.clear();
     uniform_variables = {"uTexture0", "uTexture1", "uTexture2", "uZNear", "uZFar"};
-    DOFProgram = new glcustom::GPUProgram(appPath,"printTexture2D","DOF");
+    DOFProgram = new glcustom::GPUProgram(Tools::appPath,"printTexture2D","DOF");
     DOFProgram->addUniforms(uniform_variables);
 
     //blur
     uniform_variables.clear();
     uniform_variables = {"uTexture0", "uSampleCount", "uDirection", "uZNear", "uZFar"};
-    BlurProgram = new glcustom::GPUProgram(appPath,"printTexture2D","Blur");
+    BlurProgram = new glcustom::GPUProgram(Tools::appPath,"printTexture2D","Blur");
     BlurProgram->addUniforms(uniform_variables);
 
     //gamma
     uniform_variables.clear();
     uniform_variables = {"uTexture0", "uTexture1", "uZNear", "uZFar", "uLightColor", "uLightDir"};
-    GammaProgram = new glcustom::GPUProgram(appPath,"printTexture2D","Gamma");
+    GammaProgram = new glcustom::GPUProgram(Tools::appPath,"printTexture2D","Gamma");
     GammaProgram->addUniforms(uniform_variables);
 
 }
@@ -85,34 +85,34 @@ void ProgramManager::createPrograms() {
  */
 void ProgramManager::reloadPrograms() {
     std::vector<std::string> uniform_variables = testProgram->getUniformList();
-    testProgram->setProgram(appPath, "testShader",  "testShader");
+    testProgram->setProgram(Tools::appPath, "testShader",  "testShader");
     testProgram->addUniforms(uniform_variables);
 
     uniform_variables = elementProgram->getUniformList();
-    elementProgram->setProgram(appPath, "element",  "element");
+    elementProgram->setProgram(Tools::appPath, "element",  "element");
     elementProgram->addUniforms(uniform_variables);
 
     uniform_variables = skyboxProgram->getUniformList();
-    skyboxProgram->setProgram(appPath, "skybox",  "skybox");
+    skyboxProgram->setProgram(Tools::appPath, "skybox",  "skybox");
     skyboxProgram->addUniforms(uniform_variables);
 
     uniform_variables = mapProgram->getUniformList();
-    mapProgram->setProgram(appPath, "light",  "light");
+    mapProgram->setProgram(Tools::appPath, "light",  "light");
     mapProgram->addUniforms(uniform_variables);
 
-    texture2DProgram->setProgram(appPath,"printTexture2D","printTexture2D");
+    texture2DProgram->setProgram(Tools::appPath,"printTexture2D","printTexture2D");
     texture2DProgram->addUniform("uTexture0");
 
     uniform_variables = DOFProgram->getUniformList();
-    DOFProgram->setProgram(appPath, "printTexture2D",  "DOF");
+    DOFProgram->setProgram(Tools::appPath, "printTexture2D",  "DOF");
     DOFProgram->addUniforms(uniform_variables);
 
     uniform_variables = BlurProgram->getUniformList();
-    BlurProgram->setProgram(appPath, "printTexture2D",  "Blur");
+    BlurProgram->setProgram(Tools::appPath, "printTexture2D",  "Blur");
     BlurProgram->addUniforms(uniform_variables);
 
     uniform_variables = GammaProgram->getUniformList();
-    GammaProgram->setProgram(appPath, "printTexture2D",  "Gamma");
+    GammaProgram->setProgram(Tools::appPath, "printTexture2D",  "Gamma");
     GammaProgram->addUniforms(uniform_variables);
 
 
