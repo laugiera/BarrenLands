@@ -158,8 +158,8 @@ void ProceduralMap::createBiomes() {
 
 
     //Affectation des valeurs
-    float rockLevel = -0.2;
-    float grassLevel = 0.4;
+    float rockLevel = 0.3;
+    float grassLevel = 0.7;
 
     try {
         for (int i = 0; i < vertices.size(); i++) {

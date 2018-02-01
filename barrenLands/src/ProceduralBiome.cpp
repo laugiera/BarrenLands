@@ -48,7 +48,9 @@ void ProceduralBiome::createElement(glm::vec3 position, const std::string &type)
     else if (type == "tree"){
         if(trees.empty()) throw std::runtime_error("Biome " + name + " : an the tree category is empty");
         if(name == "toundra"){
-            trees[0]->addInstance(position, *color);
+            int rand4 = int(NoiseManager::getInstance().getRandomFloat()*4);
+            if(rand4 < 0) rand4 = -rand4;
+            trees[rand4]->addInstance(position, *color);
         }
         else{
             int rand3 = int(NoiseManager::getInstance().getRandomFloat()*4);
@@ -123,6 +125,9 @@ void ProceduralBiome::createElements() {
     }
     if(name=="toundra"){
         trees.push_back(ElementManager::getInstance().createProceduralTree(4));
+        trees.push_back(ElementManager::getInstance().createProceduralTree(5));
+        trees.push_back(ElementManager::getInstance().createProceduralTree(6));
+        trees.push_back(ElementManager::getInstance().createProceduralTree(7));
     }
     else{
         trees.push_back(ElementManager::getInstance().createProceduralTree(0));

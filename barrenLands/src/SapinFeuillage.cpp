@@ -22,14 +22,14 @@ void SapinFeuillage::generateVertices(){
     std::vector<glimac::ShapeVertex> _vertices;
 
 
-    _vertices.emplace_back(glm::normalize(glm::vec3(0,-1,0)), glm::normalize(glm::vec3(0,-1,0)), glm::vec2(1,1));
+    _vertices.emplace_back(glm::vec3(0,-2,0), glm::normalize(glm::vec3(0,-1,0)), glm::vec2(1,1));
 
-    _vertices.emplace_back(glm::vec3(cos(2*3.14/6),-1,sin(2*3.14/6)), glm::vec3(cos(2*3.14/6),-1,sin(2*3.14/6)), glm::vec2(1,1));
-    _vertices.emplace_back(glm::vec3(cos(4*3.14/6),-1,sin(4*3.14/6)), glm::vec3(cos(4*3.14/6),-1,sin(4*3.14/6)), glm::vec2(1,1));
-    _vertices.emplace_back(glm::vec3(cos(6*3.14/6),-1,sin(6*3.14/6)), glm::vec3(cos(6*3.14/6),-1,sin(6*3.14/6)), glm::vec2(1,1));
-    _vertices.emplace_back(glm::vec3(cos(8*3.14/6),-1,sin(8*3.14/6)), glm::vec3(cos(8*3.14/6),-1,sin(8*3.14/6)), glm::vec2(1,1));
-    _vertices.emplace_back(glm::vec3(cos(10*3.14/6),-1,sin(10*3.14/6)), glm::vec3(cos(10*3.14/6),-1,sin(10*3.14/6)), glm::vec2(1,1));
-    _vertices.emplace_back(glm::vec3(cos(12*3.14/6),-1,sin(12*3.14/6)), glm::vec3(cos(12*3.14/6),-1,sin(12*3.14/6)), glm::vec2(1,1));
+    _vertices.emplace_back(glm::vec3(cos(2*3.14/6),-2,sin(2*3.14/6)), glm::vec3(cos(2*3.14/6),-1,sin(2*3.14/6)), glm::vec2(1,1));
+    _vertices.emplace_back(glm::vec3(cos(4*3.14/6),-2,sin(4*3.14/6)), glm::vec3(cos(4*3.14/6),-1,sin(4*3.14/6)), glm::vec2(1,1));
+    _vertices.emplace_back(glm::vec3(cos(6*3.14/6),-2,sin(6*3.14/6)), glm::vec3(cos(6*3.14/6),-1,sin(6*3.14/6)), glm::vec2(1,1));
+    _vertices.emplace_back(glm::vec3(cos(8*3.14/6),-2,sin(8*3.14/6)), glm::vec3(cos(8*3.14/6),-1,sin(8*3.14/6)), glm::vec2(1,1));
+    _vertices.emplace_back(glm::vec3(cos(10*3.14/6),-2,sin(10*3.14/6)), glm::vec3(cos(10*3.14/6),-1,sin(10*3.14/6)), glm::vec2(1,1));
+    _vertices.emplace_back(glm::vec3(cos(12*3.14/6),-2,sin(12*3.14/6)), glm::vec3(cos(12*3.14/6),-1,sin(12*3.14/6)), glm::vec2(1,1));
 
     _vertices.emplace_back(glm::normalize(glm::vec3(0, 8, 0)), glm::normalize(glm::vec3(0, 4, 0)), glm::vec2(1,1));
 
@@ -251,7 +251,7 @@ glm::mat4 SapinFeuillage::getRandomRotation() {
 
 
 glm::mat4 SapinFeuillage::getRandomScale() {
-    return glm::scale(glm::mat4(1.f), glm::vec3(0.3+0.3*NoiseManager::getInstance().getRandomFloat(),0.4+0.3*NoiseManager::getInstance().getRandomFloat(),0.3+0.3*NoiseManager::getInstance().getRandomFloat()));
+    return glm::scale(glm::mat4(1.f), glm::vec3(1.3+0.6*NoiseManager::getInstance().getRandomFloat(),1.3+0.3*NoiseManager::getInstance().getRandomFloat(),1.3+0.6*NoiseManager::getInstance().getRandomFloat()));
 }
 
 /**
