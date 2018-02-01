@@ -40,9 +40,9 @@ public:
 
     void createAllElements();
     ProceduralObject* createProceduralRock(const std::string &name, int elmt = 0);
-    ProceduralObject* createProceduralTree();
-    ProceduralBranche* createProceduralBranche();
-    ProceduralFeuillage* createProceduralFeuillage();
+    ProceduralObject* createProceduralTree(int elmt = 0);
+    ProceduralBranche* createProceduralBranche(int elmt = 0);
+    ProceduralFeuillage* createProceduralFeuillage(int elmt = 0);
     ProceduralObject* createProceduralGrass(const glm::vec3 & position);
     std::vector<ProceduralObject *> getAllElements();
     void scatter();

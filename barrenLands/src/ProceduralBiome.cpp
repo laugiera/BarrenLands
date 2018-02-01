@@ -29,12 +29,12 @@ void ProceduralBiome::createElement(glm::vec3 position, const std::string &type)
         if(rocks.empty()) throw std::runtime_error("Biome " + name + " : an the rock category is empty");
         if(name == "sand" || name == "toundra" || name == "rock") {
             int rand = int(NoiseManager::getInstance().getRandomFloat()*8);
-            if(rand < 0) rand = 0;
+            if(rand < 0) rand = -rand;
             rocks[rand]->addInstance(position, *color);
         }
         if(name == "savannah"){
             int rand2 = int(NoiseManager::getInstance().getRandomFloat()*4);
-            if(rand2 < 0) rand2 = 0;
+            if(rand2 < 0) rand2 = -rand2;
             rocks[rand2]->addInstance(position, *color);
         }
         else{
@@ -118,7 +118,10 @@ void ProceduralBiome::createElements() {
         //trees.push_back(ElementManager::getInstance().createProceduralSapinTree());
     //}
     //else{
-        trees.push_back(ElementManager::getInstance().createProceduralTree());
+    int rand = NoiseManager::getInstance().getRandomFloat()*4;
+    if(rand < 0) rand = -rand;
+    std::cout << "RAND TREE !!!!!!!! " << rand << std::endl;
+        trees.push_back(ElementManager::getInstance().createProceduralTree(rand));
     //}
     //grass.push_back(ElementManager::getInstance().createProceduralGrass());
 }

@@ -5,8 +5,11 @@
 ProceduralTree::ProceduralTree(): ProceduralObject(), tronc(nullptr), feuillage(nullptr){
     vertices.clear();
     indices.clear();
-    tronc = ElementManager::getInstance().createProceduralBranche();
-    feuillage = ElementManager::getInstance().createProceduralFeuillage();
+    int rand = NoiseManager::getInstance().getRandomFloat()*4;
+    if(rand < 0) rand = -rand;
+    std::cout << "RAND FEUILLE !!!!!!!! " << rand << std::endl;
+    tronc = ElementManager::getInstance().createProceduralBranche(rand);
+    feuillage = ElementManager::getInstance().createProceduralFeuillage(rand);
 
 }
 
@@ -40,9 +43,10 @@ void ProceduralTree::addInstance(const glm::vec3 &position, const Color &biomeCo
         glm::vec3 truePosition = getRandomPosition(position);
         truePosition.y += getHauteur(position);
         Color colorTronc(0.5,0.5,0.5); colorTronc.randomSimilarColor(0.05);
-        tronc->addInstance(truePosition, colorTronc);
+        glm::mat4 scalemat = tronc->getRandomScale();
+        tronc->addInstance(truePosition, colorTronc, scalemat);
         Color colorFeuille(biomeColor); colorFeuille.green(0.1); colorFeuille.blue(0.1); colorFeuille.randomSimilarColor(0.05);
-        float heightScale = scale * tronc->getHeight();
+        float heightScale = scale * (tronc->getHeight()*scalemat[1][1]);
         glm::vec3 posFeuillage = glm::vec3(position.x, truePosition.y + heightScale, position.z);
         feuillage->addInstance(posFeuillage, colorFeuille);
     }

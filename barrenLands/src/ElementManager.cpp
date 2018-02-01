@@ -100,7 +100,16 @@ void ElementManager::createAllElements() {
     }
     //NATURE
     feuillages.push_back(new ProceduralFeuillage);
+    feuillages.push_back(new ProceduralFeuillage);
+    feuillages.push_back(new ProceduralFeuillage);
+    feuillages.push_back(new ProceduralFeuillage);
     branches.push_back(new ProceduralBranche);
+    branches.push_back(new ProceduralBranche);
+    branches.push_back(new ProceduralBranche);
+    branches.push_back(new ProceduralBranche);
+    trees.push_back(new ProceduralTree);
+    trees.push_back(new ProceduralTree);
+    trees.push_back(new ProceduralTree);
     trees.push_back(new ProceduralTree);
     //cas spécial pour l'herbe qui n'est pas en rendu instancié
 }
@@ -260,15 +269,48 @@ void ElementManager::scatter(){
     }*/
 }
 
-ProceduralObject *ElementManager::createProceduralTree() {
-    return trees[0];
+ProceduralObject *ElementManager::createProceduralTree(int elmt) {
+    if(elmt == 0){
+        return trees[0];
+    }
+    else if (elmt == 1){
+        return trees[1];
+    }
+    else if (elmt == 2){
+        return trees[2];
+    }
+    else{
+        return trees[3];
+    }
 }
 
-ProceduralBranche *ElementManager::createProceduralBranche() {
-    return branches[0];
+ProceduralBranche *ElementManager::createProceduralBranche(int elmt) {
+    if(elmt == 0){
+        return branches[0];
+    }
+    else if (elmt == 1){
+        return branches[1];
+    }
+    else if (elmt == 2){
+        return branches[2];
+    }
+    else{
+        return branches[3];
+    }
 }
 
-ProceduralFeuillage *ElementManager::createProceduralFeuillage() {
-    return feuillages[0];
+ProceduralFeuillage *ElementManager::createProceduralFeuillage(int elmt) {
+    if(elmt == 0){
+        return feuillages[0];
+    }
+    else if (elmt == 1){
+        return feuillages[1];
+    }
+    else if (elmt == 2){
+        return feuillages[2];
+    }
+    else{
+        return feuillages[3];
+    }
 }
 
