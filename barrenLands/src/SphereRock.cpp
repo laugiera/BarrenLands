@@ -391,5 +391,5 @@ glm::mat4 SphereRock::getRandomRotation() {
 }
 
 glm::mat4 SphereRock::getRandomScale() {
-    return glm::scale(glm::mat4(1.f), glm::vec3(NoiseManager::getInstance().getRandomFloat()/5));
+    return glm::scale(glm::mat4(1.f), glm::vec3(NoiseManager::getInstance().getRandomFloat()/4));
 }

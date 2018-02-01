@@ -108,6 +108,7 @@ Application::~Application() {
     NoiseManager::ResetInstance();
     delete programManager;
     delete textureManager;
+    std::cout << "delete texture manager ok" <<std::endl;
     //delete windowManager; ->compiler says cannot delete type glimac::SDLWindowManager
 
 }
@@ -946,7 +947,6 @@ void Application::addDOF(glcustom::Texture *beauty, glcustom::Texture *depth, gl
 
 
 }
-
 void Application::play(glimac::FilePath f){
     int done = CONTINUE;
     Application *app = nullptr;
@@ -954,6 +954,7 @@ void Application::play(glimac::FilePath f){
         app = new Application(f);
         done = app->appLoop();
         delete app;
+        std::cout <<"delete app ok" << std::endl;
         app = nullptr;
     }
 }

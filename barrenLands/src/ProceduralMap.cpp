@@ -25,7 +25,7 @@ ProceduralMap::~ProceduralMap() {
     for( ProceduralObject * b : biomes){
         delete b;
     }
-    //std::cout << "delete map ok" << std::endl;
+    std::cout << "delete map ok" << std::endl;
 }
 
 /**
@@ -158,8 +158,8 @@ void ProceduralMap::createBiomes() {
 
 
     //Affectation des valeurs
-    float rockLevel = -0.5;
-    float grassLevel = 0.3;
+    float rockLevel = -0.2;
+    float grassLevel = 0.4;
 
     try {
         for (int i = 0; i < vertices.size(); i++) {

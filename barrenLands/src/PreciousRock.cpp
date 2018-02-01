@@ -315,9 +315,9 @@ void PreciousRock::smooth(std::vector<glimac::ShapeVertex> &_vertices, int nbRec
 
 
 glm::mat4 PreciousRock::getRandomRotation() {
-    return glm::rotate(glm::mat4(1.f), glm::radians(50*NoiseManager::getInstance().getRandomFloat()), glm::vec3(0,1,0));
+    return glm::rotate(glm::mat4(1.f), glm::radians(95*NoiseManager::getInstance().getRandomFloat()), glm::vec3(1,1,0));
 }
 
 glm::mat4 PreciousRock::getRandomScale() {
-    return glm::scale(glm::mat4(1.f), glm::vec3(NoiseManager::getInstance().getRandomFloat()/5));
+    return glm::scale(glm::mat4(1.f), glm::vec3(NoiseManager::getInstance().getRandomFloat()/3));
 }

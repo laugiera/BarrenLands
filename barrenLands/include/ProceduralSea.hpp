@@ -6,6 +6,7 @@
 #define BARRENLANDS_PROCEDURALSEA_HPP
 
 #include "ProceduralObject.hpp"
+#include "RenderSea.hpp"
 /**
  * Class ProceduralSea
  */

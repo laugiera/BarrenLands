@@ -30,9 +30,6 @@ int main(int argc, char** argv) {
         Tools::appPath = f.dirPath();
         Application::play(f);
 
-
-        //Application app = Application(f);
-        //app.appLoop();
         //app.testInterface();
 
     }catch (std::runtime_error e) {

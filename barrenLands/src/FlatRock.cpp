@@ -331,5 +331,5 @@ glm::mat4 FlatRock::getRandomRotation() {
 }
 
 glm::mat4 FlatRock::getRandomScale() {
-    return glm::scale(glm::mat4(1.f), glm::vec3(NoiseManager::getInstance().getRandomFloat()/5));
+    return glm::scale(glm::mat4(1.f), glm::vec3(NoiseManager::getInstance().getRandomFloat()/4));
 }

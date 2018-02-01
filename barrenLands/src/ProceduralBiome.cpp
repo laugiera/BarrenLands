@@ -17,7 +17,7 @@ ProceduralBiome::ProceduralBiome(Color *_color,const std::string &_name) : color
  */
 ProceduralBiome::~ProceduralBiome(){
     delete color;
-    //std::cout << "delete biome ok" << std::endl;
+    std::cout << "delete biome ok" << std::endl;
 }
 /**
  * Create the procedural objects for all the element the biome contains

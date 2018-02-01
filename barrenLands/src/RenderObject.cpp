@@ -23,9 +23,9 @@ RenderObject::RenderObject(glcustom::GPUProgram *program, std::vector<glcustom::
  */
 RenderObject::~RenderObject() {
     //delete color;
-    for (int i = 0; i < textures.size(); ++i) {
+/*    for (int i = 0; i < textures.size(); ++i) {
         delete textures[i];
-    }
+    }*/
     //delete program;
    // std::cout << "delete render object ok" << std::endl;
 }
@@ -140,14 +140,14 @@ void RenderObject::render(const glm::mat4 &viewMatrix, const  std::vector<Instan
             }
         }
     }
-    else {
+/*    else { //map & skybox
         sendUniforms(viewMatrix);
         if(indices.empty()){
             glDrawArrays(GL_TRIANGLES, 0, verticesCount);
         } else {
             glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
         }
-    }
+    }*/
     vao.debind();
     debindTextures();
 

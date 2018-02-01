@@ -20,6 +20,7 @@ public :
     void bindTextures();
     void debindTextures();
     virtual void sendUniforms(const glm::mat4 &viewMatrix);
+    void render(const glm::mat4 &viewMatrix, const  std::vector<Instance*> &instances);
 };
 
 
