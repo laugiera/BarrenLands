@@ -17,6 +17,7 @@ public:
 
     void createScreenVAO();
     void render(glcustom::FBO * fbo = nullptr);
+    void render(GLuint fbo);
     void bindTextures();
     void debindTextures();
     void sendUniforms();
