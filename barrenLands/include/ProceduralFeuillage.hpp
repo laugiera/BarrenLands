@@ -13,15 +13,15 @@ public:
     glm::mat4 getRandomScale();
 
     //à redéfinir pour chaque élement
-    void generateVertices();
+    virtual void generateVertices();
 
     void generateIndices();
 
     void generateNormals();
 
     void subdivideFace(std::vector<glimac::ShapeVertex> &_vertices, int nbRecurse);
-
-    void addInstance(const glm::vec3 &position, const Color &biomeColor);
+    //void subdivideObject(std::vector<glimac::ShapeVertex> &_vertices, int nbRecurse);
+    virtual void addInstance(const glm::vec3 &position, const Color &biomeColor);
 
 
 private:

@@ -103,7 +103,6 @@ void ElementManager::createAllElements() {
     feuillages.push_back(new ProceduralFeuillage);
     branches.push_back(new ProceduralBranche);
     trees.push_back(new ProceduralTree);
-
     //cas spécial pour l'herbe qui n'est pas en rendu instancié
 }
 
@@ -257,6 +256,9 @@ void ElementManager::scatter(){
     for (int j = 0; j < trees.size(); ++j) {
         trees[j]->scatter();
     }
+    /*for (int j = 0; j < sapinTree.size(); ++j) {
+        sapinTree[j]->scatter();
+    }*/
 }
 
 ProceduralObject *ElementManager::createProceduralTree() {

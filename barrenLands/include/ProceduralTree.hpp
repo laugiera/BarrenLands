@@ -11,17 +11,17 @@ public:
     ProceduralTree();
     virtual ~ProceduralTree();
 
-    void addInstance(const glm::vec3 &position, const Color &biomeColor);
+    virtual void addInstance(const glm::vec3 &position, const Color &biomeColor);
 
     //à redéfinir pour chaque élement
-    void generateVertices();
+    virtual void generateVertices();
 
-    void generateIndices(){};
+    virtual void generateIndices(){};
 
     //commun à toutes les Tree
-    void createRenderObject(ProgramManager *programManager, TextureManager *textureManager, Color * _color);
+    virtual void createRenderObject(ProgramManager *programManager, TextureManager *textureManager, Color * _color);
 
-    void scatter();
+    virtual void scatter();
 
 
 private:

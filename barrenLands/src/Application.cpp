@@ -481,7 +481,6 @@ int Application::appLoop() {
         SDL_Event e;
         while(windowManager.pollEvent(e)) {
             if(e.type == SDL_KEYDOWN){
-
                 if (e.key.keysym.sym == SDLK_z  && e.key.state == SDL_PRESSED) { // Z
                     moveUp = true;
                 } else if (e.key.keysym.sym == SDLK_s  && e.key.state == SDL_PRESSED) { // S
@@ -506,7 +505,7 @@ int Application::appLoop() {
                     if (camera->getChoice() == 0) {
                         camera->setChoice(1);
                     } else {
-                        camera->setChoice(0);
+                        //camera->setChoice(0);
                     }
                 } else if (e.key.keysym.sym == SDLK_b) {
                     programManager->reloadPrograms();
@@ -786,7 +785,7 @@ void Application::testInterface() {
     //tree->addInstance(glm::vec3(0,0,0), Color(1,1,0));
     //tree->createRenderObject(programManager, textureManager);
 
-    ProceduralObject * rock = ElementManager::getInstance().createProceduralRock("");
+    ProceduralObject * rock = ElementManager::getInstance().createProceduralTree();
     rock->addInstance(glm::vec3(0,0,0), Color(1,1,0));
     rock->createRenderObject(programManager, textureManager);
 
