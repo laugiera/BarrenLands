@@ -320,7 +320,7 @@ void ProceduralMap::createBiomeColors() {
 
     //derivedColor = baseColor; derivedColor.lighten(0.1); /*derivedColor.blue(0.05);*/ derivedColor.complementaryColor();
     derivedColor = baseColor;
-    derivedColor.lighten(NoiseManager::getInstance().getRandomFloat()*3);
+    derivedColor.lighten(NoiseManager::getInstance().getRandomFloat()*2);
     derivedColor.randomSimilarColor(0.3);
     RenderMap::rock = new Color(&derivedColor);
     std::cout <<"rock Color : "<< *RenderMap::rock << std::endl;

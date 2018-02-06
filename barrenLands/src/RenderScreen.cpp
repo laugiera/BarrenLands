@@ -67,3 +67,14 @@ void RenderScreen::sendUniforms() {
     program->sendUniform1f("uZNear", Tools::zNear);
     program->sendUniform1f("uZFar", Tools::zFar);
 }
+
+void RenderScreen::render(GLuint fbo) {
+    glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+    program->use();
+    sendUniforms();
+    bindTextures();
+    vao.bind();
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+    vao.debind();
+    debindTextures();
+}

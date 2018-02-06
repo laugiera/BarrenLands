@@ -456,6 +456,7 @@ int Application::appLoop() {
 
     bool done = false;
     int rightPressed = 0;
+    bool multisamp= false;
     camera->moveFront(Tools::speed);
 
     bool rotatebutton = false;
@@ -505,6 +506,9 @@ int Application::appLoop() {
                     }
                 } else if (e.key.keysym.sym == SDLK_b) {
                     programManager->reloadPrograms();
+                }
+                else if (e.key.keysym.sym == SDLK_m) {
+                    multisamp = !multisamp;
                 }
                 if(e.key.keysym.sym == SDLK_SPACE){ //pause
                     //stop sound
@@ -675,7 +679,15 @@ int Application::appLoop() {
         /**************BLUR****************************/
         glm::vec4 dir = sun.getDirection();
         glm::vec3 color = lightState==-1?moon.getColor():sun.getColor();
+        if(multisamp){
+            std::cout << "multisample on" << std::endl;
+            glEnable(GL_MULTISAMPLE);
+        }
+
         addDOF(&beauty, &depth, fbo, color, dir);
+        if (multisamp) {
+            glDisable(GL_MULTISAMPLE);
+        }
 
         /********************************************/
         windowManager.swapBuffers();
@@ -903,6 +915,22 @@ void Application::testInterface() {
 
 void Application::addDOF(glcustom::Texture *beauty, glcustom::Texture *depth, glcustom::FBO &fbo, glm::vec3 &lightColor, glm::vec4 &lightDir) {
 
+    /* TEST MULTISAMPLING
+    int num_samples = 4;
+    GLuint tex, fboMSAA;
+    glGenTextures( 1, &tex );
+    glBindTexture( GL_TEXTURE_2D_MULTISAMPLE, tex );
+    glTexImage2DMultisample( GL_TEXTURE_2D_MULTISAMPLE, num_samples, GL_RGBA8, Tools::windowWidth, Tools::windowHeight, false );
+
+    glGenFramebuffers( 1, &fboMSAA );
+    glBindFramebuffer( GL_FRAMEBUFFER, fboMSAA );
+    glFramebufferTexture2D( GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D_MULTISAMPLE, tex, 0 );
+
+    GLenum status = glCheckFramebufferStatus( GL_FRAMEBUFFER );
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    fbo.bind();
+    /*END TEST*/
 
     //glcustom::Texture initialDepth = *depth;
     // std::vector<glcustom::Texture *> texts = { beauty, depth};
@@ -937,6 +965,15 @@ void Application::addDOF(glcustom::Texture *beauty, glcustom::Texture *depth, gl
     texts.push_back(depth);
     RenderScreen screenDOF(programManager->getDOFProgram(), texts);
     screenDOF.render();
+
+    /*SUITE TEST MSAA
+    screenDOF.render(fboMSAA);
+
+    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);   // Make sure no FBO is set as the draw framebuffer
+    glBindFramebuffer(GL_READ_FRAMEBUFFER, fboMSAA); // Make sure your multisampled FBO is the read framebuffer
+    glDrawBuffer(GL_BACK);                       // Set the back buffer as the draw buffer
+    glBlitFramebuffer(0, 0, Tools::windowWidth, Tools::windowHeight, 0, 0, Tools::windowWidth, Tools::windowHeight, GL_COLOR_BUFFER_BIT, GL_NEAREST);
+    /*FIN TEST*/
 
 
 
