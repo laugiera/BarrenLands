@@ -16,9 +16,9 @@ ElementManager::ElementManager() {
  */
 
 void ElementManager::createAllElements() {
-    rocks.push_back(new RoundRock);
-    rocks.push_back(new MenirRock);
-    rocks.push_back(new CrystalRock);
+    rocks.push_back(new FlatRock);
+    rocks.push_back(new FlatRock);
+    rocks.push_back(new FlatRock);
     //DESERT   rocks[3] à rocks[10]
     float random = NoiseManager::getInstance().getRandomFloat()*3;
     if(random < 0){

@@ -23,6 +23,11 @@
 #include <FBO.hpp>
 #include "RenderScreen.hpp"
 #include <FileHelper.hpp>
+#include <RoundRock.hpp>
+#include "ProceduralGrass.hpp"
+#include "ProceduralBranche.hpp"
+#include "ProceduralFeuillage.hpp"
+#include "ProceduralTree.hpp"
 //#include <SDL2/SDL_thread.h>
 
 /**

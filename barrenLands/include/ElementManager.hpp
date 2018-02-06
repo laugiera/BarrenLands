@@ -1,9 +1,6 @@
 #ifndef BARRENLANDS_ELEMENTMANAGER_HPP
 #define BARRENLANDS_ELEMENTMANAGER_HPP
 #include <RoundRock.hpp>
-#include "MenirRock.hpp"
-#include "CrystalRock.hpp"
-#include "ExperienceRock.hpp"
 #include "ProceduralGrass.hpp"
 #include "ProceduralFeuillage.hpp"
 #include "ProceduralTree.hpp"

@@ -2,13 +2,6 @@
 // Created by Lou Landry on 15/01/2018.
 //
 #define GLEW_STATIC
-#include <RoundRock.hpp>
-#include <ExperienceRock.hpp>
-//#include <SDL_mixer.h>
-#include "ProceduralGrass.hpp"
-#include "ProceduralBranche.hpp"
-#include "ProceduralFeuillage.hpp"
-#include "ProceduralTree.hpp"
 #include "Application.hpp"
 
 enum {
@@ -49,7 +42,7 @@ Application::Application(const glimac::FilePath &appPath) : windowManager(Tools:
     init_thread((void *) NULL);
 }
 /**
- *
+ *  load a seed
  * @param fileName
  * @return
  */
@@ -102,7 +95,9 @@ void Application::save(){
     }
 
 }
-
+/**
+ * Destructor
+ */
 Application::~Application() {
     ElementManager::ResetInstance();
     NoiseManager::ResetInstance();
@@ -947,6 +942,11 @@ void Application::addDOF(glcustom::Texture *beauty, glcustom::Texture *depth, gl
 
 
 }
+/**
+ * play
+ * manage the game loop & pause/main menu
+ * @param f glimac::FilePath app file path
+ */
 void Application::play(glimac::FilePath f){
     int done = CONTINUE;
     Application *app = nullptr;

@@ -7,7 +7,10 @@
 
 #include <glimac/glm.hpp>
 #include <Color.hpp>
-
+/**
+ * class Instance
+ * Represent an instance of a procedural object
+ */
 class Instance {
 
 public:
