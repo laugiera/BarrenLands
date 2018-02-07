@@ -44,3 +44,7 @@ glm::mat4 TrackballCamera::getViewMatrix() const
     viewMatrix = glm::translate(viewMatrix,glm::vec3(m_position.x, 0, m_position.z));
     return viewMatrix;
 }
+
+float TrackballCamera::getYRotation() const {
+    return m_fAngleY;
+}

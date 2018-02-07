@@ -894,6 +894,7 @@ void Application::testInterface() {
 
         //skybox
         glDepthMask(GL_FALSE);
+
         test->draw(camera->getViewMatrix());
         glDepthMask(GL_TRUE);
 

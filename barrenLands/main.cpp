@@ -29,8 +29,10 @@ int main(int argc, char** argv) {
         glimac::FilePath f = argv[0];
         Tools::appPath = f.dirPath();
         Application::play(f);
-
-        //app.testInterface();
+        /*
+        Application app(Tools::appPath);
+        app.testInterface();
+        */
 
     }catch (std::runtime_error e) {
         std::cerr << e.what() <<std::endl;

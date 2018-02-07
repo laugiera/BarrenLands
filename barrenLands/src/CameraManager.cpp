@@ -215,3 +215,14 @@ float CameraManager::determinerHauteur(glm::vec3 O, glm::vec3 A, glm::vec3 B){
     //std::cout << "a = " << a << " b = " << b << " c = " << c << " d = " << d << " res = " << (-a*_position.x/Tools::scale - c*_position.z/Tools::scale - d)/b << std::endl;
     return (-a*_position.x/Tools::scale - c*_position.z/Tools::scale - d)/b;
 }
+
+glm::mat4 CameraManager::getYRotationMatrix() {
+    if(_choice == 0){
+        //return glm::translate(_camera1.getViewMatrix(),glm::vec3(-1)*_camera2.getPosition());
+        _camera1.setPosition(glm::vec3(-1)*_camera2.getPosition());
+        return glm::rotate(glm::mat4(1.0), glm::radians(_camera1.getYRotation()), glm::vec3(0,1,0)); //_camera1.getViewMatrix();
+    }
+    else{
+        return glm::rotate(glm::mat4(1.0), glm::radians(_camera2.getYRotation()), glm::vec3(0,1,0));
+    }
+}

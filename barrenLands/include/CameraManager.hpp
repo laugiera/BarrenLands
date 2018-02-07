@@ -18,6 +18,7 @@ public :
     CameraManager();
     CameraManager(glm::vec3 position);
     glm::mat4 getViewMatrix();
+    glm::mat4 getYRotationMatrix();
 
 
     //Déplacement ++

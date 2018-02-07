@@ -26,6 +26,7 @@ public:
     void setPositionY(float y);
 
     glm::mat4 getViewMatrix() const;
+    float getYRotation() const;
 };
 
 #endif //FREEFLY_CAMERA_H

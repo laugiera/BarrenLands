@@ -18,6 +18,7 @@ public:
     glm::vec3 getPosition();
     void setPosition(glm::vec3 position);
     glm::mat4 getViewMatrix() const;
+    float getYRotation() const;
 };
 
 #endif //TRACKBALL_CAMERA_H

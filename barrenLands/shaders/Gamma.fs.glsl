@@ -38,7 +38,7 @@ void main() {
             COC = clamp( abs((depth - endFocus) * 0.6 / (1 - endFocus)), 0.0, 1.0);
 
         else if( depth >= 1){
-            COC = 0.6;
+            COC = 0.3;
             if(uLightDir.y <=0) {
                 //beautyColor = vec3(0.1, 0.f, 0.2);
                 //COC = 0.5;
@@ -57,7 +57,8 @@ void main() {
         //depth = depth * vec3(0.2, 0.0, 0.5);
         //fFragColor = beautyColor * 1/COC * vec3(depth + 0.1, depth, depth + 0.1)*0.2; => effet trop stylé
         //fFragColor = (1-COC) * beautyColor + COC * vec3(depth + 0.1, depth, depth + 0.3)*0.3;
-        fFragColor = (1-COC) * beautyColor + COC * depth * vec3(0.3, 0.4, 0.5);
+        //fFragColor = (1-COC) * beautyColor + COC * depth * vec3(0.3, 0.4, 0.5);
+        fFragColor = beautyColor;
 
 
 
