@@ -1,0 +1,46 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/MinGW/include/_mingw.h
+msvcrtver.h
+-
+w32api.h
+-
+
+C:/MinGW/include/assert.h
+_mingw.h
+-
+
+C:/MinGW/include/math.h
+_mingw.h
+-
+
+C:/MinGW/include/msvcrtver.h
+_mingw.h
+-
+
+C:/MinGW/include/sdkddkver.h
+
+C:/MinGW/include/w32api.h
+sdkddkver.h
+-
+
+C:/Users/natshez/Desktop/freshPull/BarrenLands/fastnoise/FastNoise.cpp
+FastNoise.h
+C:/Users/natshez/Desktop/freshPull/BarrenLands/fastnoise/FastNoise.h
+math.h
+-
+assert.h
+-
+algorithm
+-
+random
+-
+
+C:/Users/natshez/Desktop/freshPull/BarrenLands/fastnoise/FastNoise.h
+

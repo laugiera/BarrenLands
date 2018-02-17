@@ -1,0 +1,1 @@
+-lmingw32 ../glcustom/libglcustom.dll.a ../glimac/libglimac.dll.a ../fastnoise/libfastnoise.dll.a -lSDL2main -lSDL2 -lglew32s -lopengl32 -lfreeglut -lglu32 -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 
