@@ -28,7 +28,8 @@
 #include "ProceduralBranche.hpp"
 #include "ProceduralFeuillage.hpp"
 #include "ProceduralTree.hpp"
-//#include <SDL2/SDL_thread.h>
+#include <SDL_mixer.h>
+#include <SDL_image.h>
 
 /**
  * Class Application

@@ -64,4 +64,12 @@ float SDLWindowManager::getTime() const {
     return 0.001f * SDL_GetTicks();
 }
 
+    SDL_Window *SDLWindowManager::getWindow() const {
+        return window;
+    }
+
+    void SDLWindowManager::setWindow(SDL_Window *window) {
+        SDLWindowManager::window = window;
+    }
+
 }

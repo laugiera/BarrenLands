@@ -8,13 +8,6 @@ enum {
     CONTINUE, LOAD, SAVE, MAINMENU, QUIT
 };
 
-int Application::init_thread( void *data ) {
-
-    textureManager = new TextureManager();
-    programManager = new ProgramManager();
-    camera = new CameraManager();
-    return 0;
-}
 /**
  * Constructs the App with the SDL2 WindowManager
  * @param appPath
@@ -24,22 +17,22 @@ Application::Application(const glimac::FilePath &appPath) : windowManager(Tools:
                                                             camera(nullptr),
                                                             textureManager(nullptr) {
     initOpenGl();
-    SDL_Init(SDL_INIT_AUDIO);
-    /*SDL_Thread *thread;
-    int threadReturnValue;
-    printf("\nSimple SDL_CreateThread test:");
+    SDL_Surface * image = IMG_Load("textures/menu/loading.jpg");
+    SDL_Renderer * renderer = SDL_CreateRenderer(windowManager.getWindow(), -1, 0);
+    SDL_Texture * texture = SDL_CreateTextureFromSurface(renderer, image);
 
-     //Simply create a thread
-    thread = SDL_CreateThread(&init_thread, "init_thread", (void *) NULL);
+    SDL_RenderCopy(renderer, texture, NULL, NULL);
+    SDL_RenderPresent(renderer);
 
-    if (NULL == thread) {
-        printf("\nSDL_CreateThread failed: %s\n", SDL_GetError());
-    } else {
-        SDL_WaitThread(thread, &threadReturnValue);
-        printf("\nThread returned value: %d", threadReturnValue);
-    }
-*/
-    init_thread((void *) NULL);
+    textureManager = new TextureManager();
+    programManager = new ProgramManager();
+    camera = new CameraManager();
+
+    SDL_DestroyTexture(texture);
+    SDL_FreeSurface(image);
+    SDL_DestroyRenderer(renderer);
+
+
 }
 /**
  *  load a seed
@@ -50,7 +43,7 @@ void Application::load(const std::string & fileName){
     try{
         std::vector<std::string> content = FileHelper::getContent(fileName);
         if(content.size() != 7)
-           throw std::runtime_error("Bad init file");
+            throw std::runtime_error("Bad init file");
         glm::vec3 cameraPos = glm::vec3(
                 std::stof(content[0]),
                 std::stof(content[1]),
@@ -99,6 +92,8 @@ void Application::save(){
  * Destructor
  */
 Application::~Application() {
+    Mix_CloseAudio(); //Fermeture de l'API
+    IMG_Quit();
     ElementManager::ResetInstance();
     NoiseManager::ResetInstance();
     delete programManager;
@@ -123,6 +118,12 @@ void Application::initOpenGl() {
 
     //OpenGL initialization
     glEnable(GL_DEPTH_TEST);
+
+    //Initialisation de SDL_mixer
+    SDL_Init(SDL_INIT_AUDIO);
+    IMG_Init(IMG_INIT_JPG);
+    Mix_OpenAudio( 22050, MIX_DEFAULT_FORMAT, 2, 4096 );
+    SDL_ShowCursor(SDL_DISABLE);
 }
 
 /**
@@ -152,19 +153,11 @@ int Application::mainMenu(){
     int loop1 = 1;
     int menuIdx = 0;
 
-    //SOUND
+    Mix_Music *musique; //Création du pointeur de type Mix_Music
+    musique = Mix_LoadMUS("sounds/menu.wav"); //Chargement de la musique
+    if( Mix_PlayMusic( musique, -1 ) == -1 )
+        printf("Mix_PlayMusic: %s\n", Mix_GetError());
 
-    SDL_AudioSpec wavSpec;
-    Uint32 wavLength;
-    Uint8 *wavBuffer;
-
-    SDL_LoadWAV("sounds/menu.wav", &wavSpec, &wavBuffer, &wavLength);
-
-    // open audio device
-    SDL_AudioDeviceID deviceId = SDL_OpenAudioDevice(NULL, 0, &wavSpec, NULL, 0);
-    // play audio
-    int success = SDL_QueueAudio(deviceId, wavBuffer, wavLength);
-    SDL_PauseAudioDevice(deviceId, 0);
 
 
     //show the image cube with initial image
@@ -190,8 +183,7 @@ int Application::mainMenu(){
         {
             if (e.type == SDL_QUIT)
             {
-                 SDL_CloseAudioDevice(deviceId);
-                 SDL_FreeWAV(wavBuffer);
+                Mix_FreeMusic(musique); //Libération de la musique
                 return -1;
             }
 
@@ -216,14 +208,12 @@ int Application::mainMenu(){
                         }
                         case SDLK_ESCAPE:
                         {
-                            SDL_CloseAudioDevice(deviceId);
-                            SDL_FreeWAV(wavBuffer);
+                            Mix_FreeMusic(musique); //Libération de la musique
                             return -1;
                         }
                         case SDLK_RETURN:
                         {
-                            SDL_CloseAudioDevice(deviceId);
-                            SDL_FreeWAV(wavBuffer);
+                            Mix_FreeMusic(musique); //Libération de la musique
                             return menuIdx;
                         }
 
@@ -309,20 +299,20 @@ int Application::pauseMenu(){
                         }
                         case SDLK_RETURN:
                         {
-                           if(menuIdx == 0) //continue
-                               return CONTINUE;
+                            if(menuIdx == 0) //continue
+                                return CONTINUE;
                             else if (menuIdx == 1) //load
-                           {
-                               return CONTINUE;
-                           }
+                            {
+                                return CONTINUE;
+                            }
                             else if(menuIdx == 2)  //save
-                           {
-                               return CONTINUE;
-                           }
+                            {
+                                return CONTINUE;
+                            }
                             else if(menuIdx == 3) //mainMenu
-                           {
-                               return MAINMENU;
-                           }
+                            {
+                                return MAINMENU;
+                            }
                         }
 
                         default:
@@ -351,10 +341,10 @@ int Application::start(){
     /**a supprimer plus tard**/
     std::string initFileName;
     if (choice == 0) {
-       initFileName = "712.txt";
+        initFileName = "712.txt";
     }
     else if (choice == 1){
-       initFileName = "304.txt";
+        initFileName = "304.txt";
     }
     else if (choice == 2){
         initFileName = "771.txt";
@@ -384,7 +374,7 @@ int Application::appLoop() {
      * MAIN MENU
      */
     if(start() == -1) //quit
-       return QUIT;
+        return QUIT;
 
     std::cout << "seed : " << NoiseManager::getInstance().getSeed() << std::endl;
 
@@ -432,23 +422,11 @@ int Application::appLoop() {
     /**
      * SOUND
      */
-
     int soundRandom = (unsigned int)(NoiseManager::getInstance().getRandomFloat()*50)%6;
+    Mix_Music *musique; //Création d'un pointeur de type Mix_Music
     std::string soundFile = "sounds/"+std::to_string(soundRandom)+".wav";
-    std::cout << soundFile << std::endl;
-    // load WAV file
-
-    SDL_AudioSpec wavSpec;
-    Uint32 wavLength;
-    Uint8 *wavBuffer;
-
-    SDL_LoadWAV(soundFile.c_str (), &wavSpec, &wavBuffer, &wavLength);
-
-    // open audio device
-    SDL_AudioDeviceID deviceId = SDL_OpenAudioDevice(NULL, 0, &wavSpec, NULL, 0);
-    // play audio
-    int success = SDL_QueueAudio(deviceId, wavBuffer, wavLength);
-    SDL_PauseAudioDevice(deviceId, 0);
+    musique = Mix_LoadMUS(soundFile.c_str()); //Chargement de la musique
+    Mix_PlayMusic(musique, -1); //Jouer infiniment la musique
 
     /**
      * APP LOOP
@@ -512,18 +490,18 @@ int Application::appLoop() {
                 }
                 if(e.key.keysym.sym == SDLK_SPACE){ //pause
                     //stop sound
-                    SDL_PauseAudioDevice(deviceId, 1);
+                    Mix_PauseMusic(); //Mettre en pause la musique
                     //pauseMenu
                     int choice = pauseMenu();
                     if(choice == QUIT || choice == MAINMENU) {//quit
                         delete sky;
                         delete Map;
-                        SDL_CloseAudioDevice(deviceId);
-                        SDL_FreeWAV(wavBuffer);
+                        Mix_ResumeMusic();
+                        Mix_FreeMusic(musique); //Libération de la musique
                         return choice;
                     }
                     //continue game
-                    SDL_PauseAudioDevice(deviceId, 0);
+                    Mix_ResumeMusic();
 
                 }
             }
@@ -565,8 +543,7 @@ int Application::appLoop() {
             if(e.type == SDL_QUIT) {
                 delete sky;
                 delete Map;
-                SDL_CloseAudioDevice(deviceId);
-                SDL_FreeWAV(wavBuffer);
+                Mix_FreeMusic(musique); //Libération de la musique
                 return QUIT;
             }
             if(e.type == SDL_MOUSEBUTTONDOWN && e.wheel.y == 1){
@@ -712,7 +689,7 @@ void Application::printErrors() {
  * Get a pointer on the SDL2 WindowManager
  * @return
  */
- const glimac::SDLWindowManager &Application::getWindowManager() const  {
+const glimac::SDLWindowManager &Application::getWindowManager() const  {
     return windowManager;
 }
 

@@ -26,6 +26,10 @@ public:
     // Return the time in seconds
     float getTime() const;
 
+    SDL_Window *getWindow() const;
+
+    void setWindow(SDL_Window *window);
+
 private:
     SDL_Window* window;
     SDL_GLContext context;
