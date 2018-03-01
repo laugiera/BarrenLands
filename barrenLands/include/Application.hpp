@@ -30,6 +30,7 @@
 #include "ProceduralTree.hpp"
 #include <SDL_mixer.h>
 #include <SDL_image.h>
+#include <TextHandler.hpp>
 
 /**
  * Class Application
@@ -54,10 +55,10 @@ public:
 
 
     const glimac::SDLWindowManager &getWindowManager() const;
-    int  mainMenu();
+    int  mainMenu(std::string *inputText);
     int pauseMenu();
     static void play(glimac::FilePath f);
-    int init_thread( void *data );
+    int seedInputMenu(std::string *inputText);
 
 private:
     glimac::SDLWindowManager windowManager;

@@ -4,9 +4,6 @@
 #define GLEW_STATIC
 #include "Application.hpp"
 
-enum {
-    CONTINUE, LOAD, SAVE, MAINMENU, QUIT
-};
 
 /**
  * Constructs the App with the SDL2 WindowManager
@@ -92,14 +89,13 @@ void Application::save(){
  * Destructor
  */
 Application::~Application() {
-    Mix_CloseAudio(); //Fermeture de l'API
-    IMG_Quit();
     ElementManager::ResetInstance();
     NoiseManager::ResetInstance();
     delete programManager;
     delete textureManager;
     std::cout << "delete texture manager ok" <<std::endl;
-    //delete windowManager; ->compiler says cannot delete type glimac::SDLWindowManager
+    windowManager.~SDLWindowManager();
+    std::cout << "delete window manager ok" <<std::endl;
 
 }
 
@@ -119,11 +115,6 @@ void Application::initOpenGl() {
     //OpenGL initialization
     glEnable(GL_DEPTH_TEST);
 
-    //Initialisation de SDL_mixer
-    SDL_Init(SDL_INIT_AUDIO);
-    IMG_Init(IMG_INIT_JPG);
-    Mix_OpenAudio( 22050, MIX_DEFAULT_FORMAT, 2, 4096 );
-    SDL_ShowCursor(SDL_DISABLE);
 }
 
 /**
@@ -141,34 +132,34 @@ void Application::clearGl() {
     glDepthFunc(GL_LEQUAL);
 }
 
+int Application::seedInputMenu(std::string *inputText){
+    TextHandler * handler = new TextHandler(windowManager.getWindow());
+    int res = handler->handle(inputText);
+    delete(handler);
+    return res;
+}
+
 /**
  * MainMenu()
  *
  * @return
  */
-int Application::mainMenu(){
+int Application::mainMenu(std::string *inputText){
 
     int i;
     int srfIdx=0;
-    int loop1 = 1;
     int menuIdx = 0;
-
-    Mix_Music *musique; //Création du pointeur de type Mix_Music
-    musique = Mix_LoadMUS("sounds/menu.wav"); //Chargement de la musique
-    if( Mix_PlayMusic( musique, -1 ) == -1 )
-        printf("Mix_PlayMusic: %s\n", Mix_GetError());
-
-
+    int quit = MAINMENU;
 
     //show the image cube with initial image
     std::vector<glcustom::Texture *> textures;
     RenderScreen screen = RenderScreen(programManager->getTexture2DProgram(), textures);
 
-    std::string qualifier = "menuSeed";
+    std::string qualifier = "menuHome";
     screen.setTexture(textureManager->getRandomTexture(qualifier+std::to_string(1)));
 
     bool stateChanged=false;
-    while (loop1)
+    while (quit == MAINMENU)
     {
 
         //Update Screen
@@ -179,12 +170,11 @@ int Application::mainMenu(){
         }
 
         SDL_Event e;
-        while (SDL_PollEvent(&e))
+        while (SDL_PollEvent(&e) && quit == MAINMENU)
         {
             if (e.type == SDL_QUIT)
             {
-                Mix_FreeMusic(musique); //Libération de la musique
-                return -1;
+               quit = QUIT;
             }
 
             switch (e.type)
@@ -195,26 +185,35 @@ int Application::mainMenu(){
                         case SDLK_RIGHT:
                         {
                             menuIdx = (menuIdx + 1) % 3;
-                            //std::cout << "up " << menuIdx << std::endl;
                             stateChanged=true;
                             break;
                         }
                         case SDLK_LEFT:
                         {
                             menuIdx = (3 + menuIdx - 1) % 3;
-                            //std::cout << "down " << menuIdx << std::endl;
                             stateChanged=true;
                             break;
                         }
                         case SDLK_ESCAPE:
                         {
-                            Mix_FreeMusic(musique); //Libération de la musique
-                            return -1;
+                            quit = QUIT;
+                            break;
                         }
                         case SDLK_RETURN:
                         {
-                            Mix_FreeMusic(musique); //Libération de la musique
-                            return menuIdx;
+                            if(menuIdx == 0) //new world
+                            {
+                                quit =seedInputMenu(inputText);
+                            }
+                            else if (menuIdx == 1) //load
+                            {
+                                quit =  LOAD;
+                            }
+                            else if(menuIdx == 2)  //exit
+                            {
+                                quit =  QUIT;
+                            }
+                            break;
                         }
 
                         default:
@@ -227,9 +226,8 @@ int Application::mainMenu(){
             printErrors();
 
         }
-
     }
-
+    return quit;
 }
 /**
  * pauseMenu()
@@ -240,7 +238,7 @@ int Application::pauseMenu(){
 
     int i;
     int srfIdx=0;
-    int loop1 = 1;
+    int quit = PAUSE;
     int menuIdx = 0;
 
 
@@ -252,7 +250,7 @@ int Application::pauseMenu(){
     screen.setTexture(textureManager->getRandomTexture(qualifier+std::to_string(1)));
 
     bool stateChanged=false;
-    while (loop1)
+    while (quit == PAUSE)
     {
 
         //Update Screen
@@ -263,12 +261,10 @@ int Application::pauseMenu(){
         }
 
         SDL_Event e;
-        while (SDL_PollEvent(&e))
+        while (SDL_PollEvent(&e) & quit == PAUSE)
         {
             if (e.type == SDL_QUIT)
-            {
-                return QUIT;
-            }
+               quit = QUIT;
 
             switch (e.type)
             {
@@ -278,40 +274,38 @@ int Application::pauseMenu(){
                         case SDLK_DOWN:
                         {
                             menuIdx = (menuIdx + 1) % 4;
-                            //std::cout << "up " << menuIdx << std::endl;
                             stateChanged=true;
                             break;
                         }
                         case SDLK_UP:
                         {
                             menuIdx = (4 + menuIdx - 1) % 4;
-                            //std::cout << "down " << menuIdx << std::endl;
                             stateChanged=true;
                             break;
                         }
                         case SDLK_ESCAPE:
                         {
-                            return CONTINUE;
+                            quit = QUIT;
                         }
                         case SDLK_SPACE:
                         {
-                            return CONTINUE;
+                            quit = PLAY;
                         }
                         case SDLK_RETURN:
                         {
                             if(menuIdx == 0) //continue
-                                return CONTINUE;
+                                quit = PLAY;
                             else if (menuIdx == 1) //load
                             {
-                                return CONTINUE;
+                                quit = LOAD;
                             }
                             else if(menuIdx == 2)  //save
                             {
-                                return CONTINUE;
+                                quit = SAVE;
                             }
                             else if(menuIdx == 3) //mainMenu
                             {
-                                return MAINMENU;
+                                quit = MAINMENU;
                             }
                         }
 
@@ -327,6 +321,7 @@ int Application::pauseMenu(){
         }
 
     }
+    return quit;
 
 }
 /**
@@ -334,32 +329,35 @@ int Application::pauseMenu(){
  * Ask the user to input something to generate a seed, and set it in the noiseManager
  */
 int Application::start(){
-    int choice = mainMenu(); //plus tard ça renverra le nom entré par l'user
-    //pour les besoins de la soutenance, on charge une save. Plus tard, il suffira de set la seed avec un setSeed(name)
 
+    Mix_Music *musique; //Création du pointeur de type Mix_Music
+    musique = Mix_LoadMUS("sounds/menu.wav"); //Chargement de la musique
+    if( Mix_PlayMusic( musique, -1 ) == -1 )
+        printf("Mix_PlayMusic: %s\n", Mix_GetError());
 
-    /**a supprimer plus tard**/
     std::string initFileName;
-    if (choice == 0) {
-        initFileName = "712.txt";
-    }
-    else if (choice == 1){
-        initFileName = "304.txt";
-    }
-    else if (choice == 2){
-        initFileName = "771.txt";
-    }
-    else if (choice == -1)
+    std::string *inputText = new std::string();
+    int choice = mainMenu(inputText);
+    if(choice == QUIT)
         return choice;
 
-    try {
-        load(Tools::appPath+"data/"+initFileName);
-    }catch (std::runtime_error e){
-        throw e;
+    else if (choice == LOAD){
+        initFileName = "712.txt"; //default for the moment
+        try {
+            load(Tools::appPath+"data/"+initFileName);
+        }catch (std::runtime_error e){
+            throw e;
+        }
     }
+    else if(choice == PLAY){
+        NoiseManager::getInstance().setSeed(*inputText);
+    }
+    //play
+    Mix_FreeMusic(musique); //Libération de la musique
+    delete(inputText);
     /***********************/
 
-    return EXIT_SUCCESS;
+    return choice;
 }
 
 /**
@@ -373,7 +371,7 @@ int Application::appLoop() {
     /**
      * MAIN MENU
      */
-    if(start() == -1) //quit
+    if(start() == QUIT) //quit
         return QUIT;
 
     std::cout << "seed : " << NoiseManager::getInstance().getSeed() << std::endl;
@@ -381,6 +379,16 @@ int Application::appLoop() {
     /**
      * APP INITIALISATION
      */
+
+    /**
+     * BEGIN LOADING
+     */
+    SDL_Surface * image = IMG_Load("textures/menu/loading.jpg");
+    SDL_Renderer * renderer = SDL_CreateRenderer(windowManager.getWindow(), -1, 0);
+    SDL_Texture * texture = SDL_CreateTextureFromSurface(renderer, image);
+
+    SDL_RenderCopy(renderer, texture, NULL, NULL);
+    SDL_RenderPresent(renderer);
 
     /**FBO**/
     glm::mat4 biasMatrix(
@@ -427,6 +435,13 @@ int Application::appLoop() {
     std::string soundFile = "sounds/"+std::to_string(soundRandom)+".wav";
     musique = Mix_LoadMUS(soundFile.c_str()); //Chargement de la musique
     Mix_PlayMusic(musique, -1); //Jouer infiniment la musique
+
+    /**
+     * END LOADING
+     */
+    SDL_DestroyTexture(texture);
+    SDL_FreeSurface(image);
+    SDL_DestroyRenderer(renderer);
 
     /**
      * APP LOOP
@@ -963,7 +978,7 @@ void Application::addDOF(glcustom::Texture *beauty, glcustom::Texture *depth, gl
  * @param f glimac::FilePath app file path
  */
 void Application::play(glimac::FilePath f){
-    int done = CONTINUE;
+    int done = PLAY;
     Application *app = nullptr;
     while(done != QUIT){
         app = new Application(f);

@@ -31,7 +31,6 @@ public:
     float** heightMap;
     float** moistureMap;
 
-
     static NoiseManager & getInstance(){
         if(!instance){
             instance = new NoiseManager();
@@ -54,7 +53,7 @@ public:
     void setSeed(const std::string name){
         float seed = 0;
         for (int i = 0; i < name.size(); ++i) {
-            seed += name[i];
+            seed += name[i]*i;
         }
         setSeed(seed);
     }
