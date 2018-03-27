@@ -5,9 +5,14 @@ namespace glimac {
 
 SDLWindowManager::SDLWindowManager(uint32_t width, uint32_t height, const char* title) {
 
-    if(0 != SDL_Init(SDL_INIT_VIDEO)) {
+    if(0 != SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO)) {
         std::cerr << SDL_GetError() << std::endl;
         return;
+    }
+    //Set texture filtering to linear
+    if( !SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "1" ) )
+    {
+        printf( "Warning: Linear texture filtering not enabled!" );
     }
     //attributes context open gl
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
@@ -24,15 +29,35 @@ SDLWindowManager::SDLWindowManager(uint32_t width, uint32_t height, const char* 
       std::cerr << SDL_GetError() << std::endl;
       return;
     }
+
+    int imgFlags = IMG_INIT_PNG | IMG_INIT_JPG;
+    if( !( IMG_Init( imgFlags ) & imgFlags ) )
+    {
+        printf( "SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError() );
+        return;
+    }
+
+    //Initialize SDL_ttf
+    if( TTF_Init() == -1 )
+    {
+        printf( "SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError() );
+        return;
+    }
+
     context = SDL_GL_CreateContext(window);
-    //can use
-    //SDL_WINDOWPOS_UNDEFINED
-    //SDL_WINDOWPOS_CENTERED
+
+    Mix_OpenAudio( 22050, MIX_DEFAULT_FORMAT, 2, 4096 );
+    SDL_ShowCursor(SDL_DISABLE);
+
 
 }
 
 SDLWindowManager::~SDLWindowManager() {
     SDL_GL_DeleteContext(context);
+    Mix_CloseAudio(); //Fermeture de l'API
+    //Quit SDL subsystems
+    IMG_Quit();
+    TTF_Quit();
     SDL_Quit();
 }
 

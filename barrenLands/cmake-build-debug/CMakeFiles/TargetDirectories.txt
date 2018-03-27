@@ -1,0 +1,3 @@
+C:/Users/natshez/Desktop/WORKSTATION/freshPull/BarrenLands/barrenLands/cmake-build-debug/CMakeFiles/barrenLands.dir
+C:/Users/natshez/Desktop/WORKSTATION/freshPull/BarrenLands/barrenLands/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/natshez/Desktop/WORKSTATION/freshPull/BarrenLands/barrenLands/cmake-build-debug/CMakeFiles/rebuild_cache.dir

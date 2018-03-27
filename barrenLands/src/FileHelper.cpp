@@ -48,3 +48,24 @@ void FileHelper::updateFile(const std::string &path, const std::string &value){
     fichier.close(); //close file
 }
 
+int FileHelper::findLineWithWord(const std::string& firstWord){
+        std::ifstream file(Tools::savePath.c_str(), std::ios::in);  //open file
+        std::string line;
+        if (!file){
+            throw std::runtime_error(FileHelper::error_message);
+        }
+        unsigned int currentLine = 0;
+        while (std::getline(file, line)) { // I changed this, see below
+            currentLine++;
+            if (lineStartsWith(line,firstWord) != std::string::npos) {
+                std::cout << "found: " << firstWord << "line: " << currentLine << std::endl;
+            }
+        }
+        file.close();
+}
+
+bool FileHelper::lineStartsWith(const std::string& s, const std::string& needle) {
+    return needle.length() <= s.length()
+           && std::equal(needle.begin(), needle.end(), s.begin());
+}
+

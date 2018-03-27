@@ -31,6 +31,7 @@
 #include <SDL_mixer.h>
 #include <SDL_image.h>
 #include <TextHandler.hpp>
+#include <LoadHandler.hpp>
 
 /**
  * Class Application
@@ -59,6 +60,7 @@ public:
     int pauseMenu();
     static void play(glimac::FilePath f);
     int seedInputMenu(std::string *inputText);
+    int loadMenu(std::string *inputText);
 
 private:
     glimac::SDLWindowManager windowManager;

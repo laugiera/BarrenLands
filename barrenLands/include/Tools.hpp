@@ -39,6 +39,7 @@ public:
     static glm::mat4 projMatrix;
     static glimac::FilePath appPath;
     static unsigned int maxCharName;
+    static std::string savePath;
 
 
 //transforms a string bool (ex "true") into a bool, throws std::invalid_argument

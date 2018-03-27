@@ -4,10 +4,6 @@
 
 #include "TextHandler.hpp"
 
-enum {
-    BACK, FORWARD
-};
-
 TextHandler::TextHandler(SDL_Window * gWindow) : gRenderer(NULL), gFont(NULL) {
     init(gWindow);
     //Load media
@@ -166,7 +162,7 @@ int TextHandler::handle(std::string * inputText){
         gPromptTextTexture.render(gRenderer, x, y);
 
         x =  ( Tools::windowWidth - gInputTextTexture.getWidth() ) / 2;
-        y = (Tools::windowHeight - gPromptTextTexture.getHeight() ) / 2 +  gPromptTextTexture.getHeight();
+        y = (Tools::windowHeight - gInputTextTexture.getHeight() ) / 2 +  gInputTextTexture.getHeight();
         gInputTextTexture.render(gRenderer,x, y );
 
         x =  50;

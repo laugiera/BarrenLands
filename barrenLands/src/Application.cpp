@@ -38,6 +38,9 @@ Application::Application(const glimac::FilePath &appPath) : windowManager(Tools:
  */
 void Application::load(const std::string & fileName){
     try{
+        /** FORMAT :
+         * cam.x;cam.y;cam.z;cam.phi;cam.theta;light.rotation;seed
+         * **/
         std::vector<std::string> content = FileHelper::getContent(fileName);
         if(content.size() != 7)
             throw std::runtime_error("Bad init file");
@@ -54,7 +57,6 @@ void Application::load(const std::string & fileName){
         lightRotation = std::stof(content[5]);
 
         float seed = std::stof(content[6]);
-        //float seed = 127;
         NoiseManager::getInstance().setSeed(seed);
     }catch(std::runtime_error e){
         throw e;
@@ -131,18 +133,37 @@ void Application::clearGl() {
     //depth handling for the skybox
     glDepthFunc(GL_LEQUAL);
 }
-
+/**
+ * seedInputMenu()
+ * TextHandler allows to input/output specific texts.
+ * This function is used to ask user's name
+ * @param inputText represents the user's name
+ * @return int among the enum defined in Tool class, represents the button clicked in the menu
+ */
 int Application::seedInputMenu(std::string *inputText){
     TextHandler * handler = new TextHandler(windowManager.getWindow());
     int res = handler->handle(inputText);
     delete(handler);
     return res;
 }
+/**
+ * loadMenu()
+ * TextHandler allows to input/output specific texts.
+ * This function is used to ask the user to choose an existing save
+ * @param inputText represents the user's name
+ * @return int among the enum defined in Tool class, represents the button clicked in the menu
+ */
+int Application::loadMenu(std::string *loadName){
+    LoadHandler * handler = new LoadHandler(windowManager.getWindow());
+    int res = handler->handle(loadName);
+    delete(handler);
+    return res;
+}
 
 /**
  * MainMenu()
- *
- * @return
+ * @param inputText represents the user's name
+ * @return int among the enum defined in Tool class, represents the button clicked in the menu
  */
 int Application::mainMenu(std::string *inputText){
 
@@ -207,7 +228,7 @@ int Application::mainMenu(std::string *inputText){
                             }
                             else if (menuIdx == 1) //load
                             {
-                                quit =  LOAD;
+                                quit = loadMenu(inputText);
                             }
                             else if(menuIdx == 2)  //exit
                             {
@@ -342,7 +363,7 @@ int Application::start(){
         return choice;
 
     else if (choice == LOAD){
-        initFileName = "712.txt"; //default for the moment
+        initFileName = "default.txt"; //default for the moment
         try {
             load(Tools::appPath+"data/"+initFileName);
         }catch (std::runtime_error e){

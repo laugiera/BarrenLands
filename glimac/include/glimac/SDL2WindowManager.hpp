@@ -3,6 +3,9 @@
 #include <cstdint>
 #include <SDL2/SDL.h>
 #include "glm.hpp"
+#include <SDL_mixer.h>
+#include <SDL_image.h>
+#include <SDL_ttf.h>
 
 namespace glimac {
 
