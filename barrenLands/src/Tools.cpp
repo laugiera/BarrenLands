@@ -16,6 +16,7 @@ float Tools::zNear = 0.1;
 float Tools::zFar= 2000.f;
 glm::mat4 Tools::projMatrix = glm::perspective(glm::radians(70.f), float(Tools::windowWidth)/float(Tools::windowHeight), Tools::zNear, Tools::zFar);
 glimac::FilePath Tools::appPath = "";
+int Tools::time = 0;
 
 /**
  * Take a string representation of a bool and converts it to bool

@@ -45,6 +45,8 @@ void RenderSkybox::sendUniforms(const glm::mat4 &viewMatrix) {
     glm::mat4 normals = glm::transpose(glm::inverse(modelViewMatrix));
     program->sendUniformMat4("uMVP", modelViewProjMatrix);
     program->sendUniformMat4("uMV", modelViewMatrix);
+    program->sendUniformVec3("uResolution",glm::vec3(Tools::windowWidth, Tools::windowHeight, 1.0));
+    program->sendUniform1f("uTime", (float)Tools::time);
 }
 
 /**

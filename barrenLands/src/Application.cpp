@@ -612,7 +612,7 @@ int Application::appLoop() {
         }
 
 
-
+        Tools::time += 1;
 
         fbo.bind();
         //glcustom::Texture lightDepth = fbo.attachDepthTexture(Tools::windowWidth, Tools::windowHeight);

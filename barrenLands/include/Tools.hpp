@@ -33,6 +33,7 @@ public:
     static float zFar;
     static glm::mat4 projMatrix;
     static glimac::FilePath appPath;
+    static int time;
 
 
 //transforms a string bool (ex "true") into a bool, throws std::invalid_argument
