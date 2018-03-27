@@ -14,6 +14,7 @@
 #include <sstream>
 #include <TextTexture.hpp>
 #include <Tools.hpp>
+#include <FileHelper.hpp>
 
 
 class LoadHandler {
@@ -24,11 +25,12 @@ public:
     bool init(SDL_Window * gWindow);
     //Loads media
     bool loadMedia();
-    int handle(std::string * inputText);
+    int handle(std::string * loadName);
 
 private:
     //Scene textures
-    TextTexture gPromptTextTexture;
+    std::vector<TextTexture> gPromptTextTextures;
+    TextTexture gTitleTextTexture;
     TextTexture gForwardTexture;
     TextTexture gReturnTexture;
 
@@ -37,6 +39,9 @@ private:
 
     //Globally used font
     TTF_Font *gFont;
+
+    int saveNumber;
+    std::vector<std::string> saveNames;
 
 };
 

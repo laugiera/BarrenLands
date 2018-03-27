@@ -60,7 +60,7 @@ public:
     int pauseMenu();
     static void play(glimac::FilePath f);
     int seedInputMenu(std::string *inputText);
-    int loadMenu(std::string *inputText);
+    int loadMenu();
 
 private:
     glimac::SDLWindowManager windowManager;

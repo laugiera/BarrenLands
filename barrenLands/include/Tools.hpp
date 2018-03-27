@@ -40,7 +40,8 @@ public:
     static glimac::FilePath appPath;
     static unsigned int maxCharName;
     static std::string savePath;
-
+    static int saveContentSize;
+    static int saveMaxnumber;
 
 //transforms a string bool (ex "true") into a bool, throws std::invalid_argument
 static bool boolFromString(std::string s);

@@ -48,24 +48,55 @@ void FileHelper::updateFile(const std::string &path, const std::string &value){
     fichier.close(); //close file
 }
 
-int FileHelper::findLineWithWord(const std::string& firstWord){
-        std::ifstream file(Tools::savePath.c_str(), std::ios::in);  //open file
-        std::string line;
-        if (!file){
-            throw std::runtime_error(FileHelper::error_message);
+std::vector<std::string>  FileHelper::getContentOfLine(const std::string& firstWord, const std::string & filePath){
+    std::ifstream file(filePath.c_str(), std::ios::in);  //open file
+    std::string line, token;
+    std::vector<std::string> separatedValues;
+    if (!file){
+        throw std::runtime_error(FileHelper::error_message);
+    }
+
+    unsigned int currentLine = 0;
+    int found = false;
+    while ( !found && std::getline(file, line)) {
+        std::istringstream ss(line);
+        std::getline(ss, token, ';');
+        if (lineStartsWith(token,firstWord) != false) {
+            std::cout << "found: " << firstWord << "line: " << currentLine << std::endl;
+            found = true;
         }
-        unsigned int currentLine = 0;
-        while (std::getline(file, line)) { // I changed this, see below
-            currentLine++;
-            if (lineStartsWith(line,firstWord) != std::string::npos) {
-                std::cout << "found: " << firstWord << "line: " << currentLine << std::endl;
-            }
+        currentLine++;
+    }
+    file.close();
+
+    if(found){//parse the string into the vector using ; delimiter
+        std::istringstream ss(line);
+        while(std::getline(ss, token, ';')) {
+            separatedValues.push_back(token);
         }
-        file.close();
+    }
+    return separatedValues;
 }
 
 bool FileHelper::lineStartsWith(const std::string& s, const std::string& needle) {
     return needle.length() <= s.length()
            && std::equal(needle.begin(), needle.end(), s.begin());
+}
+
+std::vector<std::string> FileHelper::getAllLineFirstWord(const std::string & filePath){
+    std::ifstream file(filePath.c_str(), std::ios::in);  //open file
+    std::string line, token;
+    std::vector<std::string> separatedValues;
+    if (!file){
+        throw std::runtime_error(FileHelper::error_message);
+    }
+    while ( std::getline(file, line)) {
+        std::istringstream ss(line);
+        std::getline(ss, token, ';');
+        separatedValues.push_back(token);
+    }
+    file.close();
+
+    return separatedValues;
 }
 

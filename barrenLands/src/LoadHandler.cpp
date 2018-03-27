@@ -19,9 +19,11 @@ LoadHandler::LoadHandler(SDL_Window * gWindow) : gRenderer(NULL), gFont(NULL) {
 
 LoadHandler::~LoadHandler() {
     //Free loaded images
-    gPromptTextTexture.free();
+    for (int i = 0; i < gPromptTextTextures.size(); ++i)
+        gPromptTextTextures[i].free();
     gForwardTexture.free();
     gReturnTexture.free();
+    gTitleTextTexture.free();
     SDL_DestroyRenderer(gRenderer);
     gRenderer = NULL;
     //Free global font
@@ -31,7 +33,13 @@ LoadHandler::~LoadHandler() {
 
 bool LoadHandler::init(SDL_Window * gWindow)
 {
-    gPromptTextTexture = TextTexture();
+
+    saveNames = FileHelper::getAllLineFirstWord(Tools::savePath);
+    saveNumber = saveNames.size();
+    for (int i = 0; i < saveNumber; ++i){
+        gPromptTextTextures.push_back(TextTexture());
+    }
+    gTitleTextTexture = TextTexture();
     gForwardTexture = TextTexture();
     gReturnTexture = TextTexture();
     //Create vsynced renderer for window
@@ -54,25 +62,46 @@ bool LoadHandler::loadMedia()
     gFont = TTF_OpenFont( "font/Orator.ttf", 28 );
     if( gFont == NULL )
     {
-        printf( "Failed to load lazy font! SDL_ttf Error: %s\n", TTF_GetError() );
+        printf( "Failed to load  font! SDL_ttf Error: %s\n", TTF_GetError() );
         success = false;
     }
     else
     {
         //Render the prompt
         SDL_Color textColor = { 222,95,50,255 };
-        if( !gPromptTextTexture.loadFromRenderedText(gRenderer, gFont, "UP / DOWN arrows to choose a load : ", textColor ) )
+
+        //Title
+        std::string text = "UP / DOWN arrows to choose a load :";
+        if( !gTitleTextTexture.loadFromRenderedText(gRenderer, gFont, text.c_str(), textColor ))
         {
             printf( "Failed to render prompt text!\n" );
             success = false;
         }
         //Go back
-        std::string goBackText = "Press ECHAP to go back";
-        gReturnTexture.loadFromRenderedText(gRenderer, gFont, goBackText.c_str(), textColor );
+        text = "Press ECHAP to go back";
+        if( !gReturnTexture.loadFromRenderedText(gRenderer, gFont, text.c_str(), textColor ))
+        {
+            printf( "Failed to render prompt text!\n" );
+            success = false;
+        }
 
         //Go forward
-        std::string goForwardText = "Press ENTER to play";
-        gForwardTexture.loadFromRenderedText(gRenderer, gFont, goForwardText.c_str(), textColor );
+        text = "Press ENTER to play";
+        if( !gForwardTexture.loadFromRenderedText(gRenderer, gFont,text.c_str(), textColor ))
+        {
+            printf( "Failed to render prompt text!\n" );
+            success = false;
+        }
+
+        //loads
+        textColor = { 255,255,255,255 };
+        for (int i = 0; i < gPromptTextTextures.size(); ++i){
+            if( !gPromptTextTextures[i].loadFromRenderedText(gRenderer, gFont, saveNames[i].c_str(), textColor ) )
+            {
+                printf( "Failed to render prompt text!\n" );
+                success = false;
+            }
+        }
     }
 
     return success;
@@ -82,11 +111,13 @@ bool LoadHandler::loadMedia()
 int LoadHandler::handle(std::string * loadName){
     //Main loop flag
     int quit = CREATE;
-
+    int borderSize = 15;
+    int x =0,y =0;
     //Event handler
     SDL_Event e;
 
-    SDL_Color textColor = { 255,255,255,255 };
+    SDL_Rect renderQuadLoad = {0,0,0,0};
+    int choosenSave = 0;
 
     *loadName = "default";
 
@@ -111,61 +142,68 @@ int LoadHandler::handle(std::string * loadName){
                     quit = MAINMENU;
                 }
                 else if(e.key.keysym.sym == SDLK_RETURN){
-                    quit = PLAY;
+                    *loadName = saveNames[choosenSave];
+                    quit = LOAD;
                 }
-                else if( e.key.keysym.sym == SDLK_BACKSPACE)
-                {
-
-                    renderText = true;
+                else if(e.key.keysym.sym == SDLK_UP){
+                    choosenSave = (saveNumber + choosenSave - 1) % saveNumber;
+                }
+                else if(e.key.keysym.sym == SDLK_DOWN){
+                    choosenSave = (choosenSave + 1) % saveNumber;
                 }
             }
-        }
-
-        //Rerender text if needed
-        if( renderText )
-        {
-
         }
 
         //Clear screen
         SDL_SetRenderDrawColor( gRenderer, 18,16,11,0 );
         SDL_RenderClear( gRenderer );
 
-        //Render text textures
-        int borderSize = 15;
-        int x = (Tools::windowWidth - gPromptTextTexture.getWidth() ) / 2;
-        int y = (Tools::windowHeight - gPromptTextTexture.getHeight() ) / 2;
-        gPromptTextTexture.render(gRenderer, x, y);
+        /**TITLE TEX **/
+        x = (Tools::windowWidth - gTitleTextTexture.getWidth() ) / 2;
+        y = 50 + (gTitleTextTexture.getHeight()) / 2;
+        gTitleTextTexture.render(gRenderer, x, y);
 
-/*        x =  ( Tools::windowWidth - gInputTextTexture.getWidth() ) / 2;
-        y = (Tools::windowHeight - gPromptTextTexture.getHeight() ) / 2 +  gPromptTextTexture.getHeight();
-        gInputTextTexture.render(gRenderer,x, y );*/
+        /**LOAD BUTTONS**/
+        renderQuadLoad = { (Tools::windowWidth - gPromptTextTextures[0].getWidth() ) / 2,
+                           y+(100 + (gPromptTextTextures[0].getHeight()/2))*(choosenSave+1),
+                           gPromptTextTextures[0].getWidth(),
+                           gPromptTextTextures[0].getHeight()  };
+        renderQuadLoad.x-=borderSize; //whatever size you want
+        renderQuadLoad.w+=(borderSize)*2;
+        renderQuadLoad.y-=borderSize;
+        renderQuadLoad.h+=(borderSize)*2;
+        // Color from within the rectangle
+        SDL_SetRenderDrawColor( gRenderer, 222,95,50,255  );
+        // Fill in the rectangle
+        SDL_RenderDrawRect (gRenderer, &renderQuadLoad);
 
+        for (int i = 0; i < gPromptTextTextures.size(); ++i) {
+            x = (Tools::windowWidth - gPromptTextTextures[i].getWidth() ) / 2;
+            y += 100 + (gPromptTextTextures[i].getHeight()/2);
+            gPromptTextTextures[i].render(gRenderer,x,y);
+        }
+
+        /**RETURN BUTTON**/
         x =  50;
         y = Tools::windowHeight - 50 - gReturnTexture.getHeight();
         gReturnTexture.render(gRenderer,x,y);
 
         SDL_Rect renderQuad = { x, y,  gReturnTexture.getWidth(),  gReturnTexture.getHeight()  };
-        renderQuad.x-=borderSize; //whatever size you want
+        renderQuad.x-=borderSize;
         renderQuad.y-=borderSize;
         renderQuad.h+=(borderSize)*2;
         renderQuad.w+=(borderSize)*2;
-        // Color from within the rectangle
-        SDL_SetRenderDrawColor( gRenderer, 222,95,50,255  );
-        // Fill in the rectangle
         SDL_RenderDrawRect (gRenderer, &renderQuad);
 
+        /**PLAY BUTTON**/
         x =  Tools::windowWidth - gForwardTexture.getWidth() - 50;
         gForwardTexture.render(gRenderer,x,y);
 
         renderQuad = { x, y,  gForwardTexture.getWidth(),  gForwardTexture.getHeight()  };
-        renderQuad.x-=borderSize; //whatever size you want
+        renderQuad.x-=borderSize;
         renderQuad.y-=borderSize;
         renderQuad.h+=(borderSize)*2;
         renderQuad.w+=(borderSize)*2;
-        // Color from within the rectangle
-        SDL_SetRenderDrawColor( gRenderer, 222,95,50,255  );
-        // Fill in the rectangle
         SDL_RenderDrawRect (gRenderer, &renderQuad);
 
         //Update screen
@@ -174,7 +212,6 @@ int LoadHandler::handle(std::string * loadName){
 
     //Disable text input
     SDL_StopTextInput();
-    //loadName += ".txt";
     return quit;
 
 }

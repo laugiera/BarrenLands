@@ -30,36 +30,46 @@ Application::Application(const glimac::FilePath &appPath) : windowManager(Tools:
     SDL_DestroyRenderer(renderer);
 
 
+
 }
 /**
- *  load a seed
- * @param fileName
- * @return
+ *  load a world with a given seedName
+ *  If the app encounters a bug by reading the file, a default world is loaded
+ * @param std::string seedName
+ * @return void
  */
-void Application::load(const std::string & fileName){
+void Application::load(const std::string & seedName){
     try{
         /** FORMAT :
-         * cam.x;cam.y;cam.z;cam.phi;cam.theta;light.rotation;seed
+         * seedname;cam.x;cam.y;cam.z;cam.phi;cam.theta;light.rotation;
          * **/
-        std::vector<std::string> content = FileHelper::getContent(fileName);
-        if(content.size() != 7)
+        std::vector<std::string> content = FileHelper::getContentOfLine( seedName, Tools::savePath);
+        if(content.size() != Tools::saveContentSize)
             throw std::runtime_error("Bad init file");
         glm::vec3 cameraPos = glm::vec3(
-                std::stof(content[0]),
                 std::stof(content[1]),
-                std::stof(content[2])
+                std::stof(content[2]),
+                std::stof(content[3])
         );
         camera->setPosition(cameraPos);
-        float phi = std::stof(content[3]);
-        float theta = std::stof(content[4]);
+        float phi = std::stof(content[4]);
+        float theta = std::stof(content[5]);
         camera->rotateLeft(phi);
         camera->rotateUp(theta);
-        lightRotation = std::stof(content[5]);
+        lightRotation = std::stof(content[6]);
+        std::string seedName = content[0];
+        NoiseManager::getInstance().setSeed(seedName);
 
-        float seed = std::stof(content[6]);
-        NoiseManager::getInstance().setSeed(seed);
     }catch(std::runtime_error e){
-        throw e;
+        //fix the bug and return default seed
+        glm::vec3 cameraPos = glm::vec3(0);
+        camera->setPosition(cameraPos);
+        float phi = 0;
+        float theta = 0;
+        camera->rotateLeft(phi);
+        camera->rotateUp(theta);
+        lightRotation = 0;
+        NoiseManager::getInstance().setSeed("default");
     }
 
 }
@@ -143,21 +153,32 @@ void Application::clearGl() {
 int Application::seedInputMenu(std::string *inputText){
     TextHandler * handler = new TextHandler(windowManager.getWindow());
     int res = handler->handle(inputText);
+    if(res == PLAY)
+        NoiseManager::getInstance().setSeed(*inputText);
     delete(handler);
     return res;
 }
 /**
  * loadMenu()
  * TextHandler allows to input/output specific texts.
- * This function is used to ask the user to choose an existing save
- * @param inputText represents the user's name
- * @return int among the enum defined in Tool class, represents the button clicked in the menu
+ * This function is used to ask the user to choose an existing save and set the choosen world
+ * @return int among the enum defined in Tool class, represents the action of the user
  */
-int Application::loadMenu(std::string *loadName){
+int Application::loadMenu(){
+    std::string loadName="";
     LoadHandler * handler = new LoadHandler(windowManager.getWindow());
-    int res = handler->handle(loadName);
+    int res = handler->handle(&loadName); //ask the user to choose a save
     delete(handler);
-    return res;
+    if (res == LOAD){
+        try {
+            load(loadName); //set the world from save content
+        }catch (std::runtime_error e){
+            throw e;
+        }
+        return PLAY;
+    }
+    else
+        return res; //back to main menu or quit
 }
 
 /**
@@ -226,9 +247,9 @@ int Application::mainMenu(std::string *inputText){
                             {
                                 quit =seedInputMenu(inputText);
                             }
-                            else if (menuIdx == 1) //load
+                            else if (menuIdx == 1) //load internly a world
                             {
-                                quit = loadMenu(inputText);
+                                quit = loadMenu(); //screen for choosing a save
                             }
                             else if(menuIdx == 2)  //exit
                             {
@@ -316,9 +337,9 @@ int Application::pauseMenu(){
                         {
                             if(menuIdx == 0) //continue
                                 quit = PLAY;
-                            else if (menuIdx == 1) //load
+                            else if (menuIdx == 1) //quit
                             {
-                                quit = LOAD;
+                                quit = QUIT;
                             }
                             else if(menuIdx == 2)  //save
                             {
@@ -356,23 +377,11 @@ int Application::start(){
     if( Mix_PlayMusic( musique, -1 ) == -1 )
         printf("Mix_PlayMusic: %s\n", Mix_GetError());
 
-    std::string initFileName;
+    std::string initFileName = "";
     std::string *inputText = new std::string();
     int choice = mainMenu(inputText);
     if(choice == QUIT)
         return choice;
-
-    else if (choice == LOAD){
-        initFileName = "default.txt"; //default for the moment
-        try {
-            load(Tools::appPath+"data/"+initFileName);
-        }catch (std::runtime_error e){
-            throw e;
-        }
-    }
-    else if(choice == PLAY){
-        NoiseManager::getInstance().setSeed(*inputText);
-    }
     //play
     Mix_FreeMusic(musique); //Libération de la musique
     delete(inputText);

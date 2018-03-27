@@ -18,7 +18,8 @@ class FileHelper {
 public :
     static std::vector<std::string> getContent(const std::string &path);
     static void updateFile(const std::string &path, const std::string &value);
-    static int findLineWithWord(const std::string& firstWord);
+    static std::vector<std::string>  getContentOfLine(const std::string& firstWord, const std::string & filePath );
+    static std::vector<std::string> getAllLineFirstWord(const std::string & filePath);
 
 private:
     static std::string error_message;
