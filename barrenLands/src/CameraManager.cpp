@@ -1,4 +1,4 @@
-#include <include/NoiseManager.hpp>
+#include "NoiseManager.hpp"
 #include "../include/CameraManager.hpp"
 
 
