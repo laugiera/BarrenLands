@@ -2,20 +2,21 @@
 // Created by natshez on 28/02/2018.
 //
 
-#include "LoadHandler.hpp"
+#include "SaveHandler.hpp"
 /**
- * constructor
- * @param gWindow
+ * Constructor
+ * loads media
+ * @param gWindow SDL_Window *
  */
-LoadHandler::LoadHandler(SDL_Window * gWindow) : gRenderer(NULL), gFont(NULL) {
+SaveHandler::SaveHandler(SDL_Window * gWindow) : gRenderer(NULL), gFont(NULL) {
     init(gWindow);
     loadMedia();
 }
 /**
- * destructor
+ * Destructor
  */
-LoadHandler::~LoadHandler() {
-    //Free loaded images
+SaveHandler::~SaveHandler() {
+    //Free Saveed images
     for (int i = 0; i < gPromptTextTextures.size(); ++i)
         gPromptTextTextures[i].free();
     gForwardTexture.free();
@@ -33,11 +34,10 @@ LoadHandler::~LoadHandler() {
  * @return void
  * \exception <std::runtime_error> { cannot open the given file }
  */
-void LoadHandler::init(SDL_Window * gWindow)
+void SaveHandler::init(SDL_Window * gWindow)
 {
-    saveNames = FileHelper::getAllLineFirstWord(Tools::savePath);
-    saveNumber = saveNames.size();
-    for (int i = 0; i < saveNumber; ++i){
+    saveNames = FileHelper::getAllLineFirstWord(Tools::savePath); //get saves names
+    for (int i = 0; i < Tools::saveMaxnumber; ++i){
         gPromptTextTextures.push_back(TextTexture());
     }
     gTitleTextTexture = TextTexture();
@@ -46,44 +46,50 @@ void LoadHandler::init(SDL_Window * gWindow)
     //Create vsynced renderer for window
     gRenderer = SDL_CreateRenderer( gWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC );
     if( gRenderer == NULL )
-        throw std::runtime_error("load menu rendered could not be open !");
+        throw std::runtime_error("save rendered could not be open !");
+
 }
 /**
  * loadMedia()
- * loads the font and the textures
+ * lodas the font and the textures
  * @return void
  * \exception <std::runtime_error> { cannot load font or textures files }
  */
-void LoadHandler::loadMedia()
+void SaveHandler::loadMedia()
 {
+
     //Open the font
     gFont = TTF_OpenFont( "font/Orator.ttf", 28 );
     if( gFont == NULL )
-        throw std::runtime_error("load menu font could not be open !");
+        throw std::runtime_error("save font could not be open !");
     else
     {
         //Render the prompt
         SDL_Color textColor = { 222,95,50,255 };
 
         //Title
-        std::string text = "UP / DOWN arrows to choose a load :";
+        std::string text = "UP / DOWN arrows to choose a save (that will rewrite on existing) :";
         if( !gTitleTextTexture.loadFromRenderedText(gRenderer, gFont, text.c_str(), textColor ))
-            throw std::runtime_error("gTitleTextTexture could not be open !");
+            throw std::runtime_error("TitleTextTexture rendered could not be open !");
         //Go back
         text = "Press ECHAP to go back";
         if( !gReturnTexture.loadFromRenderedText(gRenderer, gFont, text.c_str(), textColor ))
-            throw std::runtime_error("gReturnTexture could not be open !");
+            throw std::runtime_error("ReturnTexture rendered could not be open !");
 
         //Go forward
-        text = "Press ENTER to play";
+        text = "Press ENTER to save";
         if( !gForwardTexture.loadFromRenderedText(gRenderer, gFont,text.c_str(), textColor ))
-            throw std::runtime_error("gForwardTexture could not be open !");
+            throw std::runtime_error("ForwardTexture rendered could not be open !");
 
-        //loads
+        //Saves
         textColor = { 255,255,255,255 };
         for (int i = 0; i < gPromptTextTextures.size(); ++i){
-            if( !gPromptTextTextures[i].loadFromRenderedText(gRenderer, gFont, saveNames[i].c_str(), textColor ) )
-                throw std::runtime_error("gPromptTextTextures could not be open !");
+            if(i<saveNames.size())
+                text = saveNames[i];
+            else
+                text = "free spot";
+            if( !gPromptTextTextures[i].loadFromRenderedText(gRenderer, gFont, text.c_str(), textColor ) )
+                throw std::runtime_error("PromptTexture rendered could not be open !");
         }
     }
 }
@@ -91,9 +97,9 @@ void LoadHandler::loadMedia()
  * handle()
  * render the menu
  * @param the number of the choosenSave
- * @return int among the enum defined in Tool class, represents the button clicked in the menu (quit, mainmenu, load)
+ * @return int among the enum defined in Tool class, represents the button clicked in the menu (pause, save, quit)
  */
-int LoadHandler::handle(std::string * loadName){
+int SaveHandler::handle(int * choosenSave){
     //Main loop flag
     int quit = CREATE;
     int borderSize = 15;
@@ -101,40 +107,32 @@ int LoadHandler::handle(std::string * loadName){
     //Event handler
     SDL_Event e;
 
-    SDL_Rect renderQuadLoad = {0,0,0,0};
-    int choosenSave = 0;
-
-    *loadName = "default";
+    SDL_Rect renderQuadSave;
+    *choosenSave = 0;
 
     //While application is running
     while( quit == CREATE )
     {
-        //The rerender text flag
-        bool renderText = false;
-
-        //Handle events on queue
+              //Handle events on queue
         while( SDL_PollEvent( &e ) != 0  && quit == CREATE)
         {
             //User requests quit
             if( e.type == SDL_QUIT )
-            {
                 quit = QUIT;
-            }
-                //Special key input
+
             else if( e.type == SDL_KEYDOWN )
             {
                 if(e.key.keysym.sym == SDLK_ESCAPE){
-                    quit = MAINMENU;
+                    quit = PAUSE;
                 }
                 else if(e.key.keysym.sym == SDLK_RETURN){
-                    *loadName = saveNames[choosenSave];
-                    quit = LOAD;
+                    quit = SAVE;
                 }
                 else if(e.key.keysym.sym == SDLK_UP){
-                    choosenSave = (saveNumber + choosenSave - 1) % saveNumber;
+                    *choosenSave = (Tools::saveMaxnumber + *choosenSave - 1) % Tools::saveMaxnumber ;
                 }
                 else if(e.key.keysym.sym == SDLK_DOWN){
-                    choosenSave = (choosenSave + 1) % saveNumber;
+                    *choosenSave = (*choosenSave + 1) % Tools::saveMaxnumber ;
                 }
             }
         }
@@ -148,19 +146,19 @@ int LoadHandler::handle(std::string * loadName){
         y = 50 + (gTitleTextTexture.getHeight()) / 2;
         gTitleTextTexture.render(gRenderer, x, y);
 
-        /**LOAD BUTTONS**/
-        renderQuadLoad = { (Tools::windowWidth - gPromptTextTextures[0].getWidth() ) / 2,
-                           y+(100 + (gPromptTextTextures[0].getHeight()/2))*(choosenSave+1),
+        /**Save BUTTONS**/
+        renderQuadSave = { (Tools::windowWidth - gPromptTextTextures[0].getWidth() ) / 2,
+                           y+(100 + (gPromptTextTextures[0].getHeight()/2))*((*choosenSave)+1),
                            gPromptTextTextures[0].getWidth(),
                            gPromptTextTextures[0].getHeight()  };
-        renderQuadLoad.x-=borderSize; //whatever size you want
-        renderQuadLoad.w+=(borderSize)*2;
-        renderQuadLoad.y-=borderSize;
-        renderQuadLoad.h+=(borderSize)*2;
+        renderQuadSave.x-=borderSize; //whatever size you want
+        renderQuadSave.w+=(borderSize)*2;
+        renderQuadSave.y-=borderSize;
+        renderQuadSave.h+=(borderSize)*2;
         // Color from within the rectangle
         SDL_SetRenderDrawColor( gRenderer, 222,95,50,255  );
         // Fill in the rectangle
-        SDL_RenderDrawRect (gRenderer, &renderQuadLoad);
+        SDL_RenderDrawRect (gRenderer, &renderQuadSave);
 
         for (int i = 0; i < gPromptTextTextures.size(); ++i) {
             x = (Tools::windowWidth - gPromptTextTextures[i].getWidth() ) / 2;

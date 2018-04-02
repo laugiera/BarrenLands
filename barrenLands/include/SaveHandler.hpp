@@ -2,10 +2,10 @@
 // Created by natshez on 28/02/2018.
 //
 
-#ifndef BARRENLANDS_LoadHandler_H
-#define BARRENLANDS_LoadHandler_H
+#ifndef BARRENLANDS_SaveHandler_H
+#define BARRENLANDS_SaveHandler_H
 
-
+//Using SDL, SDL_image, SDL_ttf, standard IO, strings, and string streams
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
@@ -17,15 +17,16 @@
 #include <FileHelper.hpp>
 
 /**
- * class LoadHandler print load menu
+ * class SaveHandler print the save menu
  */
-class LoadHandler {
+class SaveHandler {
 public:
-    LoadHandler(SDL_Window * gWindow);
-    ~LoadHandler();
+    SaveHandler(SDL_Window * gWindow);
+    ~SaveHandler();
+    //Starts up SDL and creates window
     void init(SDL_Window * gWindow);
     void loadMedia();
-    int handle(std::string * loadName);
+    int handle(int * choosenSave);
 
 private:
     //Scene textures
@@ -40,10 +41,9 @@ private:
     //Globally used font
     TTF_Font *gFont;
 
-    int saveNumber;
     std::vector<std::string> saveNames;
 
 };
 
 
-#endif //BARRENLANDS_LoadHandler_H
+#endif //BARRENLANDS_SaveHandler_H

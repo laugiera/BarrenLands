@@ -15,20 +15,20 @@
 #include <TextTexture.hpp>
 #include <Tools.hpp>
 
+/**
+ * class TextHandler manage user's input menu
+ */
 
 class TextHandler {
 public:
     TextHandler(SDL_Window * gWindow);
     ~TextHandler();
     //Starts up SDL and creates window
-    bool init(SDL_Window * gWindow);
-    //Loads media
-    bool loadMedia();
+    void init(SDL_Window * gWindow);
+    void loadMedia();
     int handle(std::string * inputText);
 
 private:
-
-
     //Scene textures
     TextTexture gPromptTextTexture;
     TextTexture gInputTextTexture;

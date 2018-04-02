@@ -18,7 +18,7 @@ glm::mat4 Tools::projMatrix = glm::perspective(glm::radians(70.f), float(Tools::
 glimac::FilePath Tools::appPath = "";
 unsigned int Tools::maxCharName = 20;
 std::string Tools::savePath = "data/saves.txt";
-int Tools::saveContentSize = 7;
+int Tools::saveContentSize = 5;
 int Tools::saveMaxnumber = 5;
 
 /**

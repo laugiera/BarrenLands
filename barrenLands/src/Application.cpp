@@ -6,7 +6,9 @@
 
 
 /**
- * Constructs the App with the SDL2 WindowManager
+ * Constructs the App
+ * Init opengGl context, sdl2 context, loads textures and programs
+ * Print a loading screen
  * @param appPath
  */
 Application::Application(const glimac::FilePath &appPath) : windowManager(Tools::windowWidth, Tools::windowHeight, "BarrenLands"),
@@ -23,79 +25,13 @@ Application::Application(const glimac::FilePath &appPath) : windowManager(Tools:
 
     textureManager = new TextureManager();
     programManager = new ProgramManager();
+    menuManager = new MenuManager(this);
     camera = new CameraManager();
+    lightAngle = 0;
 
     SDL_DestroyTexture(texture);
     SDL_FreeSurface(image);
     SDL_DestroyRenderer(renderer);
-
-
-
-}
-/**
- *  load a world with a given seedName
- *  If the app encounters a bug by reading the file, a default world is loaded
- * @param std::string seedName
- * @return void
- */
-void Application::load(const std::string & seedName){
-    try{
-        /** FORMAT :
-         * seedname;cam.x;cam.y;cam.z;cam.phi;cam.theta;light.rotation;
-         * **/
-        std::vector<std::string> content = FileHelper::getContentOfLine( seedName, Tools::savePath);
-        if(content.size() != Tools::saveContentSize)
-            throw std::runtime_error("Bad init file");
-        glm::vec3 cameraPos = glm::vec3(
-                std::stof(content[1]),
-                std::stof(content[2]),
-                std::stof(content[3])
-        );
-        camera->setPosition(cameraPos);
-        float phi = std::stof(content[4]);
-        float theta = std::stof(content[5]);
-        camera->rotateLeft(phi);
-        camera->rotateUp(theta);
-        lightRotation = std::stof(content[6]);
-        std::string seedName = content[0];
-        NoiseManager::getInstance().setSeed(seedName);
-
-    }catch(std::runtime_error e){
-        //fix the bug and return default seed
-        glm::vec3 cameraPos = glm::vec3(0);
-        camera->setPosition(cameraPos);
-        float phi = 0;
-        float theta = 0;
-        camera->rotateLeft(phi);
-        camera->rotateUp(theta);
-        lightRotation = 0;
-        NoiseManager::getInstance().setSeed("default");
-    }
-
-}
-/**
- * save
- * @param fileName
- * @return
- */
-void Application::save(){
-    try{
-        std::vector<std::string> content;
-        glm::vec3 cameraPos = camera->getPosition();
-        content.push_back(std::to_string(cameraPos.x));
-        content.push_back(std::to_string(cameraPos.y));
-        content.push_back(std::to_string(cameraPos.z));
-        content.push_back("0"); //phi
-        content.push_back("0"); //theta
-        content.push_back(std::to_string(lightRotation));
-        content.push_back(std::to_string(NoiseManager::getInstance().getSeed()));
-
-        //FileHelper::updateFile()
-
-    }catch(std::runtime_error e){
-        throw e;
-    }
-
 }
 /**
  * Destructor
@@ -105,12 +41,73 @@ Application::~Application() {
     NoiseManager::ResetInstance();
     delete programManager;
     delete textureManager;
+    delete menuManager;
     std::cout << "delete texture manager ok" <<std::endl;
     windowManager.~SDLWindowManager();
     std::cout << "delete window manager ok" <<std::endl;
 
 }
+/**
+ * load()
+ *  load a world with a given seedName
+ *  If the app encounters a bug by reading the file, a default world is loaded
+ * @param std::string seedName
+ * @return void
+ */
+void Application::load(const std::string & seedName){
+    try{
+        /** FORMAT :
+         * seedname;cam.x;cam.y;cam.z;light.rotation;
+         * **/
+        std::vector<std::string> content = FileHelper::getContentOfLine(seedName, Tools::savePath);
+        if(content.size() != Tools::saveContentSize)
+            throw std::runtime_error("Bad init file");
+        glm::vec3 cameraPos = glm::vec3(
+                std::stof(content[1]),
+                std::stof(content[2]),
+                std::stof(content[3])
+        );
+        camera->setPosition(cameraPos);
+        lightAngle = std::stof(content[4]);
+        std::string seedName = content[0];
+        NoiseManager::getInstance().setSeed(seedName);
 
+    }catch(std::runtime_error e){
+        //fix the bug and return default seed
+        glm::vec3 cameraPos = glm::vec3(0);
+        camera->setPosition(cameraPos);
+        lightAngle = 0;
+        NoiseManager::getInstance().setSeed("default");
+    }
+    camera->rotateLeft(0);
+    camera->rotateUp(0);
+
+}
+/**
+ * save()
+ * save the current world
+ * @param choosenSave spot (between 0 and 5)
+ * @return void
+ */
+void Application::save(const int & choosenSave){
+    try{
+        std::vector<std::string> content;
+        content.push_back(NoiseManager::getInstance().getSeedName());
+        glm::vec3 cameraPos = camera->getPosition();
+        content.push_back(std::to_string(cameraPos.x));
+        content.push_back(std::to_string(cameraPos.y));
+        content.push_back(std::to_string(cameraPos.z));
+        content.push_back(std::to_string(lightAngle));
+
+
+        FileHelper::updateFile(content, Tools::savePath, choosenSave);
+        std::cout<<"saved !"<<std::endl;
+
+    }catch(std::runtime_error e){
+        throw e;
+    }
+
+}
 /**
  * Initializes the OpenGL Context and glew for OpenGL 3+ support
  * throws std::runtime
@@ -144,231 +141,9 @@ void Application::clearGl() {
     glDepthFunc(GL_LEQUAL);
 }
 /**
- * seedInputMenu()
- * TextHandler allows to input/output specific texts.
- * This function is used to ask user's name
- * @param inputText represents the user's name
- * @return int among the enum defined in Tool class, represents the button clicked in the menu
- */
-int Application::seedInputMenu(std::string *inputText){
-    TextHandler * handler = new TextHandler(windowManager.getWindow());
-    int res = handler->handle(inputText);
-    if(res == PLAY)
-        NoiseManager::getInstance().setSeed(*inputText);
-    delete(handler);
-    return res;
-}
-/**
- * loadMenu()
- * TextHandler allows to input/output specific texts.
- * This function is used to ask the user to choose an existing save and set the choosen world
- * @return int among the enum defined in Tool class, represents the action of the user
- */
-int Application::loadMenu(){
-    std::string loadName="";
-    LoadHandler * handler = new LoadHandler(windowManager.getWindow());
-    int res = handler->handle(&loadName); //ask the user to choose a save
-    delete(handler);
-    if (res == LOAD){
-        try {
-            load(loadName); //set the world from save content
-        }catch (std::runtime_error e){
-            throw e;
-        }
-        return PLAY;
-    }
-    else
-        return res; //back to main menu or quit
-}
-
-/**
- * MainMenu()
- * @param inputText represents the user's name
- * @return int among the enum defined in Tool class, represents the button clicked in the menu
- */
-int Application::mainMenu(std::string *inputText){
-
-    int i;
-    int srfIdx=0;
-    int menuIdx = 0;
-    int quit = MAINMENU;
-
-    //show the image cube with initial image
-    std::vector<glcustom::Texture *> textures;
-    RenderScreen screen = RenderScreen(programManager->getTexture2DProgram(), textures);
-
-    std::string qualifier = "menuHome";
-    screen.setTexture(textureManager->getRandomTexture(qualifier+std::to_string(1)));
-
-    bool stateChanged=false;
-    while (quit == MAINMENU)
-    {
-
-        //Update Screen
-        //update texture from table
-        if(stateChanged){
-            screen.setTexture(textureManager->getRandomTexture(qualifier+std::to_string(menuIdx+1)));
-            stateChanged= false;
-        }
-
-        SDL_Event e;
-        while (SDL_PollEvent(&e) && quit == MAINMENU)
-        {
-            if (e.type == SDL_QUIT)
-            {
-               quit = QUIT;
-            }
-
-            switch (e.type)
-            {
-                case SDL_KEYDOWN:
-                    switch (e.key.keysym.sym)
-                    {
-                        case SDLK_RIGHT:
-                        {
-                            menuIdx = (menuIdx + 1) % 3;
-                            stateChanged=true;
-                            break;
-                        }
-                        case SDLK_LEFT:
-                        {
-                            menuIdx = (3 + menuIdx - 1) % 3;
-                            stateChanged=true;
-                            break;
-                        }
-                        case SDLK_ESCAPE:
-                        {
-                            quit = QUIT;
-                            break;
-                        }
-                        case SDLK_RETURN:
-                        {
-                            if(menuIdx == 0) //new world
-                            {
-                                quit =seedInputMenu(inputText);
-                            }
-                            else if (menuIdx == 1) //load internly a world
-                            {
-                                quit = loadMenu(); //screen for choosing a save
-                            }
-                            else if(menuIdx == 2)  //exit
-                            {
-                                quit =  QUIT;
-                            }
-                            break;
-                        }
-
-                        default:
-                            break;
-                    }
-            }
-            clearGl();
-            screen.render();
-            windowManager.swapBuffers();
-            printErrors();
-
-        }
-    }
-    return quit;
-}
-/**
- * pauseMenu()
- *
- * @return
- */
-int Application::pauseMenu(){
-
-    int i;
-    int srfIdx=0;
-    int quit = PAUSE;
-    int menuIdx = 0;
-
-
-    //show the image cube with initial image
-    std::vector<glcustom::Texture *> textures;
-    RenderScreen screen = RenderScreen(programManager->getTexture2DProgram(), textures);
-
-    std::string qualifier = "menuPause";
-    screen.setTexture(textureManager->getRandomTexture(qualifier+std::to_string(1)));
-
-    bool stateChanged=false;
-    while (quit == PAUSE)
-    {
-
-        //Update Screen
-        //update texture from table
-        if(stateChanged){
-            screen.setTexture(textureManager->getRandomTexture(qualifier+std::to_string(menuIdx+1)));
-            stateChanged= false;
-        }
-
-        SDL_Event e;
-        while (SDL_PollEvent(&e) & quit == PAUSE)
-        {
-            if (e.type == SDL_QUIT)
-               quit = QUIT;
-
-            switch (e.type)
-            {
-                case SDL_KEYDOWN:
-                    switch (e.key.keysym.sym)
-                    {
-                        case SDLK_DOWN:
-                        {
-                            menuIdx = (menuIdx + 1) % 4;
-                            stateChanged=true;
-                            break;
-                        }
-                        case SDLK_UP:
-                        {
-                            menuIdx = (4 + menuIdx - 1) % 4;
-                            stateChanged=true;
-                            break;
-                        }
-                        case SDLK_ESCAPE:
-                        {
-                            quit = QUIT;
-                        }
-                        case SDLK_SPACE:
-                        {
-                            quit = PLAY;
-                        }
-                        case SDLK_RETURN:
-                        {
-                            if(menuIdx == 0) //continue
-                                quit = PLAY;
-                            else if (menuIdx == 1) //quit
-                            {
-                                quit = QUIT;
-                            }
-                            else if(menuIdx == 2)  //save
-                            {
-                                quit = SAVE;
-                            }
-                            else if(menuIdx == 3) //mainMenu
-                            {
-                                quit = MAINMENU;
-                            }
-                        }
-
-                        default:
-                            break;
-                    }
-            }
-            clearGl();
-            screen.render();
-            windowManager.swapBuffers();
-            printErrors();
-
-        }
-
-    }
-    return quit;
-
-}
-/**
  * start()
- * Ask the user to input something to generate a seed, and set it in the noiseManager
+ * Print the main menu (create new world with input, load a world or quit)
+ * @return int among the enum defined in Tool class, represents the button clicked in the menu
  */
 int Application::start(){
 
@@ -377,42 +152,47 @@ int Application::start(){
     if( Mix_PlayMusic( musique, -1 ) == -1 )
         printf("Mix_PlayMusic: %s\n", Mix_GetError());
 
-    std::string initFileName = "";
-    std::string *inputText = new std::string();
-    int choice = mainMenu(inputText);
-    if(choice == QUIT)
-        return choice;
-    //play
+    std::string *inputText = new std::string(); //user's input
+    int choice = menuManager->mainMenu(inputText);
+
     Mix_FreeMusic(musique); //Libération de la musique
     delete(inputText);
-    /***********************/
 
     return choice;
 }
-
+/**
+ * play
+ * manage the game loop & pause/main menu
+ * @param f glimac::FilePath app file path
+ */
+void Application::play(glimac::FilePath f){
+    int done = PLAY;
+    Application *app = nullptr;
+    while(done != QUIT){
+        app = new Application(f);
+        done = app->appLoop();
+        delete app;
+        std::cout <<"delete app ok" << std::endl;
+        app = nullptr;
+    }
+}
 /**
  * Final Application Loop
- * Handles initialization, SDL event loop and Rendering loop
+ * Handles SDL event loop and Rendering loop
  */
 int Application::appLoop() {
     /**GPU PROGRAM**/
     programManager->createPrograms(); //must come before because menus uses gpu program to render
 
-    /**
-     * MAIN MENU
-     */
+    /** MAIN MENU*/
     if(start() == QUIT) //quit
         return QUIT;
 
     std::cout << "seed : " << NoiseManager::getInstance().getSeed() << std::endl;
 
-    /**
-     * APP INITIALISATION
-     */
+    /** APP INITIALISATION*/
 
-    /**
-     * BEGIN LOADING
-     */
+    /**BEGIN LOADING*/
     SDL_Surface * image = IMG_Load("textures/menu/loading.jpg");
     SDL_Renderer * renderer = SDL_CreateRenderer(windowManager.getWindow(), -1, 0);
     SDL_Texture * texture = SDL_CreateTextureFromSurface(renderer, image);
@@ -441,7 +221,7 @@ int Application::appLoop() {
 
     /**LIGHTS**/
     int NIGHT = -1, DAY = 1, lightState =0;
-    float lightAngle = 0;
+    float lightRotation = 42;
     Light sun = Light(1,"Sun",glm::vec3(0.5,0.1,0));
     sun.addLightUniforms(programManager->getMapProgram());
     sun.addLightUniforms(programManager->getElementProgram());
@@ -537,7 +317,7 @@ int Application::appLoop() {
                     //stop sound
                     Mix_PauseMusic(); //Mettre en pause la musique
                     //pauseMenu
-                    int choice = pauseMenu();
+                    int choice = menuManager->pauseMenu();
                     if(choice == QUIT || choice == MAINMENU) {//quit
                         delete sky;
                         delete Map;
@@ -657,7 +437,6 @@ int Application::appLoop() {
         programManager->getMapProgram()->use();
         programManager->getMapProgram()->sendUniformMat4("uDepthMVP",depthBiasMVP);
 
-
         lightAngle = (windowManager.getTime()+lightRotation)*0.4;
 
         sun.resetDirection(DAY);
@@ -718,8 +497,8 @@ int Application::appLoop() {
     }
 
 }
-
 /**
+ * printErrors()
  * Print OpenGL Errors
  */
 void Application::printErrors() {
@@ -728,214 +507,15 @@ void Application::printErrors() {
         std::cerr << "code " << error << ":" << glewGetErrorString(error)  << std::endl;
     }
 }
-
-
 /**
- * Get a pointer on the SDL2 WindowManager
- * @return
+ * addDOF
+ * post-processing manager for blur and gamam corrections
+ * @param beauty
+ * @param depth
+ * @param fbo
+ * @param lightColor
+ * @param lightDir
  */
-const glimac::SDLWindowManager &Application::getWindowManager() const  {
-    return windowManager;
-}
-
-/**
- * Test Loop : can be used instead of AppLoop to display an interface optimiezd
- * for testing the geometry creation and texture or color ajustement on Procedural Objects in development phase
- */
-void Application::testInterface() {
-    //textureManager->createTextures();
-    programManager->createPrograms();
-    ElementManager::getInstance().createAllElements();
-
-    //initialization of lights
-    Light sun = Light(1,"Sun",glm::vec3(0.5,0.1,0));
-    sun.addLightUniforms(programManager->getMapProgram());
-    sun.addLightUniforms(programManager->getElementProgram());
-    Light moon = Light(1,"Moon",glm::vec3(0,0.1,0.5));
-    moon.addLightUniforms(programManager->getMapProgram());
-    moon.addLightUniforms(programManager->getElementProgram());
-
-    /********
-
-    ----> Edit with the class you want to test :
-    ----> TestProgram uses TestShader with texture support
-
-     Example :
-
-    ProceduralObject * testObject = new ProceduralObject();
-    testObject->createRenderObject(programManager, textureManager);
-
-     ********/
-
-    //test skybox
-    SkyboxObject * test = new SkyboxObject();
-    test -> createRenderObject(programManager, textureManager);
-
-    //test sea
-
-    //ProceduralObject * testRock = new SharpRock();
-    //testRock->createRenderObject(programManager, textureManager);
-
-    //ProceduralObject * testRock = new ArchedRock();
-    //testRock->createRenderObject(programManager, textureManager);
-
-
-
-
-    //test RoundRock
-    //ProceduralObject * menirRock = new MenirRock();
-    //menirRock->createRenderObject(programManager, textureManager);
-
-    //ProceduralObject * roundRock2 = new RoundRock();
-    //roundRock2->createRenderObject(programManager, textureManager);
-/*
-    ProceduralObject * roundRock3 = new RoundRock();
-    roundRock3->createRenderObject(programManager, textureManager);
-*/
-    //test Grass
-    //ProceduralObject * grass = new ProceduralGrass(glm::vec3(0,0,0));
-    //grass->createRenderObject(programManager, textureManager);
-
-    //test Branche
-    //ProceduralObject * branche = new ProceduralBranche();
-    //branche->createRenderObject(programManager, textureManager);
-
-    //ProceduralObject * feuillage = new ProceduralFeuillage();
-    //Color * color = new Color(0,1,0);
-    //feuillage->createRenderObject(programManager, textureManager, color);
-
-    //ProceduralObject * feuillage = new ProceduralTree();
-    //feuillage->createRenderObject(programManager, textureManager);
-
-
-    //ProceduralObject * experienceRock = new ExperienceRock();
-    //experienceRock->createRenderObject(programManager, textureManager);
-
-    //ProceduralObject * tree = ElementManager::getInstance().createProceduralTree();
-    //tree->addInstance(glm::vec3(0,0,0), Color(1,1,0));
-    //tree->createRenderObject(programManager, textureManager);
-
-    ProceduralObject * rock = ElementManager::getInstance().createProceduralFeuillage();
-    rock->addInstance(glm::vec3(0,0,0), Color(1,1,0));
-    rock->createRenderObject(programManager, textureManager);
-
-    /*glcustom::FBO fbo;
-    fbo.bind();
-    glcustom::Texture originalColor = fbo.attachColorTexture(Tools::windowWidth, Tools::windowHeight);
-    glcustom::Texture originalDepth = fbo.attachDepthTexture(Tools::windowWidth, Tools::windowHeight);
-    fbo.checkComplete();*/
-
-
-    bool done = false;
-    int rightPressed = 0;
-    camera->moveFront(-5);
-    while(!done) {
-        // Event loop:
-        SDL_Event e{};
-        while(windowManager.pollEvent(e)) {
-            if (e.type == SDL_KEYDOWN) {
-                if (e.key.keysym.sym == SDLK_LEFT) {
-                    camera->moveLeft(Tools::speed);
-                } else if (e.key.keysym.sym == SDLK_RIGHT) {
-                    camera->moveLeft(-Tools::speed);
-                } else if (e.key.keysym.sym == SDLK_UP) {
-                    camera->moveFront(Tools::speed);
-                } else if (e.key.keysym.sym == SDLK_DOWN) {
-                    camera->moveFront(-Tools::speed);
-                } else if (e.key.keysym.sym == SDLK_v) {
-                    if(camera->getChoice() == 0){
-                        camera->setChoice(1);
-                    }
-                    else{
-                        camera->setChoice(0);
-                    }
-                } else if(e.key.keysym.sym == SDLK_b){
-                    programManager->reloadPrograms();
-                }
-            } else if (e.type == SDL_MOUSEBUTTONDOWN) {
-                if (e.button.button == SDL_BUTTON_RIGHT) {
-                    rightPressed = 1;
-                }
-            } else if (e.wheel.y == 1)
-                camera->zoom(-Tools::speed);
-            else if (e.wheel.y == -1)
-                camera->zoom(Tools::speed);
-            else if (e.type == SDL_MOUSEBUTTONUP) {
-                if (e.button.button == SDL_BUTTON_RIGHT) {
-                    rightPressed = 0;
-                }
-            } else if (e.type == SDL_MOUSEMOTION && rightPressed == 1) {
-                camera->rotateLeft(e.motion.xrel);
-                camera->rotateUp(e.motion.yrel);
-            }
-            if(e.type == SDL_QUIT) {
-                done = true; // Leave the loop after this iteration
-            }
-        }
-
-        //setting up fbo and linking color and depth buffer
-        clearGl();
-
-        //configuring and sending light uniforms
-        programManager->getMapProgram()->use();
-        sun.resetDirection(1);
-        sun.rotate(windowManager.getTime(), camera->getViewMatrix());
-        sun.sendLightUniforms(programManager->getMapProgram());
-
-        moon.resetDirection(-1);
-        moon.rotate(windowManager.getTime(), camera->getViewMatrix());
-        moon.sendLightUniforms(programManager->getMapProgram());
-
-        programManager->getElementProgram()->use();
-        sun.sendLightUniforms(programManager->getElementProgram());
-        moon.sendLightUniforms(programManager->getElementProgram());
-
-
-        /******
-        Example : testObject->draw(camera->getViewMatrix());
-         ******/
-
-
-        //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
-        std::vector<ProceduralObject *> elements = ElementManager::getInstance().getAllElements();
-        for (ProceduralObject * el : elements){
-            el->draw(camera->getViewMatrix());
-        }
-        //roundRock->draw(camera->getViewMatrix());
-
-
-        //branche->draw(camera->getViewMatrix());
-
-        //experienceRock->draw(camera->getViewMatrix());
-
-        //feuillage->draw(camera->getViewMatrix());
-
-        //glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-
-
-        //skybox
-        glDepthMask(GL_FALSE);
-
-        test->draw(camera->getViewMatrix());
-        glDepthMask(GL_TRUE);
-
-
-
-        //le rendu final est là dedans pour mes test pour l'instant
-        //addDOF(&originalColor, &originalDepth, fbo);
-
-        windowManager.swapBuffers();
-        printErrors();
-
-        //glDeleteFramebuffers(1, &frameBuffer);
-
-    }
-    delete test;
-
-
-}
-
 void Application::addDOF(glcustom::Texture *beauty, glcustom::Texture *depth, glcustom::FBO &fbo, glm::vec3 &lightColor, glm::vec4 &lightDir) {
 
     /* TEST MULTISAMPLING
@@ -998,23 +578,16 @@ void Application::addDOF(glcustom::Texture *beauty, glcustom::Texture *depth, gl
     glBlitFramebuffer(0, 0, Tools::windowWidth, Tools::windowHeight, 0, 0, Tools::windowWidth, Tools::windowHeight, GL_COLOR_BUFFER_BIT, GL_NEAREST);
     /*FIN TEST*/
 
-
-
-
 }
 /**
- * play
- * manage the game loop & pause/main menu
- * @param f glimac::FilePath app file path
+ * getters ans setters
  */
-void Application::play(glimac::FilePath f){
-    int done = PLAY;
-    Application *app = nullptr;
-    while(done != QUIT){
-        app = new Application(f);
-        done = app->appLoop();
-        delete app;
-        std::cout <<"delete app ok" << std::endl;
-        app = nullptr;
-    }
+const glimac::SDLWindowManager &Application::getWindowManager() const  {
+    return windowManager;
+}
+ProgramManager *Application::getProgramManager() const {
+    return programManager;
+}
+TextureManager *Application::getTextureManager() const {
+    return textureManager;
 }

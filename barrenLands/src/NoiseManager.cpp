@@ -6,29 +6,7 @@
 #include <Tools.hpp>
 #include "../include/NoiseManager.hpp"
 
-/****
-Améliorations :
-    Générer une map pour la répartition des objets qui va de 0 à 1 pour ses valeurs.
-    Quand on génère un objet, on lui renvoie la valeur et, suivant cette dernière, l'objet aura une forme différente.
-
-****/
-
-/**
- * static seed default value
- */
-
 NoiseManager * NoiseManager::instance = nullptr;
-//float NoiseManager::seed = 4042;
-
-float NoiseManager::seed = 1200;
-
-void NoiseManager::setSeed(const float _seed){
-    NoiseManager::seed = _seed;
-    noise.SetSeed(_seed);
-    heightMap = getElevationMap(Tools::nbSub+1, Tools::nbSub+1);
-    moistureMap = getMoistureMap(Tools::nbSub+1, Tools::nbSub+1);
-    srand(seed);
-}
 
 /**
  * Constructor with default noise parameters
@@ -145,7 +123,11 @@ float** NoiseManager::getRockMap(const int width, const int height,const float f
     }
     return rockMap;
 }
-
+/**
+ * getRandomFloat()
+ * return a random number
+ * @return float
+ */
 float NoiseManager::getRandomFloat() {
     noise.SetFrequency(0.05);
     noise.SetNoiseType(FastNoise::PerlinFractal);
@@ -161,11 +143,35 @@ float NoiseManager::getRandomFloat() {
     //return random;
     return e;
 };
-
-float NoiseManager::getVerticesDisturbation(const int x, const int y, const int z){
+/**
+ * setSeed()
+ * parse a name into a seed number
+ * @param name std::string
+ */
+void NoiseManager::setSeed(const std::string name){
+    float seed = 0;
+    for (int i = 0; i < name.size(); ++i) {
+        seed += name[i]*i;
+    }
+    setSeed(seed);
+    seedName = name;
+}
+/**
+ * setSeed()
+ * set the noise lib seed and initialise height and moisture maps
+ * @param _seed float
+ */
+void NoiseManager::setSeed(const float _seed){
+    seed = _seed;
+    noise.SetSeed(_seed);
+    heightMap = getElevationMap(Tools::nbSub+1, Tools::nbSub+1);
+    moistureMap = getMoistureMap(Tools::nbSub+1, Tools::nbSub+1);
+    srand(seed);
+}
+/*float NoiseManager::getVerticesDisturbation(const int x, const int y, const int z){
     noise.SetFrequency(0.05);
     noise.SetNoiseType(FastNoise::PerlinFractal);
     float disturb = noise.GetNoise(2*x,2*y,2*z)*10;
     return disturb;
 
-}
+}*/

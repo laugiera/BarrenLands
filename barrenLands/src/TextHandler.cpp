@@ -3,17 +3,17 @@
 //
 
 #include "TextHandler.hpp"
-
+/**
+ * constructor
+ * @param gWindow
+ */
 TextHandler::TextHandler(SDL_Window * gWindow) : gRenderer(NULL), gFont(NULL) {
     init(gWindow);
-    //Load media
-    if( !loadMedia() )
-    {
-        printf( "Failed to load media!\n" );
-        return;
-    }
+    loadMedia();
 }
-
+/**
+ * destructor
+ */
 TextHandler::~TextHandler() {
     //Free loaded images
     gPromptTextTexture.free();
@@ -26,50 +26,48 @@ TextHandler::~TextHandler() {
     TTF_CloseFont( gFont );
     gFont = NULL;
 }
-
-bool TextHandler::init(SDL_Window * gWindow)
+/**
+ * init()
+ * @param gWindow
+ * @return void
+ * \exception <std::runtime_error> { cannot open the given file }
+ */
+void TextHandler::init(SDL_Window * gWindow)
 {
     gInputTextTexture = TextTexture();
     gPromptTextTexture = TextTexture();
     gForwardTexture = TextTexture();
     gReturnTexture = TextTexture();
-    //Create vsynced renderer for window
     gRenderer = SDL_CreateRenderer( gWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC );
     if( gRenderer == NULL )
-    {
-        printf( "Renderer could not be created! SDL Error: %s\n", SDL_GetError() );
-        return false;
-    }
-    return true;
+        throw std::runtime_error("text input menu rendered could not be open !");
 }
-
-
-bool TextHandler::loadMedia()
+/**
+ * loadMedia()
+ * lodas the font and the textures
+ * @return void
+ * \exception <std::runtime_error> { cannot load font or textures files }
+ */
+void TextHandler::loadMedia()
 {
-    //Loading success flag
-    bool success = true;
-
     //Open the font
     gFont = TTF_OpenFont( "font/Orator.ttf", 28 );
     if( gFont == NULL )
-    {
-        printf( "Failed to load lazy font! SDL_ttf Error: %s\n", TTF_GetError() );
-        success = false;
-    }
+        throw std::runtime_error("text input menu font could not be open !");
     else
     {
         //Render the prompt
         SDL_Color textColor = { 222,95,50,255 };
         if( !gPromptTextTexture.loadFromRenderedText(gRenderer, gFont, "Enter your name to create your world :", textColor ) )
-        {
-            printf( "Failed to render prompt text!\n" );
-            success = false;
-        }
+            throw std::runtime_error("gPromptTextTexture rendered could not be open !");
     }
-
-    return success;
 }
-
+/**
+ * handle()
+ * render the menu
+ * @param the number of the choosenSave
+ * @return int among the enum defined in Tool class, represents the button clicked in the menu (quit, mainmenu, play)
+ */
 int TextHandler::handle(std::string * inputText){
     //Main loop flag
     int quit = CREATE;
