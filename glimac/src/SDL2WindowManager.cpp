@@ -56,6 +56,7 @@ SDLWindowManager::~SDLWindowManager() {
     SDL_GL_DeleteContext(context);
     Mix_CloseAudio(); //Fermeture de l'API
     //Quit SDL subsystems
+    delete window;
     IMG_Quit();
     TTF_Quit();
     SDL_Quit();

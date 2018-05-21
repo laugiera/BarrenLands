@@ -1,0 +1,13 @@
+<a href="https://barrenlands263312010.wordpress.com/"> BarrenLands </a>
+
+<a href="http://loull.com/#/">Lou Landry--Linet</a>
+<a href="https://fr.linkedin.com/in/etiennejuif">Étienne Juif</a>
+<a href="https://www.linkedin.com/in/anne-am%C3%A9lie-laugier-596ab2b2/">Anne-Amélie Laugier</a>
+
+<a href="https://fr.linkedin.com/in/bastien-laby-8320995a">Bastien Laby</a>
+
+BarrenLands un jeu vidéo contemplatif avec génération de cartes procédurales en temps réel. </br>
+Le joueur pourra se déplacer en marchant dans l’univers 3D afin de découvrir les paysages et se plonger dans une ambiance immersive résultante de notre direction artistique.</br>
+Les technologies utilisées sont OpenGL; C++.
+
+$LIEN_VIDEO_COMMUNICATION$

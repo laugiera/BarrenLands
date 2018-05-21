@@ -40,8 +40,9 @@ Application::~Application() {
     ElementManager::ResetInstance();
     NoiseManager::ResetInstance();
     delete programManager;
-    delete textureManager;
+    delete camera;
     delete menuManager;
+    delete textureManager;
     std::cout << "delete texture manager ok" <<std::endl;
     windowManager.~SDLWindowManager();
     std::cout << "delete window manager ok" <<std::endl;

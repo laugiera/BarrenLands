@@ -11,6 +11,7 @@
 #include <GL/glut.h>
 #include <iostream>
 #include <glm/vec3.hpp>
+#include <Tools.hpp>
 
 /**
  * Class NoiseManager
@@ -25,6 +26,14 @@ private:
     float counter;
     NoiseManager();
     ~NoiseManager(){
+        for (int i = 0; i <  Tools::nbSub+1; ++i) {
+            delete heightMap[i];
+        }
+        delete heightMap;
+        for (int i = 0; i <  Tools::nbSub+1; ++i) {
+            delete heightMap[i];
+        }
+        delete moistureMap;
         std::cout << "delete noise manager ok" << std::endl;
     }
     static NoiseManager * instance;

@@ -41,19 +41,6 @@ void PreciousRock::generateVertices(){
     _vertices.emplace_back(glm::vec3(0, 1.3, 0), glm::vec3(0, 1.3, 0), glm::vec2(1,1));
 
     center = glm::vec3(0);
-    /*for(int i = 0; i<_vertices.size(); i++){
-        center.x += _vertices[i].position.x / _vertices.size();
-        center.y += _vertices[i].position.y / _vertices.size();
-        center.z += _vertices[i].position.z /_vertices.size();
-    }*/
-
-    /*for(int i = 0; i<_vertices.size(); i++){
-        glm::vec3 pos = glm::normalize(_vertices[i].position - center);
-        _vertices[i].position = center + pos;
-        //std::cout << "vertex : " << i << " : " << _vertices[i].position << std::endl;
-    }*/
-
-    //std::cout << std::endl;
 
     /////BAS
     //face1

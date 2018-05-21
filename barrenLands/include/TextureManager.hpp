@@ -19,9 +19,9 @@ public:
     TextureManager();
 
     ~TextureManager(){
-/*        for (std::map<glcustom::Texture *, std::string>::iterator i = textures.begin(); i != textures.end(); ++i) {
-            delete (i);
-        }*/
+        for (std::map<glcustom::Texture *, std::string>::iterator i = textures.begin(); i != textures.end(); ++i) {
+            delete (*i).first;
+        }
     }
 
     void createTextures();
