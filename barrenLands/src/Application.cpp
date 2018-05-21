@@ -666,18 +666,19 @@ int Application::appLoop() {
         //fbo.debind();
 
         //fbo.attachDepthTexture(Tools::windowWidth, Tools::windowHeight);
+        glm::vec4 dir = sun.getDirection();
 
         /***************MAP FRAME BUFFER****************/
         //draw skybox
         glDepthMask(GL_FALSE);
-        sky->draw(camera->getViewMatrix());
+        sky->draw(camera->getViewMatrix(), dir);
         glDepthMask(GL_TRUE);
         //draw map
         Map->draw(camera->getViewMatrix());
 
 
         /**************BLUR****************************/
-        glm::vec4 dir = sun.getDirection();
+
         glm::vec3 color = lightState==-1?moon.getColor():sun.getColor();
         if(multisamp){
             std::cout << "multisample on" << std::endl;
@@ -895,7 +896,7 @@ void Application::testInterface() {
         //skybox
         glDepthMask(GL_FALSE);
 
-        test->draw(camera->getViewMatrix());
+        test->draw(camera->getViewMatrix(), glm::vec4(0.0));
         glDepthMask(GL_TRUE);
 
 

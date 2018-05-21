@@ -43,7 +43,7 @@ void ProgramManager::createPrograms() {
 
     //to draw skybox
     uniform_variables.clear();
-    uniform_variables = {"uMV", "uMVP","uTexture0", "uResolution", "uTime"};
+    uniform_variables = {"uMV", "uMVP","uTexture0", "uResolution", "uTime", "uSunDir"};
     skyboxProgram = new glcustom::GPUProgram(Tools::appPath,"skybox","skybox");
     skyboxProgram->addUniforms(uniform_variables);
 

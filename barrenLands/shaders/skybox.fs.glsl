@@ -6,6 +6,7 @@ out vec4 color;
 
 // Values that stay constant for the whole mesh.
 uniform samplerCube  uTexture0;
+uniform vec4 uSunDir;
 
 float PI = 3.14159265359;
 
@@ -115,7 +116,10 @@ vec4 proceduralTexture() {
 void main() {
     float step = 0.5;
     float horizon = -0.2;
+    vec4 skyColor = vec4(0.05,0.0,0.1,0.1);
     vec4 horizonColor = vec4(0.1, 0.3, 0.5, 1);
+    vec4 fogColor = vec4(0.43, 0.66, 0.69, 1.0);
+    vec4 sunColor = vec4(0.8, 0.4, 0.2, 1.0);
     if(vPosition_modelspace.y <= horizon + step +0.1 && vPosition_modelspace.y >= horizon){
         //dégradé horizon
         float y = vPosition_modelspace.y - horizon;
@@ -126,7 +130,7 @@ void main() {
     } else {
         color = texture(uTexture0,vPosition_modelspace);
     }
-    color = proceduralTexture();
+    //color = proceduralTexture();
     /* deuxieme dégradé
     step = 0.2;
     horizonColor.g += 0.1;
@@ -137,5 +141,15 @@ void main() {
         color = color + coef * abs(horizonColor - color);
     }
     */
-    //color = texture(uTexture0,vPosition_modelspace);
+   
+
+    color = texture(uTexture0,vPosition_modelspace);
+    skyColor = mix(skyColor, sunColor, uSunDir.y/100.0);
+    horizonColor = mix(horizonColor, sunColor, uSunDir.y/100.0);
+    //skyColor = vec4(vec3(uSunDir.y/100.0), 1.0); //cool result in black and white
+    vec3 pointOnSphere = normalize(vPosition_modelspace.xyz);
+    float a = smoothstep(-0.1, 0.3, pointOnSphere.y);
+    color = mix(horizonColor, skyColor, a);
+    a = smoothstep(-0.2, -0.00, pointOnSphere.y);
+    color = mix(fogColor, color, a);
 }

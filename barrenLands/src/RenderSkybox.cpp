@@ -39,7 +39,7 @@ void RenderSkybox::debindTextures() {
  * sendUniforms()
  * @param viewMatrix
  */
-void RenderSkybox::sendUniforms(const glm::mat4 &viewMatrix) {
+void RenderSkybox::sendUniforms(const glm::mat4 &viewMatrix, const glm::vec4 &sunDirMatrix) {
     glm::mat4 modelViewMatrix = viewMatrix * modelMatrix;
     glm::mat4 modelViewProjMatrix = Tools::projMatrix * modelViewMatrix;
     glm::mat4 normals = glm::transpose(glm::inverse(modelViewMatrix));
@@ -47,6 +47,7 @@ void RenderSkybox::sendUniforms(const glm::mat4 &viewMatrix) {
     program->sendUniformMat4("uMV", modelViewMatrix);
     program->sendUniformVec3("uResolution",glm::vec3(Tools::windowWidth, Tools::windowHeight, 1.0));
     program->sendUniform1f("uTime", (float)Tools::time);
+    program->sendUniformVec4("uSunDir", sunDirMatrix);
 }
 
 /**
@@ -54,11 +55,11 @@ void RenderSkybox::sendUniforms(const glm::mat4 &viewMatrix) {
 * render the object by using it's own GPU Program, sending it's own uniforms and binding it's own textures
 * @param viewMatrix
 */
-void RenderSkybox::render(const glm::mat4 &viewMatrix, const  std::vector<Instance*> &instances) {
+void RenderSkybox::render(const glm::mat4 &viewMatrix, const glm::vec4 &sunDirMatrix) {
     program->use();
     bindTextures();
     vao.bind();
-    sendUniforms(viewMatrix);
+    sendUniforms(viewMatrix, sunDirMatrix);
     if(indices.empty()){
         glDrawArrays(GL_TRIANGLES, 0, verticesCount);
     } else {

@@ -49,10 +49,10 @@ std::vector<glcustom::Texture *> SkyboxObject::chooseTextures(TextureManager *te
  * applies transformation to place the skybox and render it
  * @param glm::mat4 viewMatrix
  */
-void SkyboxObject::draw(const glm::mat4 &viewMatrix) {
+void SkyboxObject::draw(const glm::mat4 &viewMatrix, const glm::vec4 &sunDirMatrix) {
     //transformer selon la position, rotation, scale de l'objet
     renderObject->transform(glm::vec3(0,0,-5), 0, glm::vec3(0,1,0), glm::vec3(100,100,100));
-    renderObject->render(viewMatrix);
+    renderObject->render(viewMatrix, sunDirMatrix);
 }
 
 

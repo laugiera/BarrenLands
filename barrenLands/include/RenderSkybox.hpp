@@ -19,9 +19,10 @@ public :
     ~RenderSkybox();
     void bindTextures();
     void debindTextures();
-    virtual void sendUniforms(const glm::mat4 &viewMatrix);
-    void render(const glm::mat4 &viewMatrix, const  std::vector<Instance*> &instances);
+    virtual void sendUniforms(const glm::mat4 &viewMatrix, const glm::vec4 &sunDirMatrix);
+    void render(const glm::mat4 &viewMatrix, const glm::vec4 &sunDirMatrix);
 };
 
 
 #endif //BARRENLANDS_RENDERSKYBOX_H
+

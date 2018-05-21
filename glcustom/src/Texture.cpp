@@ -60,6 +60,7 @@ void glcustom::Texture::loadSkybox(const std::string texturePath) {
         bind(GL_TEXTURE_CUBE_MAP);
 
         std::unique_ptr<glimac::Image> xneg,xpos,yneg,ypos,zneg,zpos;
+        /*
         xneg = glimac::loadImage(texturePath+"/xneg.jpg");
         if(!xneg)
             throw std::runtime_error("Texture failed to load");
@@ -78,6 +79,27 @@ void glcustom::Texture::loadSkybox(const std::string texturePath) {
         zneg = glimac::loadImage(texturePath+"/zneg.jpg");
         if(!zneg)
             throw std::runtime_error("Texture failed to load");
+        */
+
+        xneg = glimac::loadImage(texturePath+"/testSkybox/sor_beach/back.JPG");
+        if(!xneg)
+            throw std::runtime_error("Texture failed to load");
+        xpos = glimac::loadImage(texturePath+"/testSkybox/sor_beach/front.JPG");
+        if(!xpos)
+            throw std::runtime_error("Texture failed to load");
+        yneg = glimac::loadImage(texturePath+"/testSkybox/sor_beach/down.JPG");
+        if(!yneg)
+            throw std::runtime_error("Texture failed to load");
+        ypos = glimac::loadImage(texturePath+"/testSkybox/sor_beach/up.JPG");
+        if(!ypos)
+            throw std::runtime_error("Texture failed to load");
+        zpos = glimac::loadImage(texturePath+"/testSkybox/sor_beach/right.JPG");
+        if(!zpos)
+            throw std::runtime_error("Texture failed to load");
+        zneg = glimac::loadImage(texturePath+"/testSkybox/sor_beach/left.JPG");
+        if(!zneg)
+            throw std::runtime_error("Texture failed to load");
+
 
 
         setupCubeMap(xpos->getPixels(),xneg->getPixels(),ypos->getPixels(),yneg->getPixels(),

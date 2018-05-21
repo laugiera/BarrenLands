@@ -16,8 +16,11 @@ public:
     ~SkyboxObject();
 
     void createRenderObject(ProgramManager *programManager, TextureManager *textureManager);
-    void draw(const glm::mat4 &viewMatrix);
+    void draw(const glm::mat4 &viewMatrix, const glm::vec4 &sunDirMatrix);
     std::vector<glcustom::Texture *> chooseTextures(TextureManager *textureManager);
+
+private:
+    RenderSkybox* renderObject;
 
 };
 
