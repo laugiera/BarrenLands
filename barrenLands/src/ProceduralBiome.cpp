@@ -17,6 +17,9 @@ ProceduralBiome::ProceduralBiome(Color *_color,const std::string &_name) : color
  */
 ProceduralBiome::~ProceduralBiome(){
     delete color;
+    rocks.clear();
+    grass.clear();
+    trees.clear();
     std::cout << "delete biome ok" << std::endl;
 }
 /**

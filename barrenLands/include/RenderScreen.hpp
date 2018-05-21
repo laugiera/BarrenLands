@@ -14,7 +14,10 @@
 class RenderScreen {
 public:
     RenderScreen(glcustom::GPUProgram *program, std::vector<glcustom::Texture *> textures);
-
+    ~RenderScreen(){
+        program = nullptr;
+        textures.clear();
+    }
     void createScreenVAO();
     void render(glcustom::FBO * fbo = nullptr);
     void render(GLuint fbo);

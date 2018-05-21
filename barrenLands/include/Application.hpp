@@ -23,50 +23,53 @@
 #include <FBO.hpp>
 #include "RenderScreen.hpp"
 #include <FileHelper.hpp>
-#include <RoundRock.hpp>
+#include <RoundRock.hpp>/*
 #include "ProceduralGrass.hpp"
 #include "ProceduralBranche.hpp"
 #include "ProceduralFeuillage.hpp"
-#include "ProceduralTree.hpp"
-//#include <SDL2/SDL_thread.h>
-
+#include "ProceduralTree.hpp"*/
+#include <SDL_mixer.h>
+#include <SDL_image.h>
+#include <MenuManager.hpp>
 /**
  * Class Application
  * main class of the project
  */
 
+class MenuManager;
+
 class Application {
 public:
     Application(const glimac::FilePath &appPath);
-
     virtual ~Application();
 
     void initOpenGl();
     void clearGl();
     int appLoop();
-    void testInterface();
     void printErrors();
     void addDOF(glcustom::Texture *text, glcustom::Texture *depth, glcustom::FBO &fbo, glm::vec3 &lightColor,  glm::vec4 &lightDir);
     int start();
     void load(const std::string & fileName);
-    void save();
-
-
-    const glimac::SDLWindowManager &getWindowManager() const;
-    int  mainMenu();
-    int pauseMenu();
+    void save(const int & choosenSave);
     static void play(glimac::FilePath f);
-    int init_thread( void *data );
+    void swapSDLBuffers(){
+        this->windowManager.swapBuffers();
+    }
+
+    /**getters and setters**/
+    const glimac::SDLWindowManager &getWindowManager() const;
+    ProgramManager *getProgramManager() const;
+    TextureManager *getTextureManager() const;
 
 private:
     glimac::SDLWindowManager windowManager;
-    std::vector<ProceduralObject*> objects;
     ProgramManager * programManager;
     CameraManager * camera;
     TextureManager * textureManager;
-    float lightRotation;
+    MenuManager * menuManager;
+    float lightAngle;
 
-    void uniformLightDistribution(float diam, int x, int y, float * originalColor, float *newColor);
+    //void uniformLightDistribution(float diam, int x, int y, float * originalColor, float *newColor);
 };
 
 

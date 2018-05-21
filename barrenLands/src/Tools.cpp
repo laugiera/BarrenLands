@@ -17,6 +17,10 @@ float Tools::zFar= 2000.f;
 glm::mat4 Tools::projMatrix = glm::perspective(glm::radians(70.f), float(Tools::windowWidth)/float(Tools::windowHeight), Tools::zNear, Tools::zFar);
 glimac::FilePath Tools::appPath = "";
 int Tools::time = 0;
+unsigned int Tools::maxCharName = 20;
+std::string Tools::savePath = "data/saves.txt";
+int Tools::saveContentSize = 5;
+int Tools::saveMaxnumber = 5;
 
 /**
  * Take a string representation of a bool and converts it to bool

@@ -22,13 +22,13 @@ void TextureManager::createTextures() {
     glcustom::Texture *  skybox = new glcustom::Texture( Tools::appPath + "textures",GL_TEXTURE_CUBE_MAP );
     textures[skybox]="skybox";
 
-    glcustom::Texture *  menuSeed1 = new glcustom::Texture( Tools::appPath + "textures/menu/seed1.png",GL_TEXTURE_2D );
-    glcustom::Texture *  menuSeed2 = new glcustom::Texture( Tools::appPath + "textures/menu/seed2.png",GL_TEXTURE_2D );
-    glcustom::Texture *  menuSeed3 = new glcustom::Texture( Tools::appPath + "textures/menu/seed3.png",GL_TEXTURE_2D );
+    glcustom::Texture *  menuSeed1 = new glcustom::Texture( Tools::appPath + "textures/menu/menuHome1.png",GL_TEXTURE_2D );
+    glcustom::Texture *  menuSeed2 = new glcustom::Texture( Tools::appPath + "textures/menu/menuHome2.png",GL_TEXTURE_2D );
+    glcustom::Texture *  menuSeed3 = new glcustom::Texture( Tools::appPath + "textures/menu/menuHome3.png",GL_TEXTURE_2D );
 
-    textures[menuSeed1]="menuSeed1";
-    textures[menuSeed2]="menuSeed2";
-    textures[menuSeed3]="menuSeed3";
+    textures[menuSeed1]="menuHome1";
+    textures[menuSeed2]="menuHome2";
+    textures[menuSeed3]="menuHome3";
 
     glcustom::Texture *  menuPause1 = new glcustom::Texture( Tools::appPath + "textures/menu/menuPause1.png",GL_TEXTURE_2D );
     glcustom::Texture *  menuPause2 = new glcustom::Texture( Tools::appPath + "textures/menu/menuPause2.png",GL_TEXTURE_2D );

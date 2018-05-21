@@ -11,6 +11,7 @@
 #include <GL/glut.h>
 #include <iostream>
 #include <glm/vec3.hpp>
+#include <Tools.hpp>
 
 /**
  * Class NoiseManager
@@ -20,17 +21,26 @@
 class NoiseManager {
 private:
     FastNoise noise;
-    static float seed;
+    float seed;
+    std::string seedName;
     float counter;
     NoiseManager();
     ~NoiseManager(){
+        for (int i = 0; i <  Tools::nbSub+1; ++i) {
+            delete heightMap[i];
+        }
+        delete heightMap;
+        for (int i = 0; i <  Tools::nbSub+1; ++i) {
+            delete heightMap[i];
+        }
+        delete moistureMap;
         std::cout << "delete noise manager ok" << std::endl;
     }
     static NoiseManager * instance;
+
 public:
     float** heightMap;
     float** moistureMap;
-
 
     static NoiseManager & getInstance(){
         if(!instance){
@@ -41,22 +51,20 @@ public:
 
     static void ResetInstance()
     {
-        delete instance; // REM : it works even if the pointer is NULL (does nothing then)
+        delete instance;
         std::cout << "delete noise manager ok"<<std::endl;
-        instance = NULL; // so GetInstance will still work.
+        instance = NULL;
     }
 
-
+    /**getters and setters**/
+    const std::string &getSeedName() const {
+        return seedName;
+    }
+    void setSeed(const std::string name);
     void setSeed(const float _seed);
-     float getSeed(){
+
+    float getSeed(){
         return noise.GetSeed();
-    }
-    void setSeed(const std::string name){
-        float seed = 0;
-        for (int i = 0; i < name.size(); ++i) {
-            seed += name[i];
-        }
-        setSeed(seed);
     }
     /**
      * functions to get noise maps
@@ -64,8 +72,6 @@ public:
     float** getElevationMap(const int width, const int height,const float frequency = 0.05,const float elevationMax = 5);
     float** getMoistureMap(const int width, const int height,const float frequency = 0.05);
     float** getRockMap(const int width, const int height,const float frequency = 0.05);
-
-    float getVerticesDisturbation(const int x, const int y, const int z);
     float getRandomFloat();
 };
 

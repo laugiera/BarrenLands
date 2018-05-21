@@ -8,7 +8,8 @@ ProceduralRock::ProceduralRock(): ProceduralObject(){
     //generateVertices();
     //generateIndices();
 }
-ProceduralRock::~ProceduralRock() {}
+ProceduralRock::~ProceduralRock() {
+}
 /**
  * createRenderObject()
  * Redefined to uses it's own renderObject and GPU Program

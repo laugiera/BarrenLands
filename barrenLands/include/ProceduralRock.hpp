@@ -6,7 +6,6 @@
 #define BARRENLANDS_ROCK_H
 
 #include <ProceduralObject.hpp>
-#include <RenderRock.hpp>
 /**
  * Class ProceduralRock
  * Derived from ProceduralObject

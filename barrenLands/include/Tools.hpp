@@ -19,6 +19,11 @@
 /**
  * Variables and functions used in the app
  */
+
+enum {
+    PLAY, LOAD, SAVE, MAINMENU, PAUSE, QUIT, CREATE
+};
+
 class Tools {
 public:
 
@@ -34,7 +39,10 @@ public:
     static glm::mat4 projMatrix;
     static glimac::FilePath appPath;
     static int time;
-
+    static unsigned int maxCharName;
+    static std::string savePath;
+    static int saveContentSize;
+    static int saveMaxnumber;
 
 //transforms a string bool (ex "true") into a bool, throws std::invalid_argument
 static bool boolFromString(std::string s);

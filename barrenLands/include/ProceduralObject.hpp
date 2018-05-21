@@ -87,8 +87,6 @@ protected:
     std::vector<uint32_t> indices;
     RenderObject * renderObject;
     glm::vec3 position;
-    //std::vector<glm::vec3> positions;
-    //std::vector<Color> colors;
 };
 
 

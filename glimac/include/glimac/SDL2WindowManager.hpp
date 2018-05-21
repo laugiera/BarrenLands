@@ -3,6 +3,9 @@
 #include <cstdint>
 #include <SDL2/SDL.h>
 #include "glm.hpp"
+#include <SDL_mixer.h>
+#include <SDL_image.h>
+#include <SDL_ttf.h>
 
 namespace glimac {
 
@@ -25,6 +28,10 @@ public:
 
     // Return the time in seconds
     float getTime() const;
+
+    SDL_Window *getWindow() const;
+
+    void setWindow(SDL_Window *window);
 
 private:
     SDL_Window* window;
