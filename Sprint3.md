@@ -4,22 +4,22 @@ Lou :
 
 - [x] Depth Of Field
 - [ ] AntiAliasing
-- [ ] Textures  (chargé d'abord puis voir procédurale)
-- [ ] Couleurs des élements
+- [x] Textures  (chargé d'abord puis voir procédurale)
+- [x] Couleurs des élements
 - [ ] ((Cell Shading))
-- [ ] PowerPoint Présentation
+- [x] PowerPoint Présentation
 
 Anne : 
 - [X] fin répartition des premiers éléments
-- [ ] interface - Ecran pour rentrer la seed
+- [x] interface - Ecran pour rentrer la seed
 - [ ] Shadow Mapping
-- [ ] Son
+- [x] Son
 
 Etienne : 
 
 cycler : 
-- [ ] création nouvel object
-- [ ] integration sur la carte et répartition
+- [x] création nouvel object
+- [x] integration sur la carte et répartition
 
 
 - [ ] rotation skyBox
